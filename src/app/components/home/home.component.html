@@ -1,1 +1,212 @@
-<p>home works!</p>
+<!-- 首頁主要內容 -->
+<div class="home-page">
+
+  <!-- 英雄區塊（主要宣傳區域） -->
+  <section class="hero-section">
+    <div class="hero-container">
+
+      <!-- 左側文字內容 -->
+      <div class="hero-content">
+        <h1 class="hero-title">
+          智能記帳，<span class="gradient-text">讓理財變簡單</span>
+        </h1>
+
+        <p class="hero-description">
+          結合AI技術的現代記帳應用，支援家庭共同記帳，
+          幫助您輕鬆追蹤每一筆支出，實現財務目標。
+        </p>
+
+        <!-- 行動按鈕 -->
+        <div class="hero-buttons">
+          <a routerLink="/register" class="btn-primary">
+            <span class="material-icons">rocket_launch</span>
+            立即開始使用
+          </a>
+          <a routerLink="/demo" class="btn-secondary">
+            <span class="material-icons">play_circle</span>
+            觀看示範
+          </a>
+        </div>
+
+        <!-- 快速統計 -->
+        <!-- <div class="quick-stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ stats[0].currentNumber }}{{ stats[0].suffix }}</span>
+            <span class="stat-label">{{ stats[0].label }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">{{ stats[1].currentNumber }}{{ stats[1].suffix }}</span>
+            <span class="stat-label">{{ stats[1].label }}</span>
+          </div>
+        </div> -->
+      </div>
+
+      <!-- 右側圖片 -->
+      <div class="hero-image">
+        <!-- <img src="/placeholder.svg?height=500&width=500" alt="智能記帳本示意圖" class="main-image"> -->
+
+        <!-- 浮動裝飾元素 -->
+        <div class="floating-card card-1">
+          <span class="material-icons">trending_up</span>
+          <span>智能儲蓄</span>
+        </div>
+
+        <!-- <div class="floating-card card-2">
+          <span class="material-icons">savings</span>
+          <span>智能儲蓄</span>
+        </div> -->
+
+        <div class="floating-card card-3">
+          <span class="material-icons">family_restroom</span>
+          <span>家庭共享</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 主要功能區塊 -->
+  <section class="features-section">
+    <div class="section-container">
+
+      <!-- 區塊標題 -->
+      <div class="section-header">
+        <h2 class="section-title">為什麼選擇智能記帳本？</h2>
+        <p class="section-subtitle">
+          我們提供最先進的記帳功能，讓您的財務管理更輕鬆、更智能
+        </p>
+      </div>
+
+      <!-- 功能卡片網格 -->
+      <div class="features-grid">
+        <!-- 使用 @for 迴圈顯示每個功能 -->
+        @for (feature of features; track feature.title) {
+          <div class="feature-card">
+            <!-- 功能圖標 -->
+            <div class="feature-icon" [style.background-color]="feature.color">
+              <span class="material-icons">{{ feature.icon }}</span>
+            </div>
+
+            <!-- 功能標題 -->
+            <h3 class="feature-title">{{ feature.title }}</h3>
+
+            <!-- 功能描述 -->
+            <p class="feature-description">{{ feature.description }}</p>
+
+            <!-- 了解更多連結 -->
+            <a href="#" class="feature-link">
+              了解更多
+              <span class="material-icons">arrow_forward</span>
+            </a>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 統計數據區塊 -->
+  <!-- <section class="stats-section">
+    <div class="section-container">
+
+      <div class="section-header">
+        <h2 class="section-title">用數據說話</h2>
+        <p class="section-subtitle">
+          已經有數萬名用戶選擇我們，一起來看看我們的成果
+        </p>
+      </div> -->
+
+      <!-- 統計數據網格 -->
+      <!-- <div class="stats-grid">
+        @for (stat of stats; track stat.label) {
+          <div class="stat-card">
+            <div class="stat-number">
+              {{ stat.currentNumber }}{{ stat.suffix }}
+            </div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        }
+      </div>
+    </div>
+  </section> -->
+
+  <!-- 用戶評價區塊 -->
+  <!-- <section class="testimonials-section">
+    <div class="section-container">
+
+      <div class="section-header">
+        <h2 class="section-title">用戶怎麼說</h2>
+        <p class="section-subtitle">
+          聽聽真實用戶的使用心得和建議
+        </p>
+      </div> -->
+
+      <!-- 評價卡片網格 -->
+      <!-- <div class="testimonials-grid">
+        @for (testimonial of testimonials; track testimonial.name) {
+          <div class="testimonial-card"> -->
+
+            <!-- 評價內容 -->
+            <!-- <div class="testimonial-content">
+              <div class="quote-icon">
+                <span class="material-icons">format_quote</span>
+              </div>
+              <p class="testimonial-text">{{ testimonial.content }}</p>
+            </div> -->
+
+            <!-- 評價者資訊 -->
+            <!-- <div class="testimonial-author">
+              <img [src]="testimonial.avatar" [alt]="testimonial.name" class="author-avatar">
+
+              <div class="author-info">
+                <h4 class="author-name">{{ testimonial.name }}</h4>
+                <p class="author-role">{{ testimonial.role }}</p> -->
+
+                <!-- 星星評分 -->
+                <!-- <div class="rating">
+                  @for (star of getStars(testimonial.rating); track $index) {
+                    <span class="material-icons star">{{ star }}</span>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section> -->
+
+  <!-- 行動呼籲區塊 -->
+  <section class="cta-section">
+    <div class="section-container">
+      <div class="cta-content">
+
+        <h2 class="cta-title">準備開始您的智能記帳之旅嗎？</h2>
+
+        <p class="cta-description">
+          立即註冊免費帳戶，體驗AI驅動的財務管理，
+          讓記帳變得簡單有趣！
+        </p>
+
+        <!-- 行動按鈕 -->
+        <div class="cta-buttons">
+          <a routerLink="/register" class="btn-primary large">
+            <span class="material-icons">person_add</span>
+            免費註冊
+          </a>
+
+          <a routerLink="/contact" class="btn-secondary large">
+            <span class="material-icons">support_agent</span>
+            聯絡我們
+          </a>
+        </div>
+
+        <!-- 額外資訊 -->
+        <div class="cta-note">
+          <span class="material-icons">verified</span>
+          完全免費，無需信用卡，立即開始使用
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+

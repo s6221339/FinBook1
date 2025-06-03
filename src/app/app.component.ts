@@ -1,30 +1,16 @@
-<<<<<<< HEAD
-import { Component } from '@angular/core';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
-import { routes } from './app.routes';
-
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
-=======
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
+import { routes } from './app.routes';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet,CommonModule, RouterModule],
->>>>>>> 2417b0a9084135a213de2b052ff1ec61738f36bd
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> main
 
   constructor(
     private router: Router
@@ -34,8 +20,6 @@ export class AppComponent {
     this.router.navigate(['/bookKeeping']);
   }
 
-<<<<<<< HEAD
-=======
  // 基本屬性
   title = "智能記帳本" // 應用程式標題
   isLoggedIn = false // 用戶登入狀態
@@ -44,7 +28,6 @@ export class AppComponent {
   showScrollButton = false // 是否顯示回到頂部按鈕
   currentYear = new Date().getFullYear() // 當前年份（用於頁尾版權）
   gifSrc = `/notebook-change1.gif?${Date.now()}`; // 動態載入GIF圖片，避免快取問題
-  constructor(private router: Router) {}
 
   // 監聽滾動事件
   @HostListener("window:scroll", [])
@@ -80,7 +63,5 @@ export class AppComponent {
       behavior: "smooth", // 平滑滾動效果
     })
   }
->>>>>>> 2417b0a9084135a213de2b052ff1ec61738f36bd
-=======
->>>>>>> main
+
 }

@@ -22,9 +22,6 @@ import { filter } from 'rxjs';
 })
 export class AppComponent {
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> main
 
   constructor(
     private router: Router
@@ -34,7 +31,6 @@ export class AppComponent {
     this.router.navigate(['/bookKeeping']);
   }
 
-<<<<<<< HEAD
 =======
  // 基本屬性
   title = "智能記帳本" // 應用程式標題
@@ -81,6 +77,4 @@ export class AppComponent {
     })
   }
 >>>>>>> 2417b0a9084135a213de2b052ff1ec61738f36bd
-=======
->>>>>>> main
 }

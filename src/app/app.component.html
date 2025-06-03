@@ -1,5 +1,288 @@
+<<<<<<< HEAD
 <div>
 <div><button (click)="goBookKeeping()">記帳</button></div>
 <router-outlet></router-outlet>
 <div></div>
 </div>
+=======
+<!-- 頁首區域 -->
+<header class="header" [class.scrolled]="scrolled" [class.show]="true">
+  <div class="header-container">
+
+    <!-- Logo和應用程式名稱 -->
+    <div class="logo-container">
+      <img src="/notebook-while.gif" alt="智能記帳本Logo" class="logo">
+      <h1 class="app-name">智能記帳</h1>
+    </div>
+
+    <!-- 導航選單 -->
+    <nav class="nav-links">
+      <!-- 首頁連結 - routerLinkActive="active"會在當前頁面時添加active類 -->
+      <a routerLink="/home" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <span class="material-icons">home</span>
+        首頁
+      </a>
+
+      <!-- 記帳功能連結 -->
+      <a routerLink="/accounting" class="nav-link" routerLinkActive="active">
+        <span class="material-icons">add_circle</span>
+        記帳
+      </a>
+
+      <!-- 統計報表連結 -->
+      <a routerLink="/reports" class="nav-link" routerLinkActive="active">
+        <span class="material-icons">pie_chart</span>
+        統計報表
+      </a>
+
+      <!-- 固定支出連結 -->
+      <a routerLink="/recurring" class="nav-link" routerLinkActive="active">
+        <span class="material-icons">sync</span>
+        固定支出
+      </a>
+
+      <!-- 家庭管理連結 -->
+      <a routerLink="/family" class="nav-link" routerLinkActive="active">
+        <span class="material-icons">group</span>
+        家庭管理
+      </a>
+    </nav>
+
+    <!-- 用戶選單 -->
+    <div class="user-menu">
+      <!-- 用戶選單觸發器 -->
+      <div class="user-menu-trigger">
+
+        <!-- 根據登入狀態顯示不同按鈕 -->
+        @if (!isLoggedIn) {
+          <!-- 未登入時顯示登入按鈕 -->
+          <button class="login-button" (click)="login()">
+            <span class="material-icons">person</span>
+            登入
+          </button>
+        } @else {
+          <!-- 已登入時顯示用戶按鈕 -->
+          <button class="user-button">
+            <span class="material-icons">account_circle</span>
+            您好，用戶
+          </button>
+        }
+
+        <!-- 下拉選單（改良版，防止消失） -->
+        <div class="dropdown-menu">
+          <!-- 隱形橋接區域，防止滑鼠移動時選單消失 -->
+          <div class="dropdown-bridge"></div>
+
+          <div class="dropdown-content">
+            @if (!isLoggedIn) {
+              <!-- 未登入選單選項 -->
+              <a routerLink="/login" class="menu-item">
+                <span class="material-icons">login</span>
+                登入
+              </a>
+              <a routerLink="/register" class="menu-item">
+                <span class="material-icons">person_add</span>
+                註冊
+              </a>
+            } @else {
+              <!-- 已登入選單選項 -->
+              <a routerLink="/profile" class="menu-item">
+                <span class="material-icons">settings</span>
+                個人設置
+              </a>
+              <a routerLink="/family-settings" class="menu-item">
+                <span class="material-icons">home</span>
+                家庭設置
+              </a>
+              <a routerLink="/notifications" class="menu-item">
+                <span class="material-icons">notifications</span>
+                提醒設置
+              </a>
+              <a (click)="logout()" class="menu-item">
+                <span class="material-icons">logout</span>
+                登出
+              </a>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 手機版選單按鈕 -->
+    <button class="mobile-menu-button" (click)="toggleMenu()">
+      <span class="material-icons">menu</span>
+    </button>
+  </div>
+
+  <!-- 手機版展開選單 -->
+  @if (isMenuOpen) {
+    <div class="mobile-menu">
+      <a routerLink="/" class="mobile-nav-link" (click)="toggleMenu()">
+        <span class="material-icons">home</span>
+        首頁
+      </a>
+      <a routerLink="/accounting" class="mobile-nav-link" (click)="toggleMenu()">
+        <span class="material-icons">add_circle</span>
+        記帳
+      </a>
+      <a routerLink="/reports" class="mobile-nav-link" (click)="toggleMenu()">
+        <span class="material-icons">pie_chart</span>
+        統計報表
+      </a>
+      <a routerLink="/recurring" class="mobile-nav-link" (click)="toggleMenu()">
+        <span class="material-icons">sync</span>
+        固定支出
+      </a>
+      <a routerLink="/family" class="mobile-nav-link" (click)="toggleMenu()">
+        <span class="material-icons">group</span>
+        家庭管理
+      </a>
+
+      <div class="mobile-divider"></div>
+
+      @if (!isLoggedIn) {
+        <a routerLink="/login" class="mobile-nav-link" (click)="toggleMenu()">
+          <span class="material-icons">login</span>
+          登入
+        </a>
+        <a routerLink="/register" class="mobile-nav-link" (click)="toggleMenu()">
+          <span class="material-icons">person_add</span>
+          註冊
+        </a>
+      } @else {
+        <a routerLink="/profile" class="mobile-nav-link" (click)="toggleMenu()">
+          <span class="material-icons">settings</span>
+          個人設置
+        </a>
+        <a routerLink="/family-settings" class="mobile-nav-link" (click)="toggleMenu()">
+          <span class="material-icons">home</span>
+          家庭設置
+        </a>
+        <a (click)="logout(); toggleMenu()" class="mobile-nav-link">
+          <span class="material-icons">logout</span>
+          登出
+        </a>
+      }
+    </div>
+  }
+</header>
+
+<!-- 主要內容區域 -->
+<main class="main-content">
+  <!-- 這裡會顯示不同頁面的內容 -->
+  <router-outlet></router-outlet>
+</main>
+
+<!-- 頁尾區域 -->
+<footer class="footer">
+  <div class="footer-container">
+
+    <!-- 頁尾主要內容區域 -->
+    <div class="footer-top">
+
+      <!-- 應用程式介紹區塊 -->
+      <div class="footer-section">
+        <h3 class="footer-title">智能記帳本</h3>
+        <p class="footer-description">
+          結合AI技術的智能記帳應用，支援家庭共同記帳，幫助您輕鬆管理財務，實現財務目標。
+        </p>
+      </div>
+
+      <!-- 主要功能連結區塊 -->
+      <div class="footer-section">
+        <h3 class="footer-title">主要功能</h3>
+        <ul class="footer-links">
+          <li><a routerLink="/accounting">智能記帳</a></li>
+          <li><a routerLink="/reports">統計分析</a></li>
+          <li><a routerLink="/recurring">固定支出管理</a></li>
+          <li><a routerLink="/family">家庭共享</a></li>
+          <li><a>AI 財務建議</a></li>
+        </ul>
+      </div>
+
+      <!-- 幫助中心連結區塊 -->
+      <div class="footer-section">
+        <h3 class="footer-title">幫助中心</h3>
+        <ul class="footer-links">
+          <li><a routerLink="/faq">常見問題</a></li>
+          <li><a routerLink="/tutorials">使用教學</a></li>
+          <li><a routerLink="/support">客戶支援</a></li>
+          <li><a routerLink="/feedback">意見反饋</a></li>
+        </ul>
+      </div>
+
+      <!-- 聯絡資訊和社群連結區塊 -->
+      <div class="footer-section">
+        <h3 class="footer-title">聯絡我們</h3>
+
+        <!-- 聯絡資訊 -->
+        <ul class="contact-info">
+          <li>
+            <span class="material-icons">location_on</span>
+            <span>高雄市前鎮區復興四路10號</span>
+          </li>
+          <li>
+            <span class="material-icons">phone</span>
+            <span>07 330 9195</span>
+          </li>
+          <li>
+            <span class="material-icons">email</span>
+            <span>contact&#64;smartbudget.tw</span>
+          </li>
+        </ul>
+
+        <!-- 社群平台連結 -->
+        <h4 class="social-title">追蹤我們</h4>
+        <div class="social-links">
+          <!-- Facebook連結 -->
+          <a href="https://facebook.com" target="_blank" class="social-link facebook" aria-label="Facebook">
+            <span class="material-icons">facebook</span>
+          </a>
+
+          <!-- Instagram連結 -->
+          <a href="https://instagram.com" target="_blank" class="social-link instagram" aria-label="Instagram">
+            <span class="material-icons">camera_alt</span>
+          </a>
+
+          <!-- Twitter連結 -->
+          <a href="https://twitter.com" target="_blank" class="social-link twitter" aria-label="Twitter">
+            <span class="material-icons">alternate_email</span>
+          </a>
+
+          <!-- LinkedIn連結 -->
+          <a href="https://linkedin.com" target="_blank" class="social-link linkedin" aria-label="LinkedIn">
+            <span class="material-icons">business</span>
+          </a>
+
+          <!-- GitHub連結 -->
+          <a href="https://github.com" target="_blank" class="social-link github" aria-label="GitHub">
+            <span class="material-icons">code</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 頁尾底部區域 -->
+    <div class="footer-bottom">
+      <!-- 版權資訊 -->
+      <div class="copyright">
+        © {{currentYear}} 智能記帳. 保留所有權利.
+      </div>
+
+      <!-- 法律連結 -->
+      <div class="footer-bottom-links">
+        <a routerLink="/privacy">隱私政策</a>
+        <a routerLink="/terms">使用條款</a>
+        <a routerLink="/cookies">Cookie 政策</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 回到頂部按鈕（只在滾動後顯示） -->
+  @if (showScrollButton) {
+    <button class="scroll-to-top" (click)="scrollToTop()" aria-label="回到頂部">
+      <span class="top-text">TOP</span>
+    </button>
+  }
+</footer>
+>>>>>>> 2417b0a9084135a213de2b052ff1ec61738f36bd

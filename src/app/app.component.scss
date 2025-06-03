@@ -1,0 +1,664 @@
+/*
+===========================================
+基礎樣式設定 - 簡單直觀的CSS
+===========================================
+*/
+
+/* 頁首樣式 - 更明顯的顏色 */
+.header {
+  /* 固定在頁面頂部 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  /* 更明顯的藍色背景 */
+  background: linear-gradient(135deg, #aae1fa 0%, #f8fafc 100%);
+
+  /* 輕微陰影效果 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+  /* 確保在最上層 */
+  z-index: 1000;
+
+  /* 平滑過渡效果 */
+  transition: all 0.3s ease;
+
+  /* 初始狀態：隱藏在上方 */
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* 頁首顯示狀態 */
+.header.show {
+  transform: translateY(0);
+  opacity: 1;
+  /* 淡入動畫 */
+  animation: fadeInDown 0.5s ease forwards;
+}
+
+/* 滾動後的頁首樣式 */
+.header.scrolled {
+  /* 更深的藍色背景 */
+  background: linear-gradient(135deg, #b3e5fd 0%, #e2e8f0 100%);
+  /* 更明顯的陰影 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* 頁首淡入動畫 */
+@keyframes fadeInDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 頁首內容容器 */
+.header-container {
+  /* 使用彈性佈局，讓元素並排 */
+  display: flex;
+  /* 垂直置中對齊 */
+  align-items: center;
+  /* 兩端對齊 */
+  justify-content: space-between;
+  /* 內邊距 */
+  padding: 1rem 2rem;
+  /* 最大寬度 */
+  max-width: 1400px;
+  /* 水平置中 */
+  margin: 0 auto;
+  /* 元素間距 */
+  gap: 1rem;
+}
+
+/* Logo區域 */
+.logo-container {
+  /* 使用彈性佈局 */
+  display: flex;
+  /* 垂直置中 */
+  align-items: center;
+  /* 不縮小 */
+  flex-shrink: 0;
+  /* Logo滑入動畫 */
+  animation: slideInLeft 0.8s ease forwards;
+  opacity: 0;
+}
+
+/* Logo圖片 */
+.logo {
+  height: 60px;
+  width: 60px;
+  margin-right: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+/* Logo hover效果 */
+.logo:hover {
+  transform: scale(1.05) rotate(5deg);
+}
+
+/* 應用程式名稱 */
+.app-name {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0;
+  /* 藍色到粉色的漸層文字 */
+  background: linear-gradient(45deg, #2563eb, #ec4899);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Logo滑入動畫 */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 導航選單 */
+.nav-links {
+  /* 使用彈性佈局，讓連結並排 */
+  display: flex;
+  /* 連結間距 */
+  gap: 0.5rem;
+  /* 靠右對齊 */
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+/* 導航連結 */
+.nav-link {
+  /* 使用彈性佈局 */
+  display: flex;
+  /* 垂直置中 */
+  align-items: center;
+  /* icon和文字間距 */
+  gap: 0.5rem;
+  /* 文字顏色 */
+  color: #475569;
+  /* 移除底線 */
+  text-decoration: none;
+  /* 字體粗細 */
+  font-weight: 700;
+  /* 內邊距 */
+  padding: 0.75rem 1rem;
+  /* 圓角 */
+  border-radius: 8px;
+  /* 過渡效果 */
+  transition: all 0.2s ease;
+  /* 字體大小 */
+  font-size: 18px;
+  /* 不換行 */
+  white-space: nowrap;
+}
+
+/* 導航連結icon */
+.nav-link .material-icons {
+  font-size: 25px;
+  color: #3b82f6;
+}
+
+/* 導航連結hover效果 */
+.nav-link:hover {
+  /* 淺藍背景 */
+  background-color: rgba(59, 130, 246, 0.1);
+  /* 輕微上移 */
+  transform: translateY(-2px);
+  /* 文字變藍 */
+  color: #2563eb;
+}
+
+/* 活躍頁面的導航樣式 */
+.nav-link.active {
+  /* 更明顯的背景 */
+  background-color: #93c5fd;
+  /* 深藍色文字 */
+  color: #1e40af;
+  /* 更粗的字體 */
+  font-weight: 800;
+}
+
+/* 用戶選單 */
+.user-menu {
+  /* 相對定位，為下拉選單定位 */
+  position: relative;
+  /* 不縮小 */
+  flex-shrink: 0;
+}
+
+/* 用戶選單觸發器 */
+.user-menu-trigger {
+  position: relative;
+}
+
+/* 登入/用戶按鈕基本樣式 */
+.login-button,
+.user-button {
+  /* 使用彈性佈局 */
+  display: flex;
+  /* 垂直置中 */
+  align-items: center;
+  /* icon和文字間距 */
+  gap: 0.5rem;
+  /* 移除邊框 */
+  border: none;
+  /* 圓角 */
+  border-radius: 8px;
+  /* 內邊距 */
+  padding: 0.75rem 1.2rem;
+  /* 字體粗細 */
+  font-weight: 700;
+  /* 滑鼠指標 */
+  cursor: pointer;
+  /* 過渡效果 */
+  transition: all 0.2s ease;
+  /* 字體大小 */
+  font-size: 19px;
+}
+
+/* 登入按鈕樣式 */
+.login-button {
+  /* 藍色背景 */
+  background-color: #2563eb;
+  /* 白色文字 */
+  color: white;
+}
+
+/* 用戶按鈕樣式（已登入） */
+.user-button {
+  /* 粉色背景 */
+  background-color: #ec4899;
+  /* 白色文字 */
+  color: white;
+}
+
+/* 按鈕hover效果 */
+.login-button:hover {
+  /* 更深的藍色 */
+  background-color: #1d4ed8;
+  /* 輕微上移 */
+  transform: translateY(-2px);
+}
+
+.user-button:hover {
+  /* 更深的粉色 */
+  background-color: #db2777;
+  /* 輕微上移 */
+  transform: translateY(-2px);
+}
+
+/* 下拉選單容器 */
+.dropdown-menu {
+  /* 絕對定位 */
+  position: absolute;
+  /* 在按鈕下方 */
+  top: 100%;
+  /* 靠右對齊 */
+  right: 0;
+  /* 初始隱藏 */
+  opacity: 0;
+  visibility: hidden;
+  /* 初始位置下移 */
+  transform: translateY(10px);
+  /* 過渡效果 */
+  transition: all 0.2s ease;
+  /* 確保在上層 */
+  z-index: 100;
+}
+
+/* 防止選單消失的橋接區域 */
+.dropdown-bridge {
+  /* 絕對定位 */
+  position: absolute;
+  /* 向上延伸 */
+  top: -10px;
+  left: 0;
+  right: 0;
+  /* 橋接高度 */
+  height: 10px;
+  /* 透明背景 */
+  background: transparent;
+}
+
+/* 下拉選單內容 */
+.dropdown-content {
+  /* 白色背景 */
+  background-color: white;
+  /* 圓角 */
+  border-radius: 8px;
+  /* 陰影效果 */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  /* 內邊距 */
+  padding: 0.5rem 0;
+  /* 與按鈕的間距 */
+  margin-top: 0.5rem;
+  /* 最小寬度 */
+  min-width: 200px;
+}
+
+/* 顯示下拉選單 */
+.user-menu-trigger:hover .dropdown-menu {
+  /* 完全顯示 */
+  opacity: 1;
+  visibility: visible;
+  /* 移到正確位置 */
+  transform: translateY(0);
+}
+
+/* 選單項目樣式 */
+.menu-item {
+  /* 使用彈性佈局 */
+  display: flex;
+  /* 垂直置中 */
+  align-items: center;
+  /* icon和文字間距 */
+  gap: 0.8rem;
+  /* 內邊距 */
+  padding: 0.75rem 1rem;
+  /* 文字顏色 */
+  color: #475569;
+  /* 移除底線 */
+  text-decoration: none;
+  /* 過渡效果 */
+  transition: all 0.2s ease;
+  /* 字體大小 */
+  font-size: 18px;
+}
+
+/* 選單項目icon */
+.menu-item .material-icons {
+  font-size: 20px;
+  color: #3b82f6;
+  width: 20px;
+}
+
+/* 選單項目hover效果 */
+.menu-item:hover {
+  /* 淺藍背景 */
+  background-color: rgba(59, 130, 246, 0.1);
+  /* 藍色文字 */
+  color: #2563eb;
+}
+
+/* 手機版選單按鈕 */
+.mobile-menu-button {
+  /* 隱藏在桌面版 */
+  display: none;
+  background: none;
+  border: none;
+  color: #3b82f6;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+/* 手機版展開選單 */
+.mobile-menu {
+  display: none;
+}
+
+/* 主要內容區域 */
+.main-content {
+  /* 為固定頁首留出空間 */
+  padding-top: 80px;
+  /* 最小高度 */
+  min-height: calc(100vh - 80px);
+  /* 淺灰藍色背景 */
+  background-color: #f8fafc;
+}
+
+/* 頁尾樣式 - 更明顯的顏色 */
+.footer {
+  /* 淺藍色背景 */
+ background: linear-gradient(135deg, #dbeafe 0%, #f1f5f9 100%);
+  /* 內邊距 */
+  padding: 0.5rem 0 2rem;
+  /* 文字顏色 */
+  color: #475569;
+  /* 頂部邊框 */
+  border-top: 1.5px solid #bfdbfe;
+}
+
+/* 頁尾內容容器 */
+.footer-container {
+  /* 最大寬度 */
+  max-width: 1400px;
+  /* 水平置中 */
+  margin: 0 auto;
+  /* 左右內邊距 */
+  padding: 0 2rem;
+}
+
+/* 頁尾主要區域 */
+.footer-top {
+  /* 使用網格佈局 */
+  display: grid;
+  /* 四欄，第一欄較寬 */
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  /* 欄位間距 */
+  gap: 2rem;
+  /* 底部邊距 */
+  margin-bottom: 3rem;
+}
+
+/* 頁尾區塊標題 */
+.footer-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  /* 藍色標題 */
+  color: #2563eb;
+  position: relative;
+}
+
+/* 標題底線裝飾 */
+.footer-title:after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  /* 漸層底線 */
+  background: linear-gradient(45deg, #2563eb, #ec4899);
+  border-radius: 2px;
+}
+
+/* 頁尾描述文字 */
+.footer-description {
+  color: #334155;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-size: 17px;
+  padding-top: 20px;
+}
+
+/* 社群標題 */
+.social-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #2563eb;
+}
+
+/* 社群連結容器 */
+.social-links {
+  /* 使用彈性佈局 */
+  display: flex;
+  /* 連結間距 */
+  gap: 1rem;
+
+  padding-top: 10px;
+}
+
+/* 社群連結基本樣式 */
+.social-link {
+  /* 使用彈性佈局 */
+  display: flex;
+  /* 垂直置中 */
+  align-items: center;
+  /* 水平置中 */
+  justify-content: center;
+  /* 寬度 */
+  width: 40px;
+  /* 高度 */
+  height: 40px;
+  /* 圓形 */
+  border-radius: 50%;
+  /* 移除底線 */
+  text-decoration: none;
+  /* 過渡效果 */
+  transition: all 0.3s ease;
+  /* 白色icon */
+  color: white;
+}
+
+/* 各社群平台的品牌色彩 */
+.social-link.facebook {
+  background-color: #1877f2; /* Facebook藍 */
+}
+
+.social-link.instagram {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); /* Instagram漸層 */
+}
+
+.social-link.twitter {
+  background-color: #1da1f2; /* Twitter藍 */
+}
+
+.social-link.linkedin {
+  background-color: #0077b5; /* LinkedIn藍 */
+}
+
+.social-link.github {
+  background-color: #333333; /* GitHub黑色 */
+}
+
+/* 社群連結hover效果 */
+.social-link:hover {
+  /* 上移並放大 */
+  transform: translateY(-3px) scale(1.1);
+  /* 陰影效果 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 頁尾連結列表 */
+.footer-links {
+  /* 移除項目符號 */
+  list-style: none;
+  /* 移除內邊距 */
+  padding: 0;
+  /* 移除邊距 */
+  margin: 0;
+
+  padding-top: 20px;
+}
+
+/* 連結項目 */
+.footer-links li {
+  margin-bottom: 0.8rem;
+}
+
+/* 連結樣式 */
+.footer-links a {
+  color: #334155;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-block;
+  font-size: 17px;
+}
+
+/* 連結hover效果 */
+.footer-links a:hover {
+  /* 變藍色 */
+  color: #2563eb;
+  /* 右移 */
+  transform: translateX(5px);
+}
+
+/* 連結前的箭頭裝飾 */
+.footer-links a:before {
+  content: "→";
+  margin-right: 0.5rem;
+  color: #ec4899;
+  opacity: 0;
+  transition: all 0.2s ease;
+  font-size: 24px;
+}
+
+/* hover時顯示箭頭 */
+.footer-links a:hover:before {
+  opacity: 1;
+  margin-right: 0.8rem;
+}
+
+/* 聯絡資訊列表 */
+.contact-info {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  padding-top: 20px;
+}
+
+/* 聯絡資訊項目 */
+.contact-info li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  color: #334155;
+  font-size: 17px;
+}
+
+/* 聯絡資訊icon */
+.contact-info .material-icons {
+  color: #3b82f6;
+  margin-top: 2px;
+}
+
+/* 頁尾底部容器 */
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1.5px solid #bfdbfe;
+  gap: 1rem;
+}
+
+/* 版權文字 */
+.copyright {
+  color: #334155;
+  font-size: 16px;
+  order: 2; /* 排序：在下方 */
+}
+
+/* 底部連結容器 */
+.footer-bottom-links {
+  display: flex;
+  gap: 1.5rem;
+  order: 1; /* 排序：在上方 */
+}
+
+/* 底部連結樣式 */
+.footer-bottom-links a {
+  color: #334155;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.2s ease;
+}
+
+/* 底部連結hover效果 */
+.footer-bottom-links a:hover {
+  color: #2563eb;
+}
+
+/* 回到頂部按鈕（淡化版本） */
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 65px;
+  height: 65px;
+  border-radius: 50px;
+  /* 淡化的藍色背景 */
+  background-color: rgba(2, 88, 225, 0.7);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  /* 淡化的陰影 */
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+  transition: all 0.3s ease;
+  z-index: 99;
+  /* 淡化的透明度 */
+  opacity: 0.8;
+}
+
+/* 回到頂部按鈕hover效果 */
+.scroll-to-top:hover {
+  background-color: rgba(0, 91, 238, 0.9);
+  transform: translateY(-3px);
+  opacity: 1;
+}
+
+/* TOP文字 */
+.top-text {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}

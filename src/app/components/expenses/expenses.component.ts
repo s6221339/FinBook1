@@ -25,5 +25,16 @@ export class ExpensesComponent {
   type?: string;
   item?: string;
   categories: Category[] = [{type: "交通", item: "停車費"}, {type: "其他", item: "交際應酬"}, {type: "娛樂", item: "KTV"}];
+  selectedType?: string;  //  下拉式選單(type)
+  selectedItem?: string;  //  下拉式選單(item)
+  categoriesFiltedItems: string[] = []; //  兩層下拉式選單第一層篩選陣列
+
+  //  根據 selectedType 更新 categoriesFilteredItems
+  updateCategoriesFiltedItems(){
+    this.categoriesFiltedItems = this.categories
+      .filter(c => c.type === this.selectedType)
+      .map(c => c.item);
+      this.selectedItem = this.categoriesFiltedItems[0];  //  預設
+  }
 
 }

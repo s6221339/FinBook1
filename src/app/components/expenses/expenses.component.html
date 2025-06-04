@@ -27,6 +27,26 @@
     <p>你選擇的帳戶是：{{ selectedUserName }}</p>
   </div>
   <div>
+    <input type="int" placeholder="請輸入要記帳的金額"/>
+  </div>
+  <div>
+    <!-- 選擇類型 -->
+    <mat-form-field appearance="fill">
+      <mat-label>類型</mat-label>
+      <mat-select [(value)]="selectedType" (valueChange)="updateCategoriesFiltedItems()">
+        @for(c of categories; track $index){
+          <mat-option [value]="c.type">{{ c.type }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <!-- 選擇項目 -->
+    @if(categoriesFiltedItems.length > 0){
+      <mat-form-field appearance="fill">
+        <mat-label>項目</mat-label>
+      </mat-form-field>
+    }
+  </div>
+  <div>
     <input type="text" placeholder="寫點備註吧…"/>
   </div>
 </div>

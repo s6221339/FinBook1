@@ -27,6 +27,7 @@
     <p>你選擇的帳戶是：{{ selectedUserName }}</p>
   </div>
   <div>
+    <h3>🪙金額</h3>
     <input type="int" placeholder="請輸入要記帳的金額"/>
   </div>
   <div>
@@ -34,8 +35,8 @@
     <mat-form-field appearance="fill">
       <mat-label>類型</mat-label>
       <mat-select [(value)]="selectedType" (valueChange)="updateCategoriesFiltedItems()">
-        @for(c of categories; track $index){
-          <mat-option [value]="c.type">{{ c.type }}</mat-option>
+        @for(type of distinctTypes; track $index){
+          <mat-option [value]="type">{{ type }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -43,10 +44,17 @@
     @if(categoriesFiltedItems.length > 0){
       <mat-form-field appearance="fill">
         <mat-label>項目</mat-label>
+        <mat-select [(value)]="item">
+          @for(item of categoriesFiltedItems; track $index){
+            <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-select>
       </mat-form-field>
     }
+    <button (click)="goCreateItem()">➕新增款項項目</button>
   </div>
   <div>
+    <h3>🔖備註</h3>
     <input type="text" placeholder="寫點備註吧…"/>
   </div>
 </div>

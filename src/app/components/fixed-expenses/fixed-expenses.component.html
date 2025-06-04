@@ -1,13 +1,59 @@
 <div>
   <div>
   <mat-form-field class="example-full-width">
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker">
+    <mat-label>請選擇日期</mat-label>
+    <!-- 預設日期為今天 -->
+    <input matInput [matDatepicker]="picker" [value]="today" [max]="today" >
     <mat-hint>MM/DD/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker">
       <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
     </mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+  </div>
+  <!-- 選擇帳戶 -->
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>選擇帳戶</mat-label>
+      <mat-select [(value)] = "selectedUserName">
+        @for(user of userNames; track $index){
+          <mat-option [value] = "user">
+            {{ user }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <p>你選擇的帳戶是：{{ selectedUserName }}</p>
+  </div>
+  <div>
+    <h3>🪙金額</h3>
+    <input type="int" placeholder="請輸入要記帳的金額"/>
+  </div>
+  <div>
+    <!-- 選擇類型 -->
+    <mat-form-field appearance="fill">
+      <mat-label>類型</mat-label>
+      <mat-select [(value)]="selectedType" (valueChange)="updateCategoriesFiltedItems()">
+        @for(type of distinctTypes; track $index){
+          <mat-option [value]="type">{{ type }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <!-- 選擇項目 -->
+    @if(categoriesFiltedItems.length > 0){
+      <mat-form-field appearance="fill">
+        <mat-label>項目</mat-label>
+        <mat-select [(value)]="item">
+          @for(item of categoriesFiltedItems; track $index){
+            <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
+    <button (click)="goCreateItem()">➕新增款項項目</button>
+  </div>
+  <div>
+    <h3>🔖備註</h3>
+    <input type="text" placeholder="寫點備註吧…"/>
   </div>
 </div>

@@ -6,6 +6,7 @@ import { FixedExpensesComponent } from './components/fixed-expenses/fixed-expens
 import { IncomeComponent } from './components/income/income.component';
 import { ExpensesComponent } from './components/expenses/expenses.component';
 import { TransfersComponent } from './components/transfers/transfers.component';
+import { TestComponent } from './components/test/test.component';
 
 export const routes: Routes = [
   {path:'bookKeeping', component: BookKeepingComponent,
@@ -20,9 +21,8 @@ export const routes: Routes = [
     },{
       path: 'transfers', component: TransfersComponent
     },{
-      path: '', component: ExpensesComponent
-    }]
-   },
+      path: '', component: ExpensesComponent}]},
+  {path:'test', component: TestComponent},
   {path:'home', component: HomeComponent},
   {path:'', component: HomeComponent},
   {path:'**', component: HomeComponent}

@@ -7,7 +7,6 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
-    RouterOutlet,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

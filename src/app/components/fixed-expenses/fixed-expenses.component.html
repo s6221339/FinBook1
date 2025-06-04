@@ -1,9 +1,9 @@
 <div>
   <div>
   <mat-form-field class="example-full-width">
-    <mat-label>請選擇日期</mat-label>
+    <mat-label>請選擇第一筆生效日期</mat-label>
     <!-- 預設日期為今天 -->
-    <input matInput [matDatepicker]="picker" [value]="today" [max]="today" >
+    <input matInput [matDatepicker]="picker" [value]="today" [min]="today" >
     <mat-hint>MM/DD/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker">
       <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
@@ -11,6 +11,11 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   </div>
+  <!-- 固定循環天數 -->
+   <div>
+    <h3>📅循環週期（天）</h3>
+    <input type="int" placeholder="請輸入循環天數"/>
+   </div>
   <!-- 選擇帳戶 -->
   <div>
     <mat-form-field appearance="fill">
@@ -27,7 +32,7 @@
   </div>
   <div>
     <h3>🪙金額</h3>
-    <input type="int" placeholder="請輸入要記帳的金額"/>
+    <input type="int" placeholder="請輸入要記帳金額"/>
   </div>
   <div>
     <!-- 選擇類型 -->
@@ -55,5 +60,9 @@
   <div>
     <h3>🔖備註</h3>
     <input type="text" placeholder="寫點備註吧…"/>
+  </div>
+  <div>
+    <button (click)="goHome()">取消</button>
+    <button (click)="saveAndGoHome()">儲存</button>
   </div>
 </div>

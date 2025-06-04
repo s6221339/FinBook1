@@ -34,6 +34,9 @@ export class FixedExpensesComponent implements OnInit{
   selectedItem?: string;  //  下拉式選單(item)
   categoriesFiltedItems: string[] = []; //  兩層下拉式選單第二層的對象
   distinctTypes: string[] = []; //  不重複的類型
+  recurringPeriod?: number; //  循環週期
+  amount?: number;  //  金額
+  description?: string; //  款項描述
 
   ngOnInit(): void {
     //  只選取唯一值type
@@ -53,5 +56,13 @@ export class FixedExpensesComponent implements OnInit{
 
   goCreateItem(){
     this.router.navigate(['/createitem']);
+  }
+
+  goHome(){
+    this.router.navigate(['/home']);
+  }
+
+  saveAndGoHome(){
+    this.router.navigate(['/home']);
   }
 }

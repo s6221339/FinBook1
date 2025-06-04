@@ -1,0 +1,39 @@
+<div>
+  <h2>新增細項</h2>
+
+  <!-- 主分類選擇區塊 -->
+  <div class="container">
+    <label for="mainCategory">主分類:</label>
+    <select id="mainCategory" [(ngModel)]="selectedCategory">
+      <option value="" disabled selected>請選擇主分類</option>
+      <!-- 使用 @for 產生主分類選項 -->
+      @for (cat of mainCategories; track cat.value) {
+        <option [value]="cat.value">
+          {{ cat.label }}
+        </option>
+      }
+    </select>
+  </div>
+
+  <!-- 細項輸入與新增按鈕區塊 -->
+  <div class="container">
+    <label for="subItem">細項名稱:</label>
+    <input id="subItem" type="text" [(ngModel)]="newSubItem" placeholder="請輸入細項名稱" />
+    <button (click)="addSubItem()">新增</button>
+  </div>
+
+  <!-- 使用 @if 顯示目前已新增的細項列表 -->
+  @if (subItems.length > 0) {
+    <div class="container">
+      <h3>目前細項列表</h3>
+      <ul>
+        <!-- 使用 @for 列出每筆細項資料 -->
+        @for (item of subItems; track item.id || $index) {
+          <li>
+            主分類：{{ item.type }} - 細項：{{ item.label }}
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>

@@ -1,0 +1,53 @@
+/* 整個元件的外部樣式 */
+:host {
+  display: block;
+  margin: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* 每個區塊的容器 */
+.container {
+  margin-bottom: 20px;
+}
+
+/* 標籤設定：固定寬度、加粗及右邊距 */
+label {
+  display: inline-block;
+  width: 100px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* 下拉選單與輸入框設定：固定寬度、內邊距且採用 border-box 模型 */
+input,
+select {
+  width: 200px;
+  padding: 5px;
+  box-sizing: border-box;
+  margin-right: 10px;
+}
+
+/* 按鈕樣式設定：背景色、無邊框、圓角、懸停效果 */
+button {
+  padding: 5px 10px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* 列表樣式 */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}

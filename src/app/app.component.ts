@@ -14,10 +14,6 @@ export class AppComponent {
     private router: Router
   ){}
 
-  goBookKeeping(){
-    this.router.navigate(['/bookKeeping']);
-  }
-
  // 基本屬性
   title = "智能記帳本" // 應用程式標題
   isLoggedIn = false // 用戶登入狀態
@@ -60,6 +56,11 @@ export class AppComponent {
       top: 0,
       behavior: "smooth", // 平滑滾動效果
     })
+  }
+
+  //  前往記帳畫面
+  goBookKeeping(){
+    this.router.navigate(['/bookKeeping/expenses']);
   }
 
 }

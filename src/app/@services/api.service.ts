@@ -8,6 +8,7 @@ export class ApiService {
 
   constructor() { }
 
+  //  創建帳款類型
   createType(data: any){
     return axios({
       url: 'http://localhost:8080/finbook/createType',
@@ -20,6 +21,7 @@ export class ApiService {
     });
   }
 
+  //  帳款類型應用帳號
   getTypeByAccount(account: string){
     return axios.post('http://localhost:8080/finbook/getType', null, {
       params: { account },

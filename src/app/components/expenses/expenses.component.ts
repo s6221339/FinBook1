@@ -1,3 +1,4 @@
+import { PaymentService } from './../../@services/payment.service';
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -23,7 +24,8 @@ export class ExpensesComponent implements OnInit{
 
   constructor(
     private router: Router,
-        private apiService: ApiService
+    private apiService: ApiService,
+    private paymentService: PaymentService
   ){}
 
   today: Date = new Date();
@@ -48,7 +50,7 @@ export class ExpensesComponent implements OnInit{
         this.categories = list;
 
         //  去重複取得唯一的 type
-        this.distinctTypes = [...new Set(list.map(c => c.type))];
+        this.distinctTypes = [...new Set(list.filter(c => c.type !== '收入').map(c => c.type))];
       })
       .catch(err => {
         console.error('API error：', err);
@@ -65,7 +67,18 @@ export class ExpensesComponent implements OnInit{
   }
 
   goCreateItem(){
-    this.router.navigate(['/createitem']);
+    this.paymentService.setFormData({
+      date: this.today,
+      selectedUserName: this.selectedUserName,
+      amount: this.amount ?? null,
+      selectedType: this.selectedType ?? null,
+      selectedItem: this.selectedItem ?? null,
+      description: this.description ?? ''
+    });
+
+    this.router.navigate(['/createItem'], {
+      queryParams: { from: this.router.url}
+    });
   }
 
   goHome(){

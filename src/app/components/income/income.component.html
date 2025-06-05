@@ -42,7 +42,7 @@
     @if(categoriesFiltedItems.length > 0){
       <mat-form-field appearance="fill">
         <mat-label>項目</mat-label>
-        <mat-select [(value)]="item">
+        <mat-select [(value)]="selectedItem">
           @for(item of categoriesFiltedItems; track $index){
             <mat-option [value]="item">{{ item }}</mat-option>
           }

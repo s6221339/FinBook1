@@ -1,3 +1,4 @@
+import { ApiService } from './../../@services/api.service';
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -21,7 +22,8 @@ import { Router } from '@angular/router';
 export class IncomeComponent implements OnInit{
 
   constructor(
-    private router: Router
+    private router: Router,
+    private apiService: ApiService
   ){}
 
 
@@ -41,10 +43,18 @@ export class IncomeComponent implements OnInit{
   account: string = "a6221339"; //  測試帳號
 
   ngOnInit(): void {
-    //  只選取唯一值type
-    //  Set為集合，自動排除重複使用
-    //  ...展開運算子（Spread Operator）
-    this.distinctTypes = [...new Set(this.categories.map(c => c.type))];
+
+    this.apiService.getTypeByAccount(this.account)
+      .then(res => {
+        const list: Category[] = res.data.paymentTypeList || [];
+        this.categories = list;
+
+        //  去重複取得唯一的 type
+        this.distinctTypes = [...new Set(list.filter(c => c.type == '收入').map(c => c.type))];
+      })
+      .catch(err => {
+        console.error('API error：', err);
+      });
   }
 
 
@@ -57,7 +67,9 @@ export class IncomeComponent implements OnInit{
   }
 
   goCreateItem(){
-    this.router.navigate(['/createitem']);
+    this.router.navigate(['/createItem'], {
+      queryParams: { from: this.router.url}
+    });
   }
 
   goHome(){

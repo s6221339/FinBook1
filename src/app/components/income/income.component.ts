@@ -38,6 +38,7 @@ export class IncomeComponent implements OnInit{
   recurringPeriod?: number; //  循環週期
   amount?: number;  //  金額
   description?: string; //  款項描述
+  account: string = "a6221339"; //  測試帳號
 
   ngOnInit(): void {
     //  只選取唯一值type

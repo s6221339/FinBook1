@@ -16,10 +16,10 @@ export class TestComponent {
   data = {
     "type":"飲食",
     "item":"吃大餐",
-    "account":"s6221339"
+    "account":"a6221339"
   };
 
-  account: string = "s6221339";
+  account: string = "a6221339";
 
   createType(){
     this.apiService.createType(this.data)

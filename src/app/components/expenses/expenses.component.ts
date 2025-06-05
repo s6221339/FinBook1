@@ -7,6 +7,7 @@ import {MatInputModule} from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Category } from '../../models/categories';
 import { Router } from '@angular/router';
+import { ApiService } from '../../@services/api.service';
 
 @Component({
   selector: 'app-expenses',
@@ -21,7 +22,8 @@ import { Router } from '@angular/router';
 export class ExpensesComponent implements OnInit{
 
   constructor(
-    private router: Router
+    private router: Router,
+        private apiService: ApiService
   ){}
 
   today: Date = new Date();
@@ -29,20 +31,28 @@ export class ExpensesComponent implements OnInit{
   selectedUserName: string = this.userNames[0]; //  預設帳戶1
   type?: string;
   item?: string;
-  categories: Category[] = [{type: "交通", item: "停車費"}, {type: "交通", item: "火車月卡"}, {type: "交通", item: "加油費用"}, {type: "其他", item: "交際應酬"}, {type: "娛樂", item: "KTV"}];
+  categories: Category[] = [];
   selectedType?: string;  //  下拉式選單(type)
   selectedItem?: string;  //  下拉式選單(item)
   categoriesFiltedItems: string[] = []; //  兩層下拉式選單第二層的對象
   distinctTypes: string[] = []; //  不重複的類型
   amount?: number;  //  支出金額
   description?: string; //  款項描述
-
+  account: string = "a6221339"; //  測試帳號
 
   ngOnInit(): void {
-    //  只選取唯一值type
-    //  Set為集合，自動排除重複使用
-    //  ...展開運算子（Spread Operator）
-    this.distinctTypes = [...new Set(this.categories.map(c => c.type))];
+
+    this.apiService.getTypeByAccount(this.account)
+      .then(res => {
+        const list: Category[] = res.data.paymentTypeList || [];
+        this.categories = list;
+
+        //  去重複取得唯一的 type
+        this.distinctTypes = [...new Set(list.map(c => c.type))];
+      })
+      .catch(err => {
+        console.error('API error：', err);
+      });
   }
 
 

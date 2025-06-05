@@ -7,6 +7,8 @@ import { IncomeComponent } from './components/income/income.component';
 import { ExpensesComponent } from './components/expenses/expenses.component';
 import { TransfersComponent } from './components/transfers/transfers.component';
 import { TestComponent } from './components/test/test.component';
+import { CreateItemComponent } from './components/create-item/create-item.component';
+
 
 export const routes: Routes = [
   {path:'bookKeeping', component: BookKeepingComponent,
@@ -23,7 +25,9 @@ export const routes: Routes = [
     },{
       path: '', component: ExpensesComponent}]},
   {path:'test', component: TestComponent},
+  {path:'createItem', component: CreateItemComponent},
   {path:'home', component: HomeComponent},
   {path:'', component: HomeComponent},
-  {path:'**', component: HomeComponent}
+  {path:'**', component: HomeComponent},
+
 ];

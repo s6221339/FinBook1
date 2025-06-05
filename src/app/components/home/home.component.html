@@ -27,18 +27,6 @@
             觀看示範
           </a>
         </div>
-
-        <!-- 快速統計 -->
-        <!-- <div class="quick-stats">
-          <div class="stat-item">
-            <span class="stat-number">{{ stats[0].currentNumber }}{{ stats[0].suffix }}</span>
-            <span class="stat-label">{{ stats[0].label }}</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">{{ stats[1].currentNumber }}{{ stats[1].suffix }}</span>
-            <span class="stat-label">{{ stats[1].label }}</span>
-          </div>
-        </div> -->
       </div>
 
       <!-- 右側圖片 -->
@@ -51,15 +39,16 @@
           <span>智能儲蓄</span>
         </div>
 
-        <!-- <div class="floating-card card-2">
-          <span class="material-icons">savings</span>
-          <span>智能儲蓄</span>
-        </div> -->
+        <div class="floating-card card-2">
+          <span class="material-icons">analytics</span>
+          <span>財務分析</span>
+        </div>
 
         <div class="floating-card card-3">
           <span class="material-icons">family_restroom</span>
           <span>家庭共享</span>
         </div>
+
       </div>
     </div>
   </section>
@@ -102,77 +91,6 @@
       </div>
     </div>
   </section>
-
-  <!-- 統計數據區塊 -->
-  <!-- <section class="stats-section">
-    <div class="section-container">
-
-      <div class="section-header">
-        <h2 class="section-title">用數據說話</h2>
-        <p class="section-subtitle">
-          已經有數萬名用戶選擇我們，一起來看看我們的成果
-        </p>
-      </div> -->
-
-      <!-- 統計數據網格 -->
-      <!-- <div class="stats-grid">
-        @for (stat of stats; track stat.label) {
-          <div class="stat-card">
-            <div class="stat-number">
-              {{ stat.currentNumber }}{{ stat.suffix }}
-            </div>
-            <div class="stat-label">{{ stat.label }}</div>
-          </div>
-        }
-      </div>
-    </div>
-  </section> -->
-
-  <!-- 用戶評價區塊 -->
-  <!-- <section class="testimonials-section">
-    <div class="section-container">
-
-      <div class="section-header">
-        <h2 class="section-title">用戶怎麼說</h2>
-        <p class="section-subtitle">
-          聽聽真實用戶的使用心得和建議
-        </p>
-      </div> -->
-
-      <!-- 評價卡片網格 -->
-      <!-- <div class="testimonials-grid">
-        @for (testimonial of testimonials; track testimonial.name) {
-          <div class="testimonial-card"> -->
-
-            <!-- 評價內容 -->
-            <!-- <div class="testimonial-content">
-              <div class="quote-icon">
-                <span class="material-icons">format_quote</span>
-              </div>
-              <p class="testimonial-text">{{ testimonial.content }}</p>
-            </div> -->
-
-            <!-- 評價者資訊 -->
-            <!-- <div class="testimonial-author">
-              <img [src]="testimonial.avatar" [alt]="testimonial.name" class="author-avatar">
-
-              <div class="author-info">
-                <h4 class="author-name">{{ testimonial.name }}</h4>
-                <p class="author-role">{{ testimonial.role }}</p> -->
-
-                <!-- 星星評分 -->
-                <!-- <div class="rating">
-                  @for (star of getStars(testimonial.rating); track $index) {
-                    <span class="material-icons star">{{ star }}</span>
-                  }
-                </div>
-              </div>
-            </div>
-          </div>
-        }
-      </div>
-    </div>
-  </section> -->
 
   <!-- 行動呼籲區塊 -->
   <section class="cta-section">

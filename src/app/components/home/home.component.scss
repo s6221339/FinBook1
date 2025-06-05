@@ -6,7 +6,7 @@
 
 /* Hero Section */
 .hero-section {
-  padding: 6rem 0; /* 上下內邊距 */
+  padding: 1.5rem 0; /* 上下內邊距 */
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); /* 淺灰漸層背景 */
   position: relative; /* 相對定位 */
   overflow: hidden; /* 隱藏溢出 */
@@ -111,6 +111,8 @@
   position: relative; /* 相對定位 */
   display: flex; /* 彈性佈局 */
   justify-content: center; /* 水平置中 */
+  align-items: flex-start; // 讓內容靠上
+  min-height: 400px;      // 增加容器高度（可依需求調整）
   animation: slideInRight 1s ease-out; /* 滑入動畫 */
 }
 
@@ -157,15 +159,14 @@
 }
 
 .card-1 {
-  top: 10%; /* 頂部10% */
-  left: -10%; /* 左側-10% */
+  top: 18%; /* 頂部10% */
   animation-delay: 0s; /* 無延遲 */
 }
 
 .card-2 {
-  top: 50%; /* 中間 */
-  right: -15%; /* 右側-15% */
-  animation-delay: 1s; /* 延遲1秒 */
+  bottom: 45%;
+  left: 18%;
+  animation-delay: 1s;
 }
 
 .card-3 {
@@ -509,5 +510,5 @@
 }
 
 .cta-note .material-icons {
-  color: #10b981; /* 綠色勾勾 */
+  color: #00ff02; /* 綠色勾勾 */
 }

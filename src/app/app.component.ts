@@ -63,4 +63,8 @@ export class AppComponent {
     this.router.navigate(['/bookKeeping/expenses']);
   }
 
+  //  前往會員頁面
+  goLogin(){
+    this.router.navigate(['/login']);
+  }
 }

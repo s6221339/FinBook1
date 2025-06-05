@@ -71,7 +71,7 @@
             @if (!isLoggedIn) {
               <!-- 未登入選單選項 -->
               <a routerLink="/login" class="menu-item">
-                <span class="material-icons">login</span>
+                <span class="material-icons"(click)="goLogin()">login</span>
                 登入
               </a>
               <a routerLink="/register" class="menu-item">

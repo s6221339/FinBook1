@@ -8,6 +8,8 @@ import { ExpensesComponent } from './components/expenses/expenses.component';
 import { TransfersComponent } from './components/transfers/transfers.component';
 import { TestComponent } from './components/test/test.component';
 import { CreateItemComponent } from './components/create-item/create-item.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 
 export const routes: Routes = [
@@ -27,8 +29,9 @@ export const routes: Routes = [
     }]},
   {path:'test', component: TestComponent},
   {path:'createItem', component: CreateItemComponent},
+  {path: 'login', component: LoginComponent },
+  {path: 'register', component: RegisterComponent },
   {path:'home', component: HomeComponent},
   {path:'', component: HomeComponent},
   {path:'**', component: HomeComponent},
-
 ];

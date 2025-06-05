@@ -1,0 +1,184 @@
+/* --- 顏色變數定義 (保持不變) --- */
+$primary-blue: #1976D2;
+$primary-dark-blue: #1565C0;
+$accent-green: #4CAF50;
+$accent-dark-green: #388E3C;
+
+$light-blue-gradient-start: #BBDEFB;
+$light-blue-gradient-end: #E3F2FD;
+
+$card-background: #FFFFFF;
+$text-color: #333333;
+$label-color: #555555;
+$input-border-color: #CCCCCC;
+$input-focus-border-color: $primary-blue;
+$button-hover-transition: 0.3s ease;
+
+$gradient-blue: #1976D2;
+$gradient-pink-purple: #FF1493;
+
+/* --- 全局樣式和背景 (保持不變) --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.background {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(to bottom right, $light-blue-gradient-start, $light-blue-gradient-end);
+    overflow: hidden;
+}
+
+.area {
+    width: 90%;
+    // *** 這裡調整卡片的最大寬度 ***
+    max-width: 600px; // 從 500px 增加到 600px，讓卡片更寬
+    height: auto;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* --- 註冊卡片樣式 (只修改了寬度) --- */
+.register-card {
+    width: 100%;
+    background-color: $card-background;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.register-title {
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+    background: linear-gradient(to right, $gradient-blue, $gradient-pink-purple);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: $gradient-blue; // Fallback color
+}
+
+/* --- 表單組件樣式 (保持不變) --- */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-label {
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(to right, $gradient-blue, $gradient-pink-purple);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: $gradient-blue; // Fallback color
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid $input-border-color;
+    border-radius: 6px;
+    font-size: 16px;
+    color: $text-color;
+    box-sizing: border-box;
+    transition: border-color $button-hover-transition, box-shadow $button-hover-transition;
+}
+
+.form-control:focus {
+    border-color: $input-focus-border-color;
+    box-shadow: 0 0 0 3px rgba($primary-blue, 0.2);
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: #999999;
+}
+
+/* --- 信箱輸入和按鈕組合 --- */
+.email-input-btn-group {
+    display: flex; // 保持 flexbox 佈局
+    gap: 10px; // 輸入框和按鈕之間的間距
+    align-items: center; // 垂直居中對齊
+    // *** 新增 flex-wrap: nowrap; 確保不換行 ***
+    flex-wrap: nowrap;
+}
+
+.email-input {
+    flex-grow: 1; // 讓輸入框佔據剩餘空間
+    min-width: 0; /* 允許輸入框在必要時縮小 */
+}
+
+/* --- 按鈕樣式 (通用和特定) --- */
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+    transition: background-color $button-hover-transition, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+.btn-primary {
+    background-color: $primary-blue;
+}
+
+.btn-primary:hover {
+    background-color: $primary-dark-blue;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+    background-color: $accent-green;
+}
+
+.btn-secondary:hover {
+    background-color: $accent-dark-green;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-send-verification {
+    background-color: darken($primary-blue, 10%);
+    // *** 調整 padding，讓按鈕看起來更寬一點，並確保文字能在一行顯示 ***
+    padding: 10px 20px; // 適度增加左右 padding
+    font-size: 15px;
+    box-shadow: none;
+    border-radius: 6px;
+    // *** 新增 flex-shrink: 0; 防止按鈕縮小，確保其完整顯示 ***
+    flex-shrink: 0;
+    // *** 可以固定寬度，但用 flex-shrink: 0 配合 padding 更靈活 ***
+    // width: auto; // 讓寬度根據內容自適應，但受 padding 影響
+    min-width: 100px; /* 確保按鈕在內容少的時候也有一定寬度 */
+
+
+    &:hover {
+        background-color: darken($primary-blue, 20%);
+        transform: none;
+        box-shadow: none;
+    }
+}

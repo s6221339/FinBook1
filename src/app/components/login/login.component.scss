@@ -1,0 +1,63 @@
+/* --- 顏色變數定義 (與之前智能記帳本頁面保持一致) --- */
+$primary-blue: #1976D2; // 藍色，來自智能記帳本的頂部導航欄
+$primary-dark-blue: #1565C0; // 藍色hover或深色變體
+$accent-green: #4CAF50; // 綠色，來自智能記帳本的登入按鈕
+$accent-dark-green: #388E3C; // 綠色hover或深色變體
+
+// 背景漸變色，與智能記帳本頁面風格統一
+$light-blue-gradient-start: #BBDEFB; // 淺藍色
+$light-blue-gradient-end: #E3F2FD; // 更淺的藍色
+
+$card-background: #FFFFFF; // 卡片背景色
+$text-color: #333333; // 主要文字顏色
+$label-color: #555555; // 標籤文字顏色
+$input-border-color: #CCCCCC; // 輸入框邊框顏色
+$input-focus-border-color: $primary-blue; // 輸入框聚焦時邊框顏色
+$button-hover-transition: 0.3s ease; // 按鈕hover過渡效果
+
+$gradient-blue: #1976D2; // 藍色
+$gradient-pink-purple: #FF1493; // 紫色 (Material Design Purple 700)
+
+/* --- 全局樣式和背景 --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; // 更好的字體選擇
+    -webkit-font-smoothing: antialiased; // 字體抗鋸齒
+    -moz-osx-font-smoothing: grayscale; // 字體抗鋸齒
+}
+
+.background {
+    width: 100vw; // 確保全視窗寬度
+    height: 100vh; // 確保全視窗高度
+    display: grid;
+    place-items: center; /* 水平和垂直居中 */
+    // 漸變背景使用智能記帳本的藍色漸變，讓整體風格統一
+    background: linear-gradient(to bottom right, $light-blue-gradient-start, $light-blue-gradient-end);
+    overflow: hidden; // 防止內容超出後出現滾動條
+}
+
+.area { // 用來裝放內容用的div 方便我調textArea的位置
+    width: 90%; // 適度調整寬度，讓內容更集中
+    max-width: 500px; // 設定最大寬度，避免在大螢幕上過寬
+    height: auto; // 高度自適應內容
+    background-color: transparent; // 移除背景色，讓漸變背景透出
+    display: flex; // 使用 flexbox 佈局
+    justify-content: center; // 水平居中
+    align-items: center; // 垂直居中
+    padding: 20px; // 內部留白
+    box-sizing: border-box; // 包含 padding 在寬高內
+}
+
+.textArea { // 放輸入格跟按鈕的那個div
+    width: 100%; // 佔滿 .area 的寬度
+    background-color: $card-background; // 使用白色作為卡片背景
+    padding: 40px; // 增加內邊距
+    border-radius: 12px; // 更大的圓角
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); // 柔和且明顯的陰影效果
+    text-align: center; // 預設文字居中
+    box-sizing: border-box; // 包含 padding 在寬高內
+    border: 1px solid rgba(0, 0, 0, 0.05); // 輕微的邊框
+}
+
+/* ---

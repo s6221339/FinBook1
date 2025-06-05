@@ -8,6 +8,15 @@
 /* 每個區塊的容器 */
 .container {
   margin-bottom: 20px;
+  max-width: 600px;      /* 限制最大寬度，讓畫面置中 */
+}
+
+/* 使用說明區塊 */
+.instruction-container {
+  background-color: #f9f9f9;  /* 淡灰背景做區隔 */
+  border: 1px solid #e0e0e0;
+  padding: 12px;
+  border-radius: 4px;
 }
 
 /* 標籤設定：固定寬度、加粗及右邊距 */
@@ -27,7 +36,23 @@ select {
   margin-right: 10px;
 }
 
-/* 按鈕樣式設定：背景色、無邊框、圓角、懸停效果 */
+/* 輸入區排版：讓 label、input、按鈕在同一行 */
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+/* 「取消」按鈕的深灰色樣式 */
+.cancel-btn {
+  background-color: #6c757d;
+  margin-left: 4px;
+}
+
+.cancel-btn:hover {
+  background-color: #5a6268;
+}
+
+/* 「新增」按鈕樣式 */
 button {
   padding: 5px 10px;
   background-color: #007BFF;
@@ -41,13 +66,42 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* 列表樣式 */
-ul {
-  list-style-type: none;
-  padding: 0;
+/* 卡片式可捲動區塊 */
+.subitems-container {
+  max-height: 300px;           /* 固定高度，超過會垂直捲動 */
+  overflow-y: auto;            /* 垂直捲動 */
+  padding: 8px;                /* 內邊距 */
+  border: 1px solid #ddd;      /* 淺灰邊框 */
+  border-radius: 4px;          /* 圓角 */
+  background-color: #fafafa;   /* 淡灰背景 */
 }
 
-li {
-  padding: 5px 0;
-  border-bottom: 1px solid #ddd;
+/* 每個分類群組的標題 */
+.category-title {
+  margin: 8px 0 4px 0;
+  font-size: 16px;
+  color: #333;
+  border-bottom: 1px dashed #ccc;
+  padding-bottom: 4px;
+}
+
+/* 每筆細項的清單 */
+.item-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+
+/* 每個細項卡片 */
+.item-card {
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }

@@ -1,39 +1,66 @@
 <div>
   <h2>新增細項</h2>
 
-  <!-- 主分類選擇區塊 -->
+  <!-- 使用說明：放在標題下方 -->
+  <div class="container instruction-container">
+    <p><strong>使用說明：</strong></p>
+    <ol>
+      <li>從「主分類」下拉選單中，選擇您要新增細項的分類。</li>
+      <li>在「細項名稱」欄位中，輸入要新增的項目名稱（例如：「停車費」、「午餐」）。</li>
+      <li>按下「新增」按鈕，系統會自動將新資料送到伺服器並顯示提示。</li>
+      <li>若要放棄輸入，請點擊「取消」按鈕，輸入框內容將被清空。</li>
+      <li>新增成功後，您會在下方分組列表中看到剛剛加入的細項，並依分類顯示。</li>
+      <li>若想查閱或修改其他細項，可在列表中尋找對應分類與項目。</li>
+    </ol>
+  </div>
+
+  <!-- 主分類下拉選單 -->
   <div class="container">
-    <label for="mainCategory">主分類:</label>
+    <label for="mainCategory">主分類：</label>
     <select id="mainCategory" [(ngModel)]="selectedCategory">
-      <option value="" disabled selected>請選擇主分類</option>
-      <!-- 使用 @for 產生主分類選項 -->
-      @for (cat of mainCategories; track cat.value) {
-        <option [value]="cat.value">
-          {{ cat.label }}
-        </option>
+      <option value="" disabled selected>請選擇分類</option>
+      @for (cat of mainCategories; track cat) {
+        <option [value]="cat">{{ cat }}</option>
       }
     </select>
   </div>
 
-  <!-- 細項輸入與新增按鈕區塊 -->
-  <div class="container">
-    <label for="subItem">細項名稱:</label>
-    <input id="subItem" type="text" [(ngModel)]="newSubItem" placeholder="請輸入細項名稱" />
+  <!-- 細項輸入框 + 按鈕群 -->
+  <div class="container input-group">
+    <label for="subItem">細項名稱：</label>
+    <input
+      id="subItem"
+      type="text"
+      [(ngModel)]="newSubItem"
+      placeholder="請輸入細項名稱"
+    />
     <button (click)="addSubItem()">新增</button>
+    <button (click)="cancel()" class="cancel-btn">取消</button>
   </div>
 
-  <!-- 使用 @if 顯示目前已新增的細項列表 -->
+  <!-- 目前細項分組列表 -->
   @if (subItems.length > 0) {
-    <div class="container">
+    <div class="container" style="margin-top: 24px;">
       <h3>目前細項列表</h3>
-      <ul>
-        <!-- 使用 @for 列出每筆細項資料 -->
-        @for (item of subItems; track item.id || $index) {
-          <li>
-            主分類：{{ item.type }} - 細項：{{ item.label }}
-          </li>
+
+      <!-- 可捲動區塊，限制高度避免頁面過長 -->
+      <div class="subitems-container">
+        <!-- 依 mainCategories 分組顯示 -->
+        @for (cat of mainCategories; track cat) {
+          <div class="category-group">
+            <!-- 分類標題 -->
+            <h4 class="category-title">{{ cat }}</h4>
+            <!-- 取 groupedSubItems[cat] 作為此分類下的所有細項 -->
+            <ul class="item-list">
+              @for (item of groupedSubItems[cat]; track item.value) {
+                <li class="item-card">
+                  • {{ item.label }}
+                </li>
+              }
+            </ul>
+          </div>
         }
-      </ul>
+      </div>
     </div>
   }
 </div>

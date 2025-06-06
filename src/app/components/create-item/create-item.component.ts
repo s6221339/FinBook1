@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ApiService } from '../../@services/api.service';
 import { AxiosResponse } from 'axios';
 import Swal from 'sweetalert2';
@@ -17,10 +17,15 @@ import Swal from 'sweetalert2';
   styleUrl: './create-item.component.scss'
 })
 export class CreateItemComponent {
-constructor(
+/**
+  * 建構子：注入我們自訂的 ApiService
+  * @param apiService 用來呼叫後端 API（axios 版）
+  */
+  constructor(
     private apiService: ApiService,
     private router: Router,
-  ) {}
+    private route: ActivatedRoute
+  ) { }
 
   /**
    * categories: 從後端拿回的 paymentTypeList 裡面所有不重複的 type
@@ -196,15 +201,18 @@ constructor(
           }
 
           // 5. 清空 newItem
-          this.newItem = ""
+          this.newItem = "";
         } else {
-          Swal.fire("新增失敗，請稍後再試", "", "error")
+          Swal.fire("新增失敗，請稍後再試", "", "error");
         }
       })
       .catch((err: any) => {
-        console.error("addItem() 發生錯誤 =", err)
-        Swal.fire("網路或伺服器錯誤，請稍後再試", "", "error")
-      })
+        console.error("addItem() 發生錯誤 =", err);
+        Swal.fire("網路或伺服器錯誤，請稍後再試", "", "error");
+      });
+    //  優先從 queryParams 抓 From ，如果沒有就預設回/home
+    const from = this.route.snapshot.queryParamMap.get('from') ?? 'home';
+    this.router.navigateByUrl(from);
   }
 
   /**
@@ -219,7 +227,9 @@ constructor(
    * 返回首頁
    */
   cancel(): void {
-    this.router.navigate(["/home"])
+    //  優先從 queryParams 抓 From ，如果沒有就預設回/home
+    const from = this.route.snapshot.queryParamMap.get('from') ?? 'home';
+    this.router.navigateByUrl(from);
   }
 
   /**

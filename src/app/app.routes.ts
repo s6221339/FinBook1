@@ -10,6 +10,8 @@ import { TestComponent } from './components/test/test.component';
 import { CreateItemComponent } from './components/create-item/create-item.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { MemberCenterComponent } from './components/member-center/member-center.component';
+import { MemberInfoComponent } from './components/member-info/member-info.component';
 
 
 
@@ -28,6 +30,9 @@ export const routes: Routes = [
     },{
       path: '', component: ExpensesComponent
     }]},
+    {path:'memberCenter', component: MemberCenterComponent,
+    children: [{path: 'memberInfo', component: MemberInfoComponent}]},
+
   {path:'test', component: TestComponent},
   {path:'createItem', component: CreateItemComponent},
   {path: 'login', component: LoginComponent },

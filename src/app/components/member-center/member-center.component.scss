@@ -1,0 +1,99 @@
+/* --- 顏色變數定義 (保持不變) --- */
+$primary-blue: #1976D2;
+$primary-dark-blue: #1565C0;
+$accent-green: #4CAF50;
+$accent-dark-green: #388E3C;
+
+// 頁面背景漸變色 (現在會有兩個方向)
+$page-gradient-start: #FFFFFF; // 白色作為頁面背景的起始色
+$page-gradient-end: #E3F2FD; // 淺藍色作為頁面背景的結束色 (與之前的 light-blue-gradient-end 相同)
+
+// 子路由內容區域的漸變色 (保持之前定義的淺藍到更淺藍)
+$content-area-gradient-start: #BBDEFB; // 淺藍色
+$content-area-gradient-end: #E3F2FD; // 更淺藍色
+
+$card-background: #FFFFFF;
+$text-color: #333333;
+$label-color: #555555;
+$input-border-color: #CCCCCC;
+$input-focus-border-color: $primary-blue;
+$button-hover-transition: 0.3s ease;
+
+// 漸變色的起始和結束顏色變數 (用於標題和標籤文字)
+$gradient-blue: #1976D2;
+$gradient-pink-purple: #FF1493;
+
+/* --- 全局容器樣式 --- */
+.member-center-container {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+
+    // *** 核心：父路由頁面背景，由左至右，由白至藍 ***
+    background: linear-gradient(to right, $page-gradient-start, $page-gradient-end);
+}
+
+/* --- 會員中心頂部標題區塊 (保持不變) --- */
+.member-center-header {
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+}
+
+/* --- 「會員中心」標題樣式 (保持不變) --- */
+.member-center-title {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 20px;
+
+    // 文字漸變方向：從右到左 (保持與您要求的相反方向)
+    background: linear-gradient(to left, $gradient-blue, $gradient-pink-purple);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: $gradient-blue; // Fallback color
+}
+
+/* --- 導航連結樣式 (保持不變) --- */
+.member-center-nav {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+
+    a {
+        text-decoration: none;
+        color: $primary-blue;
+        font-size: 18px;
+        font-weight: 500;
+        padding: 8px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+
+        &:hover {
+            background-color: lighten($primary-blue, 40%);
+            color: $primary-dark-blue;
+        }
+
+        &.active {
+            background-color: $primary-blue;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    }
+}
+
+/* --- 子路由內容顯示區域的背景和尺寸 --- */
+.member-center-content-area {
+    width: 90%;
+    max-width: 900px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+}

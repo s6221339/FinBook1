@@ -67,4 +67,8 @@ export class AppComponent {
   goLogin(){
     this.router.navigate(['/login']);
   }
+  // 前往首頁
+  toHome() {
+    this.router.navigate(['/home']);
+  }
 }

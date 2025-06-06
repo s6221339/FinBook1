@@ -1,26 +1,33 @@
-
 <!-- 頁首區域 -->
 <header class="header" [class.scrolled]="scrolled" [class.show]="true">
   <div class="header-container">
 
     <!-- Logo和應用程式名稱 -->
     <div class="logo-container">
-      <img src="/notebook-while.gif" alt="智能記帳本Logo" class="logo">
-      <h1 class="app-name"  routerLink="/home">智能記帳</h1>
+        <div class="logo-wrapper">
+        <img src="notebook-while.gif" alt="" class="logo">
+        </div>
+      <h1 class="app-name" (click)="toHome()">智能錢包</h1>
     </div>
 
     <!-- 導航選單 -->
     <nav class="nav-links">
-      <!-- 首頁連結 - routerLinkActive="active"會在當前頁面時添加active類 -->
-      <a routerLink="/home" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <!-- 首頁連結 -->
+      <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <span class="material-icons">home</span>
         首頁
       </a>
 
       <!-- 記帳功能連結 -->
-      <a routerLink="/accounting" class="nav-link" routerLinkActive="active" (click)="goBookKeeping()">
+      <a class="nav-link" routerLinkActive="active" (click)="goBookKeeping()">
         <span class="material-icons">add_circle</span>
         記帳
+      </a>
+
+      <!-- 帳本功能連結 -->
+      <a routerLink="/books" class="nav-link" routerLinkActive="active">
+        <span class="material-icons">book</span>
+        帳本
       </a>
 
       <!-- 統計報表連結 -->
@@ -71,7 +78,7 @@
             @if (!isLoggedIn) {
               <!-- 未登入選單選項 -->
               <a routerLink="/login" class="menu-item">
-                <span class="material-icons"(click)="goLogin()">login</span>
+                <span class="material-icons">login</span>
                 登入
               </a>
               <a routerLink="/register" class="menu-item">
@@ -114,6 +121,10 @@
       <a routerLink="/" class="mobile-nav-link" (click)="toggleMenu()">
         <span class="material-icons">home</span>
         首頁
+      </a>
+      <a routerLink="/books" class="mobile-nav-link" (click)="toggleMenu()">
+        <span class="material-icons">book</span>
+        帳本
       </a>
       <a routerLink="/accounting" class="mobile-nav-link" (click)="toggleMenu()">
         <span class="material-icons">add_circle</span>
@@ -162,10 +173,10 @@
 </header>
 
 <!-- 主要內容區域 -->
-<div class="main-content">
+<main class="main-content">
   <!-- 這裡會顯示不同頁面的內容 -->
   <router-outlet></router-outlet>
-</div>
+</main>
 
 <!-- 頁尾區域 -->
 <footer class="footer">
@@ -176,9 +187,9 @@
 
       <!-- 應用程式介紹區塊 -->
       <div class="footer-section">
-        <h3 class="footer-title">智能記帳本</h3>
+        <h3 class="footer-title">智能錢包</h3>
         <p class="footer-description">
-          結合AI技術的智能記帳應用，支援家庭共同記帳，幫助您輕鬆管理財務，實現財務目標。
+          結合AI技術的智能錢包應用，支援家庭共同記帳，幫助您輕鬆管理財務，實現財務目標。
         </p>
       </div>
 
@@ -213,11 +224,11 @@
         <ul class="contact-info">
           <li>
             <span class="material-icons">location_on</span>
-            <span>高雄市前鎮區復興四路10號</span>
+            <span>台北市信義區信義路五段7號</span>
           </li>
           <li>
             <span class="material-icons">phone</span>
-            <span>07 330 9195</span>
+            <span>+886 2 1234 5678</span>
           </li>
           <li>
             <span class="material-icons">email</span>
@@ -260,7 +271,7 @@
     <div class="footer-bottom">
       <!-- 版權資訊 -->
       <div class="copyright">
-        © {{currentYear}} 智能記帳. 保留所有權利.
+        © {{currentYear}} 智能錢包. 保留所有權利.
       </div>
 
       <!-- 法律連結 -->
@@ -279,4 +290,3 @@
     </button>
   }
 </footer>
-

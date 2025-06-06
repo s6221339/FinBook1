@@ -8,13 +8,30 @@
       <!-- 左側文字內容 -->
       <div class="hero-content">
         <h1 class="hero-title">
-          智能記帳，<span class="gradient-text">讓理財變簡單</span>
+          智慧帳本
+          <div class="hero-subtitle">AI驅動的智能記帳工具</div>
         </h1>
 
         <p class="hero-description">
           結合AI技術的現代記帳應用，支援家庭共同記帳，
           幫助您輕鬆追蹤每一筆支出，實現財務目標。
         </p>
+
+        <!-- 特色亮點 -->
+        <div class="hero-highlights">
+          <div class="highlight-item">
+            <span class="material-icons">auto_awesome</span>
+            <span>AI分析</span>
+          </div>
+          <div class="highlight-item">
+            <span class="material-icons">family_restroom</span>
+            <span>家庭共享</span>
+          </div>
+          <div class="highlight-item">
+            <span class="material-icons">security</span>
+            <span>簡單記帳</span>
+          </div>
+        </div>
 
         <!-- 行動按鈕 -->
         <div class="hero-buttons">
@@ -29,26 +46,21 @@
         </div>
       </div>
 
-      <!-- 右側圖片 -->
+      <!-- 右側輪播圖片區域 -->
       <div class="hero-image">
-        <!-- <img src="/placeholder.svg?height=500&width=500" alt="智能記帳本示意圖" class="main-image"> -->
-
-        <!-- 浮動裝飾元素 -->
-        <div class="floating-card card-1">
-          <span class="material-icons">trending_up</span>
-          <span>智能儲蓄</span>
+        <!-- 輪播容器 -->
+        <div class="carousel-container">
+          <!-- 圖片輪播 -->
+          <div class="carousel-images">
+            @for (image of carouselImages; track $index) {
+              <img
+                [src]="image.src"
+                [alt]="image.alt"
+                [class]="'carousel-image ' + ($index === currentImageIndex ? 'active' : '')"
+              >
+            }
+          </div>
         </div>
-
-        <div class="floating-card card-2">
-          <span class="material-icons">analytics</span>
-          <span>財務分析</span>
-        </div>
-
-        <div class="floating-card card-3">
-          <span class="material-icons">family_restroom</span>
-          <span>家庭共享</span>
-        </div>
-
       </div>
     </div>
   </section>
@@ -59,15 +71,14 @@
 
       <!-- 區塊標題 -->
       <div class="section-header">
-        <h2 class="section-title">為什麼選擇智能記帳本？</h2>
+        <h2 class="section-title">為什麼選擇智能錢包？</h2>
         <p class="section-subtitle">
-          我們提供最先進的記帳功能，讓您的財務管理更輕鬆、更智能
+          我們提供最先進的AI記帳功能，讓您的財務管理更輕鬆、更智能
         </p>
       </div>
 
       <!-- 功能卡片網格 -->
       <div class="features-grid">
-        <!-- 使用 @for 迴圈顯示每個功能 -->
         @for (feature of features; track feature.title) {
           <div class="feature-card">
             <!-- 功能圖標 -->
@@ -88,6 +99,53 @@
             </a>
           </div>
         }
+      </div>
+    </div>
+  </section>
+
+  <!-- 使用步驟區塊 -->
+  <section class="steps-section">
+    <div class="section-container">
+
+      <div class="section-header">
+        <h2 class="section-title">三步驟開始智能記帳</h2>
+        <p class="section-subtitle">
+          簡單三步驟，立即體驗AI驅動的記帳體驗
+        </p>
+      </div>
+
+      <div class="steps-container">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3 class="step-title">註冊帳戶</h3>
+            <p class="step-description">快速註冊，設定您的個人資料和理財目標</p>
+          </div>
+        </div>
+
+        <div class="step-arrow">
+          <span class="material-icons">arrow_forward</span>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3 class="step-title">開始記帳</h3>
+            <p class="step-description">輕鬆記錄收支，AI自動分類和分析</p>
+          </div>
+        </div>
+
+        <div class="step-arrow">
+          <span class="material-icons">arrow_forward</span>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3 class="step-title">獲得洞察</h3>
+            <p class="step-description">查看AI分析報告，優化您的財務狀況</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -127,4 +185,3 @@
   </section>
 
 </div>
-

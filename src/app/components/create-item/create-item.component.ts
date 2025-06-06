@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ApiService } from '../../@services/api.service';
 import { AxiosResponse } from 'axios';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-create-item',
   imports: [
+    RouterOutlet,
     CommonModule,
     RouterModule,
     FormsModule,
@@ -16,223 +17,223 @@ import Swal from 'sweetalert2';
   styleUrl: './create-item.component.scss'
 })
 export class CreateItemComponent {
-
-  /**
-  * 建構子：注入我們自訂的 ApiService
-  * @param apiService 用來呼叫後端 API（axios 版）
-  */
-  constructor(
+constructor(
     private apiService: ApiService,
     private router: Router,
-    private route: ActivatedRoute
-  ) { }
-
-   /**
-   * mainCategories: 存放所有不重複的主分類 (type) 字串
-   * 例如 ['交通', '其他', '娛樂', …]
-   */
-  mainCategories: string[] = [];
-
-  /** 使用者目前選到的主分類 (type)，與 <select> 雙向綁定 */
-  selectedCategory: string = '';
-
-  /** 使用者在「細項名稱」欄位輸入的文字，與 <input> 雙向綁定 */
-  newSubItem: string = '';
+  ) {}
 
   /**
-   * subItems: 用來顯示列表的資料，每筆包含:
-   *  - id: any（目前沒有後端回傳的 id，暫留空字串）
-   *  - type: 主分類
-   *  - label: 細項名稱 (item)
-   *  - value: 經過 toLowerCase() + replace(/\s/g, '_') 處理的值，用於前端比對
+   * categories: 從後端拿回的 paymentTypeList 裡面所有不重複的 type
+   * （對應後端欄位 paymentTypeList[i].type）
    */
-  subItems: { id: any; type: string; label: string; value: string }[] = [];
+  categories: string[] = []
 
   /**
-   * groupedSubItems: 將 subItems 按 type 分組後的字典
-   * keyed by type，value 是同一 type 底下的所有項目陣列
+   * selectedCategory: 綁在下拉選單 (主分類)，例如 "交通"、"飲食"
+   * 由使用者選擇
    */
-  groupedSubItems: {
-    [type: string]: Array<{ id: any; type: string; label: string; value: string }>
-  } = {};
-
-  /** 模擬目前登入使用者的帳號，實際可由 AuthService 取得 */
-  currentAccount: string = 'a6221339';
+  selectedCategory = ""
 
   /**
-   * ngOnInit: Angular 元件初始化完成後會執行
-   * 這裡我們呼叫 fetchMainCategories() 來從後端取得「所有歷史的 (type, item)」。
+   * newItem: 綁在輸入框 (細項名稱)，例如 "停車費"、"咖啡"
+   * 使用者輸入
    */
+  newItem = ""
+
+  /**
+   * paymentTypeList: 後端真正回傳的陣列，
+   * 每個元素是 { type: string, item: string }
+   */
+  paymentTypeList: { type: string; item: string }[] = []
+
+  /**
+   * groupedItems: 把 paymentTypeList 按 type 分組後的字典
+   * keyed by type（主分類字串），value 是該分類底下所有 { type, item }
+   */
+  groupedItems: {
+    [type: string]: Array<{ type: string; item: string }>
+  } = {}
+
+  /**
+   * collapsed: 紀錄每個分類是否收合
+   * keyed by type，value = true 表示「已收合」、false 表示「展開」
+   */
+  collapsed: { [type: string]: boolean } = {}
+
+  /** 模擬目前登入的帳號；後續可改由 AuthService 提供 */
+  currentAccount = "a6221339"
+
+  /** ngOnInit：元件初始化完成後，載入後端資料 */
   ngOnInit(): void {
-    console.log('ngOnInit()：開始執行 fetchMainCategories()');
-    this.fetchMainCategories();
+    this.fetchAllItems()
   }
 
   /**
-   * fetchMainCategories(): 從後端取得所有 { type, item }，
-   * 並且：
-   *   1. 把所有不重複的 type 存到 mainCategories（用於下拉選單）。
-   *   2. 把每筆 { type, item } 轉成 subItems 需要的格式，用於分組列表顯示。
-   *   3. 將 subItems 按 type 分組，存到 groupedSubItems 以便模板直接使用。
+   * fetchAllItems():
+   * 1. 呼叫後端 getType API 拿到 paymentTypeList
+   * 2. 用 forEach 把資料暫存到 this.paymentTypeList
+   * 3. 用 forEach + filter 將資料分組到 groupedItems
+   * 4. 初始化 collapsed 對應每個分類為展開 (false)
    */
-  fetchMainCategories(): void {
-    console.log(
-      'fetchMainCategories()：呼叫 ApiService.getTypeByAccount(',
-      this.currentAccount,
-      ')'
-    );
-
-    this.apiService.getTypeByAccount(this.currentAccount)
+  fetchAllItems(): void {
+    this.apiService
+      .getTypeByAccount(this.currentAccount)
       .then((response: AxiosResponse<any>) => {
-        console.log('fetchMainCategories() then() 收到 response.data =', response.data);
+        // 後端 response.data 應包含 { code, message, paymentTypeList }
+        console.log("後端回傳 response.data =", response.data)
 
-        // 從 response.data 中取出 paymentTypeList
-        const allItems: { type: string; item: string }[] = response.data.paymentTypeList || [];
-        console.log('fetchMainCategories() then() 解構後 allItems =', allItems);
+        // 取出真正的 paymentTypeList (陣列)
+        const list: { type: string; item: string }[] = response.data.paymentTypeList || []
 
-        // 用 Set 收集不重複的 type
-        const typeSet = new Set<string>();
+        // 先清空所有
+        this.paymentTypeList = []
+        this.categories = []
+        this.groupedItems = {}
+        this.collapsed = {}
 
-        // 先清空 subItems 及 groupedSubItems
-        this.subItems = [];
-        this.groupedSubItems = {};
+        // 1. 把所有拿到的元素放進 this.paymentTypeList
+        list.forEach((vo) => {
+          // vo.type 對應後端的 type
+          // vo.item 對應後端的 item
+          this.paymentTypeList.push({ type: vo.type, item: vo.item })
+        })
 
-        // 逐筆處理並填充 subItems
-        allItems.forEach((vo: { type: string; item: string }) => {
-          typeSet.add(vo.type);
+        // 2. 用一個 Set 先收集所有不重複的 type
+        const typeSet = new Set<string>()
+        this.paymentTypeList.forEach((vo) => {
+          typeSet.add(vo.type)
+        })
+        // 再把 Set 轉成陣列存到 this.categories
+        this.categories = Array.from(typeSet)
 
-          const entry = {
-            id: '',
-            type: vo.type,
-            label: vo.item,
-            value: vo.item.toLowerCase().replace(/\s/g, '_')
-          };
-          // 把History資料 push 進 subItems
-          this.subItems.push(entry);
-        });
+        // 3. 按分類分組到 groupedItems
+        this.categories.forEach((cat) => {
+          // filter 出 this.paymentTypeList 裡面 type === cat 的項目
+          const itemsOfCat = this.paymentTypeList.filter((entry) => entry.type === cat)
+          this.groupedItems[cat] = itemsOfCat
+          // 一開始就縮起來
+          this.collapsed[cat] = true
+        })
 
-        // 构造 mainCategories 陣列
-        this.mainCategories = Array.from(typeSet);
-
-        // 分組 subItems，依 type 建立 groupedSubItems
-        this.mainCategories.forEach((cat) => {
-          this.groupedSubItems[cat] = this.subItems.filter(item => item.type === cat);
-        });
-
-        console.log('fetchMainCategories() then() 處理後 mainCategories =', this.mainCategories);
-        console.log('fetchMainCategories() then() groupedSubItems =', this.groupedSubItems);
+        console.log("分組後 groupedItems =", this.groupedItems)
+        console.log("collapsed 初始狀態 =", this.collapsed)
       })
       .catch((error: any) => {
-        console.error('fetchMainCategories() catch() 錯誤 =', error);
-        Swal.fire('無法載入歷史資料，請稍後再試', '', 'error');
-      });
+        console.error("fetchAllItems() 發生錯誤 =", error)
+        Swal.fire("無法載入分類資料，請稍後再試", "", "error")
+      })
   }
 
   /**
-   * addSubItem(): 處理「新增細項」的流程
-   *   a. 確認使用者已選擇主分類 (selectedCategory)
-   *   b. 確認 newSubItem (文字輸入) 並非空值
-   *   c. 在前端 subItems 中比對同一分類下是否已有相同 label 或 value
-   *   d. 若前端沒重複，呼叫 ApiService.createType() 送給後端最終檢查/新增
-   *   e. 若後端回傳 code === 200，顯示 SweetAlert2 成功提示，並把新項目 unshift 到 subItems／更新分組
-   *   f. 若後端回傳非 200 code，顯示錯誤提示
-   *   g. 新增完成後，清空輸入框
+   * addItem():
+   * 1. 確認已選分類，若沒選就彈 SweetAlert2 警告
+   * 2. 確認 newItem (細項名稱) 不是空字串，若空就彈警告
+   * 3. 用 forEach 檢查該分類底下是否已有相同 item
+   * 4. 與後端 createType API 溝通
+   * 5. 如果後端回 200，則把新項目 unshift 到 paymentTypeList、groupedItems
+   * 6. 清空 newItem
    */
-  addSubItem(): void {
-    // a. 如果 selectedCategory 是空字串，代表使用者還沒選分類
+  addItem(): void {
+    // 1. 若未選分類
     if (!this.selectedCategory) {
-      Swal.fire('請先選擇一個分類', '', 'warning');
-      return;
+      Swal.fire("請先選擇主分類", "", "warning")
+      return
     }
 
-    // b. 去除 newSubItem 前後空白後，如果還是空字串，就不做任何事
-    if (!this.newSubItem.trim()) {
-      return;
+    // 2. 若沒輸入細項
+    if (!this.newItem.trim()) {
+      Swal.fire("請輸入細項名稱", "", "warning")
+      return
     }
-    const inputLabel: string = this.newSubItem.trim();
-    const inputValue: string = inputLabel.toLowerCase().replace(/\s/g, '_');
+    const itemLabel = this.newItem.trim()
 
-    // c. 在前端 subItems 中比對同一分類底下的 label 或 value 是否重複
-    const localDuplicate: boolean = this.subItems.some((item) =>
-      item.type === this.selectedCategory &&
-      (
-        item.label.toLowerCase() === inputLabel.toLowerCase() ||
-        item.value === inputValue
-      )
-    );
-    if (localDuplicate) {
-      Swal.fire('此細項已在列表中，請勿重複新增', '', 'info');
-      return;
+    // 3. 用 forEach 檢查 groupedItems[選的分類] 裡是否有相同的 item
+    let isDuplicate = false
+    this.groupedItems[this.selectedCategory].forEach((entry) => {
+      if (entry.item.toLowerCase() === itemLabel.toLowerCase()) {
+        isDuplicate = true
+      }
+    })
+    if (isDuplicate) {
+      Swal.fire("此細項已存在，請勿重複新增", "", "error")
+      return
     }
 
-    // d. 前端沒重複，組成 payload 傳給後端
-    const payload: { type: string; item: string; account: string } = {
+    // 4. 呼叫後端 createType API
+    const payload = {
       type: this.selectedCategory,
-      item: inputLabel,
-      account: this.currentAccount
-    };
-    console.log('addSubItem()：呼叫 ApiService.createType，payload =', payload);
+      item: itemLabel,
+      account: this.currentAccount,
+    }
+    console.log("addItem() 傳 payload =", payload)
 
-    this.apiService.createType(payload)
+    this.apiService
+      .createType(payload)
       .then((res: AxiosResponse<any>) => {
-        console.log('addSubItem() then() 收到 res.data =', res.data);
-        // 若後端回傳 code === 200，視為新增成功
+        console.log("addItem() 收到 res.data =", res.data)
+        // 如果後端回 { code: 200, message: '成功！' }
         if (res.data.code === 200) {
-          // e. 新增成功
           Swal.fire({
-            title: '新增成功',
-            text: `"${inputLabel}" 已加入 "${this.selectedCategory}"`,
-            icon: 'success',
-            timer: 5000,
-            showConfirmButton: false
-          });
+            title: "新增成功",
+            text: `"${itemLabel}" 已加入 "${this.selectedCategory}"`,
+            icon: "success",
+            timer: 1500,
+            showConfirmButton: false,
+          })
 
-          // 把新資料 unshift 到 subItems (最新一筆在最上方)
-          const newEntry = {
-            id: '',
-            type: this.selectedCategory,
-            label: inputLabel,
-            value: inputValue
-          };
-          this.subItems.unshift(newEntry);
+          // 新增到 paymentTypeList
+          const newEntry = { type: this.selectedCategory, item: itemLabel }
+          this.paymentTypeList.unshift(newEntry)
 
-          // 更新分組：若 groupedSubItems 已有此分類，就 unshift；否則建立新分組
-          if (this.groupedSubItems[this.selectedCategory]) {
-            this.groupedSubItems[this.selectedCategory].unshift(newEntry);
+          // 新增到 groupedItems
+          if (this.groupedItems[this.selectedCategory]) {
+            this.groupedItems[this.selectedCategory].unshift(newEntry)
           } else {
-            this.groupedSubItems[this.selectedCategory] = [newEntry];
-            // 同時也要把分類加到 mainCategories
-            this.mainCategories.push(this.selectedCategory);
+            // 如果 groupedItems 裡本來沒有這個分類
+            this.groupedItems[this.selectedCategory] = [newEntry]
+            this.collapsed[this.selectedCategory] = false
+            this.categories.push(this.selectedCategory)
           }
 
-          // f. 清空輸入框
-          this.newSubItem = '';
+          // 5. 清空 newItem
+          this.newItem = ""
         } else {
-          // f. code ≠ 200，顯示錯誤提示
-          console.error('addSubItem() then() 後端回傳非200 code =', res.data);
-          Swal.fire('新增失敗，請稍後再試', '', 'error');
+          Swal.fire("新增失敗，請稍後再試", "", "error")
         }
       })
       .catch((err: any) => {
-        console.error('addSubItem() catch() 呼叫 createType 發生錯誤 =', err);
-        Swal.fire('網路或伺服器錯誤，請稍後再試', '', 'error');
-      });
-
-    //  優先從 queryParams 抓 From ，如果沒有就預設回/home
-    const from = this.route.snapshot.queryParamMap.get('from') ?? 'home';
-    this.router.navigateByUrl(from);
+        console.error("addItem() 發生錯誤 =", err)
+        Swal.fire("網路或伺服器錯誤，請稍後再試", "", "error")
+      })
   }
 
   /**
-   * cancel(): 處理「取消」按鈕的動作
-   * 1. 清空細項輸入框
-   * 2. (可選) 重設 selectedCategory，如果想要清掉分類
-   * 3.回到填寫款項頁面
+   * 清空表單
    */
-  cancel(): void {
-    //  優先從 queryParams 抓 From ，如果沒有就預設回/home
-    const from = this.route.snapshot.queryParamMap.get('from') ?? 'home';
-    this.router.navigateByUrl(from);
+  clearForm(): void {
+    this.selectedCategory = ""
+    this.newItem = ""
   }
 
+  /**
+   * 返回首頁
+   */
+  cancel(): void {
+    this.router.navigate(["/home"])
+  }
+
+  /**
+   * toggleCollapse(type): 切換指定分類的收合狀態
+   * collapsed[type] = !collapsed[type]
+   */
+  toggleCollapse(type: string): void {
+    this.collapsed[type] = !this.collapsed[type]
+  }
+
+  /**
+   * 計算總細項數量
+   */
+  getTotalItemCount(): number {
+    return this.paymentTypeList.length
+  }
 }

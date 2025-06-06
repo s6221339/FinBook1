@@ -1,66 +1,166 @@
-<div>
-  <h2>新增細項</h2>
-
-  <!-- 使用說明：放在標題下方 -->
-  <div class="container instruction-container">
-    <p><strong>使用說明：</strong></p>
-    <ol>
-      <li>從「主分類」下拉選單中，選擇您要新增細項的分類。</li>
-      <li>在「細項名稱」欄位中，輸入要新增的項目名稱（例如：「停車費」、「午餐」）。</li>
-      <li>按下「新增」按鈕，系統會自動將新資料送到伺服器並顯示提示。</li>
-      <li>若要放棄輸入，請點擊「取消」按鈕，輸入框內容將被清空。</li>
-      <li>新增成功後，您會在下方分組列表中看到剛剛加入的細項，並依分類顯示。</li>
-      <li>若想查閱或修改其他細項，可在列表中尋找對應分類與項目。</li>
-    </ol>
+<div class="create-item-page">
+  <!-- 頁面標題區域 -->
+  <div class="page-header">
+    <div class="header-content">
+      <button class="back-btn" (click)="cancel()">
+        <span class="material-icons">arrow_back</span>
+        取消
+      </button>
+      <h1 class="page-title">新增細項</h1>
+      <p class="page-subtitle">為您的記帳分類新增更詳細的細項</p>
+    </div>
   </div>
 
-  <!-- 主分類下拉選單 -->
-  <div class="container">
-    <label for="mainCategory">主分類：</label>
-    <select id="mainCategory" [(ngModel)]="selectedCategory">
-      <option value="" disabled selected>請選擇分類</option>
-      @for (cat of mainCategories; track cat) {
-        <option [value]="cat">{{ cat }}</option>
-      }
-    </select>
-  </div>
+  <div class="content-container">
 
-  <!-- 細項輸入框 + 按鈕群 -->
-  <div class="container input-group">
-    <label for="subItem">細項名稱：</label>
-    <input
-      id="subItem"
-      type="text"
-      [(ngModel)]="newSubItem"
-      placeholder="請輸入細項名稱"
-    />
-    <button (click)="addSubItem()">新增</button>
-    <button (click)="cancel()" class="cancel-btn">取消</button>
-  </div>
-
-  <!-- 目前細項分組列表 -->
-  @if (subItems.length > 0) {
-    <div class="container" style="margin-top: 24px;">
-      <h3>目前細項列表</h3>
-
-      <!-- 可捲動區塊，限制高度避免頁面過長 -->
-      <div class="subitems-container">
-        <!-- 依 mainCategories 分組顯示 -->
-        @for (cat of mainCategories; track cat) {
-          <div class="category-group">
-            <!-- 分類標題 -->
-            <h4 class="category-title">{{ cat }}</h4>
-            <!-- 取 groupedSubItems[cat] 作為此分類下的所有細項 -->
-            <ul class="item-list">
-              @for (item of groupedSubItems[cat]; track item.value) {
-                <li class="item-card">
-                  • {{ item.label }}
-                </li>
-              }
-            </ul>
+    <!-- 使用說明卡片 -->
+    <div class="instruction-card">
+      <div class="card-header">
+        <span class="material-icons">info</span>
+        <h3>使用說明</h3>
+      </div>
+      <div class="card-content">
+        <div class="steps-grid">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <p>選擇主分類</p>
           </div>
-        }
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <p>輸入細項名稱</p>
+          </div>
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <p>點擊新增按鈕</p>
+          </div>
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <p>查看新增結果</p>
+          </div>
+        </div>
       </div>
     </div>
-  }
+
+    <!-- 新增表單卡片 -->
+    <div class="form-card">
+      <div class="card-header">
+        <span class="material-icons">add_circle</span>
+        <h3>新增細項</h3>
+      </div>
+      <div class="card-content">
+
+        <!-- 主分類選擇 -->
+        <div class="form-group">
+          <label for="mainCategory">
+            <span class="material-icons">category</span>
+            主分類
+          </label>
+          <div class="select-wrapper">
+            <select id="mainCategory" [(ngModel)]="selectedCategory">
+              <option value="" disabled selected>請選擇分類</option>
+              @for (cat of categories; track cat) {
+                <option [value]="cat">{{ cat }}</option>
+              }
+            </select>
+            <span class="material-icons select-arrow">expand_more</span>
+          </div>
+        </div>
+
+        <!-- 細項名稱輸入 -->
+        <div class="form-group">
+          <label for="subItem">
+            <span class="material-icons">edit</span>
+            細項名稱
+          </label>
+          <div class="input-wrapper">
+            <input
+              id="subItem"
+              type="text"
+              [(ngModel)]="newItem"
+              placeholder="例如：停車費、午餐、咖啡..."
+              maxlength="20"
+            />
+            <span class="input-icon material-icons">label</span>
+          </div>
+        </div>
+
+        <!-- 按鈕群組 -->
+        <div class="button-group">
+          <button class="btn-primary" (click)="addItem()" [disabled]="!selectedCategory || !newItem.trim()">
+            <span class="material-icons">add</span>
+            新增細項
+          </button>
+          <button class="btn-secondary" (click)="clearForm()">
+            <span class="material-icons">clear</span>
+            清空
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 細項列表卡片 -->
+    @if (categories.length > 0) {
+      <div class="list-card">
+        <div class="card-header">
+          <span class="material-icons">list</span>
+          <h3>目前細項列表</h3>
+          <span class="item-count">共 {{ getTotalItemCount() }} 項</span>
+        </div>
+        <div class="card-content">
+          <div class="categories-container">
+            @for (cat of categories; track cat) {
+              <div class="category-section">
+
+                <!-- 分類標題 -->
+                <div class="category-header" (click)="toggleCollapse(cat)">
+                  <div class="category-info">
+                    <span class="category-icon material-icons">folder</span>
+                    <span class="category-name">{{ cat }}</span>
+                    <span class="item-badge">{{ groupedItems[cat]?.length || 0 }}</span>
+                  </div>
+                  <span class="toggle-icon material-icons">
+                    {{ collapsed[cat] ? 'expand_more' : 'expand_less' }}
+                  </span>
+                </div>
+
+                <!-- 細項列表 -->
+                @if (!collapsed[cat]) {
+                  <div class="items-grid">
+                    @for (entry of groupedItems[cat]; track entry.item) {
+                      <div class="item-chip">
+                        <span class="material-icons">label</span>
+                        {{ entry.item }}
+                      </div>
+                    }
+                    @if (groupedItems[cat]?.length === 0) {
+                      <div class="empty-state">
+                        <span class="material-icons">inbox</span>
+                        <p>此分類暫無細項</p>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- 空狀態 -->
+    @if (categories.length === 0) {
+      <div class="empty-card">
+        <div class="empty-content">
+          <span class="material-icons">category</span>
+          <h3>尚無分類資料</h3>
+          <p>請先建立主分類，再新增細項</p>
+          <button class="btn-primary" (click)="fetchAllItems()">
+            <span class="material-icons">refresh</span>
+            重新載入
+          </button>
+        </div>
+      </div>
+    }
+
+  </div>
 </div>

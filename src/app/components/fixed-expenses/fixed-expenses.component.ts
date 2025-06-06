@@ -9,13 +9,13 @@ import { Router } from '@angular/router';
 import { Category } from '../../models/categories';
 import { MatSelectModule } from '@angular/material/select';
 import { ApiService } from '../../@services/api.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-fixed-expenses',
   imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,MatFormFieldModule,
-    MatSelectModule],
+    MatSelectModule, FormsModule],
   providers: [provideNativeDateAdapter()],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   templateUrl: './fixed-expenses.component.html',
   styleUrl: './fixed-expenses.component.scss'
@@ -42,6 +42,9 @@ export class FixedExpensesComponent implements OnInit{
   amount?: number;  //  金額
   description?: string; //  款項描述
   account: string = "a6221339"; //  測試帳號
+  recurringPeriodYear?: number | null;  //  循環年數
+  recurringPeriodMonth?: number | null; //  循環月數
+  recurringPeriodDay?: number | null; //  循環天數
 
   ngOnInit(): void {
 

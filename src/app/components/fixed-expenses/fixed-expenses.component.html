@@ -1,9 +1,10 @@
 <div>
   <div>
+  <!-- 選擇日期 -->
   <mat-form-field class="example-full-width">
     <mat-label>請選擇第一筆生效日期</mat-label>
     <!-- 預設日期為今天 -->
-    <input matInput [matDatepicker]="picker" [value]="today" [min]="today" >
+    <input matInput [matDatepicker]="picker" [value]="today" [min]="today" required>
     <mat-hint>MM/DD/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker">
       <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
@@ -14,7 +15,18 @@
   <!-- 固定循環天數 -->
    <div>
     <h3>📅循環週期（天）</h3>
-    <input type="int" placeholder="請輸入循環天數"/>
+    <mat-form-field appearance="fill" style="width: 100px; margin-right: 10px;margin-left: 10px;">
+      <mat-label>年</mat-label>
+      <input matInput type="number" [(ngModel)]="recurringPeriodYear" min="0" placeholder="0"/>
+    </mat-form-field>
+    <mat-form-field appearance="fill" style="width: 100px; margin-right: 10px;">
+      <mat-label>月</mat-label>
+      <input matInput type="number" [(ngModel)]="recurringPeriodMonth" min="0" placeholder="0"/>
+    </mat-form-field>
+    <mat-form-field appearance="fill" style="width: 100px; margin-right: 10px;">
+      <mat-label>日</mat-label>
+      <input matInput type="number" [(ngModel)]="recurringPeriodDay" min="0" placeholder="0"/>
+    </mat-form-field>
    </div>
   <!-- 選擇帳戶 -->
   <div>

@@ -69,7 +69,10 @@ export class FixedExpensesComponent implements OnInit{
 
   goCreateItem(){
     this.paymentService.setFormData({
-      date: this.today,
+      recordDate: this.today,
+      recurringPeriodYear: null,
+      recurringPeriodMonth: null,
+      recurringPeriodDay: null,
       selectedUserName: this.selectedUserName,
       amount: this.amount ?? null,
       selectedType: this.selectedType ?? null,

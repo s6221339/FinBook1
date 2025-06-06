@@ -29,4 +29,17 @@ export class ApiService {
     });
   }
 
+  //  新增記帳款項
+  createPayment(data: any){
+    return axios({
+      url: 'http://localhost:8080/finbook/createPayment',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true,
+      data
+    });
+  }
+
 }

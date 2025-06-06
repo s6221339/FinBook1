@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ApiService } from '../../@services/api.service';
 import { AxiosResponse } from 'axios';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-create-item',
   imports: [
-    RouterOutlet,
     CommonModule,
     RouterModule,
     FormsModule,
@@ -17,6 +16,17 @@ import Swal from 'sweetalert2';
   styleUrl: './create-item.component.scss'
 })
 export class CreateItemComponent {
+
+  /**
+  * 建構子：注入我們自訂的 ApiService
+  * @param apiService 用來呼叫後端 API（axios 版）
+  */
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
+
    /**
    * mainCategories: 存放所有不重複的主分類 (type) 字串
    * 例如 ['交通', '其他', '娛樂', …]
@@ -48,12 +58,6 @@ export class CreateItemComponent {
 
   /** 模擬目前登入使用者的帳號，實際可由 AuthService 取得 */
   currentAccount: string = 'a6221339';
-
-  /**
-   * 建構子：注入我們自訂的 ApiService
-   * @param apiService 用來呼叫後端 API（axios 版）
-   */
-  constructor(private apiService: ApiService) { }
 
   /**
    * ngOnInit: Angular 元件初始化完成後會執行
@@ -213,16 +217,22 @@ export class CreateItemComponent {
         console.error('addSubItem() catch() 呼叫 createType 發生錯誤 =', err);
         Swal.fire('網路或伺服器錯誤，請稍後再試', '', 'error');
       });
+
+    //  優先從 queryParams 抓 From ，如果沒有就預設回/home
+    const from = this.route.snapshot.queryParamMap.get('from') ?? 'home';
+    this.router.navigateByUrl(from);
   }
 
   /**
    * cancel(): 處理「取消」按鈕的動作
    * 1. 清空細項輸入框
    * 2. (可選) 重設 selectedCategory，如果想要清掉分類
+   * 3.回到填寫款項頁面
    */
   cancel(): void {
-    this.newSubItem = '';
-    // 如果想要同時清除下拉選擇，取消下面這行註解即可
-    // this.selectedCategory = '';
+    //  優先從 queryParams 抓 From ，如果沒有就預設回/home
+    const from = this.route.snapshot.queryParamMap.get('from') ?? 'home';
+    this.router.navigateByUrl(from);
   }
+
 }

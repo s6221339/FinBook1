@@ -62,8 +62,6 @@ body {
     box-sizing: border-box; // 包含 padding 在寬高內
     border: 1px solid rgba(0, 0, 0, 0.05); // 輕微的邊框
 }
-<<<<<<< HEAD
-=======
 
 /* --- 輸入框部分 --- */
 .account, .password { // 帳號和密碼輸入區的共同樣式
@@ -169,4 +167,3 @@ br {
     -webkit-text-fill-color: transparent;
     color: $gradient-blue; // Fallback color
 }
->>>>>>> snowwind0723a

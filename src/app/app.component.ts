@@ -9,7 +9,7 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-
+  //  1236
   constructor(
     private router: Router
   ){}

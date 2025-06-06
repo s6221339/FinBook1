@@ -15,8 +15,11 @@ $input-border-color: #CCCCCC; // 輸入框邊框顏色
 $input-focus-border-color: $primary-blue; // 輸入框聚焦時邊框顏色
 $button-hover-transition: 0.3s ease; // 按鈕hover過渡效果
 
+// 調整漸變色的起始和結束顏色變數
 $gradient-blue: #1976D2; // 藍色
-$gradient-pink-purple: #FF1493; // 紫色 (Material Design Purple 700)
+
+// 將紫色替換為鮮豔的紫紅色
+$gradient-pink-purple: #FF1493; // 這裡選擇了 DeepPink，非常鮮豔
 
 /* --- 全局樣式和背景 --- */
 body {
@@ -60,4 +63,107 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.05); // 輕微的邊框
 }
 
-/* ---
+/* --- 輸入框部分 --- */
+.account, .password { // 帳號和密碼輸入區的共同樣式
+    margin-top: 25px; // 調整上方間距
+    margin-left: 0; // 移除固定左邊距，讓內容居中或自動對齊
+    text-align: left; // 讓標籤和輸入框左對齊
+}
+
+.account:first-child, .password:first-child { // 第一個表單組件上方不需要太大間距
+    margin-top: 0;
+}
+
+.accountLabel, .passwordLabel {
+    font-size: 20px; // 調整字體大小，更協調
+    font-weight: 600; // 適度加粗
+
+    // 添加漸變文字效果
+    background: linear-gradient(to right, $gradient-blue, $gradient-pink-purple);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: $gradient-blue; // Fallback color for browsers that don't support text fill
+    text-align: left;
+    display: block; // 讓標籤獨佔一行
+    margin-bottom: 8px; // 標籤與輸入框的間距
+}
+
+.accountInput, .passwordInput {
+    width: 100%; // 佔滿父容器的寬度
+    padding: 12px 15px; // 調整內邊距，更舒適
+    border: 1px solid $input-border-color; // 輕微的邊框
+    border-radius: 6px; // 輸入框圓角
+    font-size: 16px;
+    color: $text-color;
+    box-sizing: border-box; // 確保 padding 不會增加總寬度
+    transition: border-color $button-hover-transition, box-shadow $button-hover-transition; // 添加過渡效果
+}
+
+.accountInput:focus, .passwordInput:focus {
+    border-color: $input-focus-border-color; // 聚焦時邊框變藍
+    box-shadow: 0 0 0 3px rgba($primary-blue, 0.2); // 聚焦時柔和的藍色陰影
+    outline: none; // 移除瀏覽器預設的外框
+}
+
+/* 移除 <br> 標籤，用 margin-bottom 來控制間距，更現代且易於管理 */
+br {
+    display: none; // 隱藏原有的 <br>
+}
+
+/* --- 按鈕部分 --- */
+.BtnLogin, .BtnRegister { // 登入和註冊按鈕的共同樣式
+    border-radius: 8px; // 調整圓角，與卡片和輸入框保持一致
+    font-size: 18px; // 調整字體大小
+    font-weight: bold;
+    height: 50px;
+    width: 120px; // 固定按鈕寬度
+    margin: 15px 10px 0; // 調整間距，上方間距更多
+    border: none; // 移除邊框
+    cursor: pointer;
+    color: white; // 按鈕文字顏色
+    transition: background $button-hover-transition, transform 0.2s ease, box-shadow 0.2s ease; // 添加過渡效果
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); // 柔和的陰影
+}
+
+// 根據您的需求，將 BtnLogin 設為主色，BtnRegister 設為輔助色
+.BtnLogin { // 登入按鈕
+    background: $primary-blue; // 使用主要藍色
+    // 移除線性漸變，統一使用單色
+}
+
+.BtnLogin:hover {
+    background: $primary-dark-blue; // hover 時變深藍
+    transform: translateY(-2px); // 輕微上浮效果
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); // hover 時陰影更明顯
+}
+
+.BtnRegister { // 註冊按鈕
+    background: $accent-green; // 使用輔助綠色
+    // 移除線性漸變，統一使用單色
+}
+
+.BtnRegister:hover {
+    background: $accent-dark-green; // hover 時變深綠
+    transform: translateY(-2px); // 輕微上浮效果
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); // hover 時陰影更明顯
+}
+
+// 考慮到按鈕順序問題，通常主要按鈕（登入）會放在右邊或顏色最醒目。
+// 如果你的HTML是 <button class="BtnLogin">註冊</button><button class="BtnRegister">登入</button>
+// 則BtnLogin是左邊的“註冊”，BtnRegister是右邊的“登入”。
+// 我會基於您HTML的class名來定義，讓“登入”按鈕是主色，而“註冊”按鈕是輔助色。
+// 如果你想要”註冊”是主色，則把 $primary-blue 和 $accent-green 的顏色互換即可。
+
+// 你可能還想在 .textArea 內部增加一個標題，例如：
+// <h2 class="login-form-title">歡迎登入</h2>
+.login-title { // 或者 .login-form-title
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+
+    // 將漸變的結束顏色替換為新的紫紅色變數
+    background: linear-gradient(to right, $gradient-blue, $gradient-pink-purple);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: $gradient-blue; // Fallback color
+}

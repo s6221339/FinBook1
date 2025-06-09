@@ -71,4 +71,5 @@ export class AppComponent {
   toHome() {
     this.router.navigate(['/home']);
   }
+
 }

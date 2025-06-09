@@ -11,6 +11,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { ApiService } from '../../@services/api.service';
 import { FormsModule } from '@angular/forms';
 import { filter } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-expenses',
@@ -30,7 +31,7 @@ export class ExpensesComponent implements OnInit{
   ){}
 
   today: Date = new Date();
-  userNames: string[] = ["帳戶1", "帳戶2", "帳戶3"];
+  userNames: string[] = ["1", "2"];
   selectedUserName: string = this.userNames[0]; //  預設帳戶1
   type?: string;
   item?: string;
@@ -109,6 +110,14 @@ export class ExpensesComponent implements OnInit{
       this.selectedItem = this.categoriesFiltedItems[0];  //  預設
   }
 
+  //  輔助函數，把 Date 轉 YYYY-MM-DD
+  formatDate(date: Date): string{
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1 ).padStart(2, '0');  //  月份是 0~11
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   //  前往新增項目頁面
   goCreateItem(){
     //  設定 service 資料
@@ -137,7 +146,55 @@ export class ExpensesComponent implements OnInit{
 
   //  儲存返回首頁
   saveAndGoHome(){
-    this.router.navigate(['/home']);
+    //  檢查必要欄位
+    if(!this.selectedItem || !this.selectedType || !this.amount || !this.today){
+      Swal.fire({
+        icon: 'warning',
+        title: '資料不完整',
+        text: '請確認已填寫完整資料',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    //  組成要送出的 data
+    const payload = {
+      balanceId: this.selectedUserName,
+      description: this.description ?? '',
+      type: this.selectedType,
+      item: this.selectedItem,
+      amount: this.amount,
+      recurringPeriod: {
+        year: 0,
+        month: 0,
+        day: 0
+      },
+      recordDate: this.formatDate(this.today) //  轉後端要的日期格式
+    };
+
+    //  呼叫 API
+    this.apiService.createPayment(payload)
+    .then(() => {
+      //  成功，清空資料並跳回首頁
+      Swal.fire({
+        icon: 'success',
+        title: '記帳成功',
+        showConfirmButton: false,
+        timer: 1500  // 1.5 秒自動關閉
+      });
+      this.paymentService.cleanFormData();
+      this.router.navigate(['/home']);
+    })
+    .catch(err => {
+      console.error('儲存失敗', err);
+      Swal.fire({
+        icon: 'error',
+        title: '儲存失敗',
+        text: '請稍後再試',
+        confirmButtonText: '確定'
+      });
+    });
   }
+
 }
 

@@ -48,7 +48,7 @@
               </mat-option>
             }
           </mat-select>
-          <mat-hint>選擇支出的帳戶來源</mat-hint>
+          <mat-hint>選擇支出的帳戶來源：{{ selectedUserName }}</mat-hint>
         </mat-form-field>
       </div>
     </div>
@@ -67,7 +67,7 @@
             class="amount-input"
             placeholder="請輸入支出金額"
             [(ngModel)]="amount"
-            min="0"
+            min="1"
             step="1"
           />
         </div>

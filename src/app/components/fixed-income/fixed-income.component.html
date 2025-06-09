@@ -22,7 +22,7 @@
       <div class="form-group">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>請選擇第一筆生效日期</mat-label>
-          <input matInput [matDatepicker]="picker" [value]="today" [min]="today">
+          <input matInput [matDatepicker]="picker" [(ngModel)]="today" [min]="today" required>
           <mat-hint>選擇固定收入的首次生效日期</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker">
             <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
@@ -41,19 +41,19 @@
       <div class="form-group period-inputs">
         <mat-form-field appearance="outline">
           <mat-label>年</mat-label>
-          <input matInput type="number" min="0" placeholder="0"/>
+          <input matInput type="number" [(ngModel)]="recurringPeriodYear" min="0" placeholder="0"/>
           <mat-hint>每幾年</mat-hint>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>月</mat-label>
-          <input matInput type="number" min="0" placeholder="0"/>
+          <input matInput type="number" [(ngModel)]="recurringPeriodMonth" min="0" placeholder="0"/>
           <mat-hint>每幾月</mat-hint>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>日</mat-label>
-          <input matInput type="number" min="0" placeholder="0"/>
+          <input matInput type="number" [(ngModel)]="recurringPeriodDay" min="0" placeholder="0"/>
           <mat-hint>每幾日</mat-hint>
         </mat-form-field>
       </div>
@@ -75,7 +75,7 @@
               </mat-option>
             }
           </mat-select>
-          <mat-hint>選擇固定收入存入的帳戶</mat-hint>
+          <mat-hint>選擇固定收入存入的帳戶：{{ selectedUserName }}</mat-hint>
         </mat-form-field>
       </div>
     </div>
@@ -93,8 +93,9 @@
             type="number"
             class="amount-input"
             placeholder="請輸入固定收入金額"
-            min="0"
+            min="1"
             step="1"
+            [(ngModel)]="amount"
           />
         </div>
       </div>
@@ -118,6 +119,7 @@
         </mat-form-field>
       </div>
 
+      <!-- 選擇項目 -->
       @if(categoriesFiltedItems.length > 0){
         <div class="form-group">
           <mat-form-field appearance="outline" class="full-width">
@@ -153,6 +155,7 @@
             placeholder="記錄更多詳細資訊..."
             rows="3"
             maxlength="200"
+            [(ngModel)]="description"
           ></textarea>
           <div class="char-count">0/200</div>
         </div>

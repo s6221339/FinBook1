@@ -43,9 +43,9 @@ export class FixedExpensesComponent implements OnInit{
   amount?: number | null;  //  金額
   description?: string; //  款項描述
   account: string = "a6221339"; //  測試帳號
-  recurringPeriodYear?: number | null;  //  循環年數
-  recurringPeriodMonth?: number | null; //  循環月數
-  recurringPeriodDay?: number | null; //  循環天數
+  recurringPeriodYear: number | null = 0;  //  循環年數
+  recurringPeriodMonth: number | null = 0; //  循環月數
+  recurringPeriodDay: number | null = 0; //  循環天數
 
   ngOnInit(): void {
 
@@ -149,7 +149,6 @@ export class FixedExpensesComponent implements OnInit{
       !this.selectedItem ||
       !this.selectedType ||
       this.amount == null ||
-      this.amount <= 0 ||
       !this.today ||
       this.recurringPeriodYear == null ||
       this.recurringPeriodMonth == null ||
@@ -164,11 +163,22 @@ export class FixedExpensesComponent implements OnInit{
       return;
     }
 
+    //  檢查餘額不得為 0
+    if(this.amount <= 0){
+      Swal.fire({
+        icon: 'warning',
+        title: '金額不得為 0 ',
+        text: '請確認填寫正確金額',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
     //  檢查 年/月/日 不得同時為 0
     if(
-      this.recurringPeriodYear === 0 &&
-      this.recurringPeriodMonth === 0 &&
-      this.recurringPeriodDay === 0
+      this.recurringPeriodYear == 0 &&
+      this.recurringPeriodMonth == 0 &&
+      this.recurringPeriodDay == 0
     ) {
       Swal.fire({
         icon: 'warning',
@@ -202,7 +212,7 @@ export class FixedExpensesComponent implements OnInit{
         icon: 'success',
         title: '記帳成功',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500 // 1.5 秒自動關閉
       });
       this.paymentService.cleanFormData();
       this.router.navigate(['/home']);

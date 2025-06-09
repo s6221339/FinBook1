@@ -22,7 +22,7 @@
       <div class="form-group">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>請選擇日期</mat-label>
-          <input matInput [matDatepicker]="picker" [value]="today" [max]="today" required>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="today" [max]="today" required>
           <mat-hint>選擇收入入帳的日期</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker">
             <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
@@ -66,7 +66,7 @@
             type="number"
             class="amount-input"
             placeholder="請輸入收入金額"
-            min="0"
+            min="1"
             step="1"
             [(ngModel)]="amount"
           />

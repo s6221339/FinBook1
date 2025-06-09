@@ -138,7 +138,7 @@ export class IncomeComponent implements OnInit{
     });
   }
 
-  //  為儲存返回首頁
+  //  未儲存返回首頁
   goHome(){
     this.paymentService.cleanFormData();
     this.router.navigate(['/home']);
@@ -147,11 +147,27 @@ export class IncomeComponent implements OnInit{
   //  儲存返回首頁
   saveAndGoHome(){
     //  檢查必要欄位
-    if(!this.selectedItem || !this.selectedType || !this.amount || !this.today){
+    if(
+      !this.selectedItem ||
+      !this.selectedType ||
+      this.amount == null ||
+      !this.today
+    ){
       Swal.fire({
         icon: 'warning',
         title: '資料不完整',
         text: '請確認已填寫完整資料',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    //  檢查餘額不得為 0
+    if(this.amount <= 0){
+      Swal.fire({
+        icon: 'warning',
+        title: '金額不得為 0 ',
+        text: '請確認填寫正確金額',
         confirmButtonText: '確定'
       });
       return;

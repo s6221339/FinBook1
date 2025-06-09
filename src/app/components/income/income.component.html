@@ -1,62 +1,147 @@
-<div>
-  <div>
-  <mat-form-field class="example-full-width">
-    <mat-label>請選擇日期</mat-label>
-    <input matInput [matDatepicker]="picker" [value]="today" [max]="today">
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker">
-      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-    </mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+<div class="income-form">
+  <!-- 表單標題 -->
+  <div class="form-header">
+    <div class="header-icon">
+      <span class="material-icons">add_circle</span>
+    </div>
+    <div class="header-text">
+      <h2>收入記錄</h2>
+      <p>記錄您的各項收入來源</p>
+    </div>
   </div>
-  <!-- 選擇帳戶 -->
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>選擇帳戶</mat-label>
-      <mat-select [(value)] = "selectedUserName">
-        @for(user of userNames; track $index){
-          <mat-option [value] = "user">
-            {{ user }}
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <p>你選擇的帳戶是：{{ selectedUserName }}</p>
-  </div>
-  <div>
-    <h3>💰金額</h3>
-    <input type="int" placeholder="請輸入要記帳的金額"/>
-  </div>
-  <div>
-    <!-- 選擇類型 -->
-    <mat-form-field appearance="fill">
-      <mat-label>類型</mat-label>
-      <mat-select [(value)]="selectedType" (valueChange)="updateCategoriesFiltedItems()">
-        @for(type of distinctTypes; track $index){
-          <mat-option [value]="type">{{ type }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <!-- 選擇項目 -->
-    @if(categoriesFiltedItems.length > 0){
-      <mat-form-field appearance="fill">
-        <mat-label>項目</mat-label>
-        <mat-select [(value)]="selectedItem">
-          @for(item of categoriesFiltedItems; track $index){
-            <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    }
-    <button (click)="goCreateItem()">➕新增款項項目</button>
-  </div>
-  <div>
-    <h3>🔖備註</h3>
-    <input type="text" placeholder="寫點備註吧…"/>
-  </div>
-  <div>
-    <button>取消</button>
-    <button>儲存</button>
+
+  <!-- 表單內容 -->
+  <div class="form-content">
+
+    <!-- 日期選擇 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">event</span>
+        <h3>記帳日期</h3>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>請選擇日期</mat-label>
+          <input matInput [matDatepicker]="picker" [value]="today" [max]="today">
+          <mat-hint>選擇收入入帳的日期</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker">
+            <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- 帳戶選擇 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">account_balance_wallet</span>
+        <h3>收入帳戶</h3>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>選擇帳戶</mat-label>
+          <mat-select [(value)]="selectedUserName">
+            @for(user of userNames; track $index){
+              <mat-option [value]="user">
+                {{ user }}
+              </mat-option>
+            }
+          </mat-select>
+          <mat-hint>選擇收入存入的帳戶</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- 金額輸入 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">attach_money</span>
+        <h3>收入金額</h3>
+      </div>
+      <div class="form-group">
+        <div class="amount-input-wrapper">
+          <span class="currency-symbol">NT$</span>
+          <input
+            type="number"
+            class="amount-input"
+            placeholder="請輸入收入金額"
+            min="0"
+            step="1"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- 分類選擇 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">category</span>
+        <h3>收入分類</h3>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>選擇類型</mat-label>
+          <mat-select [(value)]="selectedType" (valueChange)="updateCategoriesFiltedItems()">
+            @for(type of distinctTypes; track $index){
+              <mat-option [value]="type">{{ type }}</mat-option>
+            }
+          </mat-select>
+          <mat-hint>選擇收入的主要分類</mat-hint>
+        </mat-form-field>
+      </div>
+
+      @if(categoriesFiltedItems.length > 0){
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>選擇項目</mat-label>
+            <mat-select [(value)]="selectedItem">
+              @for(item of categoriesFiltedItems; track $index){
+                <mat-option [value]="item">{{ item }}</mat-option>
+              }
+            </mat-select>
+            <mat-hint>選擇具體的收入項目</mat-hint>
+          </mat-form-field>
+        </div>
+      }
+
+      <div class="add-item-section">
+        <button class="add-item-btn" (click)="goCreateItem()">
+          <span class="material-icons">add</span>
+          新增收入項目
+        </button>
+      </div>
+    </div>
+
+    <!-- 備註輸入 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">note</span>
+        <h3>備註說明</h3>
+      </div>
+      <div class="form-group">
+        <div class="note-input-wrapper">
+          <textarea
+            class="note-input"
+            placeholder="記錄更多詳細資訊..."
+            rows="3"
+            maxlength="200"
+          ></textarea>
+          <div class="char-count">0/200</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 操作按鈕 -->
+    <div class="form-actions">
+      <button class="btn-secondary" (click)="goHome()">
+        <span class="material-icons">close</span>
+        取消
+      </button>
+      <button class="btn-primary" (click)="saveAndGoHome()">
+        <span class="material-icons">save</span>
+        儲存記錄
+      </button>
+    </div>
   </div>
 </div>

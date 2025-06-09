@@ -1,80 +1,174 @@
-<div>
-  <div>
-  <!-- 選擇日期 -->
-  <mat-form-field class="example-full-width">
-    <mat-label>請選擇第一筆生效日期</mat-label>
-    <!-- 預設日期為今天 -->
-    <input matInput [matDatepicker]="picker" [value]="today" [min]="today" required>
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker">
-      <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-    </mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+<div class="fixed-expenses-form">
+  <!-- 表單標題 -->
+  <div class="form-header">
+    <div class="header-icon">
+      <span class="material-icons">event_repeat</span>
+    </div>
+    <div class="header-text">
+      <h2>固定支出</h2>
+      <p>設定定期自動記錄的支出項目</p>
+    </div>
   </div>
-  <!-- 固定循環天數 -->
-   <div>
-    <h3>📅循環週期（天）</h3>
-    <mat-form-field appearance="fill" style="width: 100px; margin-right: 10px;margin-left: 10px;">
-      <mat-label>年</mat-label>
-      <input matInput type="number" [(ngModel)]="recurringPeriodYear" min="0" placeholder="0"/>
-    </mat-form-field>
-    <mat-form-field appearance="fill" style="width: 100px; margin-right: 10px;">
-      <mat-label>月</mat-label>
-      <input matInput type="number" [(ngModel)]="recurringPeriodMonth" min="0" placeholder="0"/>
-    </mat-form-field>
-    <mat-form-field appearance="fill" style="width: 100px; margin-right: 10px;">
-      <mat-label>日</mat-label>
-      <input matInput type="number" [(ngModel)]="recurringPeriodDay" min="0" placeholder="0"/>
-    </mat-form-field>
-   </div>
-  <!-- 選擇帳戶 -->
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>選擇帳戶</mat-label>
-      <mat-select [(value)] = "selectedUserName">
-        @for(user of userNames; track $index){
-          <mat-option [value] = "user">
-            {{ user }}
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <p>你選擇的帳戶是：{{ selectedUserName }}</p>
-  </div>
-  <div>
-    <h3>🪙金額</h3>
-    <input type="int" placeholder="請輸入要記帳金額"/>
-  </div>
-  <div>
-    <!-- 選擇類型 -->
-    <mat-form-field appearance="fill">
-      <mat-label>類型</mat-label>
-      <mat-select [(value)]="selectedType" (valueChange)="updateCategoriesFiltedItems()">
-        @for(type of distinctTypes; track $index){
-          <mat-option [value]="type">{{ type }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <!-- 選擇項目 -->
-    @if(categoriesFiltedItems.length > 0){
-      <mat-form-field appearance="fill">
-        <mat-label>項目</mat-label>
-        <mat-select [(value)]="selectedItem">
-          @for(item of categoriesFiltedItems; track $index){
-            <mat-option [value]="item">{{ item }}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    }
-    <button (click)="goCreateItem()">➕新增款項項目</button>
-  </div>
-  <div>
-    <h3>🔖備註</h3>
-    <input type="text" placeholder="寫點備註吧…"/>
-  </div>
-  <div>
-    <button (click)="goHome()">取消</button>
-    <button (click)="saveAndGoHome()">儲存</button>
+
+  <!-- 表單內容 -->
+  <div class="form-content">
+
+    <!-- 日期選擇 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">event</span>
+        <h3>首次生效日期</h3>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>請選擇第一筆生效日期</mat-label>
+          <input matInput [matDatepicker]="picker" [value]="today" [min]="today">
+          <mat-hint>選擇固定支出的首次生效日期</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker">
+            <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- 循環週期 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">loop</span>
+        <h3>循環週期</h3>
+      </div>
+      <div class="form-group period-inputs">
+        <mat-form-field appearance="outline">
+          <mat-label>年</mat-label>
+          <input matInput type="number" [(ngModel)]="recurringPeriodYear" min="0" placeholder="0"/>
+          <mat-hint>每幾年</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>月</mat-label>
+          <input matInput type="number" [(ngModel)]="recurringPeriodMonth" min="0" placeholder="0"/>
+          <mat-hint>每幾月</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>日</mat-label>
+          <input matInput type="number" [(ngModel)]="recurringPeriodDay" min="0" placeholder="0"/>
+          <mat-hint>每幾日</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- 帳戶選擇 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">account_balance_wallet</span>
+        <h3>支出帳戶</h3>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>選擇帳戶</mat-label>
+          <mat-select [(value)]="selectedUserName">
+            @for(user of userNames; track $index){
+              <mat-option [value]="user">
+                {{ user }}
+              </mat-option>
+            }
+          </mat-select>
+          <mat-hint>選擇固定支出的帳戶來源</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- 金額輸入 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">attach_money</span>
+        <h3>支出金額</h3>
+      </div>
+      <div class="form-group">
+        <div class="amount-input-wrapper">
+          <span class="currency-symbol">NT$</span>
+          <input
+            type="number"
+            class="amount-input"
+            placeholder="請輸入固定支出金額"
+            min="0"
+            step="1"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- 分類選擇 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">category</span>
+        <h3>支出分類</h3>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>選擇類型</mat-label>
+          <mat-select [(value)]="selectedType" (valueChange)="updateCategoriesFiltedItems()">
+            @for(type of distinctTypes; track $index){
+              <mat-option [value]="type">{{ type }}</mat-option>
+            }
+          </mat-select>
+          <mat-hint>選擇支出的主要分類</mat-hint>
+        </mat-form-field>
+      </div>
+
+      @if(categoriesFiltedItems.length > 0){
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>選擇項目</mat-label>
+            <mat-select [(value)]="selectedItem">
+              @for(item of categoriesFiltedItems; track $index){
+                <mat-option [value]="item">{{ item }}</mat-option>
+              }
+            </mat-select>
+            <mat-hint>選擇具體的支出項目</mat-hint>
+          </mat-form-field>
+        </div>
+      }
+
+      <div class="add-item-section">
+        <button class="add-item-btn" (click)="goCreateItem()">
+          <span class="material-icons">add</span>
+          新增支出項目
+        </button>
+      </div>
+    </div>
+
+    <!-- 備註輸入 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">note</span>
+        <h3>備註說明</h3>
+      </div>
+      <div class="form-group">
+        <div class="note-input-wrapper">
+          <textarea
+            class="note-input"
+            placeholder="記錄更多詳細資訊..."
+            rows="3"
+            maxlength="200"
+          ></textarea>
+          <div class="char-count">0/200</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 操作按鈕 -->
+    <div class="form-actions">
+      <button class="btn-secondary" (click)="goHome()">
+        <span class="material-icons">close</span>
+        取消
+      </button>
+      <button class="btn-primary" (click)="saveAndGoHome()">
+        <span class="material-icons">save</span>
+        儲存記錄
+      </button>
+    </div>
   </div>
 </div>

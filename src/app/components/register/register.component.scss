@@ -27,8 +27,6 @@ body {
 }
 
 .background {
-    width: 100vw;
-    height: 100vh;
     display: grid;
     place-items: center;
     background: linear-gradient(to bottom right, $light-blue-gradient-start, $light-blue-gradient-end);

@@ -1,12 +1,77 @@
-<div>
-    <div>
-        <button (click)="goFixedExpenses()">固定支出</button>
-        <button (click)="goFixedIncome()">固定收入</button>
-        <button (click)="goExpenses()">支出</button>
-        <button (click)="goIncome()">收入</button>
-        <button (click)="goTransfers()">轉帳</button>
+<div class="book-keeping-page">
+  <!-- 頁面標題區域 -->
+  <!-- <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">記帳管理</h1>
+      <p class="page-subtitle">選擇記帳類型，輕鬆管理您的收支</p>
     </div>
-    <div>
-        <router-outlet></router-outlet>
+  </div> -->
+
+  <!-- 記帳類型選擇區域 -->
+  <div class="content-container">
+    <div class="type-selector-card">
+      <div class="card-header">
+        <span class="material-icons">category</span>
+        <h3>記帳類型</h3>
+      </div>
+      <div class="card-content">
+        <div class="type-buttons">
+          <button
+            class="type-btn expenses"
+            (click)="goExpenses()"
+            [class.active]="isCurrentRoute('/bookKeeping/expenses')"
+          >
+            <span class="btn-icon material-icons">remove_circle</span>
+            <span class="btn-text">支出</span>
+            <span class="btn-desc">日常消費記錄</span>
+          </button>
+
+          <button
+            class="type-btn income"
+            (click)="goIncome()"
+            [class.active]="isCurrentRoute('/bookKeeping/income')"
+          >
+            <span class="btn-icon material-icons">add_circle</span>
+            <span class="btn-text">收入</span>
+            <span class="btn-desc">收入來源記錄</span>
+          </button>
+
+          <button
+            class="type-btn fixed-expenses"
+            (click)="goFixedExpenses()"
+            [class.active]="isCurrentRoute('/bookKeeping/fixedExpenses')"
+          >
+            <span class="btn-icon material-icons">event_repeat</span>
+            <span class="btn-text">固定支出</span>
+            <span class="btn-desc">定期支出項目</span>
+          </button>
+
+          <button
+            class="type-btn fixed-income"
+            (click)="goFixedIncome()"
+            [class.active]="isCurrentRoute('/bookKeeping/fixedIncome')"
+          >
+            <span class="btn-icon material-icons">savings</span>
+            <span class="btn-text">固定收入</span>
+            <span class="btn-desc">定期收入項目</span>
+          </button>
+
+          <button
+            class="type-btn transfers"
+            (click)="goTransfers()"
+            [class.active]="isCurrentRoute('/bookKeeping/transfers')"
+          >
+            <span class="btn-icon material-icons">swap_horiz</span>
+            <span class="btn-text">轉帳</span>
+            <span class="btn-desc">帳戶間轉移</span>
+          </button>
+        </div>
+      </div>
     </div>
+
+    <!-- 記帳表單區域 -->
+    <div class="form-container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>

@@ -33,4 +33,8 @@ export class BookKeepingComponent {
     this.router.navigate(['/bookKeeping/transfers']);
   }
 
+  // 檢查當前路由是否匹配
+  isCurrentRoute(route: string): boolean {
+    return this.router.url == route || (route == "/bookKeeping/expenses" && this.router.url == "/bookKeeping")
+  }
 }

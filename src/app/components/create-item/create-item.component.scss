@@ -1,16 +1,12 @@
 .create-item-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  padding-top: 60px; // 為固定header留空間
+  padding-top: 80px; // 為固定header留空間
 }
 
 // 頁面標題區域
 .page-header {
-  background: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  padding-top: 2px;
-  padding-bottom: 30px;
-  margin-bottom: 2rem;
+
 
   .header-content {
     max-width: 1200px;

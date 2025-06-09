@@ -58,7 +58,6 @@ export class ExpensesComponent implements OnInit{
         this.distinctTypes = [...new Set(list.filter(c => c.type !== '收入').map(c => c.type)
         )];
 
-
       //  一定要放在 API 成功後，才有分類資料可以使用
       const saved = this.paymentService.getFormData();
       if(saved){
@@ -85,7 +84,7 @@ export class ExpensesComponent implements OnInit{
   //  偵測是否從其他頁返回
   this.router.events
     .pipe(filter(event => event instanceof NavigationEnd))
-    .subscribe(event => {
+    .subscribe(() => {
       //  每次返回頁面都重新抓分類資料
       this.apiService.getTypeByAccount(this.account)
         .then(res => {
@@ -138,7 +137,7 @@ export class ExpensesComponent implements OnInit{
     });
   }
 
-  //  為儲存返回首頁
+  //  未儲存返回首頁
   goHome(){
     this.paymentService.cleanFormData();
     this.router.navigate(['/home']);

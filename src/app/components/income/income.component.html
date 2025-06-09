@@ -2,7 +2,7 @@
   <div>
   <mat-form-field class="example-full-width">
     <mat-label>請選擇日期</mat-label>
-    <input matInput [matDatepicker]="picker" [value]="today" [max]="today">
+    <input matInput [matDatepicker]="picker" [value]="today" [max]="today" required>
     <mat-hint>MM/DD/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker">
       <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
@@ -26,7 +26,7 @@
   </div>
   <div>
     <h3>💰金額</h3>
-    <input type="int" placeholder="請輸入要記帳的金額"/>
+    <input type="int" placeholder="請輸入要記帳的金額" [(ngModel)]="amount"/>
   </div>
   <div>
     <!-- 選擇類型 -->
@@ -53,10 +53,10 @@
   </div>
   <div>
     <h3>🔖備註</h3>
-    <input type="text" placeholder="寫點備註吧…"/>
+    <input type="text" placeholder="寫點備註吧…" [(ngModel)]="description" />
   </div>
   <div>
-    <button>取消</button>
-    <button>儲存</button>
+    <button (click)="goHome()">取消</button>
+    <button (click)="saveAndGoHome()">儲存</button>
   </div>
 </div>

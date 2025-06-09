@@ -42,4 +42,27 @@ export class ApiService {
     });
   }
 
+  //  編輯記帳款項
+  updatePayment(data: any){
+    return axios.post('http://localhost:8080/finbook/updatePayment', data, {
+      withCredentials: true
+    });
+  }
+
+  //  刪除記帳款項
+  deletePayment(paymentId: number){
+    return axios.post('http://localhost:8080/finbook/deletePayment', null, {
+      params: { paymentId },
+      withCredentials: true
+    });
+  }
+
+  //  透過帳號得到所有帳款資料
+  getPaymentByAccount(account: string){
+    return axios.post('http://localhost:8080/finbook/getPaymentInfoByAccount', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
 }

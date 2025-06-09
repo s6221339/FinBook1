@@ -30,6 +30,21 @@ export class TestComponent {
     "recurringPeriodDay": null,
     "recordDate": "2025-06-05"
   };
+  data2 = {
+ "paymentId": 1,
+ "description": "更新備註",
+ "type": "居家",
+ "item": "水電費",
+ "amount": 1500,
+ "recurringPeriod":
+ {
+  "year": 0,
+  "month": 0,
+  "day": 0
+ },
+ "recordDate": "2025-06-03"
+};
+paymentId: number = 2;
 
   createType(){
     this.apiService.createType(this.data)
@@ -65,6 +80,42 @@ export class TestComponent {
       .catch(err => {
         console.error('送出失敗：', err);
         alert('建立帳款失敗，請稍後再試');
+      });
+  }
+
+  updatePayment(){
+    this.apiService.updatePayment(this.data2)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('編輯帳款成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('編輯帳款失敗，請稍後再試');
+      });
+  }
+
+  deletePayment(){
+    this.apiService.deletePayment(this.paymentId)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('刪除帳款成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('刪除帳款失敗，請稍後再試');
+      });
+  }
+
+  getPaymentByAccount(){
+    this.apiService.getPaymentByAccount(this.account)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得帳款成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得帳款失敗，請稍後再試');
       });
   }
 }

@@ -68,7 +68,7 @@ $gradient-pink-purple: #FF1493;
   font-weight: 600;
   position: absolute;
   top: -15px;
-  left: 20px;
+  left: 234px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1;
   .required-star {
@@ -85,11 +85,12 @@ $gradient-pink-purple: #FF1493;
 }
 
 .input-label { /* 這裡的 label 其實是顯示文字的標籤 */
-  font-size: 16px;
-  font-weight: 600;
-  color: $label-color;
+  font-size: 19px;
+  font-weight: bolder;
+  color: $gradient-pink-purple;
   display: block;
   margin-bottom: 8px;
+  margin-top: 8px;
 }
 
 /* 顯示值的樣式 (與 member-info 的 input 框外觀相似) */
@@ -98,12 +99,11 @@ $gradient-pink-purple: #FF1493;
   color: $text-color;
   background-color: #F8F8F8;
   padding: 12px 15px;
-  border: 1px solid $input-border-color;
-  border-radius: 6px;
   box-sizing: border-box;
   min-height: 44px; /* 確保與輸入框高度一致 */
   display: flex; /* 讓內容垂直居中 */
   align-items: center;
+  font-weight: 900;
 }
 
 .no-data-message {

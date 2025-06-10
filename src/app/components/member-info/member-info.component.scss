@@ -99,7 +99,7 @@ body {
   font-weight: 600;
   position: absolute;
   top: -15px; /* 向上浮動一點 */
-  left: 20px;
+  left: 206px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 標題陰影 */
   z-index: 1; /* 確保標題在上方 */
 
@@ -120,12 +120,12 @@ body {
 }
 
 .input-label {
-  font-size: 16px;
-  font-weight: 600;
-  color: $label-color; /* 這裡不使用漸變，保留圖片中的純色 */
+  font-size: 19px;
+  font-weight: bolder;
+  color: $gradient-pink-purple;
   display: block;
   margin-bottom: 8px;
-
+  margin-top: 8px;
   .required-star {
     color: red; /* 必填星號用紅色 */
     margin-left: 4px;
@@ -138,6 +138,7 @@ body {
   border: 1px solid $input-border-color;
   border-radius: 6px;
   font-size: 16px;
+  font-weight: 900;
   color: $text-color;
   box-sizing: border-box;
   transition: border-color $button-hover-transition, box-shadow $button-hover-transition;

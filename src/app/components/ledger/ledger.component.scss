@@ -1,0 +1,31 @@
+.battery-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.battery-svg {
+  width: 200px; /* 你可以改成 220px, 250px，電池會更大 */
+  height: 400px;
+}
+
+@keyframes pulseRed {
+  0%   { fill: #d50000; }
+  50%  { fill: #ff1744; }
+  100% { fill: #d50000; }
+}
+
+.alert-red {
+  animation: pulseRed 1s infinite;
+}
+
+@keyframes pulseGreen {
+  0%   { fill: #2e7d32; }
+  50%  { fill: #66bb6a; }
+  100% { fill: #2e7d32; }
+}
+
+.alert-green {
+  animation: pulseGreen 1s infinite;
+}

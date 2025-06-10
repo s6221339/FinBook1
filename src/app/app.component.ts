@@ -58,6 +58,11 @@ export class AppComponent {
     })
   }
 
+  //  前往帳本畫面
+  goLedger(){
+    this.router.navigate(['/ledger']);
+  }
+
   //  前往記帳畫面
   goBookKeeping(){
     this.router.navigate(['/bookKeeping/expenses']);

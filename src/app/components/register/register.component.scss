@@ -1,3 +1,4 @@
+@use "sass:color";
 /* --- 顏色變數定義 (保持不變) --- */
 $primary-blue: #1976D2;
 $primary-dark-blue: #1565C0;
@@ -161,7 +162,7 @@ body {
 }
 
 .btn-send-verification {
-    background-color: darken($primary-blue, 10%);
+    background-color: color.adjust($primary-blue, $lightness: -10%);
     // *** 調整 padding，讓按鈕看起來更寬一點，並確保文字能在一行顯示 ***
     padding: 10px 20px; // 適度增加左右 padding
     font-size: 15px;
@@ -175,7 +176,7 @@ body {
 
 
     &:hover {
-        background-color: darken($primary-blue, 20%);
+        background-color: color.adjust($primary-blue, $lightness: -20%);
         transform: none;
         box-shadow: none;
     }

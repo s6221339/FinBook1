@@ -19,7 +19,7 @@
       </a>
 
       <!-- 記帳功能連結 -->
-      <a class="nav-link" routerLinkActive="active" (click)="goBookKeeping()">
+      <a routerLink="/bookKeeping/expenses" class="nav-link" routerLinkActive="active" (click)="goBookKeeping()">
         <span class="material-icons">add_circle</span>
         記帳
       </a>
@@ -176,7 +176,6 @@
 <main class="main-content">
   <!-- 這裡會顯示不同頁面的內容 -->
    <div>
-    <br>
     <br>
     <router-outlet></router-outlet>
    </div>

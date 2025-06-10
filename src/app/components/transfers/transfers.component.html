@@ -13,7 +13,7 @@
   <!-- 表單內容 -->
   <div class="form-content">
 
-    <!-- 日期選擇 -->
+    <!-- 轉帳日期 -->
     <div class="form-section">
       <div class="section-header">
         <span class="material-icons">event</span>
@@ -22,12 +22,19 @@
       <div class="form-group">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>選擇轉帳日期</mat-label>
-          <input matInput [matDatepicker]="picker">
-          <mat-hint>選擇轉帳發生的日期</mat-hint>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [(ngModel)]="transferDate"
+            name="transferDate"
+            required
+            #transferDateField="ngModel"
+            >
           <mat-datepicker-toggle matIconSuffix [for]="picker">
             <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
           </mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
+          <mat-hint>選擇轉帳發生的日期</mat-hint>
         </mat-form-field>
       </div>
     </div>
@@ -41,10 +48,16 @@
       <div class="form-group">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>選擇轉出帳戶</mat-label>
-          <mat-select>
-            <mat-option value="account1">帳戶1</mat-option>
-            <mat-option value="account2">帳戶2</mat-option>
-            <mat-option value="account3">帳戶3</mat-option>
+          <mat-select
+            [(ngModel)]="fromAccountId"
+            name="fromAccountId"
+            required
+            >
+            @for(acc of accounts ; track acc.id) {
+              <mat-option [value]="acc.id">
+                {{ acc.name }}
+              </mat-option>
+            }
           </mat-select>
           <mat-hint>選擇資金轉出的帳戶</mat-hint>
         </mat-form-field>
@@ -59,18 +72,24 @@
       </div>
       <div class="form-group">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>選擇轉入帳戶</mat-label>
-          <mat-select>
-            <mat-option value="account1">帳戶1</mat-option>
-            <mat-option value="account2">帳戶2</mat-option>
-            <mat-option value="account3">帳戶3</mat-option>
+          <mat-label>選擇轉入帳戶（可選自己帳戶或他人帳戶）</mat-label>
+          <mat-select
+            [(ngModel)]="toAccountId"
+            name="toAccountId"
+            required
+            >
+            @for(acc of accounts ; track acc.id) {
+              <mat-option [value]="acc.id">
+                {{ acc.name }}
+              </mat-option>
+            }
           </mat-select>
           <mat-hint>選擇資金轉入的帳戶</mat-hint>
         </mat-form-field>
       </div>
     </div>
 
-    <!-- 轉帳金額 -->
+   <!-- 轉帳金額 -->
     <div class="form-section">
       <div class="section-header">
         <span class="material-icons">attach_money</span>
@@ -79,18 +98,19 @@
       <div class="form-group">
         <div class="amount-input-wrapper">
           <span class="currency-symbol">NT$</span>
-          <input
-            type="number"
-            class="amount-input"
-            placeholder="請輸入轉帳金額"
-            min="0"
-            step="1"
-          />
+          <input type="number"
+                class="amount-input"
+                [(ngModel)]="amount"
+                name="amount"
+                placeholder="請輸入轉帳金額"
+                min="1" step="1" required
+                >
         </div>
       </div>
     </div>
 
-    <!-- 手續費 -->
+
+    <!-- 手續費 (不加入錯誤訊息) -->
     <div class="form-section">
       <div class="section-header">
         <span class="material-icons">receipt</span>
@@ -102,15 +122,15 @@
           <input
             type="number"
             class="amount-input"
-            placeholder="請輸入手續費（可選）"
-            min="0"
-            step="1"
-          />
+            [(ngModel)]="fee"
+            name="fee"
+            placeholder="請輸入手續費 (選填，不填則為 0)"
+            min="0" step="1">
         </div>
       </div>
     </div>
 
-    <!-- 備註輸入 -->
+    <!-- 備註輸入 (不加入錯誤訊息) -->
     <div class="form-section">
       <div class="section-header">
         <span class="material-icons">note</span>
@@ -120,10 +140,10 @@
         <div class="note-input-wrapper">
           <textarea
             class="note-input"
+            [(ngModel)]="description"
+            name="description"
             placeholder="記錄轉帳原因或其他說明..."
-            rows="3"
-            maxlength="200"
-          ></textarea>
+            rows="3" maxlength="200"></textarea>
           <div class="char-count">0/200</div>
         </div>
       </div>
@@ -131,14 +151,16 @@
 
     <!-- 操作按鈕 -->
     <div class="form-actions">
-      <button class="btn-secondary">
-        <span class="material-icons">close</span>
-        取消
+      <button type="button" class="btn-secondary" (click)="onCancel()">
+        <span class="material-icons">close</span>取消
       </button>
-      <button class="btn-primary">
-        <span class="material-icons">save</span>
-        確認轉帳
+      <button type="button" class="btn-primary" [disabled]="isLoading" (click)="onSubmit()">
+        <span class="material-icons">
+          {{ isLoading ? 'hourglass_empty' : 'save' }}
+        </span>
+        {{ isLoading ? '轉帳中…' : '確認轉帳' }}
       </button>
     </div>
+
   </div>
 </div>

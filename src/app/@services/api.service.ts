@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { Account, ApiResponse, Transfer, TransferRequest } from '../models/transfers'; // 預設
 
 @Injectable({
   providedIn: 'root'
@@ -65,4 +66,43 @@ export class ApiService {
     });
   }
 
+
+
+
+
+
+  // 預設預設預設預設預設預設預設預設預設預設預設預設預設預設預設預設
+  getAccountsRaw() {
+    // 取得帳戶列表
+    return axios.get(`'http://localhost:8080/finbook/accounts`, {
+      withCredentials: true
+    });
+  }
+
+    // 新增轉帳紀錄
+  createTransferRaw(data: any){
+    return axios.post(
+      `'http://localhost:8080/finbook/transfers`,data,
+      { withCredentials: true }
+    );
+  }
+
+//-----------------------------------
+  //  取得帳戶列表，直接拿到資料陣列 */
+  getAccounts(): Promise<any> {
+    return axios.get(`'http://localhost:8080/finbook/accounts`, {
+      withCredentials: true
+    })
+    .then(resp => resp.data);  // 直接拿到 resp.data
+  }
+
+  //新增轉帳紀錄，直接拿到後端回傳的 JSON */
+  createTransfer(data: any): Promise<any> {
+    return axios.post(
+      `'http://localhost:8080/finbook/transfers`,
+      data,
+      { withCredentials: true }
+    )
+    .then(resp => resp.data);
+  }
 }

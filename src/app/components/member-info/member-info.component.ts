@@ -33,11 +33,11 @@ export class MemberInfoComponent {
 
     this.memberInfoForm = this.fb.group({
       name: ['我很帥', Validators.required], // 姓名欄位設為必填
-      // gender: ['male'], // 如果性別移除，這裡也要移除
+
 
       // 手機號碼欄位及其驗證規則
       phoneNumber: [
-        '0912345678', // 預設值
+        '09-12345678', // 預設值
         [
           Validators.required, // 必填
           Validators.pattern(/^09-\d{8}$/) // 正則表達式驗證：09- 後面接 8 個數字

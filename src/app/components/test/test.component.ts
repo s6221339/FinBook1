@@ -15,34 +15,36 @@ export class TestComponent {
 
   data = {
     "type":"飲食",
-    "item":"吃大餐",
+    "item":"吃烤羊排",
     "account":"a6221339"
   };
   account: string = "a6221339";
   data1 = {
     "balanceId": 1,
-    "description": "6/5晚餐",
+    "description": "6/10早餐",
     "type": "飲食",
-    "item": "晚餐",
-    "amount": 140,
-    "recurringPeriodYear": null,
-    "recurringPeriodMonth": null,
-    "recurringPeriodDay": null,
-    "recordDate": "2025-06-05"
+    "item": "早餐",
+    "amount": 105,
+    "recurringPeriod": {
+      "year": 0,
+      "month": 0,
+      "day": 0
+    },
+    "recordDate": "2025-06-10"
   };
   data2 = {
- "paymentId": 1,
- "description": "更新備註",
- "type": "居家",
- "item": "水電費",
- "amount": 1500,
+ "paymentId": 15,
+ "description": "肚子餓",
+ "type": "飲食",
+ "item": "早餐",
+ "amount": 55,
  "recurringPeriod":
  {
   "year": 0,
   "month": 0,
   "day": 0
  },
- "recordDate": "2025-06-03"
+ "recordDate": "2025-06-09"
 };
 paymentId: number = 2;
 

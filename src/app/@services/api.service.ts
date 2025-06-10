@@ -11,7 +11,7 @@ export class ApiService {
   //  創建帳款類型
   createType(data: any){
     return axios({
-      url: 'http://localhost:8080/finbook/createType',
+      url: 'http://localhost:8080/finbook/paymentType/create',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -23,7 +23,7 @@ export class ApiService {
 
   //  帳款類型應用帳號
   getTypeByAccount(account: string){
-    return axios.post('http://localhost:8080/finbook/getType', null, {
+    return axios.post('http://localhost:8080/finbook/paymentType/getByAccount', null, {
       params: { account },
       withCredentials: true
     });
@@ -32,7 +32,7 @@ export class ApiService {
   //  新增記帳款項
   createPayment(data: any){
     return axios({
-      url: 'http://localhost:8080/finbook/createPayment',
+      url: 'http://localhost:8080/finbook/payment/create',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -44,14 +44,14 @@ export class ApiService {
 
   //  編輯記帳款項
   updatePayment(data: any){
-    return axios.post('http://localhost:8080/finbook/updatePayment', data, {
+    return axios.post('http://localhost:8080/finbook/payment/update', data, {
       withCredentials: true
     });
   }
 
   //  刪除記帳款項
   deletePayment(paymentId: number){
-    return axios.post('http://localhost:8080/finbook/deletePayment', null, {
+    return axios.post('http://localhost:8080/finbook/payment/delete', null, {
       params: { paymentId },
       withCredentials: true
     });
@@ -59,7 +59,7 @@ export class ApiService {
 
   //  透過帳號得到所有帳款資料
   getPaymentByAccount(account: string){
-    return axios.post('http://localhost:8080/finbook/getPaymentInfoByAccount', null, {
+    return axios.post('http://localhost:8080/finbook/payment/getByAccount', null, {
       params: { account },
       withCredentials: true
     });

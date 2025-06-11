@@ -15,8 +15,8 @@ $input-focus-border-color: $primary-blue;
 $button-hover-transition: 0.3s ease;
 
 // 漸變色的起始和結束顏色變數 (用於標題和標籤文字)
-$gradient-blue: #1976D2;
-$gradient-pink-purple: #FF1493;
+$gradient-blue: #2563eb;
+$gradient-pink-purple: #ec4899;
 
 /* --- 全局樣式和背景 (這些通常放在 styles.scss 中，但這裡為示範重複一次) --- */
 body {
@@ -68,9 +68,10 @@ body {
   margin-bottom: 30px;
   font-size: 32px;
   font-weight: 700;
-
+  width: 35%;
+  margin-left: 34%;
   // 添加漸變文字效果
-  background: linear-gradient(to right, $gradient-blue, $gradient-pink-purple);
+  background: linear-gradient(45deg, $gradient-blue, $gradient-pink-purple);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: $gradient-blue; // Fallback color
@@ -125,7 +126,7 @@ body {
   color: $gradient-pink-purple;
   display: block;
   margin-bottom: 8px;
-  margin-top: 8px;
+
   .required-star {
     color: red; /* 必填星號用紅色 */
     margin-left: 4px;
@@ -141,6 +142,7 @@ body {
   font-weight: 900;
   color: $text-color;
   box-sizing: border-box;
+  margin-top: 8px;
   transition: border-color $button-hover-transition, box-shadow $button-hover-transition;
   background-color: #F8F8F8; /* 輸入框輕微灰色背景 */
 }

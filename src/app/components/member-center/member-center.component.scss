@@ -8,6 +8,9 @@ $accent-dark-green: #388E3C;
 $page-gradient-start: #FFFFFF; // 白色作為頁面背景的起始色
 $page-gradient-end: #E3F2FD; // 淺藍色作為頁面背景的結束色 (與之前的 light-blue-gradient-end 相同)
 
+$light-blue-gradient-start: #BBDEFB; // 這些通常是給背景，由 member-center 處理
+$light-blue-gradient-end: #E3F2FD; // 這些通常是給背景，由 member-center 處理
+
 // 子路由內容區域的漸變色 (保持之前定義的淺藍到更淺藍)
 $content-area-gradient-start: #BBDEFB; // 淺藍色
 $content-area-gradient-end: #E3F2FD; // 更淺藍色
@@ -20,8 +23,8 @@ $input-focus-border-color: $primary-blue;
 $button-hover-transition: 0.3s ease;
 
 // 漸變色的起始和結束顏色變數 (用於標題和標籤文字)
-$gradient-blue: #1976D2;
-$gradient-pink-purple: #FF1493;
+$gradient-blue: #2563eb;
+$gradient-pink-purple: #ec4899;
 
 /* --- 全局容器樣式 --- */
 .member-center-container {
@@ -33,9 +36,7 @@ $gradient-pink-purple: #FF1493;
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
-
-    // *** 核心：父路由頁面背景，由左至右，由白至藍 ***
-    background: linear-gradient(to right, $page-gradient-start, $page-gradient-end);
+    background: linear-gradient(to bottom right, $light-blue-gradient-start, $light-blue-gradient-end);
 }
 
 /* --- 會員中心頂部標題區塊 (保持不變) --- */
@@ -52,7 +53,7 @@ $gradient-pink-purple: #FF1493;
     font-size: 40px;
     font-weight: 700;
     margin-bottom: 20px;
-
+    width: 100%;
     // 文字漸變方向：從右到左 (保持與您要求的相反方向)
     background: linear-gradient(to left, $gradient-blue, $gradient-pink-purple);
     -webkit-background-clip: text;

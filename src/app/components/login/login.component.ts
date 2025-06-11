@@ -20,5 +20,6 @@ export class LoginComponent {
 
   LoginClick(): void {
     console.log('登入按鈕被點擊了！');
+    this.router.navigate(['/memberCenter']); // 使用 router.navigate() 導航
   }
 }

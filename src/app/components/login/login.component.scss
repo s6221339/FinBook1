@@ -16,10 +16,10 @@ $input-focus-border-color: $primary-blue; // 輸入框聚焦時邊框顏色
 $button-hover-transition: 0.3s ease; // 按鈕hover過渡效果
 
 // 調整漸變色的起始和結束顏色變數
-$gradient-blue: #1976D2; // 藍色
+$gradient-blue: #2563eb; // 藍色
 
 // 將紫色替換為鮮豔的紫紅色
-$gradient-pink-purple: #FF1493; // 這裡選擇了 DeepPink，非常鮮豔
+$gradient-pink-purple: #ec4899;
 
 /* --- 全局樣式和背景 --- */
 body {
@@ -79,7 +79,7 @@ body {
     font-weight: 600; // 適度加粗
 
     // 添加漸變文字效果
-    background: linear-gradient(to right, $gradient-blue, $gradient-pink-purple);
+    background: linear-gradient(45deg, $gradient-blue, $gradient-pink-purple);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: $gradient-blue; // Fallback color for browsers that don't support text fill
@@ -162,7 +162,7 @@ br {
     font-weight: 600;
 
     // 將漸變的結束顏色替換為新的紫紅色變數
-    background: linear-gradient(to right, $gradient-blue, $gradient-pink-purple);
+    background: linear-gradient(45deg, $gradient-blue, $gradient-pink-purple);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: $gradient-blue; // Fallback color

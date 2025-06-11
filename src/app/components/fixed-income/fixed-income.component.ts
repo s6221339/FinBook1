@@ -112,7 +112,7 @@ export class FixedIncomeComponent implements OnInit{
   //  輔助函數，把 Date 轉 YYYY-MM-DD
   formatDate(data: Date): string{
     const year = data.getFullYear();
-    const month = String(data.getMonth()).padStart(2, '0'); //  月份是 0~11
+    const month = String(data.getMonth() + 1).padStart(2, '0'); //  月份是 0~11
     const day = String(data.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }

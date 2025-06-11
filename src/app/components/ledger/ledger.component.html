@@ -68,9 +68,107 @@
           </mat-select>
         </mat-form-field>
       </div>
-
       <!-- 顯示目前選擇 -->
-       <p>目前選擇：{{ year }} 年 {{ month }} 月</p>
+       <p style="margin: 0;">目前選擇：{{ year }} 年 {{ month }} 月</p>
     </div>
-    <div></div>
+    <div>
+      <h3>預算： {{ budget }}</h3>
+      <h3>固定收入： {{ fixedIncome }}</h3>
+      <h3>固定支出： {{ fixedExpenses }}</h3>
+      <h3 style="display: flex; align-items: center; gap: 8px;">
+        儲蓄：
+
+        @if(!isEditingBudget){
+          {{ isSavingsSet ? (savings + '元') : '商未設定' }}
+          <button mat-icon-button (click)="startEditBudget()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        }
+        @else {
+          <mat-form-field appearance="outline" style="width: 100px;">
+            <input matInput type="number" [(ngModel)]="savings" placeholder="請輸入餘額" min="0" step="1"/>
+          </mat-form-field>
+          <button mat-icon-button color="primary" (click)="saveBudget()">
+           <mat-icon>check</mat-icon>  <!-- 打勾儲存 -->
+          </button>
+          <button mat-icon-button color="warn" (click)="cancelEditBudget()">
+            <mat-icon>close</mat-icon>  <!-- 取消 -->
+          </button>
+        }
+      </h3>
+      <h3>收入： {{ income }}</h3>
+      <h3>支出： {{ expenses }}</h3>
+      <h3>餘額： {{ balance }}</h3>
+    </div>
+    <!-- 分類選擇 -->
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">category</span>
+        <h3>支出分類</h3>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>選擇類型</mat-label>
+          <mat-select [(value)]="selectedType" (valueChange)="updateCategoriesFiltedItems()">
+            @for(type of distinctTypes; track $index){
+              <mat-option [value]="type">{{ type }}</mat-option>
+            }
+          </mat-select>
+          <mat-hint>選擇支出的主要分類</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <!-- 選擇項目 -->
+      @if(categoriesFiltedItems.length > 0){
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>選擇項目</mat-label>
+            <mat-select [(value)]="selectedItem">
+              @for(item of categoriesFiltedItems; track $index){
+                <mat-option [value]="item">{{ item }}</mat-option>
+              }
+            </mat-select>
+            <mat-hint>選擇具體的支出項目</mat-hint>
+          </mat-form-field>
+        </div>
+      }
+    </div>
+    <div>
+      <h3>款項列表：</h3>
+      <table class="payment-table">
+        <thead>
+          <tr>
+            <th>帳款編號</th>
+            <th>支出分類</th>
+            <th>支出項目</th>
+            <th>帳款描述</th>
+            <th>金額</th>
+            <th>循環週期（年）</th>
+            <th>循環週期（月）</th>
+            <th>循環週期（日）</th>
+            <th>紀錄日期</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if(filteredTestData.length == 0){
+            <tr>
+              <td colspan="9" style="text-align: center; color: #999;">目前沒有符合的款項</td>
+            </tr>
+          }
+          @for(item of filteredTestData; track $index){
+            <tr>
+              <td>{{ item.paymentId }}</td>
+              <td>{{ item.type }}</td>
+              <td>{{ item.item }}</td>
+              <td>{{ item.description }}</td>
+              <td>{{ item.amount }}</td>
+              <td>{{ item.recurringPeriodYear }}</td>
+              <td>{{ item.recurringPeriodMonth }}</td>
+              <td>{{ item.recurringPeriodDay }}</td>
+              <td>{{ item.recordDate | date: 'yyyy-MM-dd' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
 </div>

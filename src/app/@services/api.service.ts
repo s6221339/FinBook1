@@ -59,7 +59,7 @@ export class ApiService {
 
   //  透過帳號得到所有帳款資料
   getPaymentByAccount(account: string){
-    return axios.post('http://localhost:8080/finbook/payment/getByAccount', null, {
+    return axios.post('http://localhost:8080/finbook/payment/getInfoByAccount', null, {
       params: { account },
       withCredentials: true
     });

@@ -17,7 +17,9 @@ import Swal from 'sweetalert2';
   selector: 'app-fixed-expenses',
   imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,MatFormFieldModule,
     MatSelectModule, FormsModule],
+  //  日期選擇器注入
   providers: [provideNativeDateAdapter()],
+  //  component 獨立使用
   standalone: true,
   templateUrl: './fixed-expenses.component.html',
   styleUrl: './fixed-expenses.component.scss'
@@ -31,7 +33,7 @@ export class FixedExpensesComponent implements OnInit{
   ){}
 
   today: Date = new Date();
-  userNames: string[] = ["1", "2"];
+  userNames: string[] = ["1", "2"]; //  帳戶下拉式選單
   selectedUserName: string = this.userNames[0]; //  預設帳戶1;
   type?: string;
   item?: string;
@@ -54,7 +56,7 @@ export class FixedExpensesComponent implements OnInit{
         const list: Category[] = res.data.paymentTypeList || [];
         this.categories = list;
 
-        //  去重複取得唯一的 type
+        //  去重複取得唯一的 type 且不包含 type 為收入的
         this.distinctTypes = [...new Set(list.filter(c => c.type !== '收入').map(c => c.type)
         )];
 
@@ -83,6 +85,10 @@ export class FixedExpensesComponent implements OnInit{
 
       //  偵測是否從其他頁返回
     this.router.events
+      /**
+       * .pipe() 匯集資料資料流轉給 subscribe
+       * @param event 導航結束的事件
+      */
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         //  每次返回頁面都重新抓分類資料
@@ -111,7 +117,10 @@ export class FixedExpensesComponent implements OnInit{
   //  輔助函數，把 Date 轉 YYYY-MM-DD
   formatDate(data: Date): string{
     const year = data.getFullYear();
-    const month = String(data.getMonth()).padStart(2, '0'); //  月份是 0~11
+    /*
+    * .padStart(a, b ) 屬於字串用法,若長度小於 a ,則在前面補上b
+    */
+    const month = String(data.getMonth() + 1).padStart(2, '0'); //  月份是 0~11
     const day = String(data.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }

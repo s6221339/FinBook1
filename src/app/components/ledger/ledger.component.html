@@ -51,7 +51,7 @@
         <!-- 年份選擇 -->
          <mat-form-field appearance="outline">
           <mat-label>選擇年份</mat-label>
-          <mat-select [(value)]="year">
+          <mat-select [(value)]="year" (valueChange)="updateMonthRange()">
             @for(y of years; track $index){
               <mat-option [value]="y">{{ y }}</mat-option>
             }
@@ -61,7 +61,7 @@
          <!-- 月份選擇 -->
         <mat-form-field appearance="outline">
           <mat-label>選擇月份</mat-label>
-          <mat-select [(value)]="month">
+          <mat-select [(value)]="month" (valueChange)="updateMonthRange()">
             @for(m of months; track $index){
               <mat-option [value]="m">{{ m }}</mat-option>
             }
@@ -132,6 +132,23 @@
           </mat-form-field>
         </div>
       }
+    </div>
+    <div style="margin-bottom: 16px;">
+      <mat-form-field appearance="outline">
+        <mat-label>選擇記錄日期</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [(ngModel)]="selectedRecordDate"
+          [min]="monthStartDate"
+          [max]="monthEndDate"
+          placeholder="請選擇日期"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-button (click)="clearSelectedRecordDate()">清除日期</button>
     </div>
     <div>
       <h3>款項列表：</h3>

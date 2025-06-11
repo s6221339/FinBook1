@@ -128,11 +128,15 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   categoriesFiltedItems: string[] = []; //  兩層下拉式選單第二層的對象
   categories: Category[] = [];
   distinctTypes: string[] = []; //  不重複的類型
-  account: string = "a6221339";
+  account: string = "a6221339"; //  預設帳號
+  selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
+  monthStartDate: Date = new Date(this.year, this.month-1, 1);
+  monthEndDate: Date = new Date(this.year, this.month, 0);
 
   ngOnInit(): void {
     //  初始化年份選單列表
     this.generateYears();
+    this.updateMonthRange();
     //  API取得帳號type
     this.apiService.getTypeByAccount(this.account)
       .then(res => {
@@ -140,14 +144,18 @@ export class LedgerComponent implements AfterViewInit,OnInit{
         this.categories = list;
 
         //  去重複取得唯一的 type
-        this.distinctTypes = [...new Set(list.map(c => c.type)
+        this.distinctTypes = ['全部', ...new Set(list.map(c => c.type)
         )];
+
+        //  設定預設值「全部」
+        this.selectedType = '全部';
+
+        //  初始化 item 清單為「全部」
+        this.updateCategoriesFiltedItems();
       })
       .catch(err => {
         console.error('API error：', err);
       });
-
-
   }
 
   ngAfterViewInit(): void {
@@ -281,18 +289,39 @@ export class LedgerComponent implements AfterViewInit,OnInit{
 
   //  根據 selectedType 更新 categoriesFilteredItems
   updateCategoriesFiltedItems(){
+    //  先取出符合 type 的所有 item
     this.categoriesFiltedItems = this.categories
-      .filter(c => c.type === this.selectedType)
+      .filter(c => !this.selectedType || this.selectedType == '全部' || c.type == this.selectedType)
       .map(c => c.item);
-      this.selectedItem = this.categoriesFiltedItems[0];  //  預設
+
+    //  加上「全部」選項在最前面
+    this.categoriesFiltedItems = ['全部', ...new Set(this.categoriesFiltedItems)];
+
+    //  預設選「全部」
+    this.selectedItem = '全部';
   }
 
   //
   get filteredTestData(): PaymentIdFormData[] {
     return this.testData.filter(t =>
-      (!this.selectedType || t.type?.includes(this.selectedType!)) &&
-      (!this.selectedItem || t.item?.includes(this.selectedItem!))
+      (!this.selectedType || this.selectedType == '全部' || t.type?.includes(this.selectedType!)) &&
+      (!this.selectedItem || this.selectedItem == '全部' || t.item?.includes(this.selectedItem!)) &&
+      (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
     );
   }
 
+  updateMonthRange(): void {
+    this.monthStartDate = new Date(this.year, this.month - 1, 1);
+    this.monthEndDate = new Date(this.year, this.month, 0);
+  }
+
+  isSameDate(d1: Date, d2: Date): boolean {
+    return d1.getFullYear() == d2.getFullYear() &&
+           d1.getMonth() == d2.getMonth() &&
+           d1.getDate() == d2.getDate();
+  }
+
+  clearSelectedRecordDate(): void {
+    this.selectedRecordDate = null;
+  }
 }

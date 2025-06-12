@@ -23,17 +23,22 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>選擇轉帳日期</mat-label>
           <input
+            #dateInput
             matInput
-            [matDatepicker]="picker"
-            [(ngModel)]="transferDate"
+            type="date"
+            [max]="today"
+            [(ngModel)]="transferDateString"
             name="transferDate"
             required
             #transferDateField="ngModel"
             >
-          <mat-datepicker-toggle matIconSuffix [for]="picker">
-            <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
-          </mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+            <button
+              matSuffix
+              mat-icon-button
+              type="button"
+              (click)="dateInput.showPicker()">
+              <mat-icon>calendar_today</mat-icon>
+            </button>
           <mat-hint>選擇轉帳發生的日期</mat-hint>
         </mat-form-field>
       </div>
@@ -55,7 +60,7 @@
             >
             @for(acc of accounts ; track acc.id) {
               <mat-option [value]="acc.id">
-                {{ acc.name }}
+               (ID: {{ acc.id }}) {{ acc.name }}
               </mat-option>
             }
           </mat-select>
@@ -68,22 +73,28 @@
     <div class="form-section">
       <div class="section-header">
         <span class="material-icons">account_balance</span>
-        <h3>轉入帳戶</h3>
+        <h3>轉入帳戶 ID</h3>
       </div>
       <div class="form-group">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>選擇轉入帳戶（可選自己帳戶或他人帳戶）</mat-label>
-          <mat-select
-            [(ngModel)]="toAccountId"
+          <mat-label>在此處輸入轉入帳戶ID或選擇帳戶</mat-label>
+          <input
+            matInput
+            type="number"
+            min="1"
             name="toAccountId"
+            placeholder="請輸入轉入ID或選擇帳戶"
             required
             >
-            @for(acc of accounts ; track acc.id) {
-              <mat-option [value]="acc.id">
-                {{ acc.name }}
-              </mat-option>
+            <div class="suggestions">
+              @for(acc of accounts ; track acc.id) {
+              <div (click)="toggleToAccount(acc.id)"
+                  [class.selected]="toAccountId === acc.id"
+                  class="suggestion-item">
+                (ID: {{ acc.id }}) {{ acc.name }}
+              </div>
             }
-          </mat-select>
+            </div>
           <mat-hint>選擇資金轉入的帳戶</mat-hint>
         </mat-form-field>
       </div>
@@ -100,10 +111,10 @@
           <span class="currency-symbol">NT$</span>
           <input type="number"
                 class="amount-input"
-                [(ngModel)]="amount"
                 name="amount"
                 placeholder="請輸入轉帳金額"
                 min="1" step="1" required
+                [(ngModel)]="amount"
                 >
         </div>
       </div>
@@ -142,7 +153,7 @@
             class="note-input"
             [(ngModel)]="description"
             name="description"
-            placeholder="記錄轉帳原因或其他說明..."
+            placeholder="記錄轉帳原因或其他說明"
             rows="3" maxlength="200"></textarea>
           <div class="char-count">0/200</div>
         </div>

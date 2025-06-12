@@ -6,7 +6,7 @@
 }
 
 // 表單標題
-.form-header {
+.form-header {  /* flex 排版圖示 + 文字 */
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -275,12 +275,24 @@
     flex-direction: column;
   }
 }
-.no-spinner::-webkit-outer-spin-button,
-.no-spinner::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.suggestions {
+  border: 1px solid #000000;
+  border-radius: 4px;
+  background: #eae9e9;
+  margin-top: 10px;
+}
+.suggestion-item {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.suggestion-item.selected {
+  background: rgba(0, 0, 0, 0.1);
+  border-left: 12px solid #0690a8;
 }
 
-.no-spinner {
-  -moz-appearance: textfield;
+::ng-deep button[mat-icon-button] {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 }
+

@@ -5,9 +5,11 @@
     <!-- Logo和應用程式名稱 -->
     <div class="logo-container">
         <div class="logo-wrapper">
-        <img src="notebook-while.gif" alt="" class="logo">
+        <!-- <img src="notebook-while-one.gif" alt="" class="logo"> -->
+        <img class="logo" [src]="gifUrl" (mouseenter)="refreshGif()" alt="動畫圖" />
+
         </div>
-      <h1 class="app-name" (click)="toHome()">智能錢包</h1>
+      <!-- <h1 class="app-name" (click)="toHome()">智能錢包</h1> -->
     </div>
 
     <!-- 導航選單 -->

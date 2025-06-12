@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { Account, TransferRequest } from '../../models/transfers';
 import { ApiService } from '../../@services/api.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 registerLocaleData(localeZh, 'zh-TW');
 
 @Component({
@@ -30,12 +31,12 @@ registerLocaleData(localeZh, 'zh-TW');
 })
 export class TransfersComponent {
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
    // 1. 宣告對應 HTML 表單欄位的屬性
   fromAccountId: number = 0;   // 轉出子帳戶 ID
   toAccountId:   number = 0;   // 轉入子帳戶 ID
-  transferDate:  Date | null = null;  // 選擇的日期 (Material Datepicker 回傳 Date)
+  transferDateString: string = ''
   amount:        number = 0;   // 轉帳金額
   fee?:          number;       // 手續費，可選
   description?:  string;       // 備註，可選
@@ -44,9 +45,14 @@ export class TransfersComponent {
   accounts: Account[] = [];    // 帳戶清單
   isLoading: boolean  = false; // 是否正在執行轉帳，用於按鈕禁用
 
+  today: string = '';
 
   // 3. 載入完成後的初始化
   ngOnInit() {
+
+
+    this.today = new Date().toISOString().split('T')[0];
+
     // A. 假資料測試：先給三個帳戶來渲染下拉選單
     this.accounts = [
       { id: 1, name: '現金',    balance: 10000 },
@@ -71,22 +77,22 @@ export class TransfersComponent {
   onSubmit() {
     // 4. 前端基本驗證：
     // 驗證轉帳日期是否填寫
-      if (!this.transferDate) {
+      if (!this.transferDateString || this.transferDateString.trim() =='') {
         Swal.fire({
           icon: 'error',
           title: '日期錯誤',
-          text: '請選擇轉帳日期。',
+          text: '請選擇轉帳日期',
           confirmButtonText: '確定'
         });
         return;
       }
 
-      // 驗證來源帳戶是否正確
-      if (this.fromAccountId <= 0) {
+      // 驗證轉出帳戶是否正確
+      if (!Number.isInteger(this.fromAccountId) ||this.fromAccountId <= 0) {
         Swal.fire({
           icon: 'error',
           title: '轉出帳戶錯誤',
-          text: '請選擇有效的轉出子帳戶。',
+          text: '請選擇有效的轉出子帳戶',
           confirmButtonText: '確定'
         });
         return;
@@ -97,7 +103,28 @@ export class TransfersComponent {
         Swal.fire({
           icon: 'error',
           title: '轉入帳戶錯誤',
-          text: '請選擇有效的轉入子帳戶。',
+          text: '請選擇有效的轉入子帳戶',
+          confirmButtonText: '確定'
+        });
+        return;
+      }
+
+      // 驗證轉出與轉入帳戶是否相同
+      if (this.toAccountId === this.fromAccountId) {
+        Swal.fire({
+          icon: 'error',
+          title:'帳戶錯誤',
+          text: '轉出與轉入帳戶相同',
+          confirmButtonText: '確定'
+        });
+         return;
+      }
+
+      if (this.amount === undefined) {
+        Swal.fire({
+          icon: 'error',
+          title: '金額錯誤',
+          text: '請輸入轉帳金額',
           confirmButtonText: '確定'
         });
         return;
@@ -108,7 +135,17 @@ export class TransfersComponent {
         Swal.fire({
           icon: 'error',
           title: '金額錯誤',
-          text: '請輸入大於 0 的金額。',
+          text: '請輸入大於 0 的金額',
+          confirmButtonText: '確定'
+        });
+        return;
+      }
+
+      if (!Number.isInteger(this.amount)) {
+          Swal.fire({
+          icon: 'error',
+          title: '金額錯誤',
+          text: '請輸入整數金額',
           confirmButtonText: '確定'
         });
         return;
@@ -119,32 +156,43 @@ export class TransfersComponent {
         this.fee = 0;
       }
 
+      // 若 description 為空值，設定預設值 '無備註'
+      if(this.description == undefined  || this.description == null){
+        this.description = '無備註';
+      }
+
       // 如果 fee < 0 就中斷
       if (this.fee < 0) {
         Swal.fire({
           icon: 'error',
           title: '手續費錯誤',
-          text: '手續費不能為負數。',
+          text: '手續費不能為負數',
           confirmButtonText: '確定'
         });
         return;
       }
 
+      if ((this.description || '').length > 200) {
+        Swal.fire({
+          icon: 'error',
+          title:'備註錯誤',
+          text: '備註最多 200 字',
+          confirmButtonText: '確定'
+        });
+        return;
+      }
+
+
+
     // 5. 清除錯誤訊息並顯示載入狀態
     this.isLoading = true;
 
-    // 6. 將 Date 物件格式化為 "YYYY-MM-DD" 字串
-    const dateObj: Date = this.transferDate!;  // 非空斷言，保證有值
-    const yyyy = dateObj.getFullYear();
-    const mm   = String(dateObj.getMonth() + 1).padStart(2, '0');
-    const dd   = String(dateObj.getDate()).padStart(2, '0');
-    const dateStr = `${yyyy}-${mm}-${dd}`;
 
     // 7. 組合成 transferRequest 物件，符合後端要求的欄位
     const payload: TransferRequest = {
       fromAccountId: this.fromAccountId,
       toAccountId:   this.toAccountId,
-      transferDate:  dateStr,
+      transferDate:  this.transferDateString,
       amount:        this.amount,
       fee:           this.fee,
       description:   this.description
@@ -161,9 +209,6 @@ export class TransfersComponent {
           title: '轉帳成功',
           text: '假轉帳完成！',
           confirmButtonText: '確定'
-        }).then(() => {
-          // 成功後重置表單
-          this.resetForm();
         });
       })
 
@@ -213,23 +258,13 @@ export class TransfersComponent {
   //     .finally(() => { this.isLoading = false; });
    }
 
-  /**
-   * 按下「取消」時清空表單與錯誤訊息
-   */
+  // 回首頁
   onCancel() {
-    this.resetForm();
-
+    this.router.navigate(['/home']);
   }
 
-  /**
-   * 單欄位重置邏輯
-   */
-  private resetForm() {
-    this.fromAccountId = 0;
-    this.toAccountId   = 0;
-    this.transferDate  = null;
-    this.amount        = 0;
-    this.fee           = undefined;
-    this.description   = undefined;
-  }
+
+  toggleToAccount(id: number) {
+  this.toAccountId === id ? this.toAccountId = 0 : this.toAccountId = id;
+}
 }

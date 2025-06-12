@@ -47,6 +47,11 @@ export class TestComponent {
  "recordDate": "2025-06-09"
 };
 paymentId: number = 2;
+data3 = {
+  "account": "a6221339",
+  "year": 2025,
+  "month": 6
+};
 
   createType(){
     this.apiService.createType(this.data)
@@ -118,6 +123,18 @@ paymentId: number = 2;
       .catch(err => {
         console.error('送出失敗：', err);
         alert('獲得帳款失敗，請稍後再試');
+      });
+  }
+
+  getBudgetByAccount(){
+    this.apiService.getBudgetByAccount(this.data3)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得特定月預算成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得特定月預算失敗，請稍後再試');
       });
   }
 }

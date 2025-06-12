@@ -25,25 +25,27 @@
     </svg>
   </div>
   <!-- 帳戶選擇 -->
-    <div class="form-section">
-      <div class="section-header">
-        <span class="material-icons">account_balance_wallet</span>
-        <h3>支出帳戶</h3>
+    @if(balanceList.length > 0){
+      <div class="form-section">
+        <div class="section-header">
+          <span class="material-icons">account_balance</span>
+          <h3>選擇帳戶</h3>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>選擇帳戶</mat-label>
+            <mat-select [(value)]="selectedBalanceId" (valueChange)="updateBudgetDisplay()">
+              @for(b of balanceList; track $index){
+                <mat-option [value]="b.balanceId">
+                  {{ b.balanceId }}
+                </mat-option>
+              }
+            </mat-select>
+            <mat-hint>選擇帳戶名稱：{{ selectedBalanceId }}</mat-hint>
+          </mat-form-field>
+        </div>
       </div>
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>選擇帳戶</mat-label>
-          <mat-select [(value)]="selectedUserName">
-            @for(user of userNames; track $index){
-              <mat-option [value]="user">
-                {{ user }}
-              </mat-option>
-            }
-          </mat-select>
-          <mat-hint>選擇固定支出的帳戶來源：{{ selectedUserName }}</mat-hint>
-        </mat-form-field>
-      </div>
-    </div>
+    }
     <div>
       <h3>月份選擇</h3>
       <div class="form-group" style="display: flex; gap: 16px;">
@@ -51,7 +53,7 @@
         <!-- 年份選擇 -->
          <mat-form-field appearance="outline">
           <mat-label>選擇年份</mat-label>
-          <mat-select [(value)]="year" (valueChange)="updateMonthRange()">
+          <mat-select [(value)]="year" (valueChange)="onYearChange()">
             @for(y of years; track $index){
               <mat-option [value]="y">{{ y }}</mat-option>
             }

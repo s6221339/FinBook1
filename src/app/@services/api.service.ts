@@ -65,4 +65,11 @@ export class ApiService {
     });
   }
 
+  //  透過帳號取得特定月份預算
+  getBudgetByAccount(data: any){
+    return axios.post('http://localhost:8080/finbook/balance/getBudgetByAccount', data, {
+      withCredentials: true
+    });
+  }
+
 }

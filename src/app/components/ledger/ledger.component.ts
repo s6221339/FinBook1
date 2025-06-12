@@ -29,8 +29,6 @@ export class LedgerComponent implements AfterViewInit,OnInit{
 
   @ViewChild('batteryFill') batteryFillElement!: ElementRef<SVGRectElement>;
   @ViewChild('batteryPercentText') batteryPercentTextElement!: ElementRef<SVGTextElement>;
-  userNames: string[] = ["1", "2"]; //  帳戶下拉式選單
-  selectedUserName: string = this.userNames[0]; //  預設帳戶1;
   year: number = new Date().getFullYear(); //  預設帳戶時間（年）
   month: number = new Date().getMonth() + 1;  //  預設帳戶時間（月）
   years: number[] = []; //  年份列表
@@ -42,7 +40,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   income?: number;  //  收入
   expenses?: number;  //  支出
   balance?: number; //  餘額
-  isEditingBudget: boolean = false;
+  isEditingBudget: boolean = false; //  是否編輯儲蓄
   isSavingsSet: boolean = false;
   testData: PaymentIdFormData[] = [
     {
@@ -130,12 +128,15 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   distinctTypes: string[] = []; //  不重複的類型
   account: string = "a6221339"; //  預設帳號
   selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
-  monthStartDate: Date = new Date(this.year, this.month-1, 1);
-  monthEndDate: Date = new Date(this.year, this.month, 0);
+  monthStartDate: Date = new Date(this.year, this.month-1, 1);  //  日期選擇器篩選表格開始日期
+  monthEndDate: Date = new Date(this.year, this.month, 0);  //  日期選擇器篩選表格結束日期
+  balanceList: any[] = [];  //  存 API 回傳 budgetList
+  selectedBalanceId?: number; //  使用者目前選擇的 balanceId（預設為第一筆）
 
   ngOnInit(): void {
     //  初始化年份選單列表
     this.generateYears();
+    this.generateMonths();
     this.updateMonthRange();
     //  API取得帳號type
     this.apiService.getTypeByAccount(this.account)
@@ -156,6 +157,9 @@ export class LedgerComponent implements AfterViewInit,OnInit{
       .catch(err => {
         console.error('API error：', err);
       });
+
+      //  撈預算資料
+      this.loadBudgetData();
   }
 
   ngAfterViewInit(): void {
@@ -317,6 +321,8 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   updateMonthRange(): void {
     this.monthStartDate = new Date(this.year, this.month - 1, 1);
     this.monthEndDate = new Date(this.year, this.month, 0);
+
+    this.loadBudgetData();  //  month 變動時撈資料
   }
 
   //  日期選擇器篩選選擇日期
@@ -326,8 +332,105 @@ export class LedgerComponent implements AfterViewInit,OnInit{
            d1.getDate() == d2.getDate();
   }
 
+  //  清除日期選擇器篩選表格選擇日期
   clearSelectedRecordDate(): void {
     this.selectedRecordDate = null;
+  }
+
+  //  年月下拉式選單月份生成不超過目前月份
+  generateMonths(): void {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1; //  1~12
+
+    //  如果選的年份是今年 -> 鎖住未來月份
+    if(this.year == currentYear) {
+      this.months = [];
+      for(let m = 1; m <= currentMonth; m++) {
+        this.months.push(m);
+      }
+    }
+    else{
+      //  如果選的年份是過去年份 -> 可以選 1~12
+      this.months = [];
+      for(let m = 1; m <= 12; m++) {
+        this.months.push(m);
+      }
+    }
+
+    //  檢查目前 month 是否還在合法範圍內
+    if(this.month > this.months[this.months.length - 1]) {
+      this.month = this.months[this.months.length - 1];
+    }
+
+    //  更新下方日期篩選範圍
+    this.updateMonthRange();
+  }
+
+  //  下拉式選單切換年份時同步更新月份生成
+  onYearChange(): void {
+    this.generateMonths();
+    this.loadBudgetData();  //  year 變動時撈資料
+  }
+
+  //  撈 budget API
+  loadBudgetData(): void {
+    const data = {
+      account: this.account,
+      year: this.year,
+      month: this.month
+    }
+
+    this.apiService.getBudgetByAccount(data)
+    .then(res => {
+      const list = res.data.budgetList || [];
+      this.balanceList = list;
+
+      if(list.length > 0) {
+        //  預設選擇第一個 balanceId
+        this.selectedBalanceId = list[0].balanceId;
+        this.updateBudgetDisplay(); //  更新畫面顯示
+      }
+      else{
+        // 沒資料 -> 清空畫面顯示
+        this.selectedBalanceId = undefined;
+        this.clearBudgetDisplay();
+      }
+    })
+    .catch(err => {
+      console.error('取得預算資料失敗：', err);
+      this.balanceList = [];
+      this.clearBudgetDisplay();
+    });
+  }
+
+  //  更新預算和電池畫面顯示用方法
+  updateBudgetDisplay(): void {
+    const current = this.balanceList.find(b => b.balanceId == this.selectedBalanceId);
+
+    if(current){
+      this.budget = current.budget;
+      this.fixedIncome = current.recurIncome;
+      this.fixedExpenses = current.recurExpenditure;
+      this.income = current.income;
+      this.expenses = current.expenditure;
+      this.balance = current.settlement;
+
+      //  更新電池 -> 用 餘額 / 預算
+      const budgetPercentRemaining = this.budget == 0 ? 0 : (this.balance! / this.budget!) * 100;
+      this.updateBattery(budgetPercentRemaining);
+    }
+  }
+
+  //  清空畫面顯示方法
+  clearBudgetDisplay(): void {
+    this.budget = undefined;
+    this.fixedIncome = undefined;
+    this.fixedExpenses = undefined;
+    this.income = undefined;
+    this.expenses = undefined;
+    this.balance = undefined;
+
+    this.updateBattery(100);  //  預設為 100
   }
 
 }

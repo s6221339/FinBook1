@@ -159,7 +159,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   }
 
   ngAfterViewInit(): void {
-    this.updateBattery(1);
+    this.updateBattery(-100);
   }
 
   updateBattery(budgetPercentRemaining: number): void {
@@ -279,7 +279,6 @@ export class LedgerComponent implements AfterViewInit,OnInit{
     }
 
     this.isSavingsSet = true;
-    this.isEditingBudget = false;
   }
 
   //  取消編輯儲蓄
@@ -291,30 +290,36 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   updateCategoriesFiltedItems(){
     //  先取出符合 type 的所有 item
     this.categoriesFiltedItems = this.categories
+      //  篩選 如果
+      //  !this.selectedType 是空值或 null 篩全部
+      //  this.selectedType == '全部'也是篩全部
       .filter(c => !this.selectedType || this.selectedType == '全部' || c.type == this.selectedType)
       .map(c => c.item);
 
     //  加上「全部」選項在最前面
     this.categoriesFiltedItems = ['全部', ...new Set(this.categoriesFiltedItems)];
 
-    //  預設選「全部」
+    //  預設 item 選「全部」
     this.selectedItem = '全部';
   }
 
-  //
+  //  get 方法在裡面值有變動時會自動執行調整
   get filteredTestData(): PaymentIdFormData[] {
     return this.testData.filter(t =>
       (!this.selectedType || this.selectedType == '全部' || t.type?.includes(this.selectedType!)) &&
-      (!this.selectedItem || this.selectedItem == '全部' || t.item?.includes(this.selectedItem!)) &&
+      //  ?. 是 Optional Chaining（可選鏈結運算子）如果前面的東西是 undefined 或 null，就不繼續執行後面的操作，直接回傳 undefined。
+      (!this.selectedItem || this.selectedItem == '全部' || t.item?.includes(this.selectedItem!)) &&  // ! 非空斷言運算子
       (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
     );
   }
 
+  //  更新日期選擇器篩選範圍
   updateMonthRange(): void {
     this.monthStartDate = new Date(this.year, this.month - 1, 1);
     this.monthEndDate = new Date(this.year, this.month, 0);
   }
 
+  //  日期選擇器篩選選擇日期
   isSameDate(d1: Date, d2: Date): boolean {
     return d1.getFullYear() == d2.getFullYear() &&
            d1.getMonth() == d2.getMonth() &&
@@ -324,4 +329,5 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   clearSelectedRecordDate(): void {
     this.selectedRecordDate = null;
   }
+
 }

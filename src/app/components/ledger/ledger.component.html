@@ -75,11 +75,11 @@
       <h3>預算： {{ budget }}</h3>
       <h3>固定收入： {{ fixedIncome }}</h3>
       <h3>固定支出： {{ fixedExpenses }}</h3>
+      <!-- 設定儲蓄金額 -->
       <h3 style="display: flex; align-items: center; gap: 8px;">
         儲蓄：
-
         @if(!isEditingBudget){
-          {{ isSavingsSet ? (savings + '元') : '商未設定' }}
+          {{ isSavingsSet ? (savings + '元') : '尚未設定' }}
           <button mat-icon-button (click)="startEditBudget()">
             <mat-icon>edit</mat-icon>
           </button>
@@ -133,6 +133,7 @@
         </div>
       }
     </div>
+    <!-- 日期篩選款項 -->
     <div style="margin-bottom: 16px;">
       <mat-form-field appearance="outline">
         <mat-label>選擇記錄日期</mat-label>
@@ -144,12 +145,14 @@
           [max]="monthEndDate"
           placeholder="請選擇日期"
         />
+        <!-- matSuffix 置於 input 右側且具有對齊效果-->
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <!-- #picker 將此日期選擇器取名為 picker ，可被上面的 input 跟 toggle 呼叫 -->
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-
       <button mat-button (click)="clearSelectedRecordDate()">清除日期</button>
     </div>
+
     <div>
       <h3>款項列表：</h3>
       <table class="payment-table">

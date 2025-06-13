@@ -58,11 +58,13 @@
             name="fromAccountId"
             required
             >
+            <div class="suggestions">
             @for(acc of accounts ; track acc.id) {
-              <mat-option [value]="acc.id">
+              <mat-option [value]="acc.id" >
                (ID: {{ acc.id }}) {{ acc.name }}
               </mat-option>
             }
+          </div>
           </mat-select>
           <mat-hint>選擇資金轉出的帳戶</mat-hint>
         </mat-form-field>
@@ -89,7 +91,7 @@
             <div class="suggestions">
               @for(acc of accounts ; track acc.id) {
               <div (click)="toggleToAccount(acc.id)"
-                  [class.selected]="toAccountId === acc.id"
+                  [class.selected]="toAccountId == acc.id"
                   class="suggestion-item">
                 (ID: {{ acc.id }}) {{ acc.name }}
               </div>

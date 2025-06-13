@@ -1,0 +1,198 @@
+/* ===========================================
+   transfer-history.component.scss
+   僅調整樣式，不變動 HTML 結構
+   清淡暖色漸層背景 + 柔和卡片
+   =========================================== */
+
+/* 主畫面容器 */
+.transfer-history-page {
+  min-height: 100vh;
+  padding-top: 80px; /* 留給固定 Header */
+  background: linear-gradient(135deg, #fff5f7 0%, #fff8f8 100%);
+}
+
+/* 內容主區 */
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* 篩選卡片 */
+.filter-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.filter-card .card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 2rem;
+  background: #fff5f7;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.filter-card .card-header .material-icons {
+  color: #3b82f6;
+}
+
+.filter-card .card-header h3 {
+  margin: 0; flex: 1;
+  font-size: 1.3rem; font-weight: 600;
+  color: #334155;
+}
+
+.filter-card .card-content {
+  padding: 2rem;
+}
+
+.filter-range {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap: 1.5rem;
+}
+
+/* 轉帳記錄卡片 */
+.transactions-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.transactions-card .card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 2rem;
+  background: #fff5f7;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.transactions-card .card-header .material-icons {
+  color: #3b82f6;
+}
+
+.transactions-card .card-header h3 {
+  margin: 0; flex: 1;
+  font-size: 1.3rem; font-weight: 600;
+  color: #334155;
+}
+
+.transactions-card .card-header .transaction-count {
+  background: #3b82f6;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem; font-weight: 500;
+}
+
+.transactions-card .card-content {
+  padding: 0 2rem 2rem;
+}
+
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transactions-table th,
+.transactions-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.transactions-table th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.transactions-table th:hover {
+  background: #f1f5f9;
+}
+
+.transactions-table tr:hover {
+  background: #f8fafc;
+}
+
+.transactions-card mat-paginator {
+  margin-top: 1rem;
+}
+
+/* 統計摘要卡片 */
+.summary-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.summary-card .card-header {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 1.5rem 2rem;
+  background: #fff5f7;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.summary-card .card-header .material-icons {
+  color: #3b82f6;
+}
+
+.summary-card .card-header h3 {
+  margin: 0; flex: 1;
+  font-size: 1.3rem; font-weight: 600;
+  color: #334155;
+}
+
+.summary-card .card-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.summary-item {
+  display: flex; align-items: center; gap: 1rem;
+  background: #f8fafc; border-radius: 12px;
+  padding: 1.5rem; transition: all 0.2s;
+}
+
+.summary-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.summary-label {
+  font-size: 0.9rem; color: #64748b; margin-bottom: 0.25rem;
+}
+
+.summary-value {
+  font-size: 1.3rem; font-weight: 700; color: #334155;
+}
+
+/* 響應式 */
+@media (max-width: 768px) {
+  .content-container {
+    padding: 0 1rem 2rem;
+  }
+  .filter-range,
+  .summary-card .card-content {
+    grid-template-columns: 1fr !important;
+  }
+}

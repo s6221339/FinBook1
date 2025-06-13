@@ -1,0 +1,106 @@
+<div class="transfer-history-page">
+  <div class="content-container">
+    <!-- 區間即時日期篩選 -->
+    <div class="filter-card">
+      <div class="card-header">
+        <span class="material-icons">filter_list</span>
+        <h3>篩選轉帳日期</h3>
+      </div>
+      <div class="card-content">
+        <div class="filter-range">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>開始日期</mat-label>
+            <input matInput type="date"
+                   [(ngModel)]="startDate"
+                   (ngModelChange)="onDateRangeChange()"
+                   [max]="today">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>結束日期</mat-label>
+            <input matInput type="date"
+                   [(ngModel)]="endDate"
+                   (ngModelChange)="onDateRangeChange()"
+                   [max]="today">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <!-- 轉帳記錄表格 -->
+    <div class="transactions-card">
+      <div class="card-header">
+        <span class="material-icons">swap_horiz</span>
+        <h3>轉帳記錄</h3>
+        <span class="transaction-count">共 {{ totalItems }} 筆</span>
+      </div>
+      <div class="card-content">
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2 transactions-table">
+
+            <!-- ID 欄 -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>交易編號</th>
+              <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+            </ng-container>
+
+            <!-- 日期 -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>日期</th>
+              <td mat-cell *matCellDef="let row">{{ row.date | date:'yyyy/MM/dd' }}</td>
+            </ng-container>
+
+            <!-- 轉出帳戶 -->
+            <ng-container matColumnDef="fromAccount">
+              <th mat-header-cell *matHeaderCellDef>轉出帳戶</th>
+              <td mat-cell *matCellDef="let row">{{ row.fromAccount }}</td>
+            </ng-container>
+
+            <!-- 轉入帳戶 -->
+            <ng-container matColumnDef="toAccount">
+              <th mat-header-cell *matHeaderCellDef>轉入帳戶</th>
+              <td mat-cell *matCellDef="let row">{{ row.toAccount }}</td>
+            </ng-container>
+
+            <!-- 金額 -->
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>金額</th>
+              <td mat-cell *matCellDef="let row">{{ row.amount | currency:'TWD' }}</td>
+            </ng-container>
+
+            <!-- 手續費 -->
+            <ng-container matColumnDef="fee">
+              <th mat-header-cell *matHeaderCellDef>手續費</th>
+              <td mat-cell *matCellDef="let row">{{ row.fee | currency:'TWD' }}</td>
+            </ng-container>
+
+            <!-- 表格列 -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+        <mat-paginator [length]="totalItems"
+                       [pageSize]="pageSize"
+                       [pageSizeOptions]="[5,10,20]">
+        </mat-paginator>
+      </div>
+    </div>
+
+    <!-- 統計摘要 -->
+    <div class="summary-card">
+      <div class="card-header">
+        <span class="material-icons">analytics</span>
+        <h3>轉帳統計摘要</h3>
+      </div>
+      <div class="card-content summary-grid">
+        <div class="summary-item">
+          <div class="summary-label">總筆數</div>
+          <div class="summary-value">{{ totalItems }}</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">最後一筆日期</div>
+          <div class="summary-value">{{ lastTransactionDate | date:'yyyy/MM/dd' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

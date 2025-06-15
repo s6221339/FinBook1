@@ -21,16 +21,16 @@ export class TestComponent {
   account: string = "a6221339";
   data1 = {
     "balanceId": 1,
-    "description": "6/10早餐",
-    "type": "飲食",
-    "item": "早餐",
-    "amount": 105,
+    "description": "測試",
+    "type": "收入",
+    "item": "（轉帳）轉入",
+    "amount": 6000,
     "recurringPeriod": {
       "year": 0,
       "month": 0,
       "day": 0
     },
-    "recordDate": "2025-06-10"
+    "recordDate": "2025-06-13"
   };
   data2 = {
  "paymentId": 15,
@@ -48,6 +48,16 @@ export class TestComponent {
 };
 paymentId: number = 2;
 data3 = {
+  "account": "a6221339",
+  "year": 2025,
+  "month": 6
+};
+data4 = {
+  "balanceId": 1,
+  "name": "",
+  "savings": 3000
+};
+data5 = {
   "account": "a6221339",
   "year": 2025,
   "month": 6
@@ -137,4 +147,42 @@ data3 = {
         alert('獲得特定月預算失敗，請稍後再試');
       });
   }
+
+  updateSavings(){
+    this.apiService.updateSavings(this.data4)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('更新存款成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('更新存款失敗，請稍後再試');
+      });
+  }
+
+  getPaymentByAccountAndMonth(){
+    this.apiService.getPaymentByAccountAndMonth(this.data5)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('取得帳款成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('取得帳款失敗，請稍後再試');
+      });
+  }
+
+  getBalanceByAccount(){
+    this.apiService.getBalanceByAccount(this.account)
+    .then(res => {
+      const BalanceList = res.data; // 這裡才是後端傳來的資料
+      console.log('帳戶列表：', BalanceList);
+      alert('取得個人帳號帳戶成功！');
+    })
+    .catch(err => {
+      console.error('取得帳戶失敗：', err);
+      alert('取得個人帳號帳戶失敗！');
+    });
+  }
+
 }

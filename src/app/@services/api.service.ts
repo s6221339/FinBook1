@@ -72,4 +72,26 @@ export class ApiService {
     });
   }
 
+  //  更新儲蓄金額
+  updateSavings(data: any){
+    return axios.post('http://localhost:8080/finbook/balance/update', data, {
+      withCredentials: true
+    });
+  }
+
+  //  獲取當月所有帳款
+  getPaymentByAccountAndMonth(data: any){
+    return axios.post('http://localhost:8080/finbook/payment/getInfoByAccountWithDateFilter', data, {
+      withCredentials: true
+    });
+  }
+
+  //  透過帳號取得個人帳號帳戶
+  getBalanceByAccount(account: string){
+    return axios.post('http://localhost:8080/finbook/balance/getAllByAccount', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
 }

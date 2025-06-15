@@ -283,6 +283,24 @@ export class LedgerComponent implements AfterViewInit,OnInit{
     }
 
     this.isSavingsSet = true;
+
+    //  組 API 傳入資料
+    const data = {
+      balanceId: this.selectedBalanceId,
+      name: '',
+      savings: this.savings
+    };
+
+    //  呼叫 updateSavings API
+    this.apiService.updateSavings(data)
+    .then(res => {
+      console.log('儲蓄金額更新成功', res);
+      this.loadBudgetData();
+      //  同步更新數據
+    })
+    .catch(err => {
+      console.log('儲蓄金額更新失敗', err);
+    });
   }
 
   //  取消編輯儲蓄
@@ -430,7 +448,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
     this.expenses = undefined;
     this.balance = undefined;
 
-    this.updateBattery(100);  //  預設為 100
+    this.updateBattery(0);  //  預設為 100
   }
 
 }

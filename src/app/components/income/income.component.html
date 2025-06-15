@@ -41,14 +41,14 @@
       <div class="form-group">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>選擇帳戶</mat-label>
-          <mat-select [(value)]="selectedUserName">
-            @for(user of userNames; track $index){
-              <mat-option [value]="user">
-                {{ user }}
+          <mat-select [(value)]="selectedBalanceId">
+            @for(user of balanceOptions; track $index){
+              <mat-option [value]="user.balanceId">
+                {{ user.name }}
               </mat-option>
             }
           </mat-select>
-          <mat-hint>選擇收入存入的帳戶：{{ selectedUserName }}</mat-hint>
+          <mat-hint>選擇收入存入的帳戶：{{ selectedBalanceName }}</mat-hint>
         </mat-form-field>
       </div>
     </div>

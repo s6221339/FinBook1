@@ -1,3 +1,4 @@
+import { PaymentService } from './../../@services/payment.service';
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
@@ -10,26 +11,32 @@ import { Router, RouterOutlet } from '@angular/router';
 export class BookKeepingComponent {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private paymentService: PaymentService
   ){}
 
   goFixedIncome(){
+    this.paymentService.cleanFormData();
     this.router.navigate(['/bookKeeping/fixedIncome']);
   }
 
   goFixedExpenses(){
+    this.paymentService.cleanFormData();
     this.router.navigate(['/bookKeeping/fixedExpenses']);
   }
 
   goIncome(){
+    this.paymentService.cleanFormData();
     this.router.navigate(['/bookKeeping/income']);
   }
 
   goExpenses(){
+    this.paymentService.cleanFormData();
     this.router.navigate(['/bookKeeping/expenses']);
   }
 
   goTransfers(){
+    this.paymentService.cleanFormData();
     this.router.navigate(['/bookKeeping/transfers']);
   }
 

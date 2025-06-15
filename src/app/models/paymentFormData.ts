@@ -4,7 +4,7 @@ export interface PaymentFormData {
   recurringPeriodYear: number | null;
   recurringPeriodMonth: number | null;
   recurringPeriodDay: number | null;
-  selectedUserName: string;
+  selectedBalanceId: number;
   amount: number | null;
   selectedType: string | null;
   selectedItem: string | null;

@@ -12,6 +12,7 @@ import { ApiService } from '../../@services/api.service';
 import { FormsModule } from '@angular/forms';
 import { filter } from 'rxjs';
 import Swal from 'sweetalert2';
+import { Balance } from '../../models/Balance';
 
 @Component({
   selector: 'app-expenses',
@@ -31,8 +32,6 @@ export class ExpensesComponent implements OnInit{
   ){}
 
   today: Date = new Date();
-  userNames: string[] = ["1", "2"];
-  selectedUserName: string = this.userNames[0]; //  預設帳戶1
   type?: string;
   item?: string;
   categories: Category[] = [];
@@ -46,6 +45,8 @@ export class ExpensesComponent implements OnInit{
   recurringPeriodYear?: number | null;  //  循環年數
   recurringPeriodMonth?: number | null; //  循環月數
   recurringPeriodDay?: number | null; //  循環天數
+  balanceOptions: Balance[] = [];  //  API取得下拉式選單帳戶資料
+  selectedBalanceId: number = 0;  //  實際綁定 balanceId
 
   ngOnInit(): void {
     //  API取得帳號type
@@ -58,28 +59,39 @@ export class ExpensesComponent implements OnInit{
         this.distinctTypes = [...new Set(list.filter(c => c.type !== '收入').map(c => c.type)
         )];
 
-      //  一定要放在 API 成功後，才有分類資料可以使用
-      const saved = this.paymentService.getFormData();
-      if(saved){
-        this.today = new Date(saved.recordDate);
-        this.recurringPeriodYear = null;
-        this.recurringPeriodMonth = null;
-        this.recurringPeriodDay = null;
-        this.selectedUserName = saved.selectedUserName;
-        this.amount = saved.amount ?? null;
-        this.selectedType = saved.selectedType ?? null;
-        this.selectedItem = saved.selectedItem ?? null;
-        this.description = saved.description ?? '';
+        //  接著抓帳戶資料
+        return this.apiService.getBalanceByAccount(this.account);
+      })
+      .then(res => {
+        this.balanceOptions = res.data.balanceList || [];
 
-        //  如果有選過類型，要重跑一次 item 下拉式選單
-        if(this.selectedType){
-          this.updateCategoriesFiltedItems();
+        //  若有帳戶，預設選第一筆
+        if(this.balanceOptions.length > 0) {
+          this.selectedBalanceId = this.balanceOptions[0].balanceId;
         }
-      }
-  })
-  .catch(err => {
-    console.error('API error：', err);
-  });
+
+        //  一定要放在 API 成功後，才有分類資料可以使用
+        const saved = this.paymentService.getFormData();
+          if(saved){
+          this.today = new Date(saved.recordDate);
+          this.recurringPeriodYear = null;
+          this.recurringPeriodMonth = null;
+          this.recurringPeriodDay = null;
+          this.selectedBalanceId = saved.selectedBalanceId ?? this.selectedBalanceId;
+          this.amount = saved.amount ?? null;
+          this.selectedType = saved.selectedType ?? null;
+          this.selectedItem = saved.selectedItem ?? null;
+          this.description = saved.description ?? '';
+
+          //  如果有選過類型，要重跑一次 item 下拉式選單
+          if(this.selectedType){
+            this.updateCategoriesFiltedItems();
+          }
+        }
+      })
+      .catch(err => {
+      console.error('初始化錯誤', err);
+    });
 
   //  偵測是否從其他頁返回
   this.router.events
@@ -117,6 +129,12 @@ export class ExpensesComponent implements OnInit{
     return `${year}-${month}-${day}`;
   }
 
+  //  獲得帳戶名稱
+  get selectedBalanceName(): string {
+    const match = this.balanceOptions.find(b => b.balanceId == this.selectedBalanceId);
+    return match?.name ?? '未選擇';
+  }
+
   //  前往新增項目頁面
   goCreateItem(){
     //  設定 service 資料
@@ -125,7 +143,7 @@ export class ExpensesComponent implements OnInit{
       recurringPeriodYear: null,
       recurringPeriodMonth: null,
       recurringPeriodDay: null,
-      selectedUserName: this.selectedUserName,
+      selectedBalanceId: this.selectedBalanceId,
       amount: this.amount ?? null,
       selectedType: this.selectedType ?? null,
       selectedItem: this.selectedItem ?? null,
@@ -174,7 +192,7 @@ export class ExpensesComponent implements OnInit{
 
     //  組成要送出的 data
     const payload = {
-      balanceId: this.selectedUserName,
+      balanceId: this.selectedBalanceId,
       description: this.description ?? '',
       type: this.selectedType,
       item: this.selectedItem,

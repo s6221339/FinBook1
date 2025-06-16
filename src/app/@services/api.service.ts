@@ -94,7 +94,6 @@ export class ApiService {
       withCredentials: true
     });
   }
-
   //  新增轉帳紀錄
   createTransfers(data: any){
     return axios({
@@ -131,5 +130,4 @@ export class ApiService {
       withCredentials: true
     });
   }
-
 }

@@ -27,9 +27,11 @@ export interface ApiResponse<T = any> {
   data?:   T;         // 成功時回傳的資料
 }
 
-/** 帳戶模型：一個使用者底下的帳戶 */
+//  帳戶資料的interface
 export interface Account {
-  id:      number;
-  name:    string;
-  balance: number;     // 可為負值
+  balanceId: number;
+  familyId: number;
+  account: string | null;
+  name: string;
+  createDate: string;
 }

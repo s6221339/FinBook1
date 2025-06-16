@@ -77,4 +77,11 @@ export class AppComponent {
     this.router.navigate(['/home']);
   }
 
+  // 鼠標移動到就刷新圖片
+  gifUrl = 'notebook-while-one.gif';
+  refreshGif() {
+  // 加入時間戳讓圖片網址唯一，避免瀏覽器快取
+  this.gifUrl = `notebook-while-one.gif?reload=${new Date().getTime()}`;
+}
+
 }

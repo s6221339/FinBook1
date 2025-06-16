@@ -11,6 +11,7 @@ import { CreateItemComponent } from './components/create-item/create-item.compon
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LedgerComponent } from './components/ledger/ledger.component';
+import { TransferHistoryComponent } from './components/transfer-history/transfer-history.component';
 
 
 
@@ -29,6 +30,7 @@ export const routes: Routes = [
     },{
       path: '', component: ExpensesComponent
     }]},
+  {path:'transfersHistory', component: TransferHistoryComponent},
   {path:'test', component: TestComponent},
   {path:'createItem', component: CreateItemComponent},
   {path: 'login', component: LoginComponent },

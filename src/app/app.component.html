@@ -5,9 +5,10 @@
     <!-- Logo和應用程式名稱 -->
     <div class="logo-container">
         <div class="logo-wrapper">
-        <img src="notebook-while.gif" alt="" class="logo">
+        <!-- <img src="notebook-while-one.gif" alt="" class="logo"> -->
+        <img class="logo" [src]="gifUrl" (mouseenter)="refreshGif()" alt="動畫圖" (click)="toHome()" >
         </div>
-      <h1 class="app-name" (click)="toHome()">智能錢包</h1>
+      <!-- <h1 class="app-name" (click)="toHome()">智能錢包</h1> -->
     </div>
 
     <!-- 導航選單 -->
@@ -19,7 +20,7 @@
       </a>
 
       <!-- 記帳功能連結 -->
-      <a class="nav-link" routerLinkActive="active" (click)="goBookKeeping()">
+      <a routerLink="/bookKeeping/expenses" class="nav-link" routerLinkActive="active" (click)="goBookKeeping()">
         <span class="material-icons">add_circle</span>
         記帳
       </a>
@@ -176,7 +177,6 @@
 <main class="main-content">
   <!-- 這裡會顯示不同頁面的內容 -->
    <div>
-    <br>
     <br>
     <router-outlet></router-outlet>
    </div>

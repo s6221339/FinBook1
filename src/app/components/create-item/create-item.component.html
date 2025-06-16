@@ -116,7 +116,7 @@
                   <div class="category-info">
                     <span class="category-icon material-icons">folder</span>
                     <span class="category-name">{{ cat }}</span>
-                    <span class="item-badge">{{ groupedItems[cat]?.length || 0 }}</span>
+                    <span class="item-badge">{{ groupedItems[cat].length || 0 }}</span>
                   </div>
                   <span class="toggle-icon material-icons">
                     {{ collapsed[cat] ? 'expand_more' : 'expand_less' }}
@@ -132,7 +132,7 @@
                         {{ entry.item }}
                       </div>
                     }
-                    @if (groupedItems[cat]?.length === 0) {
+                    @if (groupedItems[cat].length === 0) {
                       <div class="empty-state">
                         <span class="material-icons">inbox</span>
                         <p>此分類暫無細項</p>

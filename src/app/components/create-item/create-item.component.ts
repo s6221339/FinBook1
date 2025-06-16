@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../@services/api.service';
 import { AxiosResponse } from 'axios';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-create-item',
   imports: [
-    RouterOutlet,
     CommonModule,
     RouterModule,
     FormsModule,

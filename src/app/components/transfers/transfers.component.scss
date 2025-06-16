@@ -3,10 +3,14 @@
   padding: 2rem;
   max-width: 600px;
   margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
 }
 
 // 表單標題
-.form-header {
+.form-header {  /* flex 排版圖示 + 文字 */
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -143,11 +147,12 @@
       margin: 0;
     }
 
-    &[type=number] {
-      -moz-appearance: textfield;
-    }
+    // &[type=number] {
+    //   -moz-appearance: textfield;
+    // }
   }
 }
+
 
 // 備註輸入樣式
 .note-input-wrapper {
@@ -275,3 +280,24 @@
     flex-direction: column;
   }
 }
+.suggestions {
+  border: 1px solid #000000;
+  border-radius: 4px;
+  background: #eae9e9;
+  margin-top: 10px;
+}
+.suggestion-item {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.suggestion-item.selected {
+  background: rgba(0, 0, 0, 0.1);
+  border-left: 12px solid #0690a8;
+}
+
+::ng-deep button[mat-icon-button] {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+

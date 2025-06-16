@@ -58,7 +58,7 @@ export class TransferHistoryComponent {
 
   /** 載入轉帳資料，可帶日期區間 */
   loadData(): void {
-    this.api.getTransferHistory(this.startDate, this.endDate)
+    this.api.getAllTransfersByBalanceId( 0)
       .then(resp => {
         const data: TransferRecord[] = resp.data;
         this.dataSource.data = data;

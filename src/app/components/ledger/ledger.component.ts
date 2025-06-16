@@ -1,3 +1,4 @@
+import { PaymentFormData } from './../../models/paymentFormData';
 import { ApiService } from './../../@services/api.service';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -175,6 +176,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
 
       //  撈預算資料
       this.loadBudgetData();
+      this.loadPayments();
   }
 
   ngAfterViewInit(): void {
@@ -342,7 +344,23 @@ export class LedgerComponent implements AfterViewInit,OnInit{
 
   //  get 方法在裡面值有變動時會自動執行調整
   get filteredTestData(): PaymentIdFormData[] {
-    return this.testData.filter(t =>
+    const selected = this.rawPaymentList.find(p => p.balanceId == this.selectedBalanceId);
+
+    if(!selected) return [];
+
+    const payments = selected.paymentInfoList.map((p: any) => ({
+      paymentId: p.paymentId,
+      type: p.type,
+      item: p.item,
+      description: p.description,
+      amount: p.amount,
+      recurringPeriodYear: p.recurringPeriod.year,
+      recurringPeriodMonth: p.recurringPeriod.month,
+      recurringPeriodDay: p.recurringPeriod.day,
+      recordDate: new Date(p.recordDate)
+    }));
+
+    return payments.filter((t: PaymentIdFormData) =>
       (!this.selectedType || this.selectedType == '全部' || t.type?.includes(this.selectedType!)) &&
       //  ?. 是 Optional Chaining（可選鏈結運算子）如果前面的東西是 undefined 或 null，就不繼續執行後面的操作，直接回傳 undefined。
       (!this.selectedItem || this.selectedItem == '全部' || t.item?.includes(this.selectedItem!)) &&  // ! 非空斷言運算子
@@ -356,6 +374,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
     this.monthEndDate = new Date(this.year, this.month, 0);
 
     this.loadBudgetData();  //  month 變動時撈資料
+    this.loadPayments();
   }
 
   //  日期選擇器篩選選擇日期
@@ -403,6 +422,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   onYearChange(): void {
     this.generateMonths();
     this.loadBudgetData();  //  year 變動時撈資料
+    this.loadPayments();
   }
 
   //  撈 budget API
@@ -475,6 +495,25 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   }
 
   loadPayments(): void {
+    const data = {
+      account: this.account,
+      year: this.year,
+      month: this.month
+    };
 
+    this.apiService.getPaymentByAccountAndMonth(data)
+    .then(res => {
+      this.rawPaymentList = res.data.balanceWithPaymentList || [];
+    })
+    .catch(err => {
+      console.error('取得帳款資料失敗：', err);
+      this.rawPaymentList = [];
+    });
   }
+
+  onBalanceChange(){
+    this.updateBudgetDisplay();
+    this.loadPayments();
+  }
+
 }

@@ -34,7 +34,7 @@
         <div class="form-group">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>選擇帳戶</mat-label>
-            <mat-select [(value)]="selectedBalanceId" (valueChange)="updateBudgetDisplay()">
+            <mat-select [(value)]="selectedBalanceId" (valueChange)="onBalanceChange()">
               @for(b of balanceList; track $index){
                 <mat-option [value]="b.balanceId">
                   {{ b.name }}

@@ -1,5 +1,5 @@
 <div class="transfers-form">
-  <!-- 表單標題 -->
+
   <div class="form-header">
     <div class="header-icon">
       <span class="material-icons">swap_horiz</span>
@@ -10,10 +10,8 @@
     </div>
   </div>
 
-  <!-- 表單內容 -->
   <div class="form-content">
 
-    <!-- 轉帳日期 -->
     <div class="form-section">
       <div class="section-header">
         <span class="material-icons">event</span>
@@ -23,28 +21,26 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>選擇轉帳日期</mat-label>
           <input
-            #dateInput
             matInput
-            type="date"
+            [matDatepicker]="picker"
             [max]="today"
             [(ngModel)]="transferDateString"
             name="transferDate"
             required
             #transferDateField="ngModel"
-            >
-            <button
-              matSuffix
-              mat-icon-button
-              type="button"
-              (click)="dateInput.showPicker()">
-              <mat-icon>calendar_today</mat-icon>
-            </button>
+          >
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
           <mat-hint>選擇轉帳發生的日期</mat-hint>
+          @if (transferDateField.hasError('required') && transferDateField.touched) {
+            <mat-error>
+              請選擇轉帳日期。
+            </mat-error>
+          }
         </mat-form-field>
       </div>
     </div>
 
-    <!-- 轉出帳戶 -->
     <div class="form-section">
       <div class="section-header">
         <span class="material-icons">account_balance_wallet</span>
@@ -57,21 +53,24 @@
             [(ngModel)]="fromAccountId"
             name="fromAccountId"
             required
+            #fromAccountField="ngModel"
             >
-            <div class="suggestions">
-            @for(acc of accounts ; track acc.id) {
-              <mat-option [value]="acc.id" >
-               (ID: {{ acc.id }}) {{ acc.name }}
+            @for (acc of accounts; track $index) {
+              <mat-option [value]="acc.balanceId">
+                （ID: {{ acc.balanceId }}） {{ acc.name }}
               </mat-option>
             }
-          </div>
           </mat-select>
           <mat-hint>選擇資金轉出的帳戶</mat-hint>
+          @if (fromAccountField.hasError('required') && fromAccountField.touched) {
+            <mat-error>
+              請選擇轉出帳戶。
+            </mat-error>
+          }
         </mat-form-field>
       </div>
     </div>
 
-    <!-- 轉入帳戶 -->
     <div class="form-section">
       <div class="section-header">
         <span class="material-icons">account_balance</span>
@@ -87,82 +86,132 @@
             name="toAccountId"
             placeholder="請輸入轉入ID或選擇帳戶"
             required
-            >
-            <div class="suggestions">
-              @for(acc of accounts ; track acc.id) {
-              <div (click)="toggleToAccount(acc.id)"
-                  [class.selected]="toAccountId == acc.id"
+            [(ngModel)]="toAccountId"
+            #toAccountField="ngModel"
+          >
+          <div class="suggestions">
+            @for(acc of accounts ; track $index) {
+            <div (click)="toggleToAccount(acc.balanceId)"
+                  [class.selected]="toAccountId == acc.balanceId"
                   class="suggestion-item">
-                (ID: {{ acc.id }}) {{ acc.name }}
-              </div>
-            }
+              （ID: {{ acc.balanceId }}） {{ acc.name }}
             </div>
+            }
+          </div>
           <mat-hint>選擇資金轉入的帳戶</mat-hint>
+          @if (toAccountField.hasError('required') && toAccountField.touched) {
+            <mat-error>
+              請輸入轉入帳戶ID或選擇帳戶。
+            </mat-error>
+          }
+          @if (toAccountField.hasError('min') && toAccountField.touched) {
+            <mat-error>
+              轉入帳戶ID必須大於 0。
+            </mat-error>
+          }
         </mat-form-field>
       </div>
     </div>
 
-   <!-- 轉帳金額 -->
     <div class="form-section">
       <div class="section-header">
         <span class="material-icons">attach_money</span>
         <h3>轉帳金額</h3>
       </div>
       <div class="form-group">
-        <div class="amount-input-wrapper">
-          <span class="currency-symbol">NT$</span>
-          <input type="number"
-                class="amount-input"
-                name="amount"
-                placeholder="請輸入轉帳金額"
-                min="1" step="1" required
-                [(ngModel)]="amount"
-                >
-        </div>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>請輸入轉帳金額</mat-label>
+          <span matPrefix>NT$&nbsp;</span>
+          <input
+            matInput
+            type="number"
+            name="amount"
+            placeholder="請輸入轉帳金額"
+            min="1"
+            step="1"
+            required
+            [(ngModel)]="amount"
+            #amountField="ngModel"
+          >
+          @if (amountField.hasError('required') && amountField.touched) {
+            <mat-error>
+              請輸入轉帳金額。
+            </mat-error>
+          }
+          @if (amountField.hasError('min') && amountField.touched) {
+            <mat-error>
+              金額必須大於 0。
+            </mat-error>
+          }
+          @if (amountField.hasError('step') && amountField.touched) {
+            <mat-error>
+              金額必須是整數。
+            </mat-error>
+          }
+        </mat-form-field>
       </div>
     </div>
 
-
-    <!-- 手續費 (不加入錯誤訊息) -->
     <div class="form-section">
       <div class="section-header">
         <span class="material-icons">receipt</span>
         <h3>手續費</h3>
       </div>
       <div class="form-group">
-        <div class="amount-input-wrapper">
-          <span class="currency-symbol">NT$</span>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>請輸入手續費 (選填，不填則為 0)</mat-label>
+          <span matPrefix>NT$&nbsp;</span>
           <input
+            matInput
             type="number"
-            class="amount-input"
             [(ngModel)]="fee"
             name="fee"
             placeholder="請輸入手續費 (選填，不填則為 0)"
-            min="0" step="1">
-        </div>
+            min="0"
+            step="1"
+            #feeField="ngModel"
+          >
+          @if (feeField.hasError('min') && feeField.touched) {
+            <mat-error>
+              手續費不能為負數。
+            </mat-error>
+          }
+          @if (feeField.hasError('step') && feeField.touched) {
+            <mat-error>
+              手續費必須是整數。
+            </mat-error>
+          }
+        </mat-form-field>
       </div>
     </div>
 
-    <!-- 備註輸入 (不加入錯誤訊息) -->
     <div class="form-section">
       <div class="section-header">
         <span class="material-icons">note</span>
         <h3>備註說明</h3>
       </div>
       <div class="form-group">
-        <div class="note-input-wrapper">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>記錄轉帳原因或其他說明</mat-label>
           <textarea
-            class="note-input"
+            matInput
             [(ngModel)]="description"
             name="description"
             placeholder="記錄轉帳原因或其他說明"
-            rows="3" maxlength="200"></textarea>
-          <div class="char-count">0/200</div>
-        </div>
+            rows="3"
+            maxlength="200"
+            #descriptionField="ngModel"
+          ></textarea>
+          <mat-hint align="end">{{ (description ? description.length : 0) }}/200</mat-hint>
+          @if (descriptionField.hasError('maxlength') && descriptionField.touched) {
+            <mat-error>
+              備註最多 200 字。
+            </mat-error>
+          }
+        </mat-form-field>
       </div>
     </div>
 
-    <!-- 操作按鈕 -->
     <div class="form-actions">
       <button type="button" class="btn-secondary" (click)="onCancel()">
         <span class="material-icons">close</span>取消

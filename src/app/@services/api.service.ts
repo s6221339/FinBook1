@@ -95,30 +95,4 @@ export class ApiService {
     });
   }
 
-
-
-
-
-
-  // 預設預設預設預設預設預設預設預設預設預設預設預設預設預設預設預設
-    // 登入會員後給所有頁面用
-  getAccountsRaw(filterDate: string) {
-    // 取得帳戶列表
-    return axios.get(`'http://localhost:8080/finbook/accounts`, {
-      withCredentials: true
-    });
-  }
-
-    // 新增轉帳紀錄
-  createTransferRaw(data: any){
-    return axios.post(`'http://localhost:8080/finbook/transfers`,data,{
-      withCredentials: true
-    });
-  }
-
-  getTransferHistory(startDate: string, endDate:string){
-    return axios.post(`'http://localhost:8080/finbook/transfers`,{
-      withCredentials: true
-    });
-  }
 }

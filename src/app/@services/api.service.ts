@@ -95,30 +95,41 @@ export class ApiService {
     });
   }
 
+  //  新增轉帳紀錄
+  createTransfers(data: any){
+    return axios({
+      url: 'http://localhost:8080/finbook/transfers/create',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true,
+      data
+    });
+  }
 
-
-
-
-
-  // 預設預設預設預設預設預設預設預設預設預設預設預設預設預設預設預設
-    // 登入會員後給所有頁面用
-  getAccountsRaw(filterDate: string) {
-    // 取得帳戶列表
-    return axios.get(`'http://localhost:8080/finbook/accounts`, {
+  //  管理員刪除轉帳紀錄
+  deleteTransfers(account: string, id: number){
+    return axios.post('http://localhost:8080/finbook/transfers/delete', null, {
+      params: { account, id },
       withCredentials: true
     });
   }
 
-    // 新增轉帳紀錄
-  createTransferRaw(data: any){
-    return axios.post(`'http://localhost:8080/finbook/transfers`,data,{
+  //  清除無用轉帳紀錄
+  deleteUselessTransfers(from: number, to: number){
+    return axios.post('http://localhost:8080/finbook/transfers/deleteByBalanceId', null, {
+      params: { from, to },
       withCredentials: true
     });
   }
 
-  getTransferHistory(startDate: string, endDate:string){
-    return axios.post(`'http://localhost:8080/finbook/transfers`,{
+  //  帳戶獲得所有轉帳紀錄
+  getAllTransfersByBalanceId(balanceId: number){
+    return axios.post('http://localhost:8080/finbook/transfers/getAll', null, {
+      params: { balanceId },
       withCredentials: true
     });
   }
+
 }

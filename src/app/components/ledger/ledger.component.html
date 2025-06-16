@@ -37,11 +37,11 @@
             <mat-select [(value)]="selectedBalanceId" (valueChange)="updateBudgetDisplay()">
               @for(b of balanceList; track $index){
                 <mat-option [value]="b.balanceId">
-                  {{ b.balanceId }}
+                  {{ b.name }}
                 </mat-option>
               }
             </mat-select>
-            <mat-hint>選擇帳戶名稱：{{ selectedBalanceId }}</mat-hint>
+            <mat-hint>選擇帳戶名稱：{{ selectedBalanceName }}</mat-hint>
           </mat-form-field>
         </div>
       </div>

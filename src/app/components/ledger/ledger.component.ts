@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { PaymentIdFormData } from '../../models/paymentIdFormData';
 import { CommonModule } from '@angular/common';
 import { Category } from '../../models/categories';
+import { Balance } from '../../models/Balance';
 
 @Component({
   selector: 'app-ledger',
@@ -130,16 +131,30 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
   monthStartDate: Date = new Date(this.year, this.month-1, 1);  //  日期選擇器篩選表格開始日期
   monthEndDate: Date = new Date(this.year, this.month, 0);  //  日期選擇器篩選表格結束日期
-  balanceList: any[] = [];  //  存 API 回傳 budgetList
-  selectedBalanceId?: number; //  使用者目前選擇的 balanceId（預設為第一筆）
+  budgetList: any[] = [];  //  存 API 回傳 budgetList ，給統計用
+  selectedBalanceId?: number = 0; //  使用者選擇的 balanceId
+  balanceList: Balance[] = [];  //  透過帳號取得帳戶給下拉式選單用
+  rawPaymentList: any[] = []; //  原始 API 回傳的 balanceWithPaymentList
 
   ngOnInit(): void {
     //  初始化年份選單列表
     this.generateYears();
     this.generateMonths();
     this.updateMonthRange();
-    //  API取得帳號type
-    this.apiService.getTypeByAccount(this.account)
+
+    //  取得 balanceList ，因下拉式選單要用
+    this.apiService.getBalanceByAccount(this.account)
+      .then(res => {
+        this.balanceList = res.data.balanceList || [];
+
+        //  若有帳戶，預設選第一筆
+        if(this.balanceList.length > 0){
+          this.selectedBalanceId = this.balanceList[0].balanceId;
+        }
+
+        //  在撈分類資料
+        return this.apiService.getTypeByAccount(this.account);
+      })
       .then(res => {
         const list: Category[] = res.data.paymentTypeList || [];
         this.categories = list;
@@ -155,7 +170,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
         this.updateCategoriesFiltedItems();
       })
       .catch(err => {
-        console.error('API error：', err);
+        console.error('初始化錯誤', err);
       });
 
       //  撈預算資料
@@ -396,34 +411,32 @@ export class LedgerComponent implements AfterViewInit,OnInit{
       account: this.account,
       year: this.year,
       month: this.month
-    }
+    };
 
     this.apiService.getBudgetByAccount(data)
     .then(res => {
-      const list = res.data.budgetList || [];
-      this.balanceList = list;
+      this.budgetList = res.data.budgetList || [];
 
-      if(list.length > 0) {
-        //  預設選擇第一個 balanceId
-        this.selectedBalanceId = list[0].balanceId;
+      const found = this.budgetList.find(b => b.balanceId == this.selectedBalanceId);
+
+      if(found) {
         this.updateBudgetDisplay(); //  更新畫面顯示
       }
       else{
-        // 沒資料 -> 清空畫面顯示
-        this.selectedBalanceId = undefined;
+        // 該月份雖有 budgetList，但沒有目前選帳戶 -> 清空畫面
         this.clearBudgetDisplay();
       }
     })
     .catch(err => {
       console.error('取得預算資料失敗：', err);
-      this.balanceList = [];
+      this.budgetList = [];
       this.clearBudgetDisplay();
     });
   }
 
   //  更新預算和電池畫面顯示用方法
   updateBudgetDisplay(): void {
-    const current = this.balanceList.find(b => b.balanceId == this.selectedBalanceId);
+    const current = this.budgetList.find(b => b.balanceId == this.selectedBalanceId);
 
     if(current){
       this.budget = current.budget;
@@ -436,6 +449,10 @@ export class LedgerComponent implements AfterViewInit,OnInit{
       //  更新電池 -> 用 餘額 / 預算
       const budgetPercentRemaining = this.budget == 0 ? 0 : (this.balance! / this.budget!) * 100;
       this.updateBattery(budgetPercentRemaining);
+    }
+    else{
+      //  沒有該月該帳戶資料 -> 清空畫面
+      this.clearBudgetDisplay();
     }
   }
 
@@ -451,4 +468,13 @@ export class LedgerComponent implements AfterViewInit,OnInit{
     this.updateBattery(0);  //  預設為 100
   }
 
+  //  更新所選帳戶顯示
+  get selectedBalanceName(): string {
+    const found = this.balanceList.find(b => b.balanceId == this.selectedBalanceId);
+    return found?.name ?? '未選擇';
+  }
+
+  loadPayments(): void {
+
+  }
 }

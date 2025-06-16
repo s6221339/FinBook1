@@ -62,6 +62,14 @@ data5 = {
   "year": 2025,
   "month": 6
 };
+data6 = {
+  "fromBalance": 1 ,
+  "toBalance": 2,
+  "amount": 23000,
+  "description": "零用錢"
+}
+data7:{ account: string, id: number } = { account: 'a6221339', id: 1 };
+data8:{ from: number, to: number } = { from: 3, to: 4 };
 
   createType(){
     this.apiService.createType(this.data)
@@ -74,6 +82,7 @@ data5 = {
         alert('建立帳款類型失敗，請稍後再試');
       });
   }
+  balanceId: number = 1;
 
   getTypeByAccount(){
     this.apiService.getTypeByAccount(this.account)
@@ -182,6 +191,54 @@ data5 = {
     .catch(err => {
       console.error('取得帳戶失敗：', err);
       alert('取得個人帳號帳戶失敗！');
+    });
+  }
+
+  createTransfers(){
+    this.apiService.createTransfers(this.data6)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('創建轉帳紀錄成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('創建轉帳紀錄失敗，請稍後再試');
+    });
+  }
+
+  deleteTransfers(){
+    this.apiService.deleteTransfers(this.data7.account, this.data7.id)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('管理員刪除轉帳紀錄成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('管理員刪除轉帳紀錄失敗，請稍後再試');
+    });
+  }
+
+  deleteUselessTransfers(){
+    this.apiService.deleteUselessTransfers(this.data8.from, this.data8.to)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('刪除無用轉帳紀錄成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('刪除無用轉帳紀錄失敗，請稍後再試');
+    });
+  }
+
+  getAllTransfersByBalanceId(){
+    this.apiService.getAllTransfersByBalanceId(this.balanceId)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得帳戶所有轉帳款項成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得帳戶所有轉帳款項失敗，請稍後再試');
     });
   }
 

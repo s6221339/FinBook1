@@ -38,8 +38,10 @@ $gradient-pink-purple: #ec4899;
 .card-title {
   text-align: center;
   margin-bottom: 30px;
+  width: 35%;
   font-size: 32px;
   font-weight: 700;
+  margin-left: 33%;
   background: linear-gradient(to right, $gradient-blue, $gradient-pink-purple);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

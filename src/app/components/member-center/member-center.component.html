@@ -1,14 +1,23 @@
 <div class="member-center-container">
+
     <div class="member-center-header">
         <div class="member-center-title">
             <h1 class="member-center-title">會員中心</h1>
         </div>
-
-        <nav class="member-center-nav">
-            <a routerLink="memberInfo" routerLinkActive="active">前往會員基本資料</a>
-        </nav>
     </div>
 
     <div class="member-center-content-area">
-        <router-outlet></router-outlet> </div>
+
+        <!-- 將按鈕移入 content-area 裡，靠近白色卡片 -->
+        <nav class="member-center-nav">
+            <a routerLink="memberInfo" routerLinkActive="active">會員基本資料</a>
+        </nav>
+
+        <router-outlet></router-outlet>
+    </div>
+
 </div>
+
+
+
+

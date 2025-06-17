@@ -10,8 +10,16 @@
 
         <!-- 將按鈕移入 content-area 裡，靠近白色卡片 -->
         <nav class="member-center-nav">
-            <a routerLink="memberConfirm" routerLinkActive="active">會員基本資料</a>
-            <a routerLink="/memberCenter" routerLinkActive="active">更改密碼</a>
+        <a [routerLink]="['memberConfirm']"
+   [class.active]="currentUrl.match('^/memberCenter/member(?:Info|Confirm)')">
+   會員基本資料
+</a>
+
+<a [routerLink]="['changePassword']"
+   [class.active]="currentUrl.match('^/memberCenter/changePassword')">
+   更改密碼
+</a>
+
         </nav>
 
         <router-outlet></router-outlet>

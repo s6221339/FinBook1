@@ -33,7 +33,8 @@ export const routes: Routes = [
     }]},
     {path:'memberCenter', component: MemberCenterComponent,
     children: [{path: 'memberInfo', component: MemberInfoComponent},
-               {path: 'memberConfirm', component: MemberConfirmComponent}]},
+               {path: 'memberConfirm', component: MemberConfirmComponent},
+              { path: '', redirectTo: 'memberConfirm', pathMatch: 'full'}]},
 
   {path:'test', component: TestComponent},
   {path:'createItem', component: CreateItemComponent},

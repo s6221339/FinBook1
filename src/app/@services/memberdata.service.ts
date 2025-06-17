@@ -12,29 +12,36 @@ export interface MemberData {
 @Injectable({
   providedIn: 'root'
 })
-
-
-
-
 export class MemberdataService {
-  // BehaviorSubject 用於儲存資料並在資料更新時通知訂閱者
-  // 初始值為 undefined 或一個空物件，視您的需求而定
-  private memberDataSource = new BehaviorSubject<MemberData | undefined>(undefined);
+  private memberDataSource = new BehaviorSubject<MemberData>({
+    name: '我很帥',
+    dobYear: new Date().getFullYear(),
+    dobMonth: new Date().getMonth() + 1,
+    dobDay: 1,
+    phoneNumber: '0912345678'
+  });
 
-  // 將資料作為 Observable 暴露出去，供其他元件訂閱
-  currentMemberData: Observable<MemberData | undefined> = this.memberDataSource.asObservable();
+  // 對外仍然是 Observable
+  currentMemberData: Observable<MemberData> = this.memberDataSource.asObservable();
 
   constructor() { }
 
-  // 更新會員資料的方法
   updateMemberData(data: MemberData) {
     this.memberDataSource.next(data);
   }
 
-  // 清除資料 (可選)
   clearMemberData() {
-    this.memberDataSource.next(undefined);
+    this.memberDataSource.next({
+      name: '',
+      dobYear: null,
+      dobMonth: null,
+      dobDay: null,
+      phoneNumber: ''
+    });
   }
 
-
+  // 🔥 重點：給 component 調用的 getValue() 方法
+  getCurrentData(): MemberData {
+    return this.memberDataSource.getValue();
+  }
 }

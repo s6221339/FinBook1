@@ -1,30 +1,35 @@
-<div class="member-profile-card">
-    <h2 class="card-title">會員基本資料</h2> <div class="section-group">
+<div class="background">
+  <div class="area">
+    <div class="member-profile-card">
+      <h2 class="card-title">會員基本資料</h2>
+      <div class="section-group">
         <h3 class="section-title">個人基本資料</h3>
 
         @if (memberData) {
-            <div class="form-group">
-                <label class="input-label">姓名</label>
-                <p class="display-value">{{ memberData.name }}</p>
-            </div>
+          <div class="form-group">
+            <label class="input-label">姓名</label>
+            <p class="display-value">{{ memberData.name }}</p>
+          </div>
 
-            <div class="form-group">
-                <label class="input-label">您的生日</label>
-                <p class="display-value">
-                    {{ memberData.dobYear }} 年 {{ memberData.dobMonth }} 月 {{ memberData.dobDay }} 日
-                </p>
-            </div>
+          <div class="form-group">
+            <label class="input-label">您的生日</label>
+            <p class="display-value">
+              {{ memberData.dobYear }} 年 {{ memberData.dobMonth }} 月 {{ memberData.dobDay }} 日
+            </p>
+          </div>
 
-            <div class="form-group">
-                <label class="input-label">手機號碼</label>
-                <p class="display-value">{{ memberData.phoneNumber }}</p>
-            </div>
+          <div class="form-group">
+            <label class="input-label">手機號碼</label>
+            <p class="display-value">{{ memberData.phoneNumber }}</p>
+          </div>
         } @else {
-            <p class="no-data-message">沒有可顯示的會員資料。</p>
+          <p class="no-data-message">沒有可顯示的會員資料。</p>
         }
-    </div>
+      </div>
 
-    <div class="button-group">
-        <button class="btn btn-primary" (click)="goToEdit()">返回編輯</button>
-        </div>
+      <div class="button-group">
+        <button class="btn btn-primary" (click)="goToEdit()">編輯</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -52,7 +52,7 @@ $gradient-pink-purple: #ec4899;
     font-weight: 700;
     margin-bottom: 20px;
     width: 45%;
-    margin-left: 28%;
+    margin-left: 27%;
     background: linear-gradient(to left, $gradient-blue, $gradient-pink-purple);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -76,18 +76,26 @@ $gradient-pink-purple: #ec4899;
     left: -80px; // 向左推出去貼齊你畫的黑框位置
     z-index: 10;
 
+    display: flex;
+    flex-direction: column; // 加上這行，重點
+    align-items: left;
+    gap: 20px;              // 垂直間距你可以調整成你覺得順眼的距離
+
     a {
         text-decoration: none;
         color: $primary-blue;
         font-size: 20px;
         font-weight: bolder;
+        background-color:white;
         padding: 8px 15px;
         border-radius: 5px;
         transition: background-color 0.3s ease, color 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 
         &:hover {
-            background-color: lighten($primary-blue, 40%);
+            background-color:lime;
             color: $primary-dark-blue;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         &.active {

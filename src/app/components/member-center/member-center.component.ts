@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
-import { Subscription } from 'rxjs'; // 導入 Subscription
+
 
 export enum MemberCenterView {
   Info = 'info',
@@ -18,7 +18,7 @@ export enum MemberCenterView {
 export class MemberCenterComponent {
 
 
-  // 注入 MemberDataService
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {

@@ -45,6 +45,18 @@ export class MemberInfoComponent {
     this.selectedDay = 1;
 
     this.onDateChange();
+
+   const existingData = this.memberdataService.getCurrentData();
+  if (existingData) {
+    this.memberInfoForm.patchValue({
+      name: existingData.name,
+      phoneNumber: existingData.phoneNumber
+    });
+    this.selectedYear = existingData.dobYear;
+    this.selectedMonth = existingData.dobMonth;
+    this.selectedDay = existingData.dobDay;
+    this.onDateChange();
+  }
   }
 
   generateYears(): void {
@@ -82,24 +94,21 @@ export class MemberInfoComponent {
   }
 
   onSaveClick(): void {
-    if (this.memberInfoForm.valid) {
-      const memberData: MemberData = {
-        name: this.memberInfoForm.get('name')?.value,
-        dobYear: this.selectedYear,
-        dobMonth: this.selectedMonth,
-        dobDay: this.selectedDay,
-        phoneNumber: this.memberInfoForm.get('phoneNumber')?.value
-      };
+  if (this.memberInfoForm.valid) {
+    const memberData: MemberData = {
+      name: this.memberInfoForm.get('name')?.value,
+      dobYear: this.selectedYear,
+      dobMonth: this.selectedMonth,
+      dobDay: this.selectedDay,
+      phoneNumber: this.memberInfoForm.get('phoneNumber')?.value
+    };
 
-      this.memberdataService.updateMemberData(memberData);
+    this.memberdataService.updateMemberData(memberData);
 
-      console.log('表單有效，資料已傳遞至服務。');
-      console.log('傳遞的資料:', memberData);
-
-      this.router.navigate(['/memberCenter/memberConfirm']);
-    } else {
-      console.log('表單無效，請檢查輸入。');
-      this.memberInfoForm.markAllAsTouched();
-    }
+    this.router.navigate(['/memberCenter/memberConfirm']);
+  } else {
+    this.memberInfoForm.markAllAsTouched();
   }
+}
+
 }

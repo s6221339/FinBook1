@@ -6,8 +6,8 @@ $primary-dark-blue: #1565C0;
 // $accent-green: #4CAF50; // 如果 confirm 頁面沒有使用到，可以移除
 // $accent-dark-green: #388E3C; // 如果 confirm 頁面沒有使用到，可以移除
 
-// $light-blue-gradient-start: #BBDEFB; // 這些通常是給背景，由 member-center 處理
-// $light-blue-gradient-end: #E3F2FD; // 這些通常是給背景，由 member-center 處理
+$light-blue-gradient-start: #BBDEFB;
+$light-blue-gradient-end: #E3F2FD;
 
 $card-background: #FFFFFF;
 $text-color: #333333;
@@ -21,18 +21,42 @@ $gradient-blue: #2563eb;
 $gradient-pink-purple: #ec4899;
 
 
-/* --- member-profile-card 樣式 (這是 confirm 頁面核心卡片樣式) --- */
-.member-profile-card {
+.background {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(to bottom right, $light-blue-gradient-start, $light-blue-gradient-end);
+  overflow: auto; /* 如果內容很長，允許滾動 */
+  padding: 20px 0; /* 增加上下 padding，防止內容太貼邊 */
+  box-sizing: border-box;
+}
 
-  min-width: 700px;
+
+.area {
+  width: 90%;
+  max-width: 700px; /* 增加卡片最大寬度以容納更多內容 */
+  height: auto;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* 這裡不需要額外 padding，由卡片自己控制 */
+  box-sizing: border-box;
+}
+
+
+/* --- 會員資料卡片樣式 --- */
+.member-profile-card {
+  width: 100%;
   background-color: $card-background;
   padding: 40px;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  text-align: left;
+  text-align: left; /* 表單內容左對齊 */
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.05);
-  min-height: 350px; /* 保持與 member-info 一致的最小高度 */
+  // min-height: 400px; /* 根據實際需要設置最小高度 */
 }
 
 .card-title {

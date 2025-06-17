@@ -1,6 +1,4 @@
 /* ===========================================
-   transfer-history.component.scss
-   僅調整樣式，不變動 HTML 結構
    清淡暖色漸層背景 + 柔和卡片
    =========================================== */
 
@@ -129,6 +127,15 @@
   background: #f8fafc;
 }
 
+.transactions-table .no-data-row td {
+  text-align: center;
+  padding: 20px;
+  background-color: #fefcbf; /* 柔和的黃色背景 */
+  color: #8c7600; /* 深黃色文字 */
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
 .transactions-card mat-paginator {
   margin-top: 1rem;
 }
@@ -184,6 +191,18 @@
 
 .summary-value {
   font-size: 1.3rem; font-weight: 700; color: #334155;
+}
+
+.transfer-in {
+  color: #23873c; /* 綠色，表示轉入或增加 */
+  font-weight: 600;
+  background-color: #aceebc;
+}
+
+.transfer-out {
+  color: #dd283a; /* 紅色，表示轉出或減少 */
+  font-weight: 600;
+  background-color: #fae1e4;
 }
 
 /* 響應式 */

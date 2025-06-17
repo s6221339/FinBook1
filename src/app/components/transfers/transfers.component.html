@@ -156,7 +156,7 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>請輸入轉帳金額</mat-label>
           <!-- 輸入框前綴文字 (新台幣符號) -->
-          <span matPrefix>NT$&nbsp;</span>
+          <span matPrefix style="padding-left: 10px;">NT$&nbsp;</span>
           <!-- 數字最小值 -->
           <!-- 數字步長 (只能輸入整數) -->
           <!-- 阻止鍵盤上下箭頭增減數字 -->
@@ -254,7 +254,7 @@
             #descriptionField="ngModel"
           ></textarea>
           <!-- 提示文字：顯示當前字數和最大字數 -->
-          <mat-hint align="end">{{ (description ? description.length : 0) }}/200</mat-hint>
+          <mat-hint style="text-align: end; display: block;">{{ (description ? description.length : 0) }}/200</mat-hint>
           <!-- 錯誤訊息顯示 -->
           @if (descriptionField.hasError('maxlength') && descriptionField.touched) {
             <mat-error>

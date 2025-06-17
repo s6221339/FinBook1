@@ -16,7 +16,7 @@ import { TransferHistoryComponent } from './components/transfer-history/transfer
 
 
 export const routes: Routes = [
-  {path:'bookKeeping', component: BookKeepingComponent,
+  { path:'bookKeeping', component: BookKeepingComponent,
     children: [{
       path: 'fixedIncome', component: FixedIncomeComponent
     },{
@@ -30,13 +30,14 @@ export const routes: Routes = [
     },{
       path: '', component: ExpensesComponent
     }]},
-  {path:'transfersHistory', component: TransferHistoryComponent},
-  {path:'test', component: TestComponent},
-  {path:'createItem', component: CreateItemComponent},
-  {path: 'login', component: LoginComponent },
-  {path: 'register', component: RegisterComponent },
-  {path: 'ledger', component: LedgerComponent },
-  {path:'home', component: HomeComponent},
-  {path:'', component: HomeComponent},
-  {path:'**', component: HomeComponent},
+  { path: 'transfersHistory', component: TransferHistoryComponent},
+  { path: 'transfersHistory/:balanceId', component: TransferHistoryComponent },
+  { path: 'test', component: TestComponent},
+  { path: 'createItem', component: CreateItemComponent},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'ledger', component: LedgerComponent },
+  { path: 'home', component: HomeComponent},
+  { path: '', component: HomeComponent},
+  { path: '**', component: HomeComponent},
 ];

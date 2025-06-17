@@ -38,44 +38,59 @@
           <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2 transactions-table">
 
             <!-- ID 欄 -->
-            <ng-container matColumnDef="id">
+            <ng-container matColumnDef="transfersId">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>交易編號</th>
-              <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+              <td mat-cell *matCellDef="let row">{{ row.transfersId }}</td>
             </ng-container>
 
             <!-- 日期 -->
-            <ng-container matColumnDef="date">
+            <ng-container matColumnDef="createDate">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>日期</th>
-              <td mat-cell *matCellDef="let row">{{ row.date | date:'yyyy/MM/dd' }}</td>
+              <td mat-cell *matCellDef="let row">{{ row.createDate | date:'yyyy/MM/dd' }}</td>
             </ng-container>
 
             <!-- 轉出帳戶 -->
-            <ng-container matColumnDef="fromAccount">
+            <ng-container matColumnDef="fromBalanceId">
               <th mat-header-cell *matHeaderCellDef>轉出帳戶</th>
-              <td mat-cell *matCellDef="let row">{{ row.fromAccount }}</td>
+              <td mat-cell *matCellDef="let row">{{ getAccountName(row.fromBalanceId) }}</td>
             </ng-container>
 
             <!-- 轉入帳戶 -->
-            <ng-container matColumnDef="toAccount">
+            <ng-container matColumnDef="toBalanceId">
               <th mat-header-cell *matHeaderCellDef>轉入帳戶</th>
-              <td mat-cell *matCellDef="let row">{{ row.toAccount }}</td>
+              <td mat-cell *matCellDef="let row">{{ getAccountName(row.toBalanceId) }}</td>
             </ng-container>
 
             <!-- 金額 -->
             <ng-container matColumnDef="amount">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>金額</th>
-              <td mat-cell *matCellDef="let row">{{ row.amount | currency:'TWD' }}</td>
+              <td mat-cell *matCellDef="let row"
+                  [ngClass]="{
+                    'transfer-out': row.fromBalanceId == currentBalanceId,
+                    'transfer-in': row.toBalanceId == currentBalanceId
+                  }">
+                {{ row.amount | currency:'TWD' }}
+              </td>
             </ng-container>
 
-            <!-- 手續費 -->
-            <ng-container matColumnDef="fee">
-              <th mat-header-cell *matHeaderCellDef>手續費</th>
-              <td mat-cell *matCellDef="let row">{{ row.fee | currency:'TWD' }}</td>
-            </ng-container>
+            <!-- 備註 -->
+            <ng-container matColumnDef="description">
+             <th mat-header-cell *matHeaderCellDef>描述</th>
+             <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+           </ng-container>
 
             <!-- 表格列 -->
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            @if (dataSource.data.length == 0) {
+              <tr class="mat-row no-data-row">
+                <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                  沒有找到任何轉帳記錄
+                </td>
+              </tr>
+            }
+
           </table>
         </div>
         <mat-paginator [length]="totalItems"

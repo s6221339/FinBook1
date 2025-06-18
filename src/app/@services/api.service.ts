@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import { Account, ApiResponse, Transfer, TransferRequest } from '../models/transfers'; // 預設
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  constructor() { }
+  constructor() {}
 
   //  創建帳款類型
   createType(data: any){
@@ -141,3 +141,5 @@ export class ApiService {
   }
 
 }
+
+

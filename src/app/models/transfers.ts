@@ -1,30 +1,28 @@
 
 /** 前端要送給後端的轉帳資料 */
 export interface TransferRequest {
-  fromAccountId: number;
-  toAccountId:   number;
-  transferDate:  string;   // 格式 "YYYY-MM-DD"
+  fromBalance: number;
+  toBalance:   number;
   amount:        number;
-  fee?:          number;   // 可選
   description?:  string;   // 可選
+  // transferDate:  string;   // 格式 "YYYY-MM-DD"
 }
 
 /** 後端儲存並回傳的轉帳紀錄 */
 export interface Transfer {
-  id:             number;   // 後端生成的識別 ID
-  fromAccountId:  number;
-  toAccountId:    number;
-  transferDate:   string;
-  amount:         number;
-  fee?:           number;
-  description?:   string;
+  transfersId: number;
+  createDate: string;
+  fromBalanceId: number;
+  toBalanceId: number;
+  amount: number;
+  description: string;
 }
 
 /** 對應後端 BasicResponse<T>，包裝 code、message、data */
 export interface ApiResponse<T = any> {
   code:    number;    // 後端回傳的狀態碼 (0 表示成功)
   message: string;    // 提示或錯誤訊息
-  data?:   T;         // 成功時回傳的資料
+  transfersList?: T;         // 成功時回傳的資料
 }
 
 //  帳戶資料的interface

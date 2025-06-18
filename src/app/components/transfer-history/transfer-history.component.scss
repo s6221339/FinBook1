@@ -1,217 +1,420 @@
 /* ===========================================
-   清淡暖色漸層背景 + 柔和卡片
+   藍色系基底 + 淺綠色 card-content
    =========================================== */
 
 /* 主畫面容器 */
 .transfer-history-page {
   min-height: 100vh;
   padding-top: 80px; /* 留給固定 Header */
-  background: linear-gradient(135deg, #fff5f7 0%, #fff8f8 100%);
+  /* 整頁背景色：非常淺的藍灰色，與頁首頁尾藍色協調 */
+  background-color: #f7f9fc; /* 淺藍灰色 */
+  font-size: 16px; /* 基礎字體大小 */
+  color: #3f51b5; /* 基礎文字顏色，使用 Material Design Primary Blue */
 }
 
 /* 內容主區 */
 .content-container {
-  max-width: 1200px;
+  max-width: 1000px; /* 寬度設為 1000px */
   margin: 0 auto;
   padding: 0 2rem 4rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2rem; /* 增加卡片之間的間距，讓視覺更寬鬆 */
 }
 
-/* 篩選卡片 */
-.filter-card {
-  background: #FFFFFF;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f1f5f9;
+/* 統一卡片樣式 */
+.filter-card,
+.transactions-card,
+.summary-card {
+  background: #FFFFFF; /* 卡片背景保持白色，簡潔明亮，與背景形成對比 */
+  border-radius: 18px; /* 稍微增加圓角弧度，更柔和 */
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12); /* 加強陰影深度和擴散，提升立體感 */
+  /* 卡片邊框：柔和的淺藍色，與整體配色協調 */
+  border: 1px solid #e3f2fd; /* Material Blue 50 */
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease-out; /* 更流暢的過渡效果 */
 }
 
-.filter-card .card-header {
+/* 卡片頭部樣式 */
+.card-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1.5rem 2rem;
-  background: #fff5f7;
-  border-bottom: 1px solid #f1f5f9;
+  gap: 0.8rem; /* 稍微增加圖標與文字間距 */
+  padding: 1.6rem 2.2rem; /* 增加內邊距，讓標題區塊更顯著 */
+  /* 卡片標題背景：鮮明的藍色，與頁首頁尾藍色更接近，形成強烈對比和層次 */
+  background-color: #42a5f5; /* Material Blue 400 */
+  /* 卡片標題邊框：更深的藍色，強化區分 */
+  border-bottom: 1px solid #2196f3; /* Material Blue 500 */
 }
 
-.filter-card .card-header .material-icons {
-  color: #3b82f6;
+.card-header .material-icons {
+  /* 圖標顏色：白色，確保在高對比背景下清晰可見 */
+  color: #FFFFFF;
+  font-size: 2rem; /* 進一步放大圖標，使其更具存在感 */
 }
 
-.filter-card .card-header h3 {
+.card-header h3 {
   margin: 0; flex: 1;
-  font-size: 1.3rem; font-weight: 600;
-  color: #334155;
+  font-size: 1.5rem; /* 進一步放大標題文字 */
+  font-weight: 600;
+  color: #FFFFFF; /* 標題文字顏色，白色確保清晰度 */
 }
 
-.filter-card .card-content {
-  padding: 2rem;
+/* 統一 card-content 背景色與 padding 設置 */
+.card-content {
+  /* card-content 背景色：淺綠色，帶來清新感，與藍色系和諧 */
+  background-color: #e8f5e9; /* Material Green 50 - 非常淺的綠色 */
+  padding: 2.2rem; /* 預設 padding */
 }
 
-.filter-range {
+
+/* --- 篩選區塊排版優化 --- */
+.filter-content-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr; /* 預設小螢幕下為單列堆疊 */
+  gap: 3rem; /* 帳戶選擇和日期篩選之間的間距加大 */
 }
 
-/* 轉帳記錄卡片 */
-.transactions-card {
-  background: #FFFFFF;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f1f5f9;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.transactions-card .card-header {
+/* 帳戶選擇區塊，用於垂直置中 */
+.account-selection-section {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1.5rem 2rem;
-  background: #fff5f7;
-  border-bottom: 1px solid #f1f5f9;
+  flex-direction: column; /* 確保內容是垂直的 */
+  justify-content: center; /* 垂直置中 */
 }
 
-.transactions-card .card-header .material-icons {
-  color: #3b82f6;
+/* 日期選擇器上的文字標籤 */
+.date-label {
+  font-size: 1.1rem; /* 放大文字 */
+  color: #607d8b; /* 較深的藍灰色 */
+  margin-bottom: 0.8rem; /* 增加與下方輸入框的間距 */
+  display: block;
+  font-weight: 500;
 }
 
-.transactions-card .card-header h3 {
-  margin: 0; flex: 1;
-  font-size: 1.3rem; font-weight: 600;
-  color: #334155;
+/* 日期輸入框的群組，確保標籤和輸入框的佈局 */
+.date-input-group {
+  margin-bottom: 1.4rem; /* 日期組之間的間距 */
+}
+.date-input-group:last-child {
+  margin-bottom: 0; /* 最後一個日期組沒有下方間距 */
+}
+
+/* Angular Material Form Fields (調整輸入框整體樣式) */
+mat-form-field.full-width {
+  width: 100%;
+  font-size: 1.1rem; /* 輸入框內的文字大小，與日期標籤一致 */
+}
+/* 調整 Material Label 的顏色和字體大小 */
+.mat-form-field-label {
+  color: #90a4ae !important; /* 柔和的藍灰色標籤 */
+  font-size: 1.1rem !important; /* 確保標籤字體大小一致 */
+}
+/* 調整 Material Input 的文字顏色 */
+.mat-form-field-outline-thick .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-outline {
+  color: #bbdefb !important; /* 邊框顏色，淺藍色 */
+}
+.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+    color: #e3f2fd; /* 預設邊框顏色，與卡片邊框色調一致 */
+}
+/* 聚焦時的邊框顏色：採用與卡片頭部色調相符的藍色 */
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+    color: #42a5f5 !important; /* Material Blue 400 */
+}
+/* 輸入框文字顏色 */
+.mat-input-element {
+    color: #424242; /* 統一文字顏色 */
+}
+
+
+/* --- 轉帳記錄卡片 --- */
+/* 調整 transactions-card 的 card-content padding */
+.transactions-card .card-content {
+  padding: 0; /* 移除 padding，讓表格直接貼邊 */
+  /* 表格區域的背景色，與其他 card-content 區塊不同，形成另一層次 */
+  background-color: #f7fcf7; /* 更淺的綠色，近似白，與綠色系呼應 */
 }
 
 .transactions-card .card-header .transaction-count {
-  background: #3b82f6;
+  /* 交易筆數背景：採用柔和的綠色，提供一個穩定的點綴色 */
+  background-color: #66bb6a; /* 較亮的綠色，與藍色系形成和諧對比 */
   color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.85rem; font-weight: 500;
-}
-
-.transactions-card .card-content {
-  padding: 0 2rem 2rem;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .transactions-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 1.15rem; /* 表格文字進一步放大 */
 }
 
 .transactions-table th,
 .transactions-table td {
-  padding: 1rem;
+  padding: 1.2rem 1.1rem; /* 增加內邊距 */
   text-align: left;
-  border-bottom: 1px solid #f1f5f9;
+  /* 表格線顏色：柔和的淺綠色邊框，與card-content顏色呼應 */
+  border-bottom: 1px solid #c8e6c9; /* Material Green 100 - 淺綠色邊框 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.25rem;
 }
 
+/* 表頭文字置中 (包括帶有排序功能的欄位) */
 .transactions-table th {
-  background: #f8fafc;
+  /* 表格頭部背景：中等深度的藍色，形成明顯的表頭區分，與卡片頭部藍色系一致 */
+  background-color: #90caf9; /* Material Blue 200 */
   font-weight: 600;
-  color: #334155;
-  cursor: pointer;
-  transition: background 0.2s;
+  color: #263238; /* 表頭文字顏色，深藍灰色確保清晰度 */
+  text-align: center !important; /* 確保所有表頭文字都置中，包括排序欄位 */
+  transition: background-color 0.2s ease-out;
 }
 
 .transactions-table th:hover {
-  background: #f1f5f9;
+  background-color: #64b5f6; /* hover 效果，更深一點的藍色 */
+}
+
+/* 表格交替行背景色，增加層次感 (改為淺綠與白色，與 card-content 的淺綠色系更搭) */
+.transactions-table tr:nth-child(even) {
+  background-color: #f0f7f0; /* 淺綠白，與 card-content 淺綠色系接近 */
+}
+
+.transactions-table tr:nth-child(odd) {
+  background-color: #ffffff; /* 純白色，與偶數行形成明顯對比 */
 }
 
 .transactions-table tr:hover {
-  background: #f8fafc;
+  background-color: #e8f5e9; /* 淺綠色，與新的 card-content 顏色一致 */
 }
 
-.transactions-table .no-data-row td {
+/* 調整特定欄位寬度 */
+.transactions-table th.mat-column-rowIndex,
+.transactions-table td.mat-column-rowIndex {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
   text-align: center;
-  padding: 20px;
-  background-color: #fefcbf; /* 柔和的黃色背景 */
-  color: #8c7600; /* 深黃色文字 */
-  font-style: italic;
-  font-size: 1.1rem;
+}
+
+.transactions-table th.mat-column-createDate,
+.transactions-table td.mat-column-createDate {
+  width: 140px;
+  min-width: 140px;
+  max-width: 140px;
+  text-align: center; /* 日期欄位內容置中 */
+}
+
+.transactions-table th.mat-column-fromBalanceId,
+.transactions-table td.mat-column-fromBalanceId,
+.transactions-table th.mat-column-toBalanceId,
+.transactions-table td.mat-column-toBalanceId {
+  width: 180px;
+  min-width: 180px;
+  max-width: 220px;
+}
+
+.transactions-table th.mat-column-amount,
+.transactions-table td.mat-column-amount {
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  text-align: center; /* 金額欄位內容置中 */
+}
+
+/* 備註欄位 */
+.transactions-table th.mat-column-description,
+.transactions-table td.mat-column-description {
+  width: auto;
+  min-width: 60px;
+  max-width: 90px;
+  white-space: normal;
+  word-break: break-word;
+}
+
+
+/* 表格無數據行的樣式 */
+.transactions-table .no-data-row {
+  height: 180px;
+  /* 無數據行背景：柔和的淺藍色，與整體藍色系協調 */
+  background-color: #bbdefb; /* Material Blue 100 */
+  border-bottom: none;
+
+  td {
+    font-size: 1.25rem; /* 提示文字再放大一點 */
+    color: #1976d2; /* 較深的藍色文字 */
+    text-align: center;
+    font-style: italic;
+    border-bottom: none;
+    vertical-align: middle;
+    p { margin: 0; }
+  }
 }
 
 .transactions-card mat-paginator {
-  margin-top: 1rem;
+  background-color: #e8f5e9; /* 分頁器背景色，與 card-content 的淺綠色一致 */
+  font-size: 1rem; /* 分頁器文字稍放大 */
+  padding: 0.8rem 1rem;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
 
-/* 統計摘要卡片 */
-.summary-card {
-  background: #FFFFFF;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f1f5f9;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
 
-.summary-card .card-header {
-  display: flex; align-items: center; gap: 0.75rem;
-  padding: 1.5rem 2rem;
-  background: #fff5f7;
-  border-bottom: 1px solid #f1f5f9;
-}
+/* --- 統計摘要卡片 --- */
+/* .summary-card .card-content 會使用 .card-content 的預設 padding 和背景色 */
 
-.summary-card .card-header .material-icons {
-  color: #3b82f6;
-}
-
-.summary-card .card-header h3 {
-  margin: 0; flex: 1;
-  font-size: 1.3rem; font-weight: 600;
-  color: #334155;
-}
-
-.summary-card .card-content {
+/* 恢復統計摘要為左右顯示 */
+.summary-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-  gap: 1.5rem;
-  padding: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* 自動調整列數，最小寬度280px */
+  gap: 1.5rem; /* 確保項目之間的間距 */
 }
 
 .summary-item {
-  display: flex; align-items: center; gap: 1rem;
-  background: #f8fafc; border-radius: 12px;
-  padding: 1.5rem; transition: all 0.2s;
+  /* 統計項背景：改為中等深度的藍色，與淺綠色 card-content 形成高對比，層次更分明 */
+  background-color: #90caf9; /* Material Blue 200 - 中等淺藍色 */
+  border-radius: 14px;
+  padding: 1.8rem;
+  transition: all 0.2s ease-out;
 }
 
 .summary-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  /* hover 時背景加深 */
+  background-color: #64b5f6; /* Material Blue 300 - 較深的淺藍色 */
 }
 
 .summary-label {
-  font-size: 0.9rem; color: #64748b; margin-bottom: 0.25rem;
+  font-size: 1.05rem; /* 統計標籤文字放大 */
+  color: #424242; /* 較深的灰色，在藍色背景上更清晰 */
 }
 
 .summary-value {
-  font-size: 1.3rem; font-weight: 700; color: #334155;
+  font-size: 1.55rem; /* 統計數值進一步放大 */
+  font-weight: 700;
+  color: #1976d2; /* 更深的藍色，與背景形成高對比 */
 }
 
+/* 轉入/轉出金額背景色調整 */
+/* 將金額顏色加深，確保可讀性 */
 .transfer-in {
-  color: #23873c; /* 綠色，表示轉入或增加 */
-  font-weight: 600;
-  background-color: #aceebc;
+  color: #2e7d32; /* 更深的綠色 */
+  font-weight: 700; /* 加粗 */
+  background-color: #e8f5e9; /* 淺綠色 */
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
 }
 
 .transfer-out {
-  color: #dd283a; /* 紅色，表示轉出或減少 */
-  font-weight: 600;
-  background-color: #fae1e4;
+  color: #c62828; /* 更深的紅色 */
+  font-weight: 700; /* 加粗 */
+  background-color: #ffebee; /* 淺粉色 */
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
 }
 
-/* 響應式 */
+/* 排序圖示顏色調整，與新的藍色系搭配 */
+.mat-sort-header-sorted .mat-sort-header-arrow,
+.mat-sort-header:not(.mat-sort-header-sorted) .mat-sort-header-arrow,
+.mat-sort-header:hover .mat-sort-header-arrow {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  color: #2196f3 !important; /* Material Primary Blue，作為排序功能的主題色 */
+  font-size: 1.3em !important;
+}
+
+/* Material Input field specific styles */
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0 !important;
+  padding-bottom: 0 !important;
+}
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0.8em 1em !important;
+}
+.mat-form-field-label-wrapper {
+  padding-top: 0.5em !important;
+}
+
+
+/* --- 響應式設計 --- */
+@media (min-width: 769px) {
+  .filter-content-layout {
+    grid-template-columns: 1.5fr 1fr;
+    align-items: center;
+  }
+}
+
 @media (max-width: 768px) {
   .content-container {
     padding: 0 1rem 2rem;
   }
-  .filter-range,
-  .summary-card .card-content {
-    grid-template-columns: 1fr !important;
+  .card-content {
+    padding: 1.5rem;
+  }
+  .card-header {
+    padding: 1.2rem 1.5rem;
+  }
+  .card-header .material-icons {
+    font-size: 1.6rem;
+  }
+  .card-header h3 {
+    font-size: 1.3rem;
+  }
+
+  .transactions-table th,
+  .transactions-table td {
+    padding: 0.9rem 0.7rem;
+    font-size: 1.05rem; /* 表格文字在手機上稍小但仍清晰 */
+  }
+
+  .transactions-table th.mat-column-rowIndex,
+  .transactions-table td.mat-column-rowIndex {
+    width: 65px;
+    min-width: 65px;
+    max-width: 65px;
+  }
+  .transactions-table th.mat-column-createDate,
+  .transactions-table td.mat-column-createDate {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+  }
+  .transactions-table th.mat-column-amount,
+  .transactions-table td.mat-column-amount {
+    width: 110px;
+    min-width: 110px;
+    max-width: 110px;
+  }
+  .transactions-table th.mat-column-description,
+  .transactions-table td.mat-column-description {
+    min-width: 50px;
+    max-width: 70px;
+  }
+  .transactions-card .card-header .transaction-count {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.8rem;
+  }
+  .summary-label {
+    font-size: 0.95rem;
+  }
+  .summary-value {
+    font-size: 1.4rem;
+  }
+  .summary-item {
+    padding: 1.5rem;
+  }
+  .transactions-card mat-paginator {
+    font-size: 0.9rem;
+    padding: 0.7rem 0.8rem;
+  }
+  .date-label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .date-input-group {
+    margin-bottom: 1rem;
   }
 }

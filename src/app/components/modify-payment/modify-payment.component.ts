@@ -1,3 +1,4 @@
+import { PaymentModifiedService } from './../../@services/payment-modified.service';
 import { ApiService } from './../../@services/api.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -14,6 +15,7 @@ import { Category } from '../../models/categories';
 import { PaymentIdFormData } from '../../models/paymentIdFormData';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modify-payment',
@@ -28,7 +30,8 @@ export class ModifyPaymentComponent implements OnInit{
 
   constructor(
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private paymentModifiedService: PaymentModifiedService
   ){}
 
   balanceList: Balance[] = []; //  透過帳號取得帳戶給下拉式選單用
@@ -230,24 +233,46 @@ export class ModifyPaymentComponent implements OnInit{
     const selectedItems = this.filteredTestData.filter((item: any) => item.selected);
 
     if(selectedItems.length == 0) {
-      alert('請先選擇要刪除的項目');
+      Swal.fire({
+        icon: 'warning',
+        title: '請先選擇要刪除的項目',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
-    if(!confirm(`請確定要刪除 ${selectedItems.length} 筆帳款資料?`)) return;
-
-    Promise.all(
-      selectedItems.map(item =>
-        this.apiService.deletePayment(item.paymentId)
-      )
-    )
-    .then(() => {
-      alert('刪除成功');
-      this.loadPayments();  //  重新載入資料
-    })
-    .catch(err => {
-      console.error('刪除失敗', err);
-      alert('刪除失敗，請稍後再試');
+    Swal.fire({
+      title: `請確定要刪除 ${selectedItems.length} 筆帳款資料？`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '是的，刪除！',
+      cancelButtonText: '取消'
+    }).then((result) => {
+      if(result.isConfirmed){
+        //  執行刪除
+        Promise.all(
+          selectedItems.map(item =>
+            this.apiService.deletePayment(item.paymentId)
+          )
+        )
+        .then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: '刪除成功',
+            confirmButtonText: '確定'
+          });
+          this.loadPayments();  //  重新載入資料
+        })
+        .catch(err => {
+          console.error('刪除失敗', err);
+          Swal.fire({
+            icon: 'error',
+            title: '刪除失敗',
+            text: '請稍後再試',
+            confirmButtonText: '確定'
+          });
+        });
+      }
     });
   }
 
@@ -308,17 +333,26 @@ export class ModifyPaymentComponent implements OnInit{
     const selectedItems = this.filteredTestData.filter(item => item.selected);
 
     if(selectedItems.length == 0) {
-      alert('請先選擇要編輯的帳款');
+      Swal.fire({
+        icon: 'warning',
+        title: '請先選擇要編輯的帳款',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
     if(selectedItems.length > 1) {
-      alert('一次只能編輯一筆帳款，請重新選擇');
+      Swal.fire({
+        icon: 'warning',
+        title: '一次只能編輯一筆帳款，請重新選擇',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
     const selectedPaymentId = selectedItems[0].paymentId;
-
+    const selectedItem = selectedItems[0];
+    this.paymentModifiedService.setPaymentFormData(selectedItem); //  傳資料
     this.router.navigate(['/editPayment'], {
       queryParams: { paymentId: selectedPaymentId }
     });

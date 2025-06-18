@@ -13,6 +13,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { MemberCenterComponent } from './components/member-center/member-center.component';
 import { MemberInfoComponent } from './components/member-info/member-info.component';
 import { MemberConfirmComponent } from './components/member-confirm/member-confirm.component';
+import { ChangePasswordsComponent } from './components/change-passwords/change-passwords.component';
 
 
 
@@ -34,6 +35,7 @@ export const routes: Routes = [
     {path:'memberCenter', component: MemberCenterComponent,
     children: [{path: 'memberInfo', component: MemberInfoComponent},
                {path: 'memberConfirm', component: MemberConfirmComponent},
+               {path: 'changePasswords', component:ChangePasswordsComponent },
               { path: '', redirectTo: 'memberConfirm', pathMatch: 'full'}]},
 
   {path:'test', component: TestComponent},

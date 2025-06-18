@@ -50,6 +50,9 @@ export class ModifyPaymentComponent implements OnInit{
   allSelected: boolean = false;
   filteredTestData: (PaymentIdFormData & { selected?: boolean })[] = [];
   sortField: 'amount' | 'recordDate' | '' = ''; //  排序欄位
+  sortDirection: 'asc' | 'desc' = 'asc';  //  排序方向
+  currentPage: number = 1;  //  當前頁
+  itemsPerPage: number = 10;  //  每頁筆數
 
   ngOnInit(): void {
     //  初始化年份選單列表
@@ -188,6 +191,7 @@ export class ModifyPaymentComponent implements OnInit{
   //  根據所選帳戶名稱更動下方表格欄位
   onBalanceChange(){
     this.loadPayments();
+    this.applyFilters();
   }
 
   //  更新所選帳戶顯示
@@ -200,6 +204,7 @@ export class ModifyPaymentComponent implements OnInit{
   onYearChange(): void {
     this.generateMonths();
     this.loadPayments();
+    this.applyFilters();
   }
 
   //  清除日期選擇器篩選表格選擇日期
@@ -260,7 +265,7 @@ export class ModifyPaymentComponent implements OnInit{
       return;
     }
 
-    const payments: (PaymentIdFormData & { selected?: boolean })[] = selected.paymentInfoList.map((p: any) => ({
+    let payments: (PaymentIdFormData & { selected?: boolean })[] = selected.paymentInfoList.map((p: any) => ({
       paymentId: p.paymentId,
       type: p.type,
       item: p.item,
@@ -273,13 +278,30 @@ export class ModifyPaymentComponent implements OnInit{
       selected: false
     }));
 
-    this.filteredTestData = payments.filter(t =>
+    //  篩選
+    payments = payments.filter(t =>
       (!this.selectedType || this.selectedType == '全部' || t.type?.includes(this.selectedType!)) &&
       (!this.selectedItem || this.selectedItem == '全部' || t.item?.includes(this.selectedItem!)) &&
       (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
     );
 
+    //  排序
+    if(this.sortField) {
+      payments.sort((a: any, b: any) => {
+        const aVal = a[this.sortField];
+        const bVal = b[this.sortField];
+        return this.sortDirection == 'asc'
+          ? aVal > bVal ? 1 : -1
+          : aVal < bVal ? 1 : -1;
+      });
+    }
+
+    //  分頁
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    this.filteredTestData = payments.slice(startIndex, startIndex + this.itemsPerPage);
+
     this.updateAllSelectedState();
+
   }
 
   goEditPayment(){
@@ -300,6 +322,42 @@ export class ModifyPaymentComponent implements OnInit{
     this.router.navigate(['/editPayment'], {
       queryParams: { paymentId: selectedPaymentId }
     });
+  }
+
+  toggleSort(field: 'amount' | 'recordDate'): void {
+    if(this.sortField == field) {
+      this.sortDirection = this.sortDirection == 'asc' ? 'desc' : 'asc';
+    }
+    else{
+      this.sortField = field;
+      this.sortDirection = 'asc';
+    }
+    this.applyFilters();  //  重新應用排序與分頁
+  }
+
+  PrevPage(): void {
+    if(this.currentPage > 1) {
+      this.currentPage--;
+      this.applyFilters();
+    }
+  }
+
+  nextPage(): void {
+    this.currentPage++;
+    this.applyFilters();
+  }
+
+  hasNectPage(): boolean {
+    const selected = this.rawPaymentList.find(p => p.balanceId == this.selectedBalanceId);
+    if(!selected) return false;
+
+    let payments = selected.paymentInfoList.filter((t: any) =>
+      (!this.selectedType || this.selectedType == '全部' || t.type?.includes(this.selectedType!)) &&
+      (!this.selectedItem || this.selectedItem == '全部' || t.item?.includes(this.selectedItem!)) &&
+      (!this.selectedRecordDate || this.isSameDate(new Date(t.recordDate), this.selectedRecordDate))
+    );
+
+    return this.currentPage * this.itemsPerPage < payments.length;
   }
 
 }

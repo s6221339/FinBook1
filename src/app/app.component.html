@@ -20,10 +20,16 @@
       </a>
 
       <!-- 記帳功能連結 -->
-      <a routerLink="/bookKeeping/expenses" class="nav-link" routerLinkActive="active" (click)="goBookKeeping()">
+      <a class="nav-link" routerLinkActive="active" (click)="goBookKeeping()">
         <span class="material-icons">add_circle</span>
         記帳
       </a>
+
+      <!-- 修改帳款功能 -->
+       <a class="nav-link" routerLinkActive="active" (click)="goModifyPayment()">
+        <span class="material-icons"></span>
+        修改帳款
+       </a>
 
       <!-- 帳本功能連結 -->
       <a class="nav-link" routerLinkActive="active" (click)="goLedger()">
@@ -293,4 +299,5 @@
       <span class="top-text">TOP</span>
     </button>
   }
+
 </footer>

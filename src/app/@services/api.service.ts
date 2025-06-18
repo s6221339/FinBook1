@@ -94,6 +94,7 @@ export class ApiService {
       withCredentials: true
     });
   }
+
   //  新增轉帳紀錄
   createTransfers(data: any){
     return axios({
@@ -130,4 +131,13 @@ export class ApiService {
       withCredentials: true
     });
   }
+
+  //  透過帳號取得所有帳戶儲蓄金額
+  getSavingsByAccount(account: string){
+    return axios.post('http://localhost:8080/finbook/savings/getAll', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
 }

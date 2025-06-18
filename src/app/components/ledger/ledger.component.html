@@ -121,12 +121,12 @@
       </div>
 
       <!-- 選擇項目 -->
-      @if(categoriesFiltedItems.length > 0){
+      @if(categoriesFilteredItems.length > 0){
         <div class="form-group">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>選擇項目</mat-label>
             <mat-select [(value)]="selectedItem">
-              @for(item of categoriesFiltedItems; track $index){
+              @for(item of categoriesFilteredItems; track $index){
                 <mat-option [value]="item">{{ item }}</mat-option>
               }
             </mat-select>
@@ -154,21 +154,37 @@
       </mat-form-field>
       <button mat-button (click)="clearSelectedRecordDate()">清除日期</button>
     </div>
-
+    <!-- 表格顯示帳款 -->
     <div>
       <h3>款項列表：</h3>
       <table class="payment-table">
         <thead>
           <tr>
-            <th>帳款編號</th>
+            <!-- <th>帳款編號</th> -->
             <th>支出分類</th>
             <th>支出項目</th>
             <th>帳款描述</th>
-            <th>金額</th>
+            <th
+            (click)="toggleSort('amount')"
+            style="cursor: pointer;">
+              金額
+              @if(sortField == 'amount'){
+                <mat-icon>
+                  {{ sortDirection == 'asc' ? 'arrow_upward' : 'arrow_downward'}}
+                </mat-icon>
+              }
+            </th>
             <th>循環週期（年）</th>
             <th>循環週期（月）</th>
             <th>循環週期（日）</th>
-            <th>紀錄日期</th>
+            <th (click)="toggleSort('recordDate')" style="cursor: pointer;">
+              紀錄日期
+              @if(sortField == 'recordDate'){
+                <mat-icon>
+                  {{ sortDirection == 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                </mat-icon>
+              }
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -179,7 +195,7 @@
           }
           @for(item of filteredTestData; track $index){
             <tr>
-              <td>{{ item.paymentId }}</td>
+              <!-- <td>{{ item.paymentId }}</td> -->
               <td>{{ item.type }}</td>
               <td>{{ item.item }}</td>
               <td>{{ item.description }}</td>
@@ -192,5 +208,10 @@
           }
         </tbody>
       </table>
+    </div>
+    <div style="margin-top: 10px; text-align: center;">
+      <button mat-stroked-button (click)="prevPage()" [disabled]="currentPage == 1">上一頁</button>
+      <span style="margin: 0 10px;">第 {{ currentPage }} 頁</span>
+      <button mat-stroked-button (click)="nextPage()" [disabled]="!hasNextPage()">下一頁</button>
     </div>
 </div>

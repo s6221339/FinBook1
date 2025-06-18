@@ -1,0 +1,154 @@
+<div>
+  <!-- 帳戶選擇 -->
+  @if(balanceList.length > 0){
+    <div class="form-section">
+      <div class="section-header">
+        <span class="material-icons">account_balance</span>
+        <h3>選擇帳戶</h3>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>選擇帳戶</mat-label>
+          <mat-select [(value)]="selectedBalanceId" (valueChange)="onBalanceChange()">
+            @for(b of balanceList; track $index){
+              <mat-option [value]="b.balanceId">
+                {{ b.name }}
+              </mat-option>
+            }
+          </mat-select>
+          <mat-hint>選擇帳戶名稱：{{ selectedBalanceName }}</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+  }
+  <div>
+    <h3>月份選擇</h3>
+    <div class="form-group" style="display: flex; gap: 16px;">
+
+      <!-- 年份選擇 -->
+       <mat-form-field appearance="outline">
+        <mat-label>選擇年份</mat-label>
+        <mat-select [(value)]="year" (valueChange)="onYearChange()">
+          @for(y of years; track $index){
+            <mat-option [value]="y">{{ y }}</mat-option>
+          }
+        </mat-select>
+       </mat-form-field>
+
+       <!-- 月份選擇 -->
+      <mat-form-field appearance="outline">
+        <mat-label>選擇月份</mat-label>
+        <mat-select [(value)]="month" (valueChange)="updateMonthRange()">
+          @for(m of months; track $index){
+            <mat-option [value]="m">{{ m }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- 顯示目前選擇 -->
+     <p style="margin: 0;">目前選擇：{{ year }} 年 {{ month }} 月</p>
+  </div>
+  <!-- 分類選擇 -->
+  <div class="form-section">
+    <div class="section-header">
+      <span class="material-icons">category</span>
+      <h3>支出分類</h3>
+    </div>
+    <div class="form-group">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>選擇類型</mat-label>
+        <mat-select [(value)]="selectedType" (valueChange)="updateCategoriesFiltedItems()">
+          @for(type of distinctTypes; track $index){
+            <mat-option [value]="type">{{ type }}</mat-option>
+          }
+        </mat-select>
+        <mat-hint>選擇支出的主要分類</mat-hint>
+      </mat-form-field>
+    </div>
+
+    <!-- 選擇項目 -->
+    @if(categoriesFilteredItems.length > 0){
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>選擇項目</mat-label>
+          <mat-select [(value)]="selectedItem" (valueChange)="applyFilters()">
+            @for(item of categoriesFilteredItems; track $index){
+              <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-select>
+          <mat-hint>選擇具體的支出項目</mat-hint>
+        </mat-form-field>
+      </div>
+    }
+  </div>
+  <!-- 日期篩選款項 -->
+  <div style="margin-bottom: 16px;">
+    <mat-form-field appearance="outline">
+      <mat-label>選擇記錄日期</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [(ngModel)]="selectedRecordDate"
+        (ngModelChange)="applyFilters()"
+        [min]="monthStartDate"
+        [max]="monthEndDate"
+        placeholder="請選擇日期"
+      />
+      <!-- matSuffix 置於 input 右側且具有對齊效果-->
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <!-- #picker 將此日期選擇器取名為 picker ，可被上面的 input 跟 toggle 呼叫 -->
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-button (click)="clearSelectedRecordDate()">清除日期</button>
+  </div>
+  <!-- 修改帳款按鈕 -->
+  <div>
+    <button (click)="goEditPayment()">編輯</button>
+    <button (click)="deleteSelectedPayments()">刪除</button>
+  </div>
+  <!-- 表格顯示帳款 -->
+  <div>
+    <h3>款項列表：</h3>
+    <table class="payment-table">
+      <thead>
+        <tr>
+          <th>
+            <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAll()">全選</mat-checkbox>
+          </th>
+          <th>帳款編號</th>
+          <th>支出分類</th>
+          <th>支出項目</th>
+          <th>帳款描述</th>
+          <th>金額</th>
+          <th>循環週期（年）</th>
+          <th>循環週期（月）</th>
+          <th>循環週期（日）</th>
+          <th>紀錄日期</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if(filteredTestData.length == 0){
+          <tr>
+            <td colspan="10" style="text-align: center; color: #999;">目前沒有符合的款項</td>
+          </tr>
+        }
+        @for(item of filteredTestData; track $index){
+          <tr>
+            <td>
+              <mat-checkbox [(ngModel)]="item.selected" (change)="onItemCheckChange()"></mat-checkbox>
+            </td>
+            <td>{{ item.paymentId }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.item }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.amount }}</td>
+            <td>{{ item.recurringPeriodYear }}</td>
+            <td>{{ item.recurringPeriodMonth }}</td>
+            <td>{{ item.recurringPeriodDay }}</td>
+            <td>{{ item.recordDate | date: 'yyyy-MM-dd' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -242,4 +242,16 @@ data8:{ from: number, to: number } = { from: 3, to: 4 };
     });
   }
 
+  getSavingsByAccount(){
+    this.apiService.getSavingsByAccount(this.account)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲取帳號所有帳戶儲蓄成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲取帳號所有帳戶儲蓄失敗，請稍後再試');
+    });
+  }
+
 }

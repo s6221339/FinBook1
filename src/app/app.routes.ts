@@ -12,6 +12,8 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LedgerComponent } from './components/ledger/ledger.component';
 import { TransferHistoryComponent } from './components/transfer-history/transfer-history.component';
+import { ModifyPaymentComponent } from './components/modify-payment/modify-payment.component';
+import { EditPaymentComponent } from './components/edit-payment/edit-payment.component';
 
 
 
@@ -36,6 +38,8 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent },
   {path: 'register', component: RegisterComponent },
   {path: 'ledger', component: LedgerComponent },
+  {path: 'modifyPayment', component: ModifyPaymentComponent },
+  {path: 'editPayment', component: EditPaymentComponent },
   {path:'home', component: HomeComponent},
   {path:'', component: HomeComponent},
   {path:'**', component: HomeComponent},

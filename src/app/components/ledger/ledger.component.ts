@@ -1,6 +1,6 @@
 import { PaymentFormData } from './../../models/paymentFormData';
 import { ApiService } from './../../@services/api.service';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -23,7 +23,7 @@ import { Balance } from '../../models/Balance';
   templateUrl: './ledger.component.html',
   styleUrl: './ledger.component.scss'
 })
-export class LedgerComponent implements AfterViewInit,OnInit{
+export class LedgerComponent implements OnInit{
 
   constructor(
     private apiService: ApiService
@@ -43,89 +43,10 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   expenses?: number;  //  支出
   balance?: number; //  餘額
   isEditingBudget: boolean = false; //  是否編輯儲蓄
-  isSavingsSet: boolean = false;
-  testData: PaymentIdFormData[] = [
-    {
-      paymentId: 1,
-      type: '交通',
-      item: '停車費',
-      description: '崑山停車場',
-      amount: 100,
-      recurringPeriodYear: 0,
-      recurringPeriodMonth: 0,
-      recurringPeriodDay: 0,
-      recordDate: new Date('2025-06-01')
-    },
-    {
-      paymentId: 2,
-      type: '其他',
-      item: '禮物',
-      description: '送羊羊的禮物',
-      amount: 700,
-      recurringPeriodYear: 0,
-      recurringPeriodMonth: 0,
-      recurringPeriodDay: 0,
-      recordDate: new Date('2025-06-02')
-    },
-    {
-      paymentId: 3,
-      type: '娛樂',
-      item: '遊戲',
-      description: '楓之谷',
-      amount: 3000,
-      recurringPeriodYear: 0,
-      recurringPeriodMonth: 0,
-      recurringPeriodDay: 0,
-      recordDate: new Date('2025-06-03')
-    },
-    {
-      paymentId: 4,
-      type: '居家',
-      item: '網路費',
-      description: '中華電信光世代',
-      amount: 1099,
-      recurringPeriodYear: 0,
-      recurringPeriodMonth: 1,
-      recurringPeriodDay: 0,
-      recordDate: new Date('2025-06-12')
-    },
-    {
-      paymentId: 5,
-      type: '收入',
-      item: '薪資',
-      description: '每月薪水',
-      amount: 50000,
-      recurringPeriodYear: 0,
-      recurringPeriodMonth: 1,
-      recurringPeriodDay: 0,
-      recordDate: new Date('2025-06-15')
-    },
-    {
-      paymentId: 6,
-      type: '教育',
-      item: '線上課程',
-      description: '巨匠分期',
-      amount: 3000,
-      recurringPeriodYear: 0,
-      recurringPeriodMonth: 1,
-      recurringPeriodDay: 0,
-      recordDate: new Date('2025-06-16')
-    },
-    {
-      paymentId: 7,
-      type: '消費',
-      item: '鞋子',
-      description: '買布鞋一雙',
-      amount: 4000,
-      recurringPeriodYear: 0,
-      recurringPeriodMonth: 0,
-      recurringPeriodDay: 0,
-      recordDate: new Date('2025-06-04')
-    }
-  ]
+  isSavingsSet: boolean = false;  //  儲蓄是否被重新設定過
   selectedType?: string | null;  //  下拉式選單(type)
   selectedItem?: string | null;  //  下拉式選單(item)
-  categoriesFiltedItems: string[] = []; //  兩層下拉式選單第二層的對象
+  categoriesFilteredItems: string[] = []; //  兩層下拉式選單第二層的對象
   categories: Category[] = [];
   distinctTypes: string[] = []; //  不重複的類型
   account: string = "a6221339"; //  預設帳號
@@ -136,6 +57,12 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   selectedBalanceId?: number = 0; //  使用者選擇的 balanceId
   balanceList: Balance[] = [];  //  透過帳號取得帳戶給下拉式選單用
   rawPaymentList: any[] = []; //  原始 API 回傳的 balanceWithPaymentList
+  //  排序控制
+  sortField: 'amount' | 'recordDate' | '' = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+  //  分頁控制
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
 
   ngOnInit(): void {
     //  初始化年份選單列表
@@ -174,13 +101,10 @@ export class LedgerComponent implements AfterViewInit,OnInit{
         console.error('初始化錯誤', err);
       });
 
+      this.loadSavingsFromAllPayments();
       //  撈預算資料
       this.loadBudgetData();
       this.loadPayments();
-  }
-
-  ngAfterViewInit(): void {
-    this.updateBattery(-100);
   }
 
   updateBattery(budgetPercentRemaining: number): void {
@@ -328,7 +252,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
   //  根據 selectedType 更新 categoriesFilteredItems
   updateCategoriesFiltedItems(){
     //  先取出符合 type 的所有 item
-    this.categoriesFiltedItems = this.categories
+    this.categoriesFilteredItems = this.categories
       //  篩選 如果
       //  !this.selectedType 是空值或 null 篩全部
       //  this.selectedType == '全部'也是篩全部
@@ -336,19 +260,19 @@ export class LedgerComponent implements AfterViewInit,OnInit{
       .map(c => c.item);
 
     //  加上「全部」選項在最前面
-    this.categoriesFiltedItems = ['全部', ...new Set(this.categoriesFiltedItems)];
+    this.categoriesFilteredItems = ['全部', ...new Set(this.categoriesFilteredItems)];
 
     //  預設 item 選「全部」
     this.selectedItem = '全部';
   }
 
   //  get 方法在裡面值有變動時會自動執行調整
-  get filteredTestData(): PaymentIdFormData[] {
+  get filteredFullData(): PaymentIdFormData[] {
     const selected = this.rawPaymentList.find(p => p.balanceId == this.selectedBalanceId);
 
     if(!selected) return [];
 
-    const payments = selected.paymentInfoList.map((p: any) => ({
+    let payments = selected.paymentInfoList.map((p: any) => ({
       paymentId: p.paymentId,
       type: p.type,
       item: p.item,
@@ -360,12 +284,31 @@ export class LedgerComponent implements AfterViewInit,OnInit{
       recordDate: new Date(p.recordDate)
     }));
 
-    return payments.filter((t: PaymentIdFormData) =>
+    //  篩選條件
+    payments = payments.filter((t: PaymentIdFormData) =>
       (!this.selectedType || this.selectedType == '全部' || t.type?.includes(this.selectedType!)) &&
       //  ?. 是 Optional Chaining（可選鏈結運算子）如果前面的東西是 undefined 或 null，就不繼續執行後面的操作，直接回傳 undefined。
       (!this.selectedItem || this.selectedItem == '全部' || t.item?.includes(this.selectedItem!)) &&  // ! 非空斷言運算子
       (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
     );
+
+    //  排序邏輯
+    if(this.sortField) {
+      payments.sort((a: any, b: any) => {
+        const aVal = a[this.sortField];
+        const bVal = b[this.sortField];
+        return this.sortDirection == 'asc'
+          ? aVal > bVal ? 1: -1
+          : aVal < bVal ? 1: -1;
+      });
+    }
+
+    return payments;
+  }
+
+  get filteredTestData(): PaymentIdFormData[] {
+    const startIndex = (this.currentPage -1) * this.itemsPerPage;
+    return this.filteredFullData.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
   //  更新日期選擇器篩選範圍
@@ -373,6 +316,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
     this.monthStartDate = new Date(this.year, this.month - 1, 1);
     this.monthEndDate = new Date(this.year, this.month, 0);
 
+    this.loadSavingsFromAllPayments();
     this.loadBudgetData();  //  month 變動時撈資料
     this.loadPayments();
   }
@@ -466,7 +410,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
       this.expenses = current.expenditure;
       this.balance = current.settlement;
 
-      //  更新電池 -> 用 餘額 / 預算
+      //  更新電池 -> 用 餘額 / 預算並進行預算為 0（也就是分母是 0 時的防呆）
       const budgetPercentRemaining = this.budget == 0 ? 0 : (this.balance! / this.budget!) * 100;
       this.updateBattery(budgetPercentRemaining);
     }
@@ -485,7 +429,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
     this.expenses = undefined;
     this.balance = undefined;
 
-    this.updateBattery(0);  //  預設為 100
+    this.updateBattery(0);  //  預設為 0
   }
 
   //  更新所選帳戶顯示
@@ -494,6 +438,7 @@ export class LedgerComponent implements AfterViewInit,OnInit{
     return found?.name ?? '未選擇';
   }
 
+  //  取得特定月份帳號所有帳款
   loadPayments(): void {
     const data = {
       account: this.account,
@@ -511,9 +456,69 @@ export class LedgerComponent implements AfterViewInit,OnInit{
     });
   }
 
+  //  根據所選帳戶名稱更動下方表格欄位
   onBalanceChange(){
+    this.loadSavingsFromAllPayments();
     this.updateBudgetDisplay();
     this.loadPayments();
+  }
+
+  toggleSort(field: 'amount' | 'recordDate'): void {
+    if(this.sortField == field) {
+      //  如果已經是該欄，切換 asc/desc
+      this.sortDirection = this.sortDirection == 'asc' ? 'desc' : 'asc';
+    }
+    else{
+      //  選擇新的欄為排序
+      this.sortField = field;
+      this.sortDirection = 'asc';
+    }
+  }
+
+  //  換頁方法
+  prevPage(): void {
+    if(this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
+  nextPage(): void {
+    const startIndex = this.currentPage * this.itemsPerPage;
+    if(startIndex < this.filteredFullData.length) {
+      this.currentPage++;
+    }
+  }
+
+  hasNextPage(): boolean {
+    return this.currentPage * this.itemsPerPage < this.filteredFullData.length;
+  }
+
+  //  根據帳戶.年.月撈取 savings 資料
+  loadSavingsFromAllPayments(): void {
+    this.apiService.getSavingsByAccount(this.account)
+    .then(res => {
+      const savingsList = res.data.savingsList || [];
+
+      const found = savingsList.find((s: any) =>
+        s.balanceId == this.selectedBalanceId &&
+        s.year == this.year &&
+        s.month == this.month
+      );
+
+      if(found) {
+        this.savings = found.amount;
+        this.isSavingsSet = true; //  有設定過才顯示金額
+      }
+      else{
+        this.savings = 0; //  預設為 0
+        this.isSavingsSet = false;
+      }
+    })
+    .catch(err => {
+      console.error('取得儲蓄資料失敗：', err);
+      this.savings = 0;
+      this.isSavingsSet = false;
+    });
   }
 
 }

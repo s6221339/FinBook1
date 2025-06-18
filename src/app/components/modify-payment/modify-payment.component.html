@@ -115,7 +115,7 @@
           <th>
             <mat-checkbox [(ngModel)]="allSelected" (change)="toggleAll()">全選</mat-checkbox>
           </th>
-          <th>帳款編號</th>
+          <!-- <th>帳款編號</th> -->
           <th>支出分類</th>
           <th>支出項目</th>
           <th>帳款描述</th>
@@ -137,7 +137,7 @@
             <td>
               <mat-checkbox [(ngModel)]="item.selected" (change)="onItemCheckChange()"></mat-checkbox>
             </td>
-            <td>{{ item.paymentId }}</td>
+            <!-- <td>{{ item.paymentId }}</td> -->
             <td>{{ item.type }}</td>
             <td>{{ item.item }}</td>
             <td>{{ item.description }}</td>

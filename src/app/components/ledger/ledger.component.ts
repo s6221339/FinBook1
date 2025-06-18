@@ -465,23 +465,26 @@ export class LedgerComponent implements OnInit{
 
   toggleSort(field: 'amount' | 'recordDate'): void {
     if(this.sortField == field) {
-      //  如果已經是該欄，切換 asc/desc
+      //  若點擊的欄位已經是目前排序欄位，則切換排序方向（asc ↔ desc）
       this.sortDirection = this.sortDirection == 'asc' ? 'desc' : 'asc';
     }
     else{
-      //  選擇新的欄為排序
+      //  若點擊的是新的欄位，則設定為新排序欄位並預設為升冪排序（asc）
       this.sortField = field;
       this.sortDirection = 'asc';
     }
   }
 
   //  換頁方法
+  //  往前一頁
   prevPage(): void {
     if(this.currentPage > 1) {
       this.currentPage--;
     }
   }
 
+  //  換頁方法
+  //  往後一頁
   nextPage(): void {
     const startIndex = this.currentPage * this.itemsPerPage;
     if(startIndex < this.filteredFullData.length) {
@@ -489,6 +492,7 @@ export class LedgerComponent implements OnInit{
     }
   }
 
+  //  是否有下一頁
   hasNextPage(): boolean {
     return this.currentPage * this.itemsPerPage < this.filteredFullData.length;
   }

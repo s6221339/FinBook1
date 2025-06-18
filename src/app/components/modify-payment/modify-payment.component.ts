@@ -49,6 +49,7 @@ export class ModifyPaymentComponent implements OnInit{
   selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
   allSelected: boolean = false;
   filteredTestData: (PaymentIdFormData & { selected?: boolean })[] = [];
+  sortField: 'amount' | 'recordDate' | '' = ''; //  排序欄位
 
   ngOnInit(): void {
     //  初始化年份選單列表

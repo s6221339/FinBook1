@@ -5,8 +5,8 @@
   <!-- 分類下拉 -->
   <div>
     <mat-form-field>
-      <mat-label>支出類型：</mat-label>
-      <mat-select [(ngModel)]="selectedType" (selectionChange)="updateItemOptions()">
+      <mat-label>支出類型</mat-label>
+      <mat-select [(ngModel)]="selectedType" (selectionChange)="updateItemOptions()" [disabled]="!canEditAll">
         @for(type of distinctTypes; track $index){
           <mat-option [value]="type">{{ type }}</mat-option>
         }
@@ -27,29 +27,50 @@
   <!-- 備註說明 -->
   <div>
     <mat-form-field appearance="outline">
-      <mat-label>備註說明：</mat-label>
-      <textarea matInput [(ngModel)]="description"></textarea>
-    </mat-form-field>
+      <mat-label>備註說明</mat-label>
+      <textarea matInput [(ngModel)]="description" [readonly]="!canEditAll"></textarea>
+    </mat-form-field><br>
 
     <!-- 金額 -->
     <mat-form-field appearance="outline">
-      <mat-label>金額：</mat-label>
-      <input matInput type="number" [(ngModel)]="amount"/>
+      <mat-label>金額</mat-label>
+      <input matInput type="number" [(ngModel)]="amount" [readonly]="!canEditAll"/>
     </mat-form-field>
   </div>
 
   <!-- 循環週期 -->
   <div style="display: flex; gap: 8px;">
-    <mat-form-field>
+    <!-- 年 -->
+    <mat-form-field appearance="outline">
       <mat-label>年</mat-label>
-      <mat-select [(ngModel)]="recurringYear">
-
-      </mat-select>
+      <input matInput type="number" [(ngModel)]="recurringYear" [readonly]="!canEditRecurring" min="0" step="1"/>
     </mat-form-field>
 
+    <!-- 月 -->
+    <mat-form-field appearance="outline">
+      <mat-label>月</mat-label>
+      <input matInput type="number" [(ngModel)]="recurringMonth" [readonly]="!canEditRecurring" min="0" step="1"/>
+    </mat-form-field>
+
+    <!-- 日 -->
+    <mat-form-field appearance="outline">
+      <mat-label>日</mat-label>
+      <input matInput type="number" [(ngModel)]="recurringDay" [readonly]="!canEditRecurring" min="0" step="1"/>
+    </mat-form-field>
+  </div>
+
+  <!-- 紀錄日期 -->
+  <div>
+    <mat-form-field>
+      <mat-label>記帳日期</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="recordDate" [disabled]="!canEditAll">
+      <mat-datepicker-toggle matTextSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
   </div>
   <div>
-    <h3>記帳日期：</h3>
+    <button (click)="goBackModifyPayment()">取消編輯</button>
+    <button (click)="saveAndGoBack()">儲存變更</button>
   </div>
 </div>
 

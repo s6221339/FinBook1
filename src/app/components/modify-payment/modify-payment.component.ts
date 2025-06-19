@@ -353,6 +353,7 @@ export class ModifyPaymentComponent implements OnInit{
     const selectedPaymentId = selectedItems[0].paymentId;
     const selectedItem = selectedItems[0];
     this.paymentModifiedService.setPaymentFormData(selectedItem); //  傳資料
+    console.log(selectedItem);
     this.router.navigate(['/editPayment'], {
       queryParams: { paymentId: selectedPaymentId }
     });

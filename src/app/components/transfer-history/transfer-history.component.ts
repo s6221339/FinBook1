@@ -186,11 +186,6 @@ Swal.fire({
   });
   }
 
-<<<<<<< HEAD
-  /** 載入轉帳資料，可帶日期區間 */
-  loadData(): void {
-    this.api.getAllTransfersByBalanceId( 0)
-=======
   // =====================================
   // 私有方法 (Private Methods)
   // =====================================
@@ -214,7 +209,6 @@ Swal.fire({
 
     // 呼叫 ApiService 的 getBalanceByAccount 方法來獲取帳戶列表
     return this.api.getBalanceByAccount(testAccount)
->>>>>>> foes3339
       .then(resp => {
         // 檢查 API 回應的數據結構是否符合預期（必須有 data 且 data.balanceList 是陣列）
         if (resp.data && Array.isArray(resp.data.balanceList) && resp.data.balanceList.length > 0) {

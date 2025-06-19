@@ -4,10 +4,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentIdFormData } from '../../models/paymentIdFormData';
 import { Category } from '../../models/categories';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-payment',
-  imports: [],
+  imports: [MatFormFieldModule, MatSelectModule, FormsModule],
   templateUrl: './edit-payment.component.html',
   styleUrl: './edit-payment.component.scss',
   standalone: true
@@ -34,6 +37,7 @@ export class EditPaymentComponent implements OnInit{
   recurringMonth: number | null = null;
   recurringDay: number | null = null;
   recordDate: Date = new Date();
+  distinctTypes: string[] = [];
 
   ngOnInit(): void {
     const id = this.route.snapshot.queryParamMap.get('paymentId');
@@ -70,6 +74,7 @@ export class EditPaymentComponent implements OnInit{
     this.apiService.getTypeByAccount(this.account)
     .then(res => {
       this.categories = res.data.paymentTypeList || [];
+      this.filteredItems = [...new Set(this.categories.map(c => c.type))];
       this.updateItemOptions();
     })
     .catch(err => {

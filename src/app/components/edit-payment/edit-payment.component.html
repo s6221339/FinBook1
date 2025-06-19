@@ -2,17 +2,51 @@
   <div>
     <h2>編輯帳款</h2>
   </div>
+  <!-- 分類下拉 -->
   <div>
-    <h3>支出分類：</h3>
+    <mat-form-field>
+      <mat-label>支出類型：</mat-label>
+      <mat-select [(ngModel)]="selectedType" (selectionChange)="updateItemOptions()">
+        @for(type of distinctTypes; track $index){
+          <mat-option [value]="type">{{ type }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
   </div>
+
+  <!-- 項目下拉 -->
+  <mat-form-field>
+    <mat-label>項目</mat-label>
+    <mat-select [(ngModel)]="selectedItem">
+      @for(item of filteredItems; track $index){
+        <mat-option [value]="item">{{ item }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <!-- 備註說明 -->
   <div>
-    <h3>備註說明：</h3>
-    <textarea></textarea>
-    <h3>金額：</h3>
-    <input tyoe="number"/>
+    <mat-form-field appearance="outline">
+      <mat-label>備註說明：</mat-label>
+      <textarea matInput [(ngModel)]="description"></textarea>
+    </mat-form-field>
+
+    <!-- 金額 -->
+    <mat-form-field appearance="outline">
+      <mat-label>金額：</mat-label>
+      <input matInput type="number" [(ngModel)]="amount"/>
+    </mat-form-field>
   </div>
-  <div>
-    <h3>循環週期：</h3>
+
+  <!-- 循環週期 -->
+  <div style="display: flex; gap: 8px;">
+    <mat-form-field>
+      <mat-label>年</mat-label>
+      <mat-select [(ngModel)]="recurringYear">
+
+      </mat-select>
+    </mat-form-field>
+
   </div>
   <div>
     <h3>記帳日期：</h3>

@@ -1,0 +1,62 @@
+<div>
+  <div>
+    <h2>🗑️ 最近刪除款項清單</h2>
+  </div>
+  <!-- 帳戶選擇下拉 -->
+  <div class="form-section">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>選擇帳戶</mat-label>
+      <mat-select [(value)]="selectedBalanceId" (valueChange)="onBalanceChange()">
+        @for(b of balances; track $index){
+          <mat-option [value]="b.balanceId">{{ b.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div style="display: flex; gap: 12px; margin: 12px 0;">
+    <button (click)="toggleSelectAll()">✅{{ isAllSelected ? '取消全選' : '全選' }}</button>
+    <button (click)="recoverSelectedPayments()">↩️復原</button>
+  </div>
+  <!-- 待刪帳款表格 -->
+  <div>
+    @if(filteredPayments.length > 0){
+      <table class="pending-table">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" [checked]="isAllSelected" (change)="toggleSelectAll()" />
+          </th>
+          <th>分類</th>
+          <th>項目</th>
+          <th>帳款描述</th>
+          <th>金額</th>
+          <th>紀錄日期</th>
+          <th>刪除倒數</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(p of filteredPayments; track $index){
+          <tr>
+            <td>
+              <input type="checkbox" [(ngModel)]="p.selected" (change)="updateSelectAllState()" />
+            </td>
+            <td>{{ p.type }}</td>
+            <td>{{ p.item }}</td>
+            <td>{{ p.description }}</td>
+            <td>{{ p.amount }}</td>
+            <td>{{ p.recordDate }}</td>
+            <td>
+              @if(p.lifeTime == 0){
+                <span style="color: red;">⏳即將刪除</span>
+              }
+              @else{
+               <span>{{ p.lifeTime }} 天後刪除</span>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    }
+  </div>
+</div>

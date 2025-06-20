@@ -140,6 +140,26 @@ export class ApiService {
     });
   }
 
+  //  獲得待刪資料
+  getPaymentInPendingDeletion(account: string){
+    return axios.post('http://localhost:8080/finbook/payment/trashCan', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
+  //  還原已刪除帳款
+  recoveryPayments(paymentIdList: number[]){
+    return axios.post('http://localhost:8080/finbook/payment/recovery', {
+      paymentIdList
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    });
+  }
+
 }
 
 

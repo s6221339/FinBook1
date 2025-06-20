@@ -70,6 +70,7 @@ data6 = {
 }
 data7:{ account: string, id: number } = { account: 'a6221339', id: 1 };
 data8:{ from: number, to: number } = { from: 3, to: 4 };
+data9: number[] = [2];
 
   createType(){
     this.apiService.createType(this.data)
@@ -251,6 +252,30 @@ data8:{ from: number, to: number } = { from: 3, to: 4 };
       .catch(err => {
         console.error('送出失敗：', err);
         alert('獲取帳號所有帳戶儲蓄失敗，請稍後再試');
+    });
+  }
+
+  getPaymentInPendingDeletion(){
+    this.apiService.getPaymentInPendingDeletion(this.account)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得待刪區帳款成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得待刪區帳款失敗，請稍後再試');
+    });
+  }
+
+  recoveryPayments(){
+    this.apiService.recoveryPayments(this.data9)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('復原帳款成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('復原帳款失敗，請稍後再試');
     });
   }
 

@@ -14,6 +14,7 @@ import { LedgerComponent } from './components/ledger/ledger.component';
 import { TransferHistoryComponent } from './components/transfer-history/transfer-history.component';
 import { ModifyPaymentComponent } from './components/modify-payment/modify-payment.component';
 import { EditPaymentComponent } from './components/edit-payment/edit-payment.component';
+import { PendingDeletionComponent } from './components/pending-deletion/pending-deletion.component';
 
 
 
@@ -41,6 +42,7 @@ export const routes: Routes = [
   { path: 'ledger', component: LedgerComponent },
   { path: 'modifyPayment', component: ModifyPaymentComponent },
   { path: 'editPayment', component: EditPaymentComponent },
+  { path: 'pendingDeletion', component: PendingDeletionComponent },
   { path:'home', component: HomeComponent},
   { path:'', component: HomeComponent},
   { path:'**', component: HomeComponent},

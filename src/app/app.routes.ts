@@ -14,6 +14,7 @@ import { MemberCenterComponent } from './components/member-center/member-center.
 import { MemberInfoComponent } from './components/member-info/member-info.component';
 import { MemberConfirmComponent } from './components/member-confirm/member-confirm.component';
 import { ChangePasswordsComponent } from './components/change-passwords/change-passwords.component';
+import { ForgetPasswordsComponent } from './components/forget-passwords/forget-passwords.component';
 
 
 
@@ -44,5 +45,7 @@ export const routes: Routes = [
   {path: 'register', component: RegisterComponent },
   {path:'home', component: HomeComponent},
   {path:'', component: HomeComponent},
+  {path:'forget',component: ForgetPasswordsComponent},
   {path:'**', component: HomeComponent},
 ];
+//

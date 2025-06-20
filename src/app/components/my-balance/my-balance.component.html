@@ -2,11 +2,33 @@
   <div>
     <h2>我的帳戶：</h2>
   </div>
-  <div>
+  <div style="margin-bottom: 16px;">
     <button>創建帳戶</button>
     <button>刪除帳戶</button>
   </div>
   <div>
-
+    @if(balanceList.length > 0){
+      <table class="balance-table">
+        <thead>
+          <tr>
+            <th>帳戶 ID</th>
+            <th>帳戶名稱</th>
+            <th>創建日期</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(b of balanceList; track $index){
+            <tr>
+              <td>{{ b.balanceId }}</td>
+              <td>{{ b.name }}</td>
+              <td>{{ b.createDate }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+    @else {
+      <p>用戶尚無資料</p>
+    }
   </div>
 </div>

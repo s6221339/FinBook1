@@ -4,6 +4,7 @@ import { PaymentIdFormData } from '../models/paymentIdFormData';
 @Injectable({
   providedIn: 'root'
 })
+//  編輯帳款時保留狀款資料
 export class PaymentModifiedService {
 
   constructor() { }

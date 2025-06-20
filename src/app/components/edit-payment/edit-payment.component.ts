@@ -33,17 +33,17 @@ export class EditPaymentComponent implements OnInit{
   account: string= 'a6221339';
   paymentData!: PaymentIdFormData;
   categories: Category[] = [];
-  filteredItems: string[] = [];
+  filteredItems: string[] = []; //  根據 type 篩選過的 item
   selectedType: string | null = null;
   selectedItem: string | null = null;
   description: string = '';
   amount: number | null = null;
   recordDate: Date = new Date();
-  distinctTypes: string[] = [];
+  distinctTypes: string[] = []; //  篩選不重複 type
   today = new Date();
-  currentYear = this.today.getFullYear();
-  currentMonth = this.today.getMonth() +1;
-  currentDay = this.today.getDate();
+  currentYear = this.today.getFullYear(); //  現在年分
+  currentMonth = this.today.getMonth() +1;  //  現在月份
+  currentDay = this.today.getDate();  //  現在幾號
   recurringYear: number | null = this.currentYear;
   recurringMonth: number | null = this.currentMonth;
   recurringDay: number | null = this.currentDay;
@@ -88,7 +88,8 @@ export class EditPaymentComponent implements OnInit{
     this.recurringDay = data.recurringPeriodDay;
     this.recordDate = new Date(data.recordDate);
 
-    //  計算循環週期條件
+    //  ?? 是空值合併運算子，表示如果左邊是 null 或 undefined，就用右邊的值。
+    //  是否是非循環週期，判斷表單可否編輯
     const isRecurringZero =
       (this.recurringYear ?? 0) == 0 &&
       (this.recurringMonth ?? 0) == 0 &&
@@ -99,8 +100,10 @@ export class EditPaymentComponent implements OnInit{
     today.setHours(0, 0, 0, 0);
     recordDate.setHours(0, 0, 0, 0);
 
+    //  判斷紀錄時間是否是未來，判斷循環是否可開決定可否編輯
     const isFuture = recordDate > today;
 
+    //  編輯情況設計
     if(isRecurringZero) {
       this.canEditAll = true;
       this.canEditRecurring = false;  //  不能改週期
@@ -140,13 +143,16 @@ export class EditPaymentComponent implements OnInit{
     });
   }
 
+  //  根據選擇的 type 更新下拉式選單的 item
   updateItemOptions(): void {
     this.filteredItems = this.categories
       .filter(c => c.type == this.selectedType)
       .map(c => c.item);
   }
 
+  //  將日期轉換成 yyyy-mm-dd 字串
   private formatDataToLocalString(date: Date): string {
+    //  手動轉字串未滿兩位則補 0
     const pad = (n: number) => n.toString().padStart(2, '0');
     const yyyy = date.getFullYear();
     const mm = pad(date.getMonth() + 1);
@@ -154,11 +160,13 @@ export class EditPaymentComponent implements OnInit{
     return `${yyyy}-${mm}-${dd}`;
   }
 
+  //  取消回修改帳款頁面
   goBackModifyPayment(){
     this.paymentModifiedService.cleanPaymentFormData();
     this.router.navigate(['/modifyPayment']);
   }
 
+  //  儲存並返回
   saveAndGoBack(){
     //  檢查必要欄位
     if(!this.canEditAll) return;
@@ -166,7 +174,7 @@ export class EditPaymentComponent implements OnInit{
     if(!this.selectedItem ||
        !this.selectedType ||
        this.amount == null ||
-       !this.today
+       !this.recordDate
     ){
       Swal.fire({
         icon: 'warning',

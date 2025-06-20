@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -76,8 +75,6 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
   allSelected: boolean = false;
   filteredTestData: (PaymentIdFormData & { selected?: boolean })[] = [];
-  sortField: 'amount' | 'recordDate' | '' = ''; //  排序欄位
-  sortDirection: 'asc' | 'desc' = 'asc';  //  排序方向
   currentPage: number = 1;  //  當前頁
   itemsPerPage: number = 10;  //  每頁筆數
   dataSource = new MatTableDataSource<PaymentIdFormData & { selected?: boolean }>([]);
@@ -359,6 +356,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     this.updateAllSelectedState();
   }
 
+  //  前往編輯款項
   goEditPayment(){
     const selectedItems = this.selection.selected;
 
@@ -389,17 +387,6 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     });
   }
 
-  toggleSort(field: 'amount' | 'recordDate'): void {
-    if(this.sortField == field) {
-      this.sortDirection = this.sortDirection == 'asc' ? 'desc' : 'asc';
-    }
-    else{
-      this.sortField = field;
-      this.sortDirection = 'asc';
-    }
-    this.applyFilters();  //  重新應用排序與分頁
-  }
-
   PrevPage(): void {
     if(this.currentPage > 1) {
       this.currentPage--;
@@ -412,31 +399,21 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     this.applyFilters();
   }
 
-  hasNectPage(): boolean {
-    const selected = this.rawPaymentList.find(p => p.balanceId == this.selectedBalanceId);
-    if(!selected) return false;
-
-    let payments = selected.paymentInfoList.filter((t: any) =>
-      (!this.selectedType || this.selectedType == '全部' || t.type?.includes(this.selectedType!)) &&
-      (!this.selectedItem || this.selectedItem == '全部' || t.item?.includes(this.selectedItem!)) &&
-      (!this.selectedRecordDate || this.isSameDate(new Date(t.recordDate), this.selectedRecordDate))
-    );
-
-    return this.currentPage * this.itemsPerPage < payments.length;
-  }
-
+  //  是否全選
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows && numRows > 0;
   }
 
+  //  全選 / 取消全選
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
+  //  勾選單一列
   toggleSelection(row: any) {
     this.selection.toggle(row);
   }

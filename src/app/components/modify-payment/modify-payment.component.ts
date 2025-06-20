@@ -1,7 +1,7 @@
 import { PaymentModifiedService } from './../../@services/payment-modified.service';
 import { ApiService } from './../../@services/api.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -16,17 +16,41 @@ import { PaymentIdFormData } from '../../models/paymentIdFormData';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-modify-payment',
-  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,MatFormFieldModule,
-    MatSelectModule, FormsModule, MatButtonModule, CommonModule, MatCheckboxModule],
-  providers: [provideNativeDateAdapter()],
-  standalone: true,
   templateUrl: './modify-payment.component.html',
-  styleUrl: './modify-payment.component.scss'
+  styleUrls: ['./modify-payment.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatButtonModule,
+    MatCardModule,
+  ],
 })
-export class ModifyPaymentComponent implements OnInit{
+export class ModifyPaymentComponent implements OnInit, AfterViewInit{
 
   constructor(
     private apiService: ApiService,
@@ -56,6 +80,22 @@ export class ModifyPaymentComponent implements OnInit{
   sortDirection: 'asc' | 'desc' = 'asc';  //  排序方向
   currentPage: number = 1;  //  當前頁
   itemsPerPage: number = 10;  //  每頁筆數
+  dataSource = new MatTableDataSource<PaymentIdFormData & { selected?: boolean }>([]);
+  selection = new SelectionModel<PaymentIdFormData & { selected?: boolean }>(true, []);
+  displayedColumns: string[] = [
+    'select',
+    'type',
+    'item',
+    'description',
+    'amount',
+    'recurringPeriodYear',
+    'recurringPeriodMonth',
+    'recurringPeriodDay',
+    'recordDate'
+  ];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
     //  初始化年份選單列表
@@ -95,6 +135,11 @@ export class ModifyPaymentComponent implements OnInit{
       });
 
       this.loadPayments();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   //  產生年份列表
@@ -226,11 +271,9 @@ export class ModifyPaymentComponent implements OnInit{
     this.allSelected = this.filteredTestData.length > 0 && this.filteredTestData.every(item => item.selected);
   }
 
-
-
   //  點擊刪除按鈕
   deleteSelectedPayments(): void {
-    const selectedItems = this.filteredTestData.filter((item: any) => item.selected);
+    const selectedItems = this.selection.selected;
 
     if(selectedItems.length == 0) {
       Swal.fire({
@@ -262,6 +305,7 @@ export class ModifyPaymentComponent implements OnInit{
             confirmButtonText: '確定'
           });
           this.loadPayments();  //  重新載入資料
+          this.selection.clear(); // 清除選取
         })
         .catch(err => {
           console.error('刪除失敗', err);
@@ -286,7 +330,7 @@ export class ModifyPaymentComponent implements OnInit{
     const selected = this.rawPaymentList.find(p => p.balanceId == this.selectedBalanceId);
 
     if(!selected){
-      this.filteredTestData = [];
+      this.dataSource.data = [];
       return;
     }
 
@@ -310,27 +354,13 @@ export class ModifyPaymentComponent implements OnInit{
       (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
     );
 
-    //  排序
-    if(this.sortField) {
-      payments.sort((a: any, b: any) => {
-        const aVal = a[this.sortField];
-        const bVal = b[this.sortField];
-        return this.sortDirection == 'asc'
-          ? aVal > bVal ? 1 : -1
-          : aVal < bVal ? 1 : -1;
-      });
-    }
-
-    //  分頁
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.filteredTestData = payments.slice(startIndex, startIndex + this.itemsPerPage);
-
+    //  交給 Material Table 處理排序/分頁
+    this.dataSource.data = payments;
     this.updateAllSelectedState();
-
   }
 
   goEditPayment(){
-    const selectedItems = this.filteredTestData.filter(item => item.selected);
+    const selectedItems = this.selection.selected;
 
     if(selectedItems.length == 0) {
       Swal.fire({
@@ -392,6 +422,44 @@ export class ModifyPaymentComponent implements OnInit{
     );
 
     return this.currentPage * this.itemsPerPage < payments.length;
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows && numRows > 0;
+  }
+
+  masterToggle() {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  toggleSelection(row: any) {
+    this.selection.toggle(row);
+  }
+
+  // 清除帳戶/年月篩選
+  clearAccountYearMonthFilters(): void {
+    // 預設選第一個帳戶
+    if (this.balanceList.length > 0) {
+      this.selectedBalanceId = this.balanceList[0].balanceId;
+    } else {
+      this.selectedBalanceId = 0;
+    }
+    this.year = new Date().getFullYear();
+    this.month = new Date().getMonth() + 1;
+    this.generateMonths();
+    this.applyFilters();
+  }
+
+  // 清除分類篩選
+  clearCategoryFilters(): void {
+    this.selectedType = '全部';
+    this.updateCategoriesFiltedItems();
+    this.selectedItem = '全部';
+    this.applyFilters();
   }
 
 }

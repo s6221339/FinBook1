@@ -103,21 +103,22 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-            @if (dataSource.data.length === 0) {
-              <tr class="mat-row no-data-row">
-                <td class="mat-cell" [attr.colspan]="displayedColumns.length">
-                  @if (currentBalanceId === null) {
-                    <p>請先在上方選擇一個帳戶來查看交易紀錄。</p>
-                  } @else if (!startDate && !endDate) {
-                    <p>目前選擇的帳戶沒有任何交易紀錄。</p>
-                  } @else {
-                    <p>在選定的日期區間內沒有找到交易紀錄。</p>
-                  }
-                </td>
-              </tr>
-            }
           </table>
+
+          @if (dataSource.data.length === 0) {
+            <div class="empty-state">
+              <mat-icon>search_off</mat-icon>
+              <ng-container *ngIf="currentBalanceId === null">
+                <h3>請先在上方選擇一個帳戶來查看交易紀錄。</h3>
+              </ng-container>
+              <ng-container *ngIf="currentBalanceId !== null && !startDate && !endDate">
+                <h3>目前選擇的帳戶沒有任何交易紀錄。</h3>
+              </ng-container>
+              <ng-container *ngIf="currentBalanceId !== null && (startDate || endDate)">
+                <h3>在選定的日期區間內沒有找到交易紀錄。</h3>
+              </ng-container>
+            </div>
+          }
         </div>
         <mat-paginator #paginator
                        [length]="totalItems"

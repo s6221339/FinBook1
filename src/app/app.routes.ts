@@ -32,7 +32,6 @@ export const routes: Routes = [
     },{
       path: '', component: ExpensesComponent
     }]},
-<<<<<<< HEAD
   {path:'transfersHistory', component: TransferHistoryComponent},
   {path:'test', component: TestComponent},
   {path:'createItem', component: CreateItemComponent},
@@ -44,16 +43,4 @@ export const routes: Routes = [
   {path:'home', component: HomeComponent},
   {path:'', component: HomeComponent},
   {path:'**', component: HomeComponent},
-=======
-  { path: 'transfersHistory', component: TransferHistoryComponent},
-  { path: 'transfersHistory/:balanceId', component: TransferHistoryComponent },
-  { path: 'test', component: TestComponent},
-  { path: 'createItem', component: CreateItemComponent},
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'ledger', component: LedgerComponent },
-  { path: 'home', component: HomeComponent},
-  { path: '', component: HomeComponent},
-  { path: '**', component: HomeComponent},
->>>>>>> foes3339
 ];

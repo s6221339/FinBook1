@@ -9,7 +9,7 @@
   align-items: center;
   min-height: 80vh; // 降低高度，讓按鈕可見
   padding: 2rem 0;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); // 淡灰色漸層
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   position: relative;
   overflow: hidden;
 
@@ -22,8 +22,9 @@
     width: 100%;
     height: 100%;
     background-image:
-      radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+      radial-gradient(circle at 20% 80%, var(--primary) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, var(--expense) 0%, transparent 50%);
+    opacity: 0.08;
     z-index: 0;
   }
 }
@@ -51,7 +52,7 @@
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 0.5rem;
-  background: linear-gradient(45deg, #568be0, #8b0447);
+  background: linear-gradient(45deg, var(--primary), var(--expense));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -61,7 +62,7 @@
   font-size: 1.5rem;
   font-weight: 400;
   margin-bottom: 1.5rem;
-  background: linear-gradient(45deg, #3b82f6, #ec4899);
+  background: linear-gradient(45deg, var(--primary), var(--expense));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -81,7 +82,7 @@
 .hero-description {
   font-size: 1.3rem;
   line-height: 1.6;
-  color: #64748b;
+  color: var(--text-secondary);
   margin-bottom: 2rem;
 }
 
@@ -97,7 +98,7 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  background: white;
+  background: var(--elevation-1);
   padding: 1rem 1.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -109,13 +110,13 @@
   }
 
   .material-icons {
-    color: #3b82f6;
+    color: var(--primary);
     font-size: 1.5rem;
   }
 
   span:last-child {
     font-weight: 600;
-    color: #1e293b;
+    color: var(--text-primary);
   }
 }
 
@@ -125,6 +126,7 @@
   margin-bottom: 1rem;
 }
 
+// 全域按鈕樣式
 .btn-primary, .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -138,8 +140,8 @@
 }
 
 .btn-primary {
-  background: linear-gradient(45deg, #3b82f6, #1d4ed8);
-  color: white;
+  background: linear-gradient(45deg, var(--primary), var(--income));
+  color: #fff;
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
 
   &:hover {
@@ -149,9 +151,9 @@
 }
 
 .btn-secondary {
-  background-color: white;
-  color: #3b82f6;
-  border: 2px solid #3b82f6;
+  background-color: var(--elevation-1);
+  color: var(--primary);
+  border: 2px solid var(--primary);
 
   &:hover {
     background-color: rgba(59, 130, 246, 0.1);
@@ -223,7 +225,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--elevation-1);
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -236,7 +238,7 @@
   z-index: 2;
 
   &:hover {
-    background: white;
+    background: var(--elevation-0);
     transform: translateY(-50%) scale(1.1);
   }
 
@@ -249,7 +251,7 @@
   }
 
   .material-icons {
-    color: #3b82f6;
+    color: var(--primary);
     font-size: 1.5rem;
   }
 }
@@ -270,12 +272,12 @@
   height: 12px;
   border-radius: 50%;
   border: none;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--elevation-1);
   cursor: pointer;
   transition: all 0.3s ease;
 
   &.active {
-    background: white;
+    background: var(--primary);
     transform: scale(1.2);
   }
 }
@@ -287,7 +289,7 @@
   left: 50%;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.7);
-  color: white;
+  color: #fff;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-weight: 600;
@@ -306,7 +308,7 @@
 
 .floating-card {
   position: absolute;
-  background: white;
+  background: var(--elevation-1);
   padding: 0.8rem 1.2rem;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
@@ -314,13 +316,13 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--text-primary);
   font-size: 0.9rem;
   animation: float 3s ease-in-out infinite;
 
   .material-icons {
     font-size: 1.2rem;
-    color: #3b82f6;
+    color: var(--primary);
   }
 }
 
@@ -362,7 +364,7 @@
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--text-primary);
   margin-bottom: 1rem;
   position: relative;
 
@@ -374,14 +376,14 @@
     transform: translateX(-50%);
     width: 80px;
     height: 4px;
-    background: linear-gradient(45deg, #3b82f6, #ec4899);
+    background: linear-gradient(45deg, var(--primary), var(--expense));
     border-radius: 2px;
   }
 }
 
 .section-subtitle {
   font-size: 1.2rem;
-  color: #64748b;
+  color: var(--text-secondary);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
@@ -390,7 +392,7 @@
 // Features Section
 .features-section {
   padding: 3rem 0;
-  background: #f0f9ff; // 淡藍色背景，讓區塊更有層次
+  background: var(--secondary-bg);
 }
 
 .features-grid {
@@ -400,13 +402,13 @@
 }
 
 .feature-card {
-  background: white;
+  background: var(--elevation-1);
   padding: 2.5rem;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   text-align: center;
   transition: all 0.3s ease;
-  border: 1px solid #f1f5f9;
+  border: 1px solid var(--secondary-bg);
 
   &:hover {
     transform: translateY(-8px);
@@ -422,22 +424,18 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto 1.5rem;
-  color: white;
-
-  .material-icons {
-    font-size: 2rem;
-  }
+  color: #fff;
 }
 
 .feature-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
 .feature-description {
-  color: #64748b;
+  color: var(--text-secondary);
   line-height: 1.6;
   margin-bottom: 1.5rem;
 }
@@ -446,13 +444,13 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: #3b82f6;
+  color: var(--primary);
   text-decoration: none;
   font-weight: 600;
   transition: all 0.2s ease;
 
   &:hover {
-    color: #1d4ed8;
+    color: var(--expense);
     transform: translateX(5px);
   }
 }
@@ -460,7 +458,7 @@
 // Steps Section
 .steps-section {
   padding: 3rem 0;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  background: #fff;
 }
 
 .steps-container {
@@ -484,8 +482,8 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(45deg, #3b82f6, #ec4899);
-  color: white;
+  background: linear-gradient(45deg, var(--primary), var(--expense));
+  color: #fff;
   font-size: 1.5rem;
   font-weight: 700;
   display: flex;
@@ -499,18 +497,18 @@
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 0.8rem;
-  color: #1e293b;
+  color: var(--text-primary);
 }
 
 .step-description {
-  color: #64748b;
+  color: var(--text-secondary);
   line-height: 1.6;
 }
 
 .step-arrow {
   display: flex;
   align-items: center;
-  color: #3b82f6;
+  color: var(--primary);
 
   .material-icons {
     font-size: 2rem;
@@ -520,8 +518,8 @@
 // CTA Section
 .cta-section {
   padding: 6rem 0;
-  background: linear-gradient(135deg, #689ff7 0%, #466dd7 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--income) 100%);
+  color: #fff;
   text-align: center;
 }
 
@@ -550,27 +548,6 @@
   margin-bottom: 2rem;
 }
 
-.cta-section .btn-primary {
-  background: white;
-  color: #3b82f6;
-
-  &:hover {
-    background: #f8fafc;
-    color: #1d4ed8;
-  }
-}
-
-.cta-section .btn-secondary {
-  background: transparent;
-  color: white;
-  border-color: white;
-
-  &:hover {
-    background: white;
-    color: #3b82f6;
-  }
-}
-
 .cta-note {
   display: flex;
   align-items: center;
@@ -580,7 +557,28 @@
   opacity: 0.8;
 
   .material-icons {
-    color: #00ff02;
+    color: var(--income);
+  }
+}
+
+// 只針對 cta 區塊按鈕顏色做覆蓋
+.cta-section .btn-primary {
+  background: var(--elevation-1);
+  color: var(--primary);
+
+  &:hover {
+    background: var(--primary-bg);
+    color: var(--expense);
+  }
+}
+.cta-section .btn-secondary {
+  background: transparent;
+  color: #fff;
+  border-color: #fff;
+
+  &:hover {
+    background: var(--elevation-1);
+    color: var(--primary);
   }
 }
 
@@ -612,4 +610,14 @@
   .step-arrow {
     transform: rotate(90deg);
   }
+}
+
+.dark-mode .hero-section {
+  background: var(--primary-bg) !important;
+}
+.dark-mode .steps-section {
+  background: var(--secondary-bg) !important;
+}
+.dark-mode .cta-section {
+  background: var(--elevation-1) !important;
 }

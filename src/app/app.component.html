@@ -6,9 +6,9 @@
     <div class="logo-container">
         <div class="logo-wrapper">
         <!-- <img src="notebook-while-one.gif" alt="" class="logo"> -->
-        <img class="logo" [src]="gifUrl" (mouseenter)="refreshGif()" alt="動畫圖" (click)="toHome()" >
+        <!-- <img class="logo" [src]="gifUrl" (mouseenter)="refreshGif()" alt="動畫圖" (click)="toHome()" > -->
         </div>
-      <!-- <h1 class="app-name" (click)="toHome()">智能錢包</h1> -->
+      <!-- <h1 class="app-name" (click)="toHome()">智慧帳本</h1> -->
     </div>
 
     <!-- 導航選單 -->
@@ -20,19 +20,19 @@
       </a>
 
       <!-- 記帳功能連結 -->
-      <a class="nav-link" routerLinkActive="active" (click)="goBookKeeping()">
+      <a routerLink="/bookKeeping" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }" (click)="goBookKeeping()">
         <span class="material-icons">add_circle</span>
         記帳
       </a>
 
       <!-- 修改帳款功能 -->
-       <a class="nav-link" routerLinkActive="active" (click)="goModifyPayment()">
-        <span class="material-icons"></span>
+       <a routerLink="/modifyPayment" class="nav-link" routerLinkActive="active" (click)="goModifyPayment()">
+        <span class="material-icons">edit_note</span>
         修改帳款
        </a>
 
       <!-- 帳本功能連結 -->
-      <a class="nav-link" routerLinkActive="active" (click)="goLedger()">
+      <a routerLink="/ledger" class="nav-link" routerLinkActive="active" (click)="goLedger()">
         <span class="material-icons">book</span>
         帳本
       </a>
@@ -56,44 +56,30 @@
       </a>
     </nav>
 
+    <!-- 深色模式切換按鈕，移到 user-menu 之前 -->
+    <button class="theme-toggle-btn" (click)="toggleDarkMode()" [attr.aria-label]="isDarkMode ? '切換為亮色模式' : '切換為深色模式'">
+      <span class="material-icons">
+        {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
+      </span>
+    </button>
+
     <!-- 用戶選單 -->
     <div class="user-menu">
       <!-- 用戶選單觸發器 -->
       <div class="user-menu-trigger">
-
-        <!-- 根據登入狀態顯示不同按鈕 -->
         @if (!isLoggedIn) {
-          <!-- 未登入時顯示登入按鈕 -->
-          <button class="login-button" (click)="login()">
+          <button class="login-button" (click)="goLogin()">
             <span class="material-icons">person</span>
             登入
           </button>
         } @else {
-          <!-- 已登入時顯示用戶按鈕 -->
           <button class="user-button">
             <span class="material-icons">account_circle</span>
             您好，用戶
           </button>
-        }
-
-        <!-- 下拉選單（改良版，防止消失） -->
-        <div class="dropdown-menu">
-          <!-- 隱形橋接區域，防止滑鼠移動時選單消失 -->
-          <div class="dropdown-bridge"></div>
-
-          <div class="dropdown-content">
-            @if (!isLoggedIn) {
-              <!-- 未登入選單選項 -->
-              <a routerLink="/login" class="menu-item">
-                <span class="material-icons">login</span>
-                登入
-              </a>
-              <a routerLink="/register" class="menu-item">
-                <span class="material-icons">person_add</span>
-                註冊
-              </a>
-            } @else {
-              <!-- 已登入選單選項 -->
+          <div class="dropdown-menu">
+            <div class="dropdown-bridge"></div>
+            <div class="dropdown-content">
               <a routerLink="/profile" class="menu-item">
                 <span class="material-icons">settings</span>
                 個人設置
@@ -110,9 +96,9 @@
                 <span class="material-icons">logout</span>
                 登出
               </a>
-            }
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
 
@@ -197,9 +183,9 @@
 
       <!-- 應用程式介紹區塊 -->
       <div class="footer-section">
-        <h3 class="footer-title">智能錢包</h3>
+        <h3 class="footer-title">智慧帳本</h3>
         <p class="footer-description">
-          結合AI技術的智能錢包應用，支援家庭共同記帳，幫助您輕鬆管理財務，實現財務目標。
+          結合AI技術的智慧帳本應用，支援共同記帳，幫助您輕鬆管理財務，實現財務目標。
         </p>
       </div>
 
@@ -210,7 +196,7 @@
           <li><a routerLink="/accounting">智能記帳</a></li>
           <li><a routerLink="/reports">統計分析</a></li>
           <li><a routerLink="/recurring">固定支出管理</a></li>
-          <li><a routerLink="/family">家庭共享</a></li>
+          <li><a routerLink="/family">共享</a></li>
           <li><a>AI 財務建議</a></li>
         </ul>
       </div>
@@ -234,7 +220,7 @@
         <ul class="contact-info">
           <li>
             <span class="material-icons">location_on</span>
-            <span>台北市信義區信義路五段7號</span>
+            <span>高雄市軟體園區</span>
           </li>
           <li>
             <span class="material-icons">phone</span>
@@ -251,27 +237,17 @@
         <div class="social-links">
           <!-- Facebook連結 -->
           <a href="https://facebook.com" target="_blank" class="social-link facebook" aria-label="Facebook">
-            <span class="material-icons">facebook</span>
+            <img src="/facebook.png" alt="Facebook" class="social-icon" />
           </a>
 
           <!-- Instagram連結 -->
           <a href="https://instagram.com" target="_blank" class="social-link instagram" aria-label="Instagram">
-            <span class="material-icons">camera_alt</span>
-          </a>
-
-          <!-- Twitter連結 -->
-          <a href="https://twitter.com" target="_blank" class="social-link twitter" aria-label="Twitter">
-            <span class="material-icons">alternate_email</span>
-          </a>
-
-          <!-- LinkedIn連結 -->
-          <a href="https://linkedin.com" target="_blank" class="social-link linkedin" aria-label="LinkedIn">
-            <span class="material-icons">business</span>
+            <img src="/instagram.png" alt="Instagram" class="social-icon" />
           </a>
 
           <!-- GitHub連結 -->
           <a href="https://github.com" target="_blank" class="social-link github" aria-label="GitHub">
-            <span class="material-icons">code</span>
+            <img src="/github.png" alt="GitHub" class="social-icon" />
           </a>
         </div>
       </div>
@@ -281,7 +257,7 @@
     <div class="footer-bottom">
       <!-- 版權資訊 -->
       <div class="copyright">
-        © {{currentYear}} 智能錢包. 保留所有權利.
+        © {{currentYear}} 智慧帳本. 保留所有權利.
       </div>
 
       <!-- 法律連結 -->

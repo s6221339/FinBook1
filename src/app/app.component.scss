@@ -1,6 +1,6 @@
 /*
 ===========================================
-基礎樣式設定 - 簡單直觀的CSS
+基礎樣式設定 - 採用設計系統變數
 ===========================================
 */
 
@@ -13,7 +13,7 @@
   width: 100%;
 
   /* 更明顯的藍色背景 */
-  background: linear-gradient(135deg, #aae1fa 0%, #f8fafc 100%);
+  background: var(--primary-bg);
 
   /* 輕微陰影效果 */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
@@ -37,14 +37,6 @@
   animation: fadeInDown 0.5s ease forwards;
 }
 
-/* 滾動後的頁首樣式 */
-.header.scrolled {
-  /* 更深的藍色背景 */
-  background: linear-gradient(135deg, #b3e5fd 0%, #e2e8f0 100%);
-  /* 更明顯的陰影 */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
 /* 頁首淡入動畫 */
 @keyframes fadeInDown {
   from {
@@ -66,13 +58,13 @@
   /* 兩端對齊 */
   justify-content: space-between;
   /* 內邊距 */
-  padding: 1rem 2rem;
+  padding: var(--space-md) var(--space-xl);
   /* 最大寬度 */
   max-width: 1400px;
   /* 水平置中 */
   margin: 0 auto;
   /* 元素間距 */
-  gap: 1rem;
+  gap: var(--space-md);
 }
 
 /* Logo區域 */
@@ -92,7 +84,7 @@
 .logo {
   height: 60px;
   width: 60px;
-  margin-right: 0.8rem;
+  margin-right: var(--space-sm);
   transition: transform 0.3s ease;
 }
 
@@ -103,11 +95,11 @@
 
 /* 應用程式名稱 */
 .app-name {
-  font-size: 30px;
+  font-size: var(--font-size-h2);
   font-weight: 700;
   margin: 0;
   /* 藍色到粉色的漸層文字 */
-  background: linear-gradient(45deg, #2563eb, #ec4899);
+  background: linear-gradient(45deg, var(--income), var(--expense));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -131,10 +123,10 @@
   /* 使用彈性佈局，讓連結並排 */
   display: flex;
   /* 連結間距 */
-  gap: 0.5rem;
+  gap: var(--space-xs);
   /* 靠右對齊 */
   margin-left: auto;
-  margin-right: 1rem;
+  margin-right: var(--space-md);
   cursor: pointer;
 }
 
@@ -145,21 +137,21 @@
   /* 垂直置中 */
   align-items: center;
   /* icon和文字間距 */
-  gap: 0.5rem;
+  gap: var(--space-xs);
   /* 文字顏色 */
-  color: #475569;
+  color: var(--text-primary);
   /* 移除底線 */
   text-decoration: none;
   /* 字體粗細 */
   font-weight: 700;
   /* 內邊距 */
-  padding: 0.75rem 1rem;
+  padding: var(--space-sm) var(--space-md);
   /* 圓角 */
   border-radius: 8px;
   /* 過渡效果 */
   transition: all 0.2s ease;
   /* 字體大小 */
-  font-size: 18px;
+  font-size: 1.15rem;
   /* 不換行 */
   white-space: nowrap;
 }
@@ -167,27 +159,27 @@
 /* 導航連結icon */
 .nav-link .material-icons {
   font-size: 25px;
-  color: #3b82f6;
+  color: var(--primary);
 }
 
 /* 導航連結hover效果 */
 .nav-link:hover {
   /* 淺藍背景 */
-  background-color: rgba(59, 130, 246, 0.1);
+  background-color: rgba(42, 157, 143, 0.1);
   /* 輕微上移 */
   transform: translateY(-2px);
   /* 文字變藍 */
-  color: #2563eb;
+  color: var(--primary);
 }
 
 /* 活躍頁面的導航樣式 */
 .nav-link.active {
-  /* 更明顯的背景 */
-  background-color: #93c5fd;
-  /* 深藍色文字 */
-  color: #1e40af;
-  /* 更粗的字體 */
+  background-color: rgba(0, 70, 43, 0.12);
+  color: var(--primary);
   font-weight: 800;
+}
+.nav-link.active .material-icons {
+  color: var(--primary);
 }
 
 /* 用戶選單 */
@@ -211,13 +203,13 @@
   /* 垂直置中 */
   align-items: center;
   /* icon和文字間距 */
-  gap: 0.5rem;
+  gap: var(--space-xs);
   /* 移除邊框 */
   border: none;
   /* 圓角 */
   border-radius: 8px;
   /* 內邊距 */
-  padding: 0.75rem 1.2rem;
+  padding: var(--space-sm) var(--space-lg);
   /* 字體粗細 */
   font-weight: 700;
   /* 滑鼠指標 */
@@ -225,36 +217,40 @@
   /* 過渡效果 */
   transition: all 0.2s ease;
   /* 字體大小 */
-  font-size: 19px;
+  font-size: 1.15rem;
 }
 
 /* 登入按鈕樣式 */
 .login-button {
-  /* 藍色背景 */
-  background-color: #2563eb;
-  /* 白色文字 */
-  color: white;
+  background-color: #376fe8;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  transition: background 0.2s;
+  font-size: 1.15rem;
 }
+
 
 /* 用戶按鈕樣式（已登入） */
 .user-button {
-  /* 粉色背景 */
-  background-color: #ec4899;
-  /* 白色文字 */
-  color: white;
+  background-color: #f0047a;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  transition: background 0.2s;
+  font-size: 1.15rem;
 }
 
 /* 按鈕hover效果 */
 .login-button:hover {
   /* 更深的藍色 */
-  background-color: #1d4ed8;
+  background-color: #1661da;
   /* 輕微上移 */
   transform: translateY(-2px);
 }
 
 .user-button:hover {
-  /* 更深的粉色 */
-  background-color: #db2777;
+  background-color: #f10064;
   /* 輕微上移 */
   transform: translateY(-2px);
 }
@@ -295,15 +291,15 @@
 /* 下拉選單內容 */
 .dropdown-content {
   /* 白色背景 */
-  background-color: white;
+  background-color: var(--elevation-1);
   /* 圓角 */
   border-radius: 8px;
   /* 陰影效果 */
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   /* 內邊距 */
-  padding: 0.5rem 0;
+  padding: var(--space-xs) 0;
   /* 與按鈕的間距 */
-  margin-top: 0.5rem;
+  margin-top: var(--space-xs);
   /* 最小寬度 */
   min-width: 200px;
 }
@@ -324,32 +320,32 @@
   /* 垂直置中 */
   align-items: center;
   /* icon和文字間距 */
-  gap: 0.8rem;
+  gap: var(--space-sm);
   /* 內邊距 */
-  padding: 0.75rem 1rem;
+  padding: var(--space-sm) var(--space-md);
   /* 文字顏色 */
-  color: #475569;
+  color: var(--text-primary);
   /* 移除底線 */
   text-decoration: none;
   /* 過渡效果 */
   transition: all 0.2s ease;
   /* 字體大小 */
-  font-size: 18px;
+  font-size: var(--font-size-body);
 }
 
 /* 選單項目icon */
 .menu-item .material-icons {
   font-size: 20px;
-  color: #3b82f6;
+  color: var(--primary);
   width: 20px;
 }
 
 /* 選單項目hover效果 */
 .menu-item:hover {
   /* 淺藍背景 */
-  background-color: rgba(59, 130, 246, 0.1);
+  background-color: rgba(42, 157, 143, 0.1);
   /* 藍色文字 */
-  color: #2563eb;
+  color: var(--primary);
 }
 
 /* 手機版選單按鈕 */
@@ -358,9 +354,9 @@
   display: none;
   background: none;
   border: none;
-  color: #3b82f6;
+  color: var(--primary);
   cursor: pointer;
-  padding: 0.5rem;
+  padding: var(--space-xs);
   border-radius: 4px;
   transition: all 0.2s ease;
 }
@@ -377,19 +373,19 @@
   /* 最小高度 */
   min-height: calc(100vh - 80px);
   /* 淺灰藍色背景 */
-  background-color: #f5f5f8;
+  background-color: var(--elevation-0);
 }
 
 /* 頁尾樣式 - 更明顯的顏色 */
 .footer {
   /* 淺藍色背景 */
- background: linear-gradient(135deg, #dbeafe 0%, #f1f5f9 100%);
+  background: var(--primary-bg);
   /* 內邊距 */
-  padding: 0.5rem 0 2rem;
+  padding: var(--space-xs) 0 var(--space-lg);
   /* 文字顏色 */
-  color: #475569;
+  color: var(--text-primary);
   /* 頂部邊框 */
-  border-top: 1.5px solid #bfdbfe;
+  border-top: 1.5px solid var(--primary);
 }
 
 /* 頁尾內容容器 */
@@ -399,7 +395,7 @@
   /* 水平置中 */
   margin: 0 auto;
   /* 左右內邊距 */
-  padding: 0 2rem;
+  padding: 0 var(--space-xl);
 }
 
 /* 頁尾主要區域 */
@@ -409,18 +405,18 @@
   /* 四欄，第一欄較寬 */
   grid-template-columns: 2fr 1fr 1fr 1fr;
   /* 欄位間距 */
-  gap: 2rem;
+  gap: var(--space-lg);
   /* 底部邊距 */
-  margin-bottom: 3rem;
+  margin-bottom: calc(var(--space-lg) + var(--space-md));
 }
 
 /* 頁尾區塊標題 */
 .footer-title {
-  font-size: 24px;
+  font-size: var(--font-size-h3);
   font-weight: 600;
-  margin-bottom: 1.2rem;
+  margin-bottom: var(--space-md);
   /* 藍色標題 */
-  color: #2563eb;
+  color: var(--primary);
   position: relative;
 }
 
@@ -433,25 +429,25 @@
   width: 40px;
   height: 3px;
   /* 漸層底線 */
-  background: linear-gradient(45deg, #2563eb, #ec4899);
+  background: var(--primary);
   border-radius: 2px;
 }
 
 /* 頁尾描述文字 */
 .footer-description {
-  color: #334155;
+  color: var(--text-primary);
   line-height: 1.6;
-  margin-bottom: 1.5rem;
-  font-size: 17px;
-  padding-top: 20px;
+  margin-bottom: var(--space-lg);
+  font-size: var(--font-size-body);
+  padding-top: var(--space-lg);
 }
 
 /* 社群標題 */
 .social-title {
-  font-size: 24px;
+  font-size: var(--font-size-h3);
   font-weight: 600;
-  margin-bottom: 1rem;
-  color: #2563eb;
+  margin-bottom: var(--space-md);
+  color: var(--primary);
 }
 
 /* 社群連結容器 */
@@ -459,9 +455,9 @@
   /* 使用彈性佈局 */
   display: flex;
   /* 連結間距 */
-  gap: 1rem;
+  gap: var(--space-md);
 
-  padding-top: 10px;
+  padding-top: var(--space-sm);
 }
 
 /* 社群連結基本樣式 */
@@ -483,7 +479,7 @@
   /* 過渡效果 */
   transition: all 0.3s ease;
   /* 白色icon */
-  color: white;
+  color: var(--elevation-1);
 }
 
 /* 各社群平台的品牌色彩 */
@@ -524,27 +520,27 @@
   /* 移除邊距 */
   margin: 0;
 
-  padding-top: 20px;
+  padding-top: var(--space-lg);
 }
 
 /* 連結項目 */
 .footer-links li {
-  margin-bottom: 0.8rem;
+  margin-bottom: var(--space-sm);
 }
 
 /* 連結樣式 */
 .footer-links a {
-  color: #334155;
+  color: var(--text-primary);
   text-decoration: none;
   transition: all 0.2s ease;
   display: inline-block;
-  font-size: 17px;
+  font-size: var(--font-size-body);
 }
 
 /* 連結hover效果 */
 .footer-links a:hover {
   /* 變藍色 */
-  color: #2563eb;
+  color: var(--primary);
   /* 右移 */
   transform: translateX(5px);
 }
@@ -552,40 +548,40 @@
 /* 連結前的箭頭裝飾 */
 .footer-links a:before {
   content: "→";
-  margin-right: 0.5rem;
-  color: #ec4899;
+  margin-right: var(--space-xs);
+  color: var(--expense);
   opacity: 0;
   transition: all 0.2s ease;
-  font-size: 24px;
+  font-size: var(--font-size-h3);
 }
 
 /* hover時顯示箭頭 */
 .footer-links a:hover:before {
   opacity: 1;
-  margin-right: 0.8rem;
+  margin-right: var(--space-sm);
 }
 
 /* 聯絡資訊列表 */
 .contact-info {
   list-style: none;
   padding: 0;
-  margin: 0 0 1.5rem 0;
-  padding-top: 20px;
+  margin: 0 0 var(--space-lg) 0;
+  padding-top: var(--space-lg);
 }
 
 /* 聯絡資訊項目 */
 .contact-info li {
   display: flex;
   align-items: flex-start;
-  gap: 0.8rem;
-  margin-bottom: 1rem;
-  color: #334155;
-  font-size: 17px;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+  font-size: var(--font-size-body);
 }
 
 /* 聯絡資訊icon */
 .contact-info .material-icons {
-  color: #3b82f6;
+  color: var(--primary);
   margin-top: 2px;
 }
 
@@ -595,56 +591,56 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-top: 2rem;
-  border-top: 1.5px solid #bfdbfe;
-  gap: 1rem;
+  padding-top: var(--space-lg);
+  border-top: 1.5px solid var(--primary);
+  gap: var(--space-sm);
 }
 
 /* 版權文字 */
 .copyright {
-  color: #334155;
-  font-size: 16px;
+  color: var(--text-primary);
+  font-size: var(--font-size-caption);
   order: 2; /* 排序：在下方 */
 }
 
 /* 底部連結容器 */
 .footer-bottom-links {
   display: flex;
-  gap: 1.5rem;
+  gap: var(--space-lg);
   order: 1; /* 排序：在上方 */
 }
 
 /* 底部連結樣式 */
 .footer-bottom-links a {
-  color: #334155;
+  color: var(--text-primary);
   text-decoration: none;
-  font-size: 16px;
+  font-size: var(--font-size-caption);
   transition: color 0.2s ease;
 }
 
 /* 底部連結hover效果 */
 .footer-bottom-links a:hover {
-  color: #2563eb;
+  color: var(--primary);
 }
 
 /* 回到頂部按鈕（淡化版本） */
 .scroll-to-top {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: var(--space-lg);
+  right: var(--space-lg);
   width: 65px;
   height: 65px;
   border-radius: 50px;
   /* 淡化的藍色背景 */
-  background-color: rgba(2, 88, 225, 0.7);
-  color: white;
+  background-color: rgba(42, 157, 143, 0.7);
+  color: var(--elevation-1);
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   /* 淡化的陰影 */
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 4px 12px rgba(94, 226, 253, 0.2);
   transition: all 0.3s ease;
   z-index: 99;
   /* 淡化的透明度 */
@@ -653,14 +649,60 @@
 
 /* 回到頂部按鈕hover效果 */
 .scroll-to-top:hover {
-  background-color: rgba(0, 91, 238, 0.9);
+  background-color: rgba(42, 157, 143, 0.9);
   transform: translateY(-3px);
   opacity: 1;
 }
 
 /* TOP文字 */
 .top-text {
-  font-size: 16px;
+  font-size: var(--font-size-caption);
   font-weight: 700;
   letter-spacing: 0.5px;
+}
+
+.social-link svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.social-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+.social-link.github .social-icon {
+  filter: invert(1);
+}
+
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--space-xs);
+  padding: var(--space-xs);
+  border-radius: 50%;
+  transition: background 0.2s;
+
+  .material-icons {
+    font-size: 28px;
+    color: var(--primary);
+    transition: color 0.2s;
+  }
+}
+.theme-toggle-btn:hover {
+  background: rgba(42, 157, 143, 0.10);
+  .material-icons {
+    color: var(--expense);
+  }
+}
+
+.dark-mode .theme-toggle-btn .material-icons {
+  color: var(--primary);
 }

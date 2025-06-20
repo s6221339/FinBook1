@@ -22,6 +22,7 @@ export class AppComponent {
   showScrollButton = false // 是否顯示回到頂部按鈕
   currentYear = new Date().getFullYear() // 當前年份（用於頁尾版權）
   gifSrc = `/notebook-change1.gif?${Date.now()}`; // 動態載入GIF圖片，避免快取問題
+  isDarkMode = false;
 
   // 監聽滾動事件
   @HostListener("window:scroll", [])
@@ -88,5 +89,15 @@ export class AppComponent {
   // 加入時間戳讓圖片網址唯一，避免瀏覽器快取
   this.gifUrl = `notebook-while-one.gif?reload=${new Date().getTime()}`;
 }
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    const body = document.body;
+    if (this.isDarkMode) {
+      body.classList.add('dark-mode');
+    } else {
+      body.classList.remove('dark-mode');
+    }
+  }
 
 }

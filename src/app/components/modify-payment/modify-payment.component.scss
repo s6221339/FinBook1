@@ -1,45 +1,417 @@
-.payment-table {
-  width: 95%;
-  border-collapse: collapse;
-  margin-top: 16px;
-  font-size: 14px;
+/* 主頁容器（整個 modify-payment 頁面） */
+.modify-payment-page {
+  padding-top: 80px;
+  background: #f5f5f8;
+  min-height: 100vh;
+  font-size: 16px;
+  color: #263159;
 }
 
-.payment-table th, .payment-table td {
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* --- 篩選器卡片佈局 --- */
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.2rem; /* 卡片之間的間距 */
+}
+
+.filter-card {
+  flex: 1 1 300px; /* 卡片基本寬度 300px，可伸縮換行 */
+  background: #eaf6fb !important; /* 卡片背景色 */
+  border-radius: 18px !important;
+  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.10);
+  display: flex;
+  flex-direction: column;
+
+  mat-card-header {
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+  }
+
+  mat-card-title {
+    color: #1976d2; /* 標題文字顏色 */
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  mat-card-content {
+    padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex-grow: 1;
+  }
+}
+
+/* 年份和月份並排的容器 */
+.half-width-container {
+  display: flex;
+  gap: 1rem;
+  .half-width {
+    flex: 1;
+  }
+}
+
+/* --- 交易表格卡片樣式 --- */
+.transactions-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.10);
+  border: none;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.6rem 2.2rem;
+  background: linear-gradient(90deg, #42a5f5 60%, #00bcd4 100%);
+  border-bottom: 2px solid #1976d2;
+  color: #fff;
+
+  .material-icons {
+    color: #fff;
+    font-size: 2rem;
+  }
+
+  h3 {
+    margin: 0;
+    flex: 1;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+  }
+}
+
+.card-content {
+  background: #fff;
+  padding: 2.2rem;
+  color: #263159;
+}
+
+.pill-green {
+  background: #43a047;
+  color: #fff;
+  padding: 0.4rem 1.1rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 1rem;
+  display: inline-block;
+}
+
+/* --- 按鈕與表格通用樣式 --- */
+.action-buttons-row {
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.payment-table,
+.transactions-table {
+  width: 100%;
+  min-width: 800px;
+  border-collapse: collapse;
+
+  th {
+    background-color: #e3eafc;
+    color: #1976d2;
+    font-weight: 700;
+  }
+}
+
+.filter-content-layout {
+  padding: 0;
+}
+.filter-card-row {
+  display: flex;
+  flex-direction: row;
+  gap: 2.2rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.filter-card-section-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 45%;
+  gap: 2.2rem;
+}
+
+.filter-card-section {
+  background: #eaf6fb;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(44, 62, 80, 0.06);
+  padding: 1.5rem 1.3rem 1.2rem 1.3rem;
+  min-width: 260px;
+  max-width: 340px;
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.filter-section-title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  gap: 0.5rem;
+}
+.filter-section-title {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #1976d2;
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+.filter-card-section mat-form-field,
+.filter-card-section .date-input-group {
+  margin-bottom: 0.7rem;
+}
+.date-input-group {
+  margin-bottom: 1.1rem;
+}
+.account-selection-section,
+.category-selection-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.date-filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.date-input-group:last-child {
+  margin-bottom: 0;
+}
+mat-form-field.full-width {
+  width: 100%;
+  font-size: 1.1rem;
+}
+
+.payment-table th, .payment-table td,
+.transactions-table th, .transactions-table td {
   border: 1px solid #ccc;
   padding: 8px;
   text-align: center;
 }
-
-.payment-table th {
-  background-color: #f2f2f2;
+.payment-table th, .transactions-table th {
+  background-color: #e3eafc;
+  color: #1976d2;
+  font-size: 1.18rem;
+  font-weight: 700;
+  border-bottom: 2px solid #42a5f5;
+  white-space: normal;
+  word-break: keep-all;
+  padding: 8px 10px;
+}
+.payment-table th.mat-column-select,
+.transactions-table th.mat-column-select {
+  min-width: 48px;
+  width: 48px;
+}
+.payment-table th.mat-column-type,
+.transactions-table th.mat-column-type {
+  min-width: 70px;
+  width: 80px;
+}
+.payment-table th.mat-column-item,
+.transactions-table th.mat-column-item {
+  min-width: 70px;
+  width: 90px;
+}
+.payment-table th.mat-column-description,
+.transactions-table th.mat-column-description {
+  min-width: 100px;
+  width: 120px;
+}
+.payment-table th.mat-column-amount,
+.transactions-table th.mat-column-amount {
+  min-width: 60px;
+  width: 80px;
+}
+.payment-table th.mat-column-recurringPeriodYear,
+.transactions-table th.mat-column-recurringPeriodYear {
+  min-width: 90px;
+  width: 110px;
+}
+.payment-table th.mat-column-recurringPeriodMonth,
+.transactions-table th.mat-column-recurringPeriodMonth {
+  min-width: 90px;
+  width: 110px;
+}
+.payment-table th.mat-column-recurringPeriodDay,
+.transactions-table th.mat-column-recurringPeriodDay {
+  min-width: 90px;
+  width: 110px;
+}
+.payment-table th.mat-column-recordDate,
+.transactions-table th.mat-column-recordDate {
+  min-width: 110px;
+  width: 130px;
+}
+.payment-table td, .transactions-table td {
+  background: none;
+  white-space: nowrap;
+  font-size: 1.12rem;
+  line-height: 1.8;
+  border-bottom: 1px solid #e0e0e0;
+}
+.transactions-table td.mat-column-amount,
+.payment-table td.mat-column-amount {
+  text-align: right;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.transactions-table th.mat-column-amount,
+.transactions-table th.mat-column-createDate {
+  text-align: center !important;
+}
+.transactions-table td.mat-column-description,
+.transactions-table th.mat-column-description {
+  min-width: 160px;
+  max-width: 320px;
+  white-space: normal;
+  word-break: break-word;
+  text-align: center;
+}
+.transactions-table tr:nth-child(odd),
+.payment-table tr:nth-child(odd) {
+  background: #fff;
+}
+.transactions-table tr:nth-child(even),
+.payment-table tr:nth-child(even) {
+  background: #f7f9fc;
+}
+.transactions-table tr:hover,
+.payment-table tr:hover {
+  background: #fffde7;
+}
+.transactions-table .no-data-row,
+.payment-table .no-data-row {
+  background: #f5f5f8;
+  td {
+    color: #b0b8c9;
+    font-size: 1.1rem;
+    font-style: italic;
+  }
 }
 
-// 表單區塊
-.form-section {
-  margin-bottom: 2rem;
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 0 2.5rem 0;
+  color: #263159;
+  background: #f5f5f8;
+  border-radius: 12px;
+  min-height: 140px;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+}
+.empty-state mat-icon {
+  font-size: 3.2rem;
+  color: #fff;
+  background: #42a5f5;
+  border-radius: 50%;
+  padding: 0.7rem;
+  margin-bottom: 0.7rem;
+  box-shadow: 0 2px 8px rgba(66, 165, 245, 0.18);
+  height: 56px;
+  width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.empty-state h3 {
+  margin: 0.7rem 0 0.3rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1976d2;
+  text-align: center;
+}
 
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+.action-buttons button {
+  border-radius: 24px !important;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  font-weight: 600;
+  min-width: 90px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.action-buttons button[color="accent"] {
+  color: #1976d2;
+  border-color: #1976d2;
+  background: #f3f8fd;
+}
+.action-buttons button[color="accent"]:hover {
+  background: #e3eafc;
+  color: #1565c0;
+}
+.action-buttons button[color="warn"] {
+  color: #e53935;
+  border-color: #e53935;
+  background: #fff5f5;
+}
+.action-buttons button[color="warn"]:hover {
+  background: #ffebee;
+  color: #b71c1c;
+}
 
-    .material-icons {
-      color: #f59e0b; // 橘色圖標
-      font-size: 1.3rem;
-    }
+@media (max-width: 900px) {
+  .filter-card {
+    flex-basis: 45%;
+  }
+}
 
-    h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #374151;
-      margin: 0;
-    }
+@media (max-width: 768px) {
+  .filter-card {
+    flex-basis: 100%;
   }
 }
 
 // Material UI 樣式覆蓋
 .full-width {
   width: 100%;
+}
+
+// 篩選區塊標題列（含 icon 與清除按鈕）
+.filter-section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+  gap: 0.5rem;
+}
+.filter-section-icon {
+  color: #1976d2;
+  font-size: 1.4rem;
+  margin-right: 0.3rem;
+}
+.clear-section-btn {
+  display: none;
 }

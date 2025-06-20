@@ -120,55 +120,44 @@ export class TransferHistoryComponent {
     this.paginatorIntl.firstPageLabel = '第一頁';
     this.paginatorIntl.lastPageLabel = '最後一頁';
 
-Swal.fire({
-    title: '載入中...',
-    text: '正在初始化資料，請稍候。',
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    }
-  });
+    this.loadAccountNames()
+      .then(() => {
+        console.log("帳戶名稱及列表已成功載入。");
 
-  this.loadAccountNames()
-    .then(() => {
-      console.log("帳戶名稱及列表已成功載入。");
+        if (this.accounts.length > 0) {
+          // 【✔️ 修正】採用更直接可靠的呼叫方式
+          const defaultAccountId = this.accounts[0].balanceId;
 
-      if (this.accounts.length > 0) {
-        // 【✔️ 修正】採用更直接可靠的呼叫方式
-        const defaultAccountId = this.accounts[0].balanceId;
+          // 步驟 1: 先默默地(不觸發事件)設定表單控制項的值，
+          // 這樣做的目的是讓下拉選單的 UI 正確顯示預設選項。
+          this.selectedAccountId.setValue(defaultAccountId, { emitEvent: false });
+          console.log(`已預設選取帳戶: ${defaultAccountId}`);
 
-        // 步驟 1: 先默默地(不觸發事件)設定表單控制項的值，
-        // 這樣做的目的是讓下拉選單的 UI 正確顯示預設選項。
-        this.selectedAccountId.setValue(defaultAccountId, { emitEvent: false });
-        console.log(`已預設選取帳戶: ${defaultAccountId}`);
+          // 步驟 2: 然後直接、明確地呼叫處理函式來載入資料。
+          // onAccountSelectionChange 會處理後續的 SweetAlert 提示和資料載入。
+          this.onAccountSelectionChange(defaultAccountId);
 
-        // 步驟 2: 然後直接、明確地呼叫處理函式來載入資料。
-        // onAccountSelectionChange 會處理後續的 SweetAlert 提示和資料載入。
-        this.onAccountSelectionChange(defaultAccountId);
-
-      } else {
-        // ... (沒有帳戶的處理邏輯不變)
+        } else {
+          // ... (沒有帳戶的處理邏輯不變)
+          this.currentBalanceId = null;
+          this.dataSource.data = [];
+          this.totalItems = 0;
+          this._allTransferRecords = [];
+          this.lastTransactionDate = '';
+          console.warn('該用戶沒有任何帳戶可供查詢。');
+          Swal.fire('提示', '您沒有任何可查詢的帳戶。', 'info');
+        }
+      })
+      .catch(error => {
+        // ... (catch 區塊不變)
+        console.error('初始化失敗：載入帳戶名稱時出錯！', error);
+        Swal.fire('錯誤', '載入資料時發生錯誤，請稍後再試。', 'error');
         this.currentBalanceId = null;
         this.dataSource.data = [];
         this.totalItems = 0;
         this._allTransferRecords = [];
         this.lastTransactionDate = '';
-        Swal.close();
-        console.warn('該用戶沒有任何帳戶可供查詢。');
-        Swal.fire('提示', '您沒有任何可查詢的帳戶。', 'info');
-      }
-    })
-    .catch(error => {
-      // ... (catch 區塊不變)
-      Swal.close();
-      console.error('初始化失敗：載入帳戶名稱時出錯！', error);
-      Swal.fire('錯誤', '載入資料時發生錯誤，請稍後再試。', 'error');
-      this.currentBalanceId = null;
-      this.dataSource.data = [];
-      this.totalItems = 0;
-      this._allTransferRecords = [];
-      this.lastTransactionDate = '';
-    });
+      });
 }
 
   ngAfterViewInit(): void {
@@ -305,30 +294,17 @@ Swal.fire({
       this.totalItems = 0; // 總筆數歸零
       this._allTransferRecords = []; // 清空原始數據
       this.lastTransactionDate = ''; // 清空最後一筆日期
-      Swal.close(); // 如果有載入動畫，關閉它
       console.log('已清除帳戶選擇，表格數據已清空。');
       return Promise.resolve(); // 返回一個已解決的 Promise，結束函數執行
     }
 
-    // 顯示載入提示，告知使用者正在更新轉帳紀錄
-    Swal.fire({
-      title: '載入轉帳記錄...',
-      text: `正在載入帳戶 ${value} 的轉帳資料，請稍候。`,
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
-
     // 呼叫 loadTransfersByBalanceId 方法載入新選定帳戶的轉帳紀錄
     return this.loadTransfersByBalanceId(value)
       .then(() => {
-        Swal.close(); // 載入成功後關閉載入提示
         console.log('指定帳戶轉帳資料載入完成。');
       })
       .catch(error => {
         // 如果載入失敗，關閉提示並顯示錯誤訊息
-        Swal.close(); // 載入失敗後也要關閉載入提示
         console.error('更新轉帳資料失敗！', error);
         Swal.fire('錯誤', '載入轉帳資料失敗，請稍後再試。', 'error');
         // loadTransfersByBalanceId 內部已處理數據清空，這裡無需重複
@@ -412,5 +388,7 @@ Swal.fire({
     if (filteredData.length === 0 && (this.startDate || this.endDate) && this.currentBalanceId !== null) {
       Swal.fire('提示', '在選擇的日期區間內沒有找到轉帳紀錄。', 'info');
     }
+
+    console.log('dataSource.data', this.dataSource.data, 'currentBalanceId', this.currentBalanceId, 'startDate', this.startDate, 'endDate', this.endDate);
   }
 }

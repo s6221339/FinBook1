@@ -15,6 +15,7 @@ import { TransferHistoryComponent } from './components/transfer-history/transfer
 import { ModifyPaymentComponent } from './components/modify-payment/modify-payment.component';
 import { EditPaymentComponent } from './components/edit-payment/edit-payment.component';
 import { PendingDeletionComponent } from './components/pending-deletion/pending-deletion.component';
+import { MyBalanceComponent } from './components/my-balance/my-balance.component';
 
 
 
@@ -43,6 +44,7 @@ export const routes: Routes = [
   { path: 'modifyPayment', component: ModifyPaymentComponent },
   { path: 'editPayment', component: EditPaymentComponent },
   { path: 'pendingDeletion', component: PendingDeletionComponent },
+  { path: 'myBalance', component: MyBalanceComponent },
   { path:'home', component: HomeComponent},
   { path:'', component: HomeComponent},
   { path:'**', component: HomeComponent},

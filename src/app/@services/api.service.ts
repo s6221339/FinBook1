@@ -160,6 +160,21 @@ export class ApiService {
     });
   }
 
+  //  創建帳戶
+  createBalance(data: any){
+    return axios.post('http://localhost:8080/finbook/balance/create', data, {
+      withCredentials: true
+    });
+  }
+
+  //  刪除帳戶
+  deleteBalance(balanceId: number){
+    return axios.post('http://localhost:8080/finbook/balance/delete', null, {
+      params: { balanceId },
+      withCredentials: true
+    });
+  }
+
 }
 
 

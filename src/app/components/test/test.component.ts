@@ -71,6 +71,11 @@ data6 = {
 data7:{ account: string, id: number } = { account: 'a6221339', id: 1 };
 data8:{ from: number, to: number } = { from: 3, to: 4 };
 data9: number[] = [2];
+data10 = {
+  "familyId": 0,
+  "account": "a6221339",
+  "name": "我們這一家"
+};
 
   createType(){
     this.apiService.createType(this.data)
@@ -83,7 +88,7 @@ data9: number[] = [2];
         alert('建立帳款類型失敗，請稍後再試');
       });
   }
-  balanceId: number = 1;
+  balanceId: number = 3;
 
   getTypeByAccount(){
     this.apiService.getTypeByAccount(this.account)
@@ -276,6 +281,30 @@ data9: number[] = [2];
       .catch(err => {
         console.error('送出失敗：', err);
         alert('復原帳款失敗，請稍後再試');
+    });
+  }
+
+  createBalance(){
+    this.apiService.createBalance(this.data10)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('創建帳戶成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('創建帳戶失敗，請稍後再試');
+    });
+  }
+
+  deleteBalance(){
+    this.apiService.deleteBalance(this.balanceId)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('刪除帳戶成功！');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('刪除帳戶失敗，請稍後再試');
     });
   }
 

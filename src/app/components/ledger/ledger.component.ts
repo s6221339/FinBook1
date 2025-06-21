@@ -13,11 +13,12 @@ import { PaymentIdFormData } from '../../models/paymentIdFormData';
 import { CommonModule } from '@angular/common';
 import { Category } from '../../models/categories';
 import { Balance } from '../../models/Balance';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-ledger',
   imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,MatFormFieldModule,
-    MatSelectModule, FormsModule, MatButtonModule, CommonModule],
+    MatSelectModule, FormsModule, MatButtonModule, CommonModule, MatTooltipModule],
   providers: [provideNativeDateAdapter()],
   standalone: true,
   templateUrl: './ledger.component.html',
@@ -210,6 +211,12 @@ export class LedgerComponent implements OnInit{
 
   //  儲存儲蓄
   saveBudget(){
+    //非本月份儲蓄不可編輯
+    if(!this.isCurrentMonthSelected()){
+      console.warn('非本月不可編輯儲蓄');
+      return;
+    }
+
     this.isEditingBudget = false;
 
     if(this.savings == null || isNaN(this.savings as any)) {
@@ -525,4 +532,8 @@ export class LedgerComponent implements OnInit{
     });
   }
 
+  isCurrentMonthSelected(): boolean {
+    const today = new Date();
+    return this.year == today.getFullYear() && this.month == today.getMonth() +1;
+  }
 }

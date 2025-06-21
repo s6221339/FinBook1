@@ -82,7 +82,13 @@
         儲蓄：
         @if(!isEditingBudget){
           {{ isSavingsSet ? (savings + '元') : '尚未設定' }}
-          <button mat-icon-button (click)="startEditBudget()">
+          <!-- 非本月儲蓄禁止編輯 -->
+          <button
+            mat-icon-button
+            (click)="startEditBudget()"
+            [disabled]="!isCurrentMonthSelected()"
+            matTooltip="僅能修改本月份儲蓄"
+            >
             <mat-icon>edit</mat-icon>
           </button>
         }

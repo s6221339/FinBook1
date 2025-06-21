@@ -3,8 +3,8 @@
     <h2>我的帳戶：</h2>
   </div>
   <div style="margin-bottom: 16px;">
-    <button>創建帳戶</button>
-    <button>刪除帳戶</button>
+    <button (click)="onCreateBalance()">創建帳戶</button>
+    <button (click)="onDeleteBalance()">刪除帳戶</button>
   </div>
   <div>
     @if(balanceList.length > 0){

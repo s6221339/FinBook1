@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { FadeInOnScrollDirective } from '../../fade-in-on-scroll.directive';
 
 @Component({
   selector: 'app-home',
   imports: [
     CommonModule,
     RouterModule,
+    FadeInOnScrollDirective
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

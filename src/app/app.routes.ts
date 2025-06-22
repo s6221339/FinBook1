@@ -34,9 +34,10 @@ export const routes: Routes = [
     },{
       path: '', component: ExpensesComponent
     }]},
-  { path:'transfersHistory', component: TransferHistoryComponent},
-  { path:'test', component: TestComponent},
-  { path:'createItem', component: CreateItemComponent},
+
+  { path: 'transfersHistory', component: TransferHistoryComponent},
+  { path: 'test', component: TestComponent},
+  { path: 'createItem', component: CreateItemComponent},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'ledger', component: LedgerComponent },
@@ -44,7 +45,7 @@ export const routes: Routes = [
   { path: 'editPayment', component: EditPaymentComponent },
   { path: 'pendingDeletion', component: PendingDeletionComponent },
   { path: 'myBalance', component: MyBalanceComponent },
-  { path:'home', component: HomeComponent},
-  { path:'', component: HomeComponent},
-  { path:'**', component: HomeComponent},
+  { path: 'home', component: HomeComponent},
+  { path: '', component: HomeComponent},
+  { path: '**', component: HomeComponent},
 ];

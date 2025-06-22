@@ -17,8 +17,8 @@ export class MyBalanceComponent implements OnInit{
   ){}
 
   account: string= 'a6221339';
-  balanceList: Balance[] = [];
-  familyId: number = 0;
+  balanceList: Balance[] = [];  //  帳戶清單
+  familyId: number = 0; //  帳號創建帳戶區，使用無家庭預設 familyId
 
   ngOnInit(): void {
     this.apiService.getBalanceByAccount(this.account)
@@ -31,6 +31,7 @@ export class MyBalanceComponent implements OnInit{
     });
   }
 
+  //  創建帳戶
   onCreateBalance(): void {
     Swal.fire({
       title: '請輸入帳戶名稱',
@@ -44,7 +45,7 @@ export class MyBalanceComponent implements OnInit{
         if(!value){
           return '帳戶名稱不得為空';
         }
-        return null;
+        return null;  //  回傳 null 表示驗證通過
       }
     })
     .then(result => {
@@ -84,6 +85,7 @@ export class MyBalanceComponent implements OnInit{
     });
   }
 
+  //  刪除帳戶
   onDeleteBalance(): void {
     //  第一步：請輸入 balanceId
     Swal.fire({
@@ -94,6 +96,7 @@ export class MyBalanceComponent implements OnInit{
       showCancelButton: true,
       confirmButtonText: '下一步',
       cancelButtonText: '取消',
+      //  按下「確認」時，在視窗關閉前先驗證 input 值
       inputValidator: (value) => {
         if(!value || isNaN(Number(value))) {
           return '請輸入有效的數字 ID';
@@ -117,7 +120,8 @@ export class MyBalanceComponent implements OnInit{
           return;
         }
 
-        //  產生隨機驗證碼（S 碼英數混合）
+        //  產生隨機驗證碼（5碼英數混合）
+        //  toString(36) 把數字轉換成 base-36 表示法
         const verificationCode = Math.random().toString(36).substring(2, 7).toUpperCase();
 
         //  第二步：要求使用者輸入驗證碼
@@ -129,6 +133,7 @@ export class MyBalanceComponent implements OnInit{
           showCancelButton: true,
           confirmButtonText: '確認刪除',
           cancelButtonText: '取消',
+          //  按下「確認」時，處理確認邏輯（驗證、API 等）
           preConfirm: (inputCode) => {
             if(inputCode.toUpperCase() !== verificationCode) {
               Swal.showValidationMessage('驗證碼輸入錯誤');

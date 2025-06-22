@@ -21,14 +21,15 @@ export class PendingDeletionComponent implements OnInit{
     private apiService: ApiService
   ){}
 
-  account: string= 'a6221339';
-  balances: Balance[] = [];
-  selectedBalanceId: number | null = null;
-  pendingList: PendingDeletionPayment[] = [];
-  filteredPayments: any[] = [];
-  isAllSelected: boolean = false;
+  account: string= 'a6221339';  //  預設帳號
+  balances: Balance[] = []; //  所有使用者帳戶
+  selectedBalanceId: number | null = null;  //  使用者選擇的 balanceId
+  pendingList: PendingDeletionPayment[] = []; //  待刪區款項
+  filteredPayments: any[] = []; //  經過篩選的要呈現的待刪除帳款
+  isAllSelected: boolean = false; //  是否全選
 
   ngOnInit(): void {
+    //  取得帳戶
     this.apiService.getBalanceByAccount(this.account)
     .then(res => {
       this.balances = res.data.balanceList || [];
@@ -43,6 +44,7 @@ export class PendingDeletionComponent implements OnInit{
     });
   }
 
+  //  載入待刪款項
   loadPayments(): void {
     this.apiService.getPaymentInPendingDeletion(this.account)
     .then(res => {
@@ -55,16 +57,19 @@ export class PendingDeletionComponent implements OnInit{
     });
   }
 
+  //  根據使用者選擇帳戶篩選待刪區帳款（只包含生命週期大於 0 天的）
   filterByBalanceId(): void {
     const matched = this.pendingList.find(p => p.balanceId == this.selectedBalanceId);
     this.filteredPayments = matched?.paymentInfoList.filter(p => p.lifeTime >= 0) || [];
   }
 
+  //  使用者選擇帳戶時觸發
   onBalanceChange(){
     this.filterByBalanceId();
   }
 
   //  切換全選/取消全選
+  //  添加 selected 屬性
   toggleSelectAll(): void {
     this.isAllSelected = !this.isAllSelected;
     this.filteredPayments.forEach(p => p.selected = this.isAllSelected);

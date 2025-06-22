@@ -30,7 +30,7 @@ export class EditPaymentComponent implements OnInit{
   ){}
 
   paymentId!: number;
-  account: string= 'a6221339';
+  account: string= 'a6221339@yahoo.com.tw';
   paymentData!: PaymentIdFormData;
   categories: Category[] = [];
   filteredItems: string[] = []; //  根據 type 篩選過的 item

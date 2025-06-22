@@ -50,7 +50,7 @@ export class LedgerComponent implements OnInit{
   categoriesFilteredItems: string[] = []; //  兩層下拉式選單第二層的對象
   categories: Category[] = [];
   distinctTypes: string[] = []; //  不重複的類型
-  account: string = "a6221339"; //  預設帳號
+  account: string = "a6221339@yahoo.com.tw"; //  預設帳號
   selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
   monthStartDate: Date = new Date(this.year, this.month-1, 1);  //  日期選擇器篩選表格開始日期
   monthEndDate: Date = new Date(this.year, this.month, 0);  //  日期選擇器篩選表格結束日期

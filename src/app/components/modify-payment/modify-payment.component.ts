@@ -64,7 +64,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   months: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; //  月份列表
   monthStartDate: Date = new Date(this.year, this.month-1, 1);  //  日期選擇器篩選表格開始日期
   monthEndDate: Date = new Date(this.year, this.month, 0);  //  日期選擇器篩選表格結束日期
-  account: string = "a6221339"; //  預設帳號
+  account: string = "a6221339@yahoo.com.tw"; //  預設帳號
   rawPaymentList: any[] = []; //  原始 API 回傳的 balanceWithPaymentList
   selectedBalanceId?: number = 0; //  使用者選擇的 balanceId
   categories: Category[] = [];

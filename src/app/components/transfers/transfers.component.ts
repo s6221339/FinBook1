@@ -76,7 +76,7 @@ export class TransfersComponent implements OnInit { // 實作 OnInit 介面，�
     // 雖然轉帳日期在 HTML 中被註解掉，但如果未來需要，這裡可以設定初始值
     // this.transferDateString = this.today;
 
-    const accountString = 'a6221339'; // 帳戶查詢字串，假設為登入帳號，硬編碼用於範例
+    const accountString = 'a6221339@yahoo.com.tw'; // 帳戶查詢字串，假設為登入帳號，硬編碼用於範例
 
     // 呼叫 ApiService 的 getBalanceByAccount 方法，從後端取得帳戶列表
     this.apiService.getBalanceByAccount(accountString)

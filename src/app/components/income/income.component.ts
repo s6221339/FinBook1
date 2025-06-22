@@ -42,7 +42,7 @@ export class IncomeComponent implements OnInit{
   distinctTypes: string[] = []; //  不重複的類型
   amount?: number | null;  //  金額
   description?: string; //  款項描述
-  account: string = "a6221339"; //  測試帳號
+  account: string = "a6221339@yahoo.com.tw"; //  測試帳號
   recurringPeriodYear?: number | null; //  循環年數
   recurringPeriodMonth?: number | null; //  循環月數
   recurringPeriodDay?: number | null; //  循環天數

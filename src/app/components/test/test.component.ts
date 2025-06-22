@@ -16,9 +16,9 @@ export class TestComponent {
   data = {
     "type":"飲食",
     "item":"吃烤羊排",
-    "account":"a6221339"
+    "account":"a6221339@yahoo.com.tw"
   };
-  account: string = "a6221339";
+  account: string = "a6221339@yahoo.com.tw";
   data1 = {
     "balanceId": 1,
     "description": "測試",
@@ -48,7 +48,7 @@ export class TestComponent {
 };
 paymentId: number = 2;
 data3 = {
-  "account": "a6221339",
+  "account": "a6221339@yahoo.com.tw",
   "year": 2025,
   "month": 6
 };
@@ -58,7 +58,7 @@ data4 = {
   "savings": 3000
 };
 data5 = {
-  "account": "a6221339",
+  "account": "a6221339@yahoo.com.tw",
   "year": 2025,
   "month": 6
 };
@@ -68,12 +68,12 @@ data6 = {
   "amount": 23000,
   "description": "零用錢"
 }
-data7:{ account: string, id: number } = { account: 'a6221339', id: 1 };
+data7:{ account: string, id: number } = { account: 'a6221339@yahoo.com.tw', id: 1 };
 data8:{ from: number, to: number } = { from: 3, to: 4 };
 data9: number[] = [2];
 data10 = {
   "familyId": 0,
-  "account": "a6221339",
+  "account": "a6221339@yahoo.com.tw",
   "name": "我們這一家"
 };
 

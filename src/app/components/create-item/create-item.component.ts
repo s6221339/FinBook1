@@ -65,7 +65,7 @@ export class CreateItemComponent {
   collapsed: { [type: string]: boolean } = {}
 
   /** 模擬目前登入的帳號；後續可改由 AuthService 提供 */
-  currentAccount = "a6221339"
+  currentAccount = "a6221339@yahoo.com.tw"
 
   /** ngOnInit：元件初始化完成後，載入後端資料 */
   ngOnInit(): void {

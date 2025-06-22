@@ -21,7 +21,7 @@ export class PendingDeletionComponent implements OnInit{
     private apiService: ApiService
   ){}
 
-  account: string= 'a6221339';  //  預設帳號
+  account: string= 'a6221339@yahoo.com.tw';  //  預設帳號
   balances: Balance[] = []; //  所有使用者帳戶
   selectedBalanceId: number | null = null;  //  使用者選擇的 balanceId
   pendingList: PendingDeletionPayment[] = []; //  待刪區款項

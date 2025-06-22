@@ -16,7 +16,7 @@ export class MyBalanceComponent implements OnInit{
     private apiService: ApiService
   ){}
 
-  account: string= 'a6221339';
+  account: string= 'a6221339@yahoo.com.tw';
   balanceList: Balance[] = [];  //  帳戶清單
   familyId: number = 0; //  帳號創建帳戶區，使用無家庭預設 familyId
 

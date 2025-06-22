@@ -175,6 +175,14 @@ export class ApiService {
     });
   }
 
+  //  獲得已加入家庭列表
+  getFamilyByAccount(account: string){
+    return axios.post('http://localhost:8080/finbook/user/getFamilyByAccount', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
 }
 
 

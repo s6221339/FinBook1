@@ -308,4 +308,15 @@ data10 = {
     });
   }
 
+  getFamilyByAccount(){
+    this.apiService.getFamilyByAccount(this.account)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得已加入家庭列表成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得已加入家庭列表失敗，請稍後再試');
+    });
+  }
 }

@@ -1,10 +1,10 @@
 import { PaymentModifiedService } from './../../@services/payment-modified.service';
 import { ApiService } from './../../@services/api.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,7 +17,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableModule } from '@angular/material/table';
@@ -26,6 +26,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatNativeDateModule } from '@angular/material/core';
+import localeZh from '@angular/common/locales/zh'; // 導入中文語言環境資料
+
+// 註冊中文語言環境數據，用於日期格式化
+registerLocaleData(localeZh, 'zh-TW');
 
 @Component({
   selector: 'app-modify-payment',
@@ -49,13 +53,18 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatButtonModule,
     MatCardModule,
   ],
+  providers: [
+    provideNativeDateAdapter(),
+    { provide: MAT_DATE_LOCALE, useValue: 'zh-TW' },
+  ]
 })
 export class ModifyPaymentComponent implements OnInit, AfterViewInit{
 
   constructor(
     private apiService: ApiService,
     private router: Router,
-    private paymentModifiedService: PaymentModifiedService
+    private paymentModifiedService: PaymentModifiedService,
+    private paginatorIntl: MatPaginatorIntl
   ){}
 
   balanceList: Balance[] = []; //  透過帳號取得帳戶給下拉式選單用
@@ -98,6 +107,14 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
+
+    // 設定 Material 分頁器的國際化文字，讓其顯示為中文
+    this.paginatorIntl.itemsPerPageLabel = '每頁筆數：';
+    this.paginatorIntl.nextPageLabel = '下一頁';
+    this.paginatorIntl.previousPageLabel = '上一頁';
+    this.paginatorIntl.firstPageLabel = '第一頁';
+    this.paginatorIntl.lastPageLabel = '最後一頁';
+
     //  初始化年份選單列表
     this.generateYears();
     this.generateMonths();

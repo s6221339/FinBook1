@@ -1,6 +1,13 @@
 @use 'app/styles/variables' as *;
-html, body { height: 100%; }
-body { margin: 0; font-family: 'Noto Sans TC', 'Microsoft JhengHei', Arial, sans-serif; }
+html, body {
+  width: 100vw;
+  overflow-x: hidden;
+  height: auto;
+}
+body {
+  margin: 0;
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei', Arial, sans-serif;
+}
 
 body.dark-mode .hero-section,
 body.dark-mode .steps-section {

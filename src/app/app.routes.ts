@@ -20,6 +20,7 @@ import { MyFamilyComponent } from './components/my-family/my-family.component';
 import { MemberCenterComponent } from './components/member-center/member-center.component';
 import { MemberInfoComponent } from './components/member-info/member-info.component';
 import { MemberConfirmComponent } from './components/member-confirm/member-confirm.component';
+import { ChangePasswordsComponent } from './components/change-passwords/change-passwords.component';
 
 
 
@@ -32,7 +33,7 @@ export const routes: Routes = [
       { path: 'expenses', component: ExpensesComponent },
       { path: 'transfers', component: TransfersComponent },
       { path: '', component: ExpensesComponent }]},
-  { path: 'transfersHistory', component: TransferHistoryComponent},
+  { path: 'transfersHistory', component: TransferHistoryComponent },
   { path: 'test', component: TestComponent},
   { path: 'createItem', component: CreateItemComponent},
   { path: 'login', component: LoginComponent },
@@ -43,12 +44,13 @@ export const routes: Routes = [
   { path: 'pendingDeletion', component: PendingDeletionComponent },
   { path: 'myBalance', component: MyBalanceComponent },
   { path: 'myFamily', component: MyFamilyComponent },
-  {path:'memberCenter', component: MemberCenterComponent,
+  { path:'memberCenter', component: MemberCenterComponent,
     children: [
       { path: 'memberInfo', component: MemberInfoComponent },
       { path: 'memberConfirm', component: MemberConfirmComponent },
-      { path: '', redirectTo: 'memberConfirm', pathMatch: 'full' }]},
-  { path: 'home', component: HomeComponent},
-  { path: '', component: HomeComponent},
-  { path: '**', component: HomeComponent}
+      { path: '', redirectTo: 'memberConfirm', pathMatch: 'full' },
+      { path: 'changePasswords', component:ChangePasswordsComponent }]},
+  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
+  { path: '**', component: HomeComponent }
 ];

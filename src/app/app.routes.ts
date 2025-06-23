@@ -17,25 +17,20 @@ import { EditPaymentComponent } from './components/edit-payment/edit-payment.com
 import { PendingDeletionComponent } from './components/pending-deletion/pending-deletion.component';
 import { MyBalanceComponent } from './components/my-balance/my-balance.component';
 import { MyFamilyComponent } from './components/my-family/my-family.component';
+import { MemberCenterComponent } from './components/member-center/member-center.component';
+import { MemberInfoComponent } from './components/member-info/member-info.component';
 
 
 
 export const routes: Routes = [
   { path:'bookKeeping', component: BookKeepingComponent,
-    children: [{
-      path: 'fixedIncome', component: FixedIncomeComponent
-    },{
-      path: 'fixedExpenses', component: FixedExpensesComponent
-    },{
-      path: 'income', component: IncomeComponent
-    },{
-      path: 'expenses', component: ExpensesComponent
-    },{
-      path: 'transfers', component: TransfersComponent
-    },{
-      path: '', component: ExpensesComponent
-    }]},
-
+    children: [
+      { path: 'fixedIncome', component: FixedIncomeComponent },
+      { path: 'fixedExpenses', component: FixedExpensesComponent },
+      { path: 'income', component: IncomeComponent },
+      { path: 'expenses', component: ExpensesComponent },
+      { path: 'transfers', component: TransfersComponent },
+      { path: '', component: ExpensesComponent }]},
   { path: 'transfersHistory', component: TransferHistoryComponent},
   { path: 'test', component: TestComponent},
   { path: 'createItem', component: CreateItemComponent},
@@ -47,6 +42,9 @@ export const routes: Routes = [
   { path: 'pendingDeletion', component: PendingDeletionComponent },
   { path: 'myBalance', component: MyBalanceComponent },
   { path: 'myFamily', component: MyFamilyComponent },
+  {path:'memberCenter', component: MemberCenterComponent,
+    children: [
+      {path: 'memberInfo', component: MemberInfoComponent}]},
   { path: 'home', component: HomeComponent},
   { path: '', component: HomeComponent},
   { path: '**', component: HomeComponent},

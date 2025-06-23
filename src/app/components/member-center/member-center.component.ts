@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { Router, NavigationEnd, RouterOutlet, RouterLink} from '@angular/router';
 import { filter } from 'rxjs';
 
@@ -10,6 +10,7 @@ import { filter } from 'rxjs';
   styleUrl: './member-center.component.scss'
 })
 export class MemberCenterComponent {
+  selectedImage: WritableSignal<string | null> = signal(null);
   currentUrl: string = '';
 
   constructor(private router: Router) {}
@@ -28,6 +29,17 @@ export class MemberCenterComponent {
 
 
     }
+    onImageSelected(event: Event): void {
+    const fileInput = event.target as HTMLInputElement;
+    const file = fileInput.files?.[0];
 
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.selectedImage.set(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
 }

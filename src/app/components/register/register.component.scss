@@ -164,7 +164,7 @@ body {
 }
 
 .btn-send-verification {
-    background-color: color.adjust($primary-blue, $lightness: -10%);
+    background-color: $primary-blue;
     // *** 調整 padding，讓按鈕看起來更寬一點，並確保文字能在一行顯示 ***
     padding: 10px 20px; // 適度增加左右 padding
     font-size: 15px;
@@ -178,8 +178,8 @@ body {
 
 
     &:hover {
-        background-color: color.adjust($primary-blue, $lightness: -20%);
-        transform: none;
-        box-shadow: none;
+       background-color:lime;
+       color: $primary-dark-blue;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 }

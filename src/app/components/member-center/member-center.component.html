@@ -1,32 +1,43 @@
 <div class="member-center-container">
 
-    <div class="member-center-header">
-        <div class="member-center-title">
-            <h1 class="member-center-title">會員中心</h1>
+  <div class="member-center-header">
+    <div class="member-center-title">
+      <h1 class="member-center-title">會員中心</h1>
+
+
+    </div>
+  </div>
+
+  <div class="member-center-content-area">
+
+
+
+
+    <!-- 將按鈕移入 content-area 裡，靠近白色卡片 -->
+    <nav class="member-center-nav">
+
+      <a [routerLink]="['memberConfirm']" [class.active]="currentUrl.match('^/memberCenter/member(?:Info|Confirm)')">
+        會員基本資料
+      </a>
+
+      <a [routerLink]="['changePasswords']" [class.active]="currentUrl.match('^/memberCenter/changePasswords')">
+        更改密碼
+      </a>
+
+    </nav>
+    <div class="member-card-wrapper"> <!-- << 新增一層統一控制寬度 -->
+
+      <div class="image-edit-section">
+        <button class="btn btn-edit-image" (click)="imageInput.click()">編輯圖片</button>
+        <input type="file" #imageInput accept="image/*" hidden (change)="onImageSelected($event)" />
+
+        @if (selectedImage(); as previewUrl) {
+        <div class="image-preview">
+          <img [src]="previewUrl" alt="預覽圖片" />
         </div>
+        }
+      </div>
+      <router-outlet></router-outlet>
     </div>
 
-    <div class="member-center-content-area">
-
-        <!-- 將按鈕移入 content-area 裡，靠近白色卡片 -->
-        <nav class="member-center-nav">
-        <a [routerLink]="['memberConfirm']"
-   [class.active]="currentUrl.match('^/memberCenter/member(?:Info|Confirm)')">
-   會員基本資料
-</a>
-
-<a [routerLink]="['changePasswords']"
-   [class.active]="currentUrl.match('^/memberCenter/changePasswords')">
-   更改密碼
-</a>
-
-        </nav>
-
-        <router-outlet></router-outlet>
-    </div>
-
-</div>
-
-
-
-
+  </div>

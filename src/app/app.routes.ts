@@ -22,8 +22,7 @@ import { MemberInfoComponent } from './components/member-info/member-info.compon
 import { MemberConfirmComponent } from './components/member-confirm/member-confirm.component';
 import { ChangePasswordsComponent } from './components/change-passwords/change-passwords.component';
 import { ForgetPasswordsComponent } from './components/forget-passwords/forget-passwords.component';
-
-
+import { CreateFamilyComponent } from './components/create-family/create-family.component';
 
 export const routes: Routes = [
   { path:'bookKeeping', component: BookKeepingComponent,
@@ -52,6 +51,7 @@ export const routes: Routes = [
       { path: 'changePasswords', component:ChangePasswordsComponent },
       { path: '', redirectTo: 'memberConfirm', pathMatch: 'full' }]},
   { path:'forget',component: ForgetPasswordsComponent },
+  { path:'createFamily',component: CreateFamilyComponent },
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent }

@@ -183,6 +183,28 @@ export class ApiService {
     });
   }
 
+  //  登入會員
+  login(data: any){
+    return axios.post('http://localhost:8080/finbook/user/login', data, {
+      withCredentials: true
+    });
+  }
+
+  //  取得帳號名稱
+  getNameByAccount(account: string){
+    return axios.post('http://localhost:8080/finbook/user/getNameByAccount', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
+  //  創建家庭
+  createFamily(data: any) {
+    return axios.post('http://localhost:8080/finbook/family/create', data, {
+      withCredentials: true
+    });
+  }
+
 }
 
 

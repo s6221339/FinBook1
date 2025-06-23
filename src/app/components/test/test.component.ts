@@ -76,6 +76,17 @@ data10 = {
   "account": "a6221339@yahoo.com.tw",
   "name": "我們這一家"
 };
+data11 = {
+  "account": "a6221339@yahoo.com.tw",
+  "password": "12345678"
+};
+data12 = {
+  "name": "大型羊圈",
+  "owner": "littlelambmero@gmail.com",
+  "invitor": [
+    "a6221339@yahoo.com.tw"
+  ]
+};
 
   createType(){
     this.apiService.createType(this.data)
@@ -319,4 +330,41 @@ data10 = {
         alert('獲得已加入家庭列表失敗，請稍後再試');
     });
   }
+
+  login(){
+    this.apiService.login(this.data11)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('會員登入成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('會員登入失敗，請稍後再試');
+    });
+  }
+
+  getNameByAccount(){
+    this.apiService.getNameByAccount(this.account)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得帳號名稱成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得帳號名稱失敗，請稍後再試');
+    });
+  }
+
+  createFamily(){
+    this.apiService.createFamily(this.data12)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('創建家庭成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('創建家庭失敗，請稍後再試');
+    });
+  }
+
 }

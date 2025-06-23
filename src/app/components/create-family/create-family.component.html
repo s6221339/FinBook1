@@ -1,0 +1,27 @@
+<div>
+  <div>
+    <h2>設定家庭群組</h2>
+  </div>
+  <div>
+    <h3>家庭名稱：</h3>
+    <input [(ngModel)]="familyName"/><br>
+
+    <h3>創建者：</h3>
+    <p>{{ creatorName }} （{{ account }}）</p>
+  </div>
+  <div>
+    <h3>成員：（目前邀請人數 {{ invitedMenbers.length }}）</h3><br>
+    <ul>
+      @for(member of invitedMenbers; track $index){
+        <li>{{ member.name }}（{{ member.account }}）</li>
+      }
+    </ul>
+
+    <button (click)="addMember()">➕新增成員</button>
+  </div>
+
+  <div>
+    <button (click)="cancel()">取消</button>
+    <button (click)="submit()">建立</button>
+  </div>
+</div>

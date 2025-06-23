@@ -19,6 +19,7 @@ import { MyBalanceComponent } from './components/my-balance/my-balance.component
 import { MyFamilyComponent } from './components/my-family/my-family.component';
 import { MemberCenterComponent } from './components/member-center/member-center.component';
 import { MemberInfoComponent } from './components/member-info/member-info.component';
+import { MemberConfirmComponent } from './components/member-confirm/member-confirm.component';
 
 
 
@@ -44,8 +45,9 @@ export const routes: Routes = [
   { path: 'myFamily', component: MyFamilyComponent },
   {path:'memberCenter', component: MemberCenterComponent,
     children: [
-      {path: 'memberInfo', component: MemberInfoComponent}]},
+      { path: 'memberInfo', component: MemberInfoComponent },
+      { path: 'memberConfirm', component: MemberConfirmComponent }]},
   { path: 'home', component: HomeComponent},
   { path: '', component: HomeComponent},
-  { path: '**', component: HomeComponent},
+  { path: '**', component: HomeComponent}
 ];

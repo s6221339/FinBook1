@@ -33,24 +33,20 @@ body {
   display: grid;
   place-items: center;
   background: linear-gradient(to bottom right, $light-blue-gradient-start, $light-blue-gradient-end);
-  overflow: auto;
-  /* 如果內容很長，允許滾動 */
-  padding: 20px 0;
-  /* 增加上下 padding，防止內容太貼邊 */
+  overflow: auto; /* 如果內容很長，允許滾動 */
+  padding: 20px 0; /* 增加上下 padding，防止內容太貼邊 */
   box-sizing: border-box;
 }
 
 .area {
   width: 90%;
-  max-width: 700px;
-  /* 增加卡片最大寬度以容納更多內容 */
+  max-width: 700px; /* 增加卡片最大寬度以容納更多內容 */
   height: auto;
   background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
-  /* 這裡不需要額外 padding，由卡片自己控制 */
+  padding: 0; /* 這裡不需要額外 padding，由卡片自己控制 */
   box-sizing: border-box;
 }
 
@@ -61,10 +57,10 @@ body {
   padding: 40px;
   border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  text-align: left;
-  /* 表單內容左對齊 */
+  text-align: left; /* 表單內容左對齊 */
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.05);
+  // min-height: 400px; /* 根據實際需要設置最小高度 */
 }
 
 .card-title {
@@ -81,71 +77,57 @@ body {
 }
 
 .section-group {
-  border: 1px solid #E0E0E0;
-  /* 區塊邊框 */
+  border: 1px solid #E0E0E0; /* 區塊邊框 */
   border-radius: 8px;
   padding: 25px;
   margin-bottom: 30px;
-  position: relative;
-  /* 為了 section-title 的定位 */
-  background-color: #FAFAFA;
-  /* 區塊內部稍淺的背景色 */
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-  /* 輕微內陰影 */
+  position: relative; /* 為了 section-title 的定位 */
+  background-color: #FAFAFA; /* 區塊內部稍淺的背景色 */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* 輕微內陰影 */
 
   &:last-child {
-    margin-bottom: 0;
-    /* 最後一個區塊下方不需要間距 */
+    margin-bottom: 0; /* 最後一個區塊下方不需要間距 */
   }
 }
 
 .section-title {
-  background-color: $primary-blue;
-  /* 圖片中標題背景是深藍色 */
+  background-color: $primary-blue; /* 圖片中標題背景是深藍色 */
   color: white;
   padding: 8px 20px;
   border-radius: 5px;
   font-size: 20px;
   font-weight: 600;
   position: absolute;
-  top: -15px;
-  /* 向上浮動一點 */
+  top: -15px; /* 向上浮動一點 */
   left: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  /* 標題陰影 */
-  z-index: 1;
-  /* 確保標題在上方 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 標題陰影 */
+  z-index: 1; /* 確保標題在上方 */
 
   .required-star {
     font-size: 14px;
-    color: #FFEB3B;
-    /* 亮黃色 */
+    color: #FFEB3B; /* 亮黃色 */
     margin-left: 8px;
   }
 }
 
 /* --- 表單組件樣式 (通用) --- */
 .form-group {
-  margin-top: 25px;
+  margin-top: 25px; /* 統一表單組件上方間距 */
 
-  /* 統一表單組件上方間距 */
   &:first-child {
-    margin-top: 0;
-    /* 每個區塊的第一個 form-group 不需要頂部間距 */
+    margin-top: 0; /* 每個區塊的第一個 form-group 不需要頂部間距 */
   }
 }
 
 .input-label {
   font-size: 16px;
   font-weight: 600;
-  color: $label-color;
-  /* 這裡不使用漸變，保留圖片中的純色 */
+  color: $label-color; /* 這裡不使用漸變，保留圖片中的純色 */
   display: block;
   margin-bottom: 8px;
 
   .required-star {
-    color: red;
-    /* 必填星號用紅色 */
+    color: red; /* 必填星號用紅色 */
     margin-left: 4px;
   }
 }
@@ -159,141 +141,43 @@ body {
   color: $text-color;
   box-sizing: border-box;
   transition: border-color $button-hover-transition, box-shadow $button-hover-transition;
-  background-color: #F8F8F8;
-  /* 輸入框輕微灰色背景 */
+  background-color: #F8F8F8; /* 輸入框輕微灰色背景 */
 }
 
 .form-control:focus {
   border-color: $input-focus-border-color;
   box-shadow: 0 0 0 3px rgba($primary-blue, 0.2);
   outline: none;
-  background-color: $card-background;
-  /* 聚焦時背景變白 */
+  background-color: $card-background; /* 聚焦時背景變白 */
 }
 
 .form-control::placeholder {
   color: #999999;
 }
 
-/* --- 單選按鈕樣式 --- */
-.radio-group {
-  .input-label {
-    margin-bottom: 12px;
-    /* 標籤與選項組的間距 */
-  }
-}
-
-.radio-options {
-  display: flex;
-  flex-wrap: wrap;
-  /* 允許換行 */
-  gap: 15px 25px;
-  /* 行和列之間的間距 */
-  justify-content: flex-start;
-  /* 左對齊 */
-}
-
-.radio-label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-size: 16px;
-  color: $text-color;
-  position: relative;
-  /* 為了自定義 radio button */
-  padding-left: 25px;
-  /* 為自定義 radio button 留出空間 */
-  user-select: none;
-  /* 防止文字被選取 */
-
-  input[type="radio"] {
-    /* 隱藏原生 radio button */
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  }
-
-  /* 自定義 radio button 的外觀 */
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 18px;
-    width: 18px;
-    border: 2px solid $input-border-color;
-    border-radius: 50%;
-    background-color: #fff;
-    transition: border-color 0.2s ease;
-  }
-
-  /* 自定義 radio button 的內部圓點 */
-  &::after {
-    content: '';
-    position: absolute;
-    left: 5px;
-    /* 居中圓點 */
-    top: 50%;
-    transform: translateY(-50%);
-    height: 8px;
-    width: 8px;
-    background-color: $primary-blue;
-    /* 選中時的藍色圓點 */
-    border-radius: 50%;
-    opacity: 0;
-    /* 預設隱藏 */
-    transition: opacity 0.2s ease;
-  }
-
-  input[type="radio"]:checked+&::before {
-    border-color: $primary-blue;
-    /* 選中時邊框變藍 */
-  }
-
-  input[type="radio"]:checked+&::after {
-    opacity: 1;
-    /* 選中時顯示圓點 */
-  }
-}
-
-.radio-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  /* 自動適應列寬，至少 100px */
-  gap: 10px;
-  /* 網格間距 */
-  // 調整單選按鈕的佈局，讓其像圖片一樣分多列
-  // grid-template-columns: repeat(3, minmax(100px, 1fr)); /* 如果想固定 3 列 */
-}
 
 
-/* --- 下拉選單樣式 --- */
+
+/* --- 下拉選單樣式 (保持不變) --- */
 .date-select-group {
   display: flex;
-  gap: 10px;
-  /* 選單之間的間距 */
+  gap: 10px; /* 選單之間的間距 */
 }
 
 .select-field {
   // 繼承 .form-control 的大部分樣式
-  flex: 1;
-  /* 讓每個選單平均分配空間 */
-  -webkit-appearance: none;
-  /* 移除瀏覽器預設樣式 */
+  flex: 1; /* 讓每個選單平均分配空間 */
+  -webkit-appearance: none; /* 移除瀏覽器預設樣式 */
   -moz-appearance: none;
   appearance: none;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="rgba(0,0,0,0.54)" d="M7 10l5 5 5-5z"/></svg>');
   /* 自定義下拉箭頭 */
   background-repeat: no-repeat;
   background-position: right 10px center;
-  padding-right: 30px;
-  /* 為箭頭留出空間 */
+  padding-right: 30px; /* 為箭頭留出空間 */
 }
 
-/* --- 儲存按鈕 --- */
+/* --- 儲存按鈕 (保持不變) --- */
 .button-group {
   display: flex;
   justify-content: center;
@@ -301,8 +185,7 @@ body {
 }
 
 .btn {
-  padding: 14px 40px;
-  /* 儲存按鈕可以寬一點 */
+  padding: 14px 40px; /* 儲存按鈕可以寬一點 */
   border: none;
   border-radius: 6px;
   cursor: pointer;

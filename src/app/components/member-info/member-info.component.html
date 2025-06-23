@@ -1,118 +1,73 @@
-<div class="background"> <div class="area">
+<div class="background">
+    <div class="area">
         <div class="member-profile-card">
             <h2 class="card-title">會員基本資料</h2>
 
-            <div class="section-group">
-                <h3 class="section-title">個人基本資料 <span class="required-star">*必填</span></h3>
+            <form [formGroup]="memberInfoForm" (ngSubmit)="onSaveClick()">
+                <div class="section-group">
+                    <h3 class="section-title">個人基本資料 <span class="required-star">*必填</span></h3>
 
-                <div class="form-group">
-                    <label for="name" class="input-label">姓名</label>
-                    <input id="name" class="form-control" type="text" placeholder="請輸入姓名" value="我很帥">
-                </div>
-
-                <div class="form-group radio-group">
-                    <span class="input-label">性別</span>
-                    <div class="radio-options">
-                        <label class="radio-label">
-                            <input type="radio" name="gender" value="male" checked> 男
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="gender" value="female"> 女
-                        </label>
+                    <div class="form-group">
+                        <label for="name" class="input-label">姓名</label>
+                        <input id="name" class="form-control" type="text" placeholder="請輸入姓名" formControlName="name">
+                        @if (memberInfoForm.get('name')?.invalid && memberInfoForm.get('name')?.touched) {
+                            <div class="error-message">姓名為必填。</div>
+                        }
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="dob-year" class="input-label">*您的生日-</label>
-                    <div class="date-select-group">
-                        <select id="dob-year" class="form-control select-field">
-                            <option value="1990" selected>1990</option>
-                            <option value="1991">1991</option>
-                            <option value="1992">1992</option>
-                        </select>
-                        <select id="dob-month" class="form-control select-field">
-                            <option value="1" selected>1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                        <select id="dob-day" class="form-control select-field">
-                            <option value="1" selected>1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+                    <div class="form-group">
+                        <label for="dob-year" class="input-label">*您的生日-</label>
+                        <div class="date-select-group">
+                            <select id="dob-year" class="form-control select-field"
+                                    [(ngModel)]="selectedYear" (change)="onDateChange()" [ngModelOptions]="{standalone: true}">
+                                @for (year of years; track year) {
+                                    <option [value]="year">{{ year }}</option>
+                                }
+                                @empty {
+                                    <option value="">無年份可選</option>
+                                }
+                            </select>
+                            <select id="dob-month" class="form-control select-field"
+                                    [(ngModel)]="selectedMonth" (change)="onDateChange()" [ngModelOptions]="{standalone: true}">
+                                @for (month of months; track month) {
+                                    <option [value]="month">{{ month }}</option>
+                                }
+                                @empty {
+                                    <option value="">無月份可選</option>
+                                }
+                            </select>
+                            <select id="dob-day" class="form-control select-field"
+                                    [(ngModel)]="selectedDay" [ngModelOptions]="{standalone: true}">
+                                @for (day of days; track day) {
+                                    <option [value]="day">{{ day }}</option>
+                                }
+                                @empty {
+                                    <option value="">無日期可選</option>
+                                }
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="id-number" class="input-label">身分證字號</label>
-                    <input id="id-number" class="form-control" type="text" value="S123456789">
-                </div>
-
-                <div class="form-group">
-                    <label for="phone-number" class="input-label">手機號碼</label>
-                    <input id="phone-number" class="form-control" type="text" value="0912345678">
-                </div>
-
-                <div class="form-group">
-                    <label for="landline-number" class="input-label">市話</label>
-                    <input id="landline-number" class="form-control" type="text" value="076123456">
-                </div>
-
-                <div class="form-group">
-                    <label for="address" class="input-label">地址</label>
-                    <input id="address" class="form-control" type="text" value="高雄市岡山區岡山路1巷2弄3號">
-                </div>
-            </div>
-
-            <div class="section-group">
-                <h3 class="section-title">其他資料 <span class="required-star">*必填</span></h3>
-
-                <div class="form-group radio-group">
-                    <span class="input-label">*學歷:</span>
-                    <div class="radio-options radio-grid">
-                        <label class="radio-label"><input type="radio" name="education" value="elementary"> 國小以下</label>
-                        <label class="radio-label"><input type="radio" name="education" value="junior-high"> 國小</label>
-                        <label class="radio-label"><input type="radio" name="education" value="senior-high"> 國中</label>
-                        <label class="radio-label"><input type="radio" name="education" value="vocational"> 高中職</label>
-                        <label class="radio-label"><input type="radio" name="education" value="college"> 大學大專</label>
-                        <label class="radio-label"><input type="radio" name="education" value="graduate" checked> 研究所以上</label>
+                    <div class="form-group">
+                        <label for="phone-number" class="input-label">手機號碼</label>
+                        <input id="phone-number" class="form-control" type="text" placeholder="請輸入手機號碼，格式: 09-xxxxxxxx" formControlName="phoneNumber">
+                        @if (memberInfoForm.get('phoneNumber')?.invalid && memberInfoForm.get('phoneNumber')?.touched) {
+                            <div class="error-message">
+                                @if (memberInfoForm.get('phoneNumber')?.errors?.['required']) {
+                                    手機號碼為必填。
+                                } @else if (memberInfoForm.get('phoneNumber')?.errors?.['pattern']) {
+                                    手機號碼格式錯誤，請輸入 09-xxxxxxxx。
+                                }
+                            </div>
+                        }
                     </div>
+
                 </div>
 
-                <div class="form-group radio-group">
-                    <span class="input-label">*職業:</span>
-                    <div class="radio-options radio-grid">
-                        <label class="radio-label"><input type="radio" name="occupation" value="student"> 學生</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="military"> 軍</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="public"> 公</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="teacher"> 教</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="freelance"> 自由業</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="commerce"> 工</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="business"> 商</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="farmer"> 農林漁牧</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="service"> 服務業</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="homemaker"> 家管</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="retired"> 退休</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="psychologist"> 心理專業人員</label>
-                        <label class="radio-label"><input type="radio" name="occupation" value="none"> 無</label>
-                    </div>
+                <div class="button-group">
+                    <button class="btn btn-primary" type="submit">儲存</button>
                 </div>
-
-                <div class="form-group radio-group">
-                    <span class="input-label">*婚姻狀況:</span>
-                    <div class="radio-options radio-grid">
-                        <label class="radio-label"><input type="radio" name="marital-status" value="unmarried" checked> 未婚</label>
-                        <label class="radio-label"><input type="radio" name="marital-status" value="married"> 已婚</label>
-                        <label class="radio-label"><input type="radio" name="marital-status" value="divorced"> 離婚</label>
-                        <label class="radio-label"><input type="radio" name="marital-status" value="widowed"> 鰥 (寡)</label>
-                        <label class="radio-label"><input type="radio" name="marital-status" value="other"> 其他</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary">儲存</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>

@@ -21,6 +21,7 @@ import { MemberCenterComponent } from './components/member-center/member-center.
 import { MemberInfoComponent } from './components/member-info/member-info.component';
 import { MemberConfirmComponent } from './components/member-confirm/member-confirm.component';
 import { ChangePasswordsComponent } from './components/change-passwords/change-passwords.component';
+import { ForgetPasswordsComponent } from './components/forget-passwords/forget-passwords.component';
 
 
 
@@ -48,8 +49,9 @@ export const routes: Routes = [
     children: [
       { path: 'memberInfo', component: MemberInfoComponent },
       { path: 'memberConfirm', component: MemberConfirmComponent },
-      { path: '', redirectTo: 'memberConfirm', pathMatch: 'full' },
-      { path: 'changePasswords', component:ChangePasswordsComponent }]},
+      { path: 'changePasswords', component:ChangePasswordsComponent },
+      { path: '', redirectTo: 'memberConfirm', pathMatch: 'full' }]},
+  { path:'forget',component: ForgetPasswordsComponent },
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent }

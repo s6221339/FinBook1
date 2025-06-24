@@ -205,6 +205,20 @@ export class ApiService {
     });
   }
 
+  //  更改家庭名稱
+  renameFamily(data: any) {
+    return axios.post('http://localhost:8080/finbook/family/rename', data, {
+      withCredentials: true
+    });
+  }
+
+  //  踢除家庭成員
+  removeFamilyMember(data: any) {
+    return axios.post('http://localhost:8080/finbook/family/kick', data, {
+      withCredentials: true
+    });
+  }
+
 }
 
 

@@ -2,6 +2,7 @@ import { ApiService } from './../../@services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Family } from '../../models/family';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-family-management',
@@ -83,6 +84,49 @@ export class FamilyManagementComponent implements OnInit{
   private syncSelectAllState(): void {
     const total = this.familyData?.memberList?.length || 0;
     this.isAllSelected = total > 0 && this.selectedAccounts.size == total;
+  }
+
+  renameFamilyName(): void {
+    Swal.fire({
+      title: '請更改家庭名稱',
+      input: 'text',
+      inputLabel: '請輸入新的家庭名稱',
+      inputPlaceholder: '輸入名稱...',
+      showCancelButton: true,
+      confirmButtonText: '確定',
+      cancelButtonText: '取消',
+      inputValidator: (value) => {
+        if(!value || value.trim() == '') {
+          return '名稱不能為空';
+        }
+        return null;
+      }
+    })
+    .then((result) => {
+      if(result.isConfirmed && result.value.trim() !== '' && this.familyId !== null) {
+        const payload = {
+          familyId: this.familyId,
+          owner: this.account,
+          newName: result.value.trim()
+        };
+
+        this.apiService.renameFamily(payload)
+          .then(res => {
+            if(res.data.code == 200){
+              Swal.fire('成功！', '家庭名稱已更新', 'success');
+              //  更新畫面上的 displayName
+              this.displayFamilyName = payload.newName;
+            }
+            else{
+              Swal.fire('失敗', res.data.message || '無法更新名稱', 'error');
+            }
+          })
+          .catch(err => {
+            console.error('更新家庭名稱失敗', err);
+            Swal.fire('錯誤', '伺服器錯誤，請稍後再試', 'error');
+          });
+      }
+    });
   }
 
 }

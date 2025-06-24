@@ -87,6 +87,16 @@ data12 = {
     "a6221339@yahoo.com.tw"
   ]
 };
+data13 = {
+  "familyId": 1,
+  "owner": "a6221339@yahoo.com.tw",
+  "newName": "我們這一家開發測試"
+};
+data14 = {
+ "familyId": 2,
+ "owner": "a6221339@yahoo.com.tw",
+ "memberAccount": "chihyun0110@gmail.com"
+};
 
   createType(){
     this.apiService.createType(this.data)
@@ -364,6 +374,30 @@ data12 = {
       .catch(err => {
         console.error('送出失敗：', err);
         alert('創建家庭失敗，請稍後再試');
+    });
+  }
+
+  renameFamily(){
+    this.apiService.renameFamily(this.data13)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('家庭改名成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('家庭改名失敗，請稍後再試');
+    });
+  }
+
+  removeFamilyMember(){
+    this.apiService.removeFamilyMember(this.data14)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('踢出家庭成員成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('踢出家庭成員失敗，請稍後再試');
     });
   }
 

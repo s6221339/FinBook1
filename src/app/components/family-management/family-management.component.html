@@ -1,0 +1,52 @@
+<div>
+  <div>
+    <h2>家庭管理</h2>
+  </div>
+  <div>
+    <h3>功能列表：</h3><br>
+    <button>更改家庭名稱</button>
+    <button>邀請</button>
+    <button>踢除</button>
+    <button>轉讓族長</button>
+    <button>退出</button>
+    <button>解散</button>
+  </div>
+  @if(familyData){
+    <div>
+      <h3>家庭名稱：{{ displayFamilyName }}</h3>
+      <h3>擁有者：{{ familyData.owner.name }}（{{ familyData.owner.account }}）</h3>
+      <h3>成員：</h3>
+      @if(familyData.memberList.length > 0){
+        <div>
+          <label>
+            <input type="checkbox" [checked]="isAllSelected" (change)="toggleSelectAll(($event))"/>
+            全選
+          </label>
+        </div>
+        <ul>
+          @for(member of familyData.memberList; track $index){
+            <li>
+              <label>
+                <input
+                  type="checkbox"
+                  [checked]="selectedAccounts.has(member.account)"
+                  (change)="onToggleMember(member.account, $event)"
+                />
+                {{ member.name }}（{{ member.account }}）
+              </label>
+            </li>
+          }
+        </ul>
+      }
+      @else {
+        <p style="color: gray;">尚無家庭成員</p>
+      }
+    </div>
+  }
+  @else {
+    <div>
+      <p>找不到指定的家庭資料</p>
+    </div>
+  }
+
+</div>

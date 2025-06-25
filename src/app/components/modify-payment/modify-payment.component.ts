@@ -1,15 +1,11 @@
 import { PaymentModifiedService } from './../../@services/payment-modified.service';
 import { ApiService } from './../../@services/api.service';
-import { CommonModule, registerLocaleData } from '@angular/common';
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { CommonModule} from '@angular/common';
+import { Component, OnInit, AfterViewInit, ViewChild, Renderer2 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { Balance } from '../../models/Balance';
 import { Category } from '../../models/categories';
 import { PaymentIdFormData } from '../../models/paymentIdFormData';
@@ -17,19 +13,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatNativeDateModule } from '@angular/material/core';
-import localeZh from '@angular/common/locales/zh'; // 導入中文語言環境資料
-
-// 註冊中文語言環境數據，用於日期格式化
-registerLocaleData(localeZh, 'zh-TW');
+import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 
 @Component({
   selector: 'app-modify-payment',
@@ -39,23 +29,17 @@ registerLocaleData(localeZh, 'zh-TW');
   imports: [
     CommonModule,
     FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
+    MatIconModule,
     MatTableModule,
-    MatPaginatorModule,
     MatSortModule,
     MatCheckboxModule,
-    MatIconModule,
     MatTooltipModule,
     MatButtonModule,
     MatCardModule,
+    CustomPaginatorComponent,
   ],
   providers: [
     provideNativeDateAdapter(),
-    { provide: MAT_DATE_LOCALE, useValue: 'zh-TW' },
   ]
 })
 export class ModifyPaymentComponent implements OnInit, AfterViewInit{
@@ -64,7 +48,6 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     private apiService: ApiService,
     private router: Router,
     private paymentModifiedService: PaymentModifiedService,
-    private paginatorIntl: MatPaginatorIntl
   ){}
 
   balanceList: Balance[] = []; //  透過帳號取得帳戶給下拉式選單用
@@ -84,9 +67,13 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   categoriesFilteredItems: string[] = []; //  兩層下拉式選單第二層的對象
   selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
   allSelected: boolean = false;
-  filteredTestData: (PaymentIdFormData & { selected?: boolean })[] = [];
+
+  // 分頁相關
   currentPage: number = 1;  //  當前頁
-  itemsPerPage: number = 10;  //  每頁筆數
+  itemsPerPage: number = 5;  //  每頁筆數
+  totalFilteredItems: number = 0; // 篩選後的總筆數
+  allFilteredData: (PaymentIdFormData & { selected?: boolean })[] = []; // 所有篩選後的資料
+
   dataSource = new MatTableDataSource<PaymentIdFormData & { selected?: boolean }>([]);
   selection = new SelectionModel<PaymentIdFormData & { selected?: boolean }>(true, []);
   displayedColumns: string[] = [
@@ -101,17 +88,10 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     'recordDate'
   ];
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
 
-    // 設定 Material 分頁器的國際化文字，讓其顯示為中文
-    this.paginatorIntl.itemsPerPageLabel = '每頁筆數：';
-    this.paginatorIntl.nextPageLabel = '下一頁';
-    this.paginatorIntl.previousPageLabel = '上一頁';
-    this.paginatorIntl.firstPageLabel = '第一頁';
-    this.paginatorIntl.lastPageLabel = '最後一頁';
 
     //  初始化年份選單列表
     this.generateYears();
@@ -153,8 +133,16 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    // 監聽排序變更，重新分頁
+    this.dataSource.sort?.sortChange.subscribe(() => {
+      // 重新排序所有篩選後的資料
+      this.allFilteredData = this.dataSource.sortData([...this.allFilteredData], this.sort);
+      // 重置到第一頁並更新分頁資料
+      this.currentPage = 1;
+      this.updatePagedData();
+    });
   }
 
   //  產生年份列表
@@ -221,7 +209,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     .catch(err => {
       console.error('取得帳款資料失敗：', err);
       this.rawPaymentList = [];
-      this.filteredTestData = [];
+      this.allFilteredData = [];
     });
   }
 
@@ -278,12 +266,12 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
 
   //  全選/取消全選
   toggleAll(): void {
-    this.filteredTestData.forEach((item: any) => item.selected = this.allSelected);
+    this.allFilteredData.forEach((item: any) => item.selected = this.allSelected);
   }
 
   //  同步全選
   onItemCheckChange(): void {
-    this.allSelected = this.filteredTestData.length > 0 && this.filteredTestData.every(item => item.selected);
+    this.allSelected = this.allFilteredData.length > 0 && this.allFilteredData.every(item => item.selected);
   }
 
   //  點擊刪除按鈕
@@ -337,7 +325,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
 
   //  更新全選狀態
   updateAllSelectedState(): void {
-    this.allSelected = this.filteredTestData.length > 0 && this.filteredTestData.every(item => item.selected);
+    this.allSelected = this.allFilteredData.length > 0 && this.allFilteredData.every(item => item.selected);
   }
 
   //  抽方法，公用篩選韓式：根據用戶資料 + 篩選條件 更新表格資料
@@ -346,6 +334,8 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
 
     if(!selected){
       this.dataSource.data = [];
+      this.allFilteredData = [];
+      this.totalFilteredItems = 0;
       return;
     }
 
@@ -369,9 +359,50 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
       (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
     );
 
-    //  交給 Material Table 處理排序/分頁
-    this.dataSource.data = payments;
+    // 儲存所有篩選後的資料
+    this.allFilteredData = payments;
+    this.totalFilteredItems = payments.length;
+
+    // 如果有排序設定，應用排序
+    if (this.sort && this.sort.active) {
+      this.allFilteredData = this.dataSource.sortData([...this.allFilteredData], this.sort);
+    }
+
+    // 重置到第一頁
+    this.currentPage = 1;
+
+    // 實作分頁邏輯
+    this.updatePagedData();
+  }
+
+  // 更新分頁資料
+  updatePagedData(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+
+    // 取得當前頁的資料
+    const pagedData = this.allFilteredData.slice(startIndex, endIndex);
+
+    // 更新表格資料源
+    this.dataSource.data = pagedData;
+
+    // 清除選取狀態
+    this.selection.clear();
+
     this.updateAllSelectedState();
+  }
+
+  // 分頁事件處理
+  onPageChange(newPage: number): void {
+    this.currentPage = newPage;
+    this.updatePagedData();
+  }
+
+  // 每頁筆數變更事件處理
+  onPageSizeChange(newPageSize: number): void {
+    this.itemsPerPage = newPageSize;
+    this.currentPage = 1; // 重置到第一頁
+    this.updatePagedData();
   }
 
   //  前往編輯款項
@@ -403,18 +434,6 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     this.router.navigate(['/editPayment'], {
       queryParams: { paymentId: selectedPaymentId }
     });
-  }
-
-  PrevPage(): void {
-    if(this.currentPage > 1) {
-      this.currentPage--;
-      this.applyFilters();
-    }
-  }
-
-  nextPage(): void {
-    this.currentPage++;
-    this.applyFilters();
   }
 
   //  是否全選

@@ -175,7 +175,7 @@
 /* 活躍頁面的導航樣式 */
 .nav-link.active {
   background-color: rgba(0, 70, 43, 0.12);
-  color: var(--primary);
+  color: var(--nav-link-active);
   font-weight: 800;
 }
 .nav-link.active .material-icons {
@@ -331,6 +331,8 @@
   transition: all 0.2s ease;
   /* 字體大小 */
   font-size: var(--font-size-body);
+  border-radius: 4px;
+  font-weight: 400;
 }
 
 /* 選單項目icon */
@@ -405,7 +407,7 @@
   /* 四欄，第一欄較寬 */
   grid-template-columns: 2fr 1fr 1fr 1fr;
   /* 欄位間距 */
-  gap: var(--space-lg);
+  gap: var(--space-lg-2);
   /* 底部邊距 */
   margin-bottom: calc(var(--space-lg) + var(--space-md));
 }
@@ -418,6 +420,7 @@
   /* 藍色標題 */
   color: var(--primary);
   position: relative;
+  cursor: default;
 }
 
 /* 標題底線裝飾 */
@@ -440,6 +443,7 @@
   margin-bottom: var(--space-lg);
   font-size: var(--font-size-body);
   padding-top: var(--space-lg);
+  cursor: default;
 }
 
 /* 社群標題 */
@@ -448,6 +452,7 @@
   font-weight: 600;
   margin-bottom: var(--space-md);
   color: var(--primary);
+  cursor: default;
 }
 
 /* 社群連結容器 */
@@ -549,7 +554,7 @@
 .footer-links a:before {
   content: "→";
   margin-right: var(--space-xs);
-  color: var(--expense);
+  color: rgb(255, 37, 193);
   opacity: 0;
   transition: all 0.2s ease;
   font-size: var(--font-size-h3);
@@ -585,6 +590,11 @@
   margin-top: 2px;
 }
 
+/* 聯絡資訊電話號碼游標 */
+.contact-info li span {
+  cursor: default;
+}
+
 /* 頁尾底部容器 */
 .footer-bottom {
   display: flex;
@@ -601,6 +611,7 @@
   color: var(--text-primary);
   font-size: var(--font-size-caption);
   order: 2; /* 排序：在下方 */
+  cursor: default;
 }
 
 /* 底部連結容器 */
@@ -692,17 +703,117 @@
 
   .material-icons {
     font-size: 28px;
-    color: var(--primary);
+    color: var(--theme-toggle-yellow);
     transition: color 0.2s;
   }
 }
 .theme-toggle-btn:hover {
   background: rgba(42, 157, 143, 0.10);
   .material-icons {
-    color: var(--expense);
+    color: #ffd600;
   }
 }
 
-.dark-mode .theme-toggle-btn .material-icons {
+.contact-link {
+  color: var(--text-primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.contact-link:hover {
   color: var(--primary);
 }
+
+.family-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  .family-menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+    user-select: none;
+    .arrow {
+      font-size: 20px;
+      transition: transform 0.2s;
+    }
+  }
+  &:hover .family-menu-trigger,
+  &.open .family-menu-trigger {
+    color: var(--primary);
+  }
+  &:hover .arrow,
+  &.open .arrow {
+    transform: rotate(180deg);
+  }
+  .family-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    background: var(--elevation-1);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    margin-top: var(--space-xs);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease;
+    z-index: 100;
+  }
+  .family-dropdown-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .dropdown-content {
+    padding: var(--space-xs) 0;
+    min-width: 200px;
+  }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: var(--font-size-body);
+    border-radius: 4px;
+    font-weight: 400;
+  }
+  .menu-item .material-icons {
+    font-size: 20px;
+    color: var(--primary);
+    width: 20px;
+  }
+  .menu-item:hover {
+    background-color: rgba(42, 157, 143, 0.1);
+    color: var(--primary);
+  }
+}
+
+@media (max-width: 768px) {
+  .family-menu {
+    width: 100%;
+  }
+  .family-menu .family-menu-trigger {
+    width: 100%;
+  }
+  .family-menu .family-dropdown-menu {
+    position: static;
+    box-shadow: none;
+    min-width: 0;
+    width: 100%;
+    border-radius: 0 0 8px 8px;
+    margin-top: 0;
+  }
+}
+

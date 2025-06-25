@@ -1,0 +1,36 @@
+<div class="custom-paginator-mat">
+  <div class="paginator-row">
+    <!-- 每頁筆數選單（左側） -->
+    <div class="page-size-selector">
+      <span class="page-size-label">每頁筆數：</span>
+      <mat-form-field appearance="outline" class="page-size-field">
+        <mat-select [value]="pageSize" (valueChange)="onPageSizeChange($event)">
+          @for(option of pageSizeOptions; track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- 頁碼顯示（中間） -->
+    <div class="page-info">
+      第 {{ startIndex + 1 }}-{{ endIndex }} 筆，共 {{ totalItems }} 筆
+    </div>
+
+    <!-- 分頁按鈕（右側） -->
+    <div class="page-navigation">
+      <button class="paginator-btn" (click)="onFirstPage()">
+        <mat-icon>first_page</mat-icon>
+      </button>
+      <button class="paginator-btn" (click)="onPreviousPage()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button class="paginator-btn" (click)="onNextPage()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      <button class="paginator-btn" (click)="onLastPage()">
+        <mat-icon>last_page</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

@@ -10,34 +10,32 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>選擇帳戶</mat-label>
-            <mat-select [(value)]="selectedBalanceId" (valueChange)="onBalanceChange()">
-              @for(b of balanceList; track $index){
-              <mat-option [value]="b.balanceId">
-                {{ b.name }}
-              </mat-option>
+          <div class="custom-form-group">
+            <label for="account">選擇帳戶</label>
+            <select id="account" [(ngModel)]="selectedBalanceId" (change)="onBalanceChange()" class="custom-select">
+              @for (b of balanceList; track b.balanceId) {
+                <option [value]="b.balanceId">{{ b.name }}</option>
               }
-            </mat-select>
-            <mat-hint>目前選擇: {{ selectedBalanceName }}</mat-hint>
-          </mat-form-field>
+            </select>
+            <div class="custom-hint">目前選擇: {{ selectedBalanceName }}</div>
+          </div>
           <div class="half-width-container">
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>選擇年份</mat-label>
-              <mat-select [(value)]="year" (valueChange)="onYearChange()">
-                @for(y of years; track $index){
-                <mat-option [value]="y">{{ y }}</mat-option>
+            <div class="custom-form-group half-width">
+              <label for="year">選擇年份</label>
+              <select id="year" [(ngModel)]="year" (change)="onYearChange()" class="custom-select">
+                @for (y of years; track y) {
+                  <option [value]="y">{{ y }}</option>
                 }
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="half-width">
-              <mat-label>選擇月份</mat-label>
-              <mat-select [(value)]="month" (valueChange)="updateMonthRange()">
-                @for(m of months; track $index){
-                <mat-option [value]="m">{{ m }}</mat-option>
+              </select>
+            </div>
+            <div class="custom-form-group half-width">
+              <label for="month">選擇月份</label>
+              <select id="month" [(ngModel)]="month" (change)="updateMonthRange()" class="custom-select">
+                @for (m of months; track m) {
+                  <option [value]="m">{{ m }}</option>
                 }
-              </mat-select>
-            </mat-form-field>
+              </select>
+            </div>
           </div>
         </mat-card-content>
       </mat-card>
@@ -51,24 +49,26 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>選擇類型</mat-label>
-            <mat-select [(value)]="selectedType" (valueChange)="updateCategoriesFiltedItems()">
-              @for(type of distinctTypes; track $index){
-              <mat-option [value]="type">{{ type }}</mat-option>
+          <div class="custom-form-group">
+            <label for="type">選擇類型</label>
+            <select id="type" [(ngModel)]="selectedType" (change)="updateCategoriesFiltedItems()" class="custom-select">
+              @for (type of distinctTypes; track type) {
+                <option [value]="type">{{ type }}</option>
               }
-            </mat-select>
-          </mat-form-field>
-          @if(categoriesFilteredItems.length > 0){
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>選擇項目</mat-label>
-            <mat-select [(value)]="selectedItem" (valueChange)="applyFilters()">
-              @for(item of categoriesFilteredItems; track $index){
-              <mat-option [value]="item">{{ item }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+            </select>
+          </div>
+          <div style="padding-top: 2.7rem;">
+          @if (categoriesFilteredItems.length > 0) {
+            <div class="custom-form-group">
+              <label for="item">選擇項目</label>
+              <select id="item" [(ngModel)]="selectedItem" (change)="applyFilters()" class="custom-select">
+                @for (item of categoriesFilteredItems; track item) {
+                  <option [value]="item">{{ item }}</option>
+                }
+              </select>
+            </div>
           }
+          </div>
         </mat-card-content>
       </mat-card>
 
@@ -81,17 +81,13 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>篩選特定日期</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedRecordDate" (ngModelChange)="applyFilters()" [min]="monthStartDate" [max]="monthEndDate" placeholder="請選擇日期">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            @if(selectedRecordDate){
-            <button mat-icon-button matSuffix (click)="clearSelectedRecordDate()" matTooltip="清除選擇的日期">
-              <mat-icon>close</mat-icon>
-            </button>
+          <div class="custom-form-group">
+            <label for="date">篩選特定日期</label>
+            <input id="date" type="date" [(ngModel)]="selectedRecordDate" (change)="applyFilters()" [min]="monthStartDate" [max]="monthEndDate" class="custom-select" placeholder="請選擇日期">
+            @if (selectedRecordDate) {
+              <button type="button" (click)="clearSelectedRecordDate()" class="custom-clear-btn" title="清除選擇的日期">×</button>
             }
-          </mat-form-field>
+          </div>
         </mat-card-content>
       </mat-card>
     </div>
@@ -101,13 +97,13 @@
       <div class="card-header">
         <span class="material-icons">list_alt</span>
         <h3>帳款列表</h3>
-        <span class="transaction-count pill-green">共 {{ dataSource.data.length }} 筆</span>
+        <span class="transaction-count pill-green">共 {{ totalFilteredItems }} 筆</span>
       </div>
       <div class="card-content">
         <div class="action-buttons-row">
           <div class="action-buttons">
-            <button mat-stroked-button color="accent" (click)="goEditPayment()">編輯</button>
-            <button mat-stroked-button color="warn" (click)="deleteSelectedPayments()">刪除</button>
+            <button class="custom-btn custom-btn-accent" [ngClass]="{'custom-disabled': selection.isEmpty()}" (click)="!selection.isEmpty() && goEditPayment()">編輯</button>
+            <button class="custom-btn custom-btn-warn" [ngClass]="{'custom-disabled': selection.isEmpty()}" (click)="!selection.isEmpty() && deleteSelectedPayments()">刪除</button>
           </div>
         </div>
         <div class="table-container">
@@ -180,8 +176,18 @@
               </td>
             </tr>
           </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
         </div>
+
+        <!-- 自訂分頁器 -->
+        @if(totalFilteredItems > 0){
+          <app-custom-paginator
+            [totalItems]="totalFilteredItems"
+            [currentPage]="currentPage"
+            [pageSize]="itemsPerPage"
+            (pageChange)="onPageChange($event)"
+            (pageSizeChange)="onPageSizeChange($event)">
+          </app-custom-paginator>
+        }
       </div>
     </div>
   </div>

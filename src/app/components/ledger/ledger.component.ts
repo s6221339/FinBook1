@@ -14,11 +14,16 @@ import { CommonModule } from '@angular/common';
 import { Category } from '../../models/categories';
 import { Balance } from '../../models/Balance';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTableModule } from '@angular/material/table';
+import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 
 @Component({
   selector: 'app-ledger',
-  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,MatFormFieldModule,
-    MatSelectModule, FormsModule, MatButtonModule, CommonModule, MatTooltipModule],
+  imports: [
+    MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, MatFormFieldModule,
+    MatSelectModule, FormsModule, MatButtonModule, CommonModule, MatTooltipModule,
+    MatTableModule, CustomPaginatorComponent
+  ],
   providers: [provideNativeDateAdapter()],
   standalone: true,
   templateUrl: './ledger.component.html',

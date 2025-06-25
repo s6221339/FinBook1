@@ -11,7 +11,8 @@
 
   /* 文字 */
   --text-primary: #263159;
-  --text-secondary: #6c757d;
+  --text-secondary: #115599;
+  --title-text-color:linear-gradient(45deg, var(--primary), var(--expense));
 
   /* 功能色（子路由主題色） */
   --income: #2a9d8f;
@@ -31,44 +32,233 @@
   --space-xs: 8px;
   --space-sm: 12px;
   --space-md: 16px;
+  --space-lg-2: 20px;
   --space-lg: 24px;
   --space-xl: 32px;
+
+
+  --choose-account-bg: #04950c; /* 選擇帳戶背景 */
+
+  --table-hover-bg: #c7d0ea; /* 表格 hover 用 */
+
+  /* 表格單雙數行底色 */
+  --table-row-odd-bg:   #f4f7fd;     /* 單數行 */
+  --table-row-even-bg:   #e3e6f3; /* 雙數行*/
+
+  /* 表格表頭底色（藍紫科技感） */
+  --table-header-bg: #2563eb;
+  --table-header-text: #fff;
+  --table-hover-text: #263159;
+  --table-border: #b0b8d1;
+
+  --checkbox-border: #263159;
+
+  --mdc-checkbox-unselected-icon-color: #263159;
+  --mdc-checkbox-selected-icon-color: #2563eb;
+  --mdc-checkbox-unselected-hover-icon-color: #2563eb;
+  --mdc-checkbox-selected-hover-icon-color: #ffd600;
+
+  /* 分頁器專用顏色 */
+  --paginator-bg: #ccd7ed; /* 日間分頁器背景，表頭色加白 */
+  --paginator-border: #e3e6f3; /* 分頁器上邊界線 */
+  --paginator-label: #263159; /* 分頁器label主色 */
+  --paginator-icon: #263159; /* 分頁器icon顏色 */
+  --paginator-hover: rgba(37, 99, 235, 0.12); /* 分頁器hover */
+
+
+  --calendar-clear-btn: #2563eb;
+  --calendar-background: #f0f6ff;
+
+  --table-total-bg: #04950c; /* 表格總計背景 */
+
+  --btn-primary-text: #2563eb; /* 按鈕主色 */
+  --theme-toggle-yellow: #2563eb; /* 亮黃色，給主題切換icon用 */
+
+  --nav-link-active: #2563eb; /* 導航連結active */
 }
 
 /* 暗黑模式 */
 .dark-mode {
   --primary-bg: #181c24;
-  --secondary-bg: #232946;
+  --secondary-bg: #3a4a7c; /* 分隔/邊框，亮一點的藍灰 */
   --primary: #7bb0ff;         /* 主色亮藍 */
+
   --elevation-0: #181c24;
-  --elevation-1: #232a36;
-  --text-primary: #f6faff;
-  --text-secondary: rgba(255,255,255,0.60);
+  --elevation-1: #313a5c; /* 卡片底色，比原本亮一點 */
+
+  --text-primary: #f6faff; // 主文字
+  --text-secondary: #f6faff; // 次文字
+  --title-text-color:#f6faff;
+
   --income: #38c1b1;          /* 亮綠 */
   --expense: #f08a70;         /* 亮橘 */
   --fixed-expense: #fab57f;   /* 橘黃 */
   --fixed-income: #a38ad1;    /* 亮紫 */
   --transfer: #2ac5e3;        /* 輔助藍綠 */
+
+  --choose-account-bg: #ffd600; /* 選擇帳戶背景 */
+  --table-hover-bg: #4256a5; /* hover 明顯 */
+
+  /* 表格單雙數行底色（暗黑模式） */
+  --table-row-odd-bg:  #313a5c;   /* 單數行，深色 */
+  --table-row-even-bg: #232a36;  /* 雙數行，更深 */
+
+  /* 表格表頭底色（暗黑模式） */
+  --table-header-bg: #3a4a7c; /* 表頭更亮一階 */
+  --table-header-text: #fff;
+  --table-hover-text: #fff;
+  --table-border: var(--secondary-bg);
+
+  --checkbox-border: #fff;
+
+  --mdc-checkbox-unselected-icon-color: #fff;
+  --mdc-checkbox-selected-icon-color: #ffd600;
+  --mdc-checkbox-unselected-hover-icon-color: #ffd600;
+  --mdc-checkbox-selected-hover-icon-color: #ffd600;
+
+  /* 分頁器專用顏色（暗黑） */
+  --paginator-bg: rgb(59, 67, 95); /* 暗黑分頁器背景，表頭色加黑 */
+  --paginator-border: #313a5c;
+  --paginator-label: #fff;
+  --paginator-icon: #fff;
+  --paginator-hover: rgba(123, 176, 255, 0.18);
+
+  --calendar-clear-btn: #fff;
+  --calendar-background: #3a4a7c;
+
+  --table-total-bg: #04950c; /* 表格總計背景 */
+
+  --btn-primary-text: #fff; /* 按鈕主色 */
+  --theme-toggle-yellow: #ffd600; /* 亮黃色，給主題切換icon用 */
+
+  --nav-link-active: #ffd600; /* 導航連結active */
 }
 
-/* 滾動淡入動畫 */
-[appFadeInOnScroll] {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+/* 英雄區塊動畫 - 滑入效果 */
+.animate-hero-left {
+  animation: slideInLeft 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
+
+.animate-hero-right {
+  animation: slideInRight 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 滾動動畫基礎樣式 - 慢一點點 */
+.animate-on-scroll {
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-on-scroll.animate-triggered {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+/* 動畫類型 */
 .fade-in-up {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
+  transform: translateY(50px);
 }
 
-/* 滾動滑入動畫（從下滑入） */
-.slide-in-up {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-  transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
+.fade-in-down {
+  transform: translateY(-50px);
 }
-[appFadeInOnScroll].slide-in-up {
-  opacity: 0;
-  transform: translateY(60px);
+
+.fade-in-left {
+  transform: translateX(-50px);
+}
+
+.fade-in-right {
+  transform: translateX(50px);
+}
+
+.scale-in {
+  transform: scale(0.85);
+}
+
+.slide-in {
+  transform: translateX(-70px);
+}
+
+/* 微互動效果 */
+.feature-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.feature-link {
+  transition: all 0.3s ease;
+}
+
+.feature-link:hover {
+  transform: translateX(8px);
+}
+
+.step-item {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-item:hover {
+  transform: translateY(-5px);
+}
+
+.step-number {
+  transition: all 0.3s ease;
+}
+
+.step-item:hover .step-number {
+  transform: scale(1.1);
+}
+
+/* 無障礙支援 */
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll,
+  .animate-hero-left,
+  .animate-hero-right,
+  .feature-card,
+  .step-item {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* 移動端優化 */
+@media (max-width: 768px) {
+  .animate-on-scroll {
+    transition-duration: 0.6s;
+  }
+
+  .animate-hero-left,
+  .animate-hero-right {
+    animation-duration: 0.8s;
+  }
+
+
 }

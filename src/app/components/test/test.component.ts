@@ -95,8 +95,24 @@ data13 = {
 data14 = {
  "familyId": 2,
  "owner": "a6221339@yahoo.com.tw",
- "memberAccount": "chihyun0110@gmail.com"
+ "memberAccount": ["chihyun0110@gmail.com"]
 };
+data15 = {
+ "familyId": "3",
+ "owner": "a6221339@yahoo.com.tw",
+ "invitor": [
+     "a6221339@yahoo.com.tw"
+ ]
+}
+data16 = {
+  "familyId": "2",
+  "oldOwner": "chihyun0110@gmail.com",
+  "newOwner": "a6221339@yahoo.com.tw"
+}
+data17 = {
+  "familyId": 6,
+  "owner": "a6221339@yahoo.com.tw"
+}
 
   createType(){
     this.apiService.createType(this.data)
@@ -110,6 +126,7 @@ data14 = {
       });
   }
   balanceId: number = 3;
+  familyId: number = 1;
 
   getTypeByAccount(){
     this.apiService.getTypeByAccount(this.account)
@@ -398,6 +415,54 @@ data14 = {
       .catch(err => {
         console.error('送出失敗：', err);
         alert('踢出家庭成員失敗，請稍後再試');
+    });
+  }
+
+  inviteFamilyMember(){
+    this.apiService.inviteFamilymember(this.data15)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('邀請家庭成員成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('邀請家庭成員失敗，請稍後再試');
+    });
+  }
+
+  transferOwner(){
+    this.apiService.transferOwner(this.data16)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('族長轉讓成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('族長轉讓失敗，請稍後再試');
+    });
+  }
+
+  disbandFamily(){
+    this.apiService.disbandFamily(this.data17)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('解散家庭成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('解散家庭失敗，請稍後再試');
+    });
+  }
+
+  getUnacceptedFamilyInvitation(){
+    this.apiService.getUnacceptedFamilyInvitation(this.familyId)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('顯示邀請中的家庭成員清單成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('顯示邀請中的家庭成員清單失敗，請稍後再試');
     });
   }
 

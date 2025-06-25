@@ -5,17 +5,55 @@
   <div>
     <h3>功能列表：</h3><br>
     <button (click)="renameFamilyName()">更改家庭名稱</button>
-    <button>邀請</button>
-    <button>踢除</button>
-    <button>轉讓族長</button>
+    <button (click)="inviteMember()">邀請</button>
+    <button
+      (click)="removeSelectedMembers()"
+      [disabled]="account !== familyData?.owner?.account"
+      >踢除
+    </button>
+    <button
+      (click)="transferFamilyOwner()"
+      [disabled]="account !== familyData?.owner?.account"
+      >轉讓族長
+    </button>
     <button>退出</button>
-    <button>解散</button>
+    <button
+      (click)="disbandFamily()"
+      [disabled]="account !== familyData?.owner?.account"
+      >解散
+    </button>
   </div>
   @if(familyData){
     <div>
       <h3>家庭名稱：{{ displayFamilyName }}</h3>
       <h3>擁有者：{{ familyData.owner.name }}（{{ familyData.owner.account }}）</h3>
-      <h3>成員：</h3>
+      <h3 style="display: inline-block;">家庭成員：</h3>
+      <!-- 收合按鈕 -->
+      <button
+        (click)="toggleInviteList()"
+        style="display: inline-block; margin-left: 8px;"
+        >
+          {{ showInviteList ? '隱藏邀請中清單' : '顯示邀請中清單' }}
+      </button>
+      <!-- 收合區域 -->
+       @if(showInviteList){
+        <div
+          class="inviting-list"
+          style="margin-top: 12px; padding: 10px; border: 1px solid #ccc; border-radius: 8px;"
+        >
+          <h4>邀請中成員：</h4>
+          @if(invitingMembers.length > 0){
+            <ul>
+              @for(member of invitingMembers; track $index){
+                <li>{{ member.name }}（{{ member.account }}）</li>
+              }
+            </ul>
+          }
+          @else {
+            <p style="color: gray">目前無邀請中成員</p>
+          }
+        </div>
+       }
       @if(familyData.memberList.length > 0){
         <div>
           <label>

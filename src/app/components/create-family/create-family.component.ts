@@ -50,7 +50,13 @@ export class CreateFamilyComponent implements OnInit{
     })
     .then(result => {
       if(result.isConfirmed && result.value) {
-        const inputAccount = result.value;
+        const inputAccount = result.value.trim();
+
+        //  防呆：不能邀請自己
+        if(inputAccount == this.account){
+          Swal.fire('錯誤', '無法邀請自己加入家庭群組', 'warning');
+          return;
+        }
 
         this.apiService.getNameByAccount(inputAccount)
         .then(res => {

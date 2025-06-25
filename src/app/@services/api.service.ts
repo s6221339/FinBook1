@@ -219,6 +219,35 @@ export class ApiService {
     });
   }
 
+  //  邀請家庭成員
+  inviteFamilymember(data: any) {
+    return axios.post('http://localhost:8080/finbook/family/invite', data, {
+      withCredentials: true
+    });
+  }
+
+  //  轉讓家庭族長
+  transferOwner(data: any) {
+    return axios.post('http://localhost:8080/finbook/family/transferOwner', data, {
+      withCredentials: true
+    });
+  }
+
+  //  解散家庭
+  disbandFamily(data: any) {
+    return axios.post('http://localhost:8080/finbook/family/dismiss', data, {
+      withCredentials: true
+    });
+  }
+
+  //  顯示家庭成員邀請中清單
+  getUnacceptedFamilyInvitation(familyId: number) {
+    return axios.post('http://localhost:8080/finbook/family/getInvitingList', null, {
+      params: { familyId },
+      withCredentials: true
+    });
+  }
+
 }
 
 

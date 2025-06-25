@@ -1,40 +1,45 @@
 <div class="background">
-    <div class="area">
-        <div class="register-card">
-            <h2 class="register-title">會員註冊</h2>
+  <div class="area">
+    <div class="register-card">
+      <h2 class="register-title">會員註冊</h2>
 
-            <div class="form-group">
-                <label for="reg-name" class="input-label">姓名</label>
-                <input id="reg-name" class="form-control" type="text" placeholder="請輸入姓名">
-            </div>
+      <div class="form-group">
+        <label for="reg-name" class="input-label">姓名</label>
+        <input id="reg-name" class="form-control" type="text" placeholder="請輸入姓名"
+               [(ngModel)]="formData.name" name="name">
+      </div>
 
-            <div class="form-group email-group">
-                <label for="reg-email" class="input-label">信箱</label>
-                <div class="email-input-btn-group">
-                    <input id="reg-email" class="form-control email-input" type="text" placeholder="請輸入信箱">
-                    <button class="btn btn-send-verification">寄出驗證信</button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="reg-password" class="input-label">密碼</label>
-                <input id="reg-password" class="form-control" type="password" placeholder="請輸入密碼">
-            </div>
-
-            <div class="form-group">
-                <label for="reg-confirm-password" class="input-label">確認密碼</label>
-                <input id="reg-confirm-password" class="form-control" type="password" placeholder="請再次輸入密碼">
-            </div>
-
-            <div class="form-group">
-                <label for="reg-verification-code" class="input-label">驗證碼</label>
-                <input id="reg-verification-code" class="form-control" type="text" placeholder="請輸入驗證碼">
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary">確定</button>
-                <button class="btn btn-secondary" (click)="CancelClick()">取消</button>
-            </div>
+      <div class="form-group email-group">
+        <label for="reg-email" class="input-label">信箱</label>
+        <div class="email-input-btn-group">
+          <input id="reg-email" class="form-control email-input" type="text" placeholder="請輸入信箱"
+                 [(ngModel)]="formData.email" name="email">
+          <button class="btn btn-send-verification" (click)="sendVerification()">寄出驗證信</button>
         </div>
+      </div>
+
+      <div class="form-group">
+        <label for="reg-password" class="input-label">密碼</label>
+        <input id="reg-password" class="form-control" type="password" placeholder="請輸入密碼"
+               [(ngModel)]="formData.password" name="password">
+      </div>
+
+      <div class="form-group">
+        <label for="reg-confirm-password" class="input-label">確認密碼</label>
+        <input id="reg-confirm-password" class="form-control" type="password" placeholder="請再次輸入密碼"
+               [(ngModel)]="formData.confirmPassword" name="confirmPassword">
+      </div>
+
+      <div class="form-group">
+        <label for="reg-verification-code" class="input-label">驗證碼</label>
+        <input id="reg-verification-code" class="form-control" type="text" placeholder="請輸入驗證碼"
+               [(ngModel)]="formData.verificationCode" name="verificationCode">
+      </div>
+
+      <div class="button-group">
+        <button class="btn btn-primary" (click)="confirmClick()">確定</button>
+        <button class="btn btn-secondary" (click)="CancelClick()">取消</button>
+      </div>
     </div>
+  </div>
 </div>

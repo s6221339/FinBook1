@@ -75,6 +75,13 @@
   --theme-toggle-yellow: #2563eb; /* 亮黃色，給主題切換icon用 */
 
   --nav-link-active: #2563eb; /* 導航連結active */
+
+  --battery-outline: #333;
+
+  --budget-info-icon: var(--primary);
+  --budget-info-icon-glow: none;
+  --budget-info-value: var(--primary);
+  --edit-btn-icon:   #6b6b6b;
 }
 
 /* 暗黑模式 */
@@ -132,6 +139,14 @@
   --theme-toggle-yellow: #ffd600; /* 亮黃色，給主題切換icon用 */
 
   --nav-link-active: #ffd600; /* 導航連結active */
+
+  --battery-outline: #fff;
+
+  --budget-info-icon: #ffd600;
+  --budget-info-text: #fff;
+  --budget-info-icon-glow: none;
+  --budget-info-value: #fff;
+  --edit-btn-icon: #ff8000 ;
 }
 
 /* 英雄區塊動畫 - 滑入效果 */

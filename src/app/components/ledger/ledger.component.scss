@@ -1,6 +1,7 @@
 .battery-svg {
   width: 290px;
   height: 280px;
+  cursor: default;
 }
 
 @keyframes pulseRed {
@@ -34,10 +35,16 @@
   border: 1px solid #ccc;
   padding: 8px;
   text-align: center;
+  cursor: default;
 }
 
 .payment-table th {
   background-color: #f2f2f2;
+}
+
+.payment-table th[mat-sort-header],
+.payment-table th[mat-header-cell][mat-sort-header] {
+  cursor: pointer;
 }
 
 // 表單區塊
@@ -70,21 +77,20 @@
 }
 
 .ledger-page {
-  padding-top: 70px;
+  padding-top: 35px;
   background: var(--elevation-0);
   min-height: 100vh;
   font-size: 16px;
   color: var(--text-primary);
 }
 
-.ledger-content-container {
+.content-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem 4rem;
   display: flex;
-  flex-wrap: wrap;
-  gap: 2.2rem;
-  justify-content: flex-start;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
 .ledger-card-row {
@@ -122,11 +128,13 @@
 .card-header .material-icons {
   color: #fff;
   font-size: 1.5rem;
+  cursor: default;
 }
 .card-header span:last-child {
   font-size: 1.15rem;
   font-weight: 700;
   color: #fff;
+  cursor: default;
 }
 .card-content {
   background: var(--elevation-1);
@@ -148,22 +156,26 @@
 .budget-info-row {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  cursor: default;
+}
+.budget-info-right {
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
-  font-size: 1.13rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  justify-content: space-between;
 }
 .budget-info-icon {
   font-size: 1.2rem;
-  color: var(--primary);
+  color: var(--budget-info-icon);
   margin-right: 0.2rem;
+  text-shadow: var(--budget-info-icon-glow);
 }
 .budget-info-value {
   font-weight: 700;
-  color: var(--primary);
+  color: var(--budget-info-value);
   margin-left: auto;
   text-align: right;
+  cursor: default;
 }
 .budget-divider, .filter-divider {
   border: none;
@@ -206,7 +218,8 @@
 .custom-btn-save .material-icons { color: var(--primary); }
 .custom-btn-cancel .material-icons { color: #e53935; }
 .custom-input-budget {
-  width: 90px;
+  width: 70px;
+  min-width: 0;
   font-size: 1.1rem;
   padding: 0.3rem 0.7rem;
   border-radius: 8px;
@@ -240,6 +253,7 @@
 .card-header .material-icons {
   color: #fff;
   font-size: 2rem;
+  cursor: default;
 }
 .card-header h3 {
   margin: 0;
@@ -247,6 +261,7 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: #fff;
+  cursor: default;
 }
 .card-content {
   background: var(--elevation-1);
@@ -282,7 +297,9 @@
 }
 .custom-select:focus, input[type='date']:focus, .custom-input-budget:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+  box-shadow:
+    0 0 12px 2px #ff80ab33,
+    0 0 28px 4px #ff80ab22;
 }
 .custom-clear-btn {
   position: absolute;
@@ -307,6 +324,7 @@
   display: inline-block;
   margin-top: 1rem;
   font-size: 1.08rem;
+  cursor: default;
 }
 .half-width-container {
   display: flex;
@@ -376,3 +394,139 @@
     padding-bottom: 0;
   }
 }
+
+.custom-form-group input[type='date']::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.budget-edit-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+  align-items: center;
+}
+
+.custom-btn-edit .material-icons {
+  color: var(--edit-btn-icon);
+}
+
+// 表格美編統一 modify-payment 樣式
+.transactions-card {
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  border: none;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+.payment-table th, .payment-table td,
+.transactions-table th, .transactions-table td {
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: var(--secondary-bg);
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--secondary-bg);
+  border-right: 1.5px solid var(--table-border);
+}
+.payment-table th, .transactions-table th {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow: 0 1px 4px rgba(66, 86, 165, 0.08);
+  border-bottom: 1.4px solid var(--primary);
+  white-space: normal;
+  word-break: break-all;
+  padding: 8px 10px;
+  border-right: none !important;
+}
+.payment-table th:last-child,
+.payment-table td:last-child,
+.transactions-table th:last-child,
+.transactions-table td:last-child {
+  border-right: none;
+}
+.payment-table td, .transactions-table td {
+  background: none;
+  white-space: normal;
+  font-size: 1.12rem;
+  line-height: 1.8;
+  border-bottom: 1px solid var(--secondary-bg);
+  color: var(--text-primary) !important;
+}
+.transactions-table tr:nth-child(odd),
+.payment-table tr:nth-child(odd) {
+  background: var(--table-row-odd-bg);
+}
+.transactions-table tr:nth-child(even),
+.payment-table tr:nth-child(even) {
+  background: var(--table-row-even-bg);
+}
+.transactions-table tr:hover,
+.payment-table tr:hover {
+  background: var(--table-hover-bg);
+}
+.transactions-table .no-data-row,
+.payment-table .no-data-row {
+  background: var(--elevation-0);
+  td {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+}
+// 空狀態美編
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 0 2.5rem 0;
+  color: var(--text-primary);
+  background: var(--elevation-0);
+  border-radius: 12px;
+  min-height: 140px;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+}
+.empty-state mat-icon {
+  font-size: 3.2rem;
+  color: #fff;
+  background: var(--primary);
+  border-radius: 50%;
+  padding: 0.7rem;
+  margin-bottom: 0.7rem;
+  box-shadow: 0 2px 8px rgba(66, 165, 245, 0.18);
+  height: 56px;
+  width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.empty-state h3 {
+  margin: 0.7rem 0 0.3rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: center;
+}
+// RWD
+@media (max-width: 900px) {
+  .transactions-card {
+    flex-basis: 45%;
+  }
+}
+@media (max-width: 768px) {
+  .transactions-card {
+    flex-basis: 100%;
+  }
+}
+

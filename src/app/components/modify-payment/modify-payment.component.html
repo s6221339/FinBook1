@@ -179,15 +179,13 @@
         </div>
 
         <!-- 自訂分頁器 -->
-        @if(totalFilteredItems > 0){
-          <app-custom-paginator
-            [totalItems]="totalFilteredItems"
-            [currentPage]="currentPage"
-            [pageSize]="itemsPerPage"
-            (pageChange)="onPageChange($event)"
-            (pageSizeChange)="onPageSizeChange($event)">
-          </app-custom-paginator>
-        }
+        <app-custom-paginator
+          [totalItems]="totalFilteredItems"
+          [currentPage]="currentPage"
+          [pageSize]="itemsPerPage"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onPageSizeChange($event)">
+        </app-custom-paginator>
       </div>
     </div>
   </div>

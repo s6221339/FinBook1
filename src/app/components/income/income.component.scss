@@ -1,8 +1,13 @@
 // 收入表單容器
-.income-form {
+.form-container {
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
   padding: 2rem;
   max-width: 600px;
   margin: 0 auto;
+  color: var(--text-primary);
+  transition: background 0.4s, color 0.4s;
 }
 
 // 表單標題
@@ -12,13 +17,13 @@
   gap: 1rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #dcfce7; // 綠色邊框
+  border-bottom: 2px solid var(--income);
 
   .header-icon {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(45deg, #10b981, #059669); // 綠色漸層
+    background: var(--income);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,7 +39,7 @@
     h2 {
       font-size: 1.8rem;
       font-weight: 700;
-      color: #059669; // 綠色文字
+      color: var(--income);
       margin: 0 0 0.25rem 0;
     }
 
@@ -144,6 +149,7 @@
     }
 
     &[type=number] {
+      appearance: textfield;
       -moz-appearance: textfield;
     }
   }
@@ -283,7 +289,7 @@
 
 // 響應式設計
 @media (max-width: 768px) {
-  .income-form {
+  .form-container {
     padding: 1rem;
   }
 
@@ -305,4 +311,17 @@
   .form-actions {
     flex-direction: column;
   }
+}
+
+// 主題切換動畫
+.form-container, .form-header, .header-icon, .header-text h2, .btn-primary, .btn-secondary {
+  transition: background 0.4s, color 0.4s, border-color 0.4s;
+}
+
+.form-content {
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  color: inherit;
 }

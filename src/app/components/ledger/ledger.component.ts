@@ -1,6 +1,6 @@
 import { PaymentFormData } from './../../models/paymentFormData';
 import { ApiService } from './../../@services/api.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -14,17 +14,23 @@ import { CommonModule } from '@angular/common';
 import { Category } from '../../models/categories';
 import { Balance } from '../../models/Balance';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule, MatSort } from '@angular/material/sort';
+import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 
 @Component({
   selector: 'app-ledger',
-  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,MatFormFieldModule,
-    MatSelectModule, FormsModule, MatButtonModule, CommonModule, MatTooltipModule],
+  imports: [
+    MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, MatFormFieldModule,
+    MatSelectModule, FormsModule, MatButtonModule, CommonModule, MatTooltipModule,
+    MatTableModule, MatSortModule, CustomPaginatorComponent
+  ],
   providers: [provideNativeDateAdapter()],
   standalone: true,
   templateUrl: './ledger.component.html',
   styleUrl: './ledger.component.scss'
 })
-export class LedgerComponent implements OnInit{
+export class LedgerComponent implements OnInit, AfterViewInit{
 
   constructor(
     private apiService: ApiService
@@ -32,6 +38,7 @@ export class LedgerComponent implements OnInit{
 
   @ViewChild('batteryFill') batteryFillElement!: ElementRef<SVGRectElement>;
   @ViewChild('batteryPercentText') batteryPercentTextElement!: ElementRef<SVGTextElement>;
+  @ViewChild(MatSort) sort!: MatSort;
   year: number = new Date().getFullYear(); //  預設帳戶時間（年）
   month: number = new Date().getMonth() + 1;  //  預設帳戶時間（月）
   years: number[] = []; //  年份列表
@@ -58,12 +65,10 @@ export class LedgerComponent implements OnInit{
   selectedBalanceId?: number = 0; //  使用者選擇的 balanceId
   balanceList: Balance[] = [];  //  透過帳號取得帳戶給下拉式選單用
   rawPaymentList: any[] = []; //  原始 API 回傳的 balanceWithPaymentList
-  //  排序控制
-  sortField: 'amount' | 'recordDate' | '' = '';
-  sortDirection: 'asc' | 'desc' = 'asc';
   //  分頁控制
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 5;
+  totalFilteredItems: number = 0;
 
   ngOnInit(): void {
     //  初始化年份選單列表
@@ -106,6 +111,13 @@ export class LedgerComponent implements OnInit{
       //  撈預算資料
       this.loadBudgetData();
       this.loadPayments();
+      this.updateTotalFilteredItems();
+  }
+
+  ngAfterViewInit(): void {
+    this.sort.sortChange.subscribe(() => {
+      this.updateTotalFilteredItems();
+    });
   }
 
   updateBattery(budgetPercentRemaining: number): void {
@@ -271,6 +283,7 @@ export class LedgerComponent implements OnInit{
 
     //  預設 item 選「全部」
     this.selectedItem = '全部';
+    this.updateTotalFilteredItems();
   }
 
   //  get 方法在裡面值有變動時會自動執行調整
@@ -299,17 +312,6 @@ export class LedgerComponent implements OnInit{
       (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
     );
 
-    //  排序邏輯
-    if(this.sortField) {
-      payments.sort((a: any, b: any) => {
-        const aVal = a[this.sortField];
-        const bVal = b[this.sortField];
-        return this.sortDirection == 'asc'
-          ? aVal > bVal ? 1: -1
-          : aVal < bVal ? 1: -1;
-      });
-    }
-
     return payments;
   }
 
@@ -322,10 +324,10 @@ export class LedgerComponent implements OnInit{
   updateMonthRange(): void {
     this.monthStartDate = new Date(this.year, this.month - 1, 1);
     this.monthEndDate = new Date(this.year, this.month, 0);
-
     this.loadSavingsFromAllPayments();
     this.loadBudgetData();  //  month 變動時撈資料
     this.loadPayments();
+    this.updateTotalFilteredItems();
   }
 
   //  日期選擇器篩選選擇日期
@@ -374,6 +376,7 @@ export class LedgerComponent implements OnInit{
     this.generateMonths();
     this.loadBudgetData();  //  year 變動時撈資料
     this.loadPayments();
+    this.updateTotalFilteredItems();
   }
 
   //  撈 budget API
@@ -468,18 +471,7 @@ export class LedgerComponent implements OnInit{
     this.loadSavingsFromAllPayments();
     this.updateBudgetDisplay();
     this.loadPayments();
-  }
-
-  toggleSort(field: 'amount' | 'recordDate'): void {
-    if(this.sortField == field) {
-      //  若點擊的欄位已經是目前排序欄位，則切換排序方向（asc ↔ desc）
-      this.sortDirection = this.sortDirection == 'asc' ? 'desc' : 'asc';
-    }
-    else{
-      //  若點擊的是新的欄位，則設定為新排序欄位並預設為升冪排序（asc）
-      this.sortField = field;
-      this.sortDirection = 'asc';
-    }
+    this.updateTotalFilteredItems();
   }
 
   //  換頁方法
@@ -535,5 +527,9 @@ export class LedgerComponent implements OnInit{
   isCurrentMonthSelected(): boolean {
     const today = new Date();
     return this.year == today.getFullYear() && this.month == today.getMonth() +1;
+  }
+
+  updateTotalFilteredItems(): void {
+    this.totalFilteredItems = this.filteredFullData.length;
   }
 }

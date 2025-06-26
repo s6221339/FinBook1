@@ -1,13 +1,9 @@
-.battery-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
+/* 原始ledger SCSS文件 */
 
 .battery-svg {
-  width: 200px; /* 你可以改成 220px, 250px，電池會更大 */
-  height: 400px;
+  width: 290px;
+  height: 280px;
+  cursor: default;
 }
 
 @keyframes pulseRed {
@@ -33,7 +29,6 @@
 .payment-table {
   width: 95%;
   border-collapse: collapse;
-  margin-top: 16px;
   font-size: 14px;
 }
 
@@ -41,10 +36,16 @@
   border: 1px solid #ccc;
   padding: 8px;
   text-align: center;
+  cursor: default;
 }
 
 .payment-table th {
   background-color: #f2f2f2;
+}
+
+.payment-table th[mat-sort-header],
+.payment-table th[mat-header-cell][mat-sort-header] {
+  cursor: pointer;
 }
 
 // 表單區塊
@@ -74,4 +75,535 @@
 // Material UI 樣式覆蓋
 .full-width {
   width: 100%;
+}
+
+.ledger-page {
+  padding-top: 35px;
+  background: var(--elevation-0);
+  min-height: 100vh;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ledger-card-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 auto 2.5rem auto;
+  max-width: 1200px;
+  justify-content: flex-start;
+}
+
+.filter-card {
+  flex: 1 1 280px;
+  min-width: 280px;
+  max-width: 320px;
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 2.2rem;
+  background: var(--primary);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.card-header .material-icons {
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: default;
+}
+
+.card-header span:last-child {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: default;
+}
+
+.card-header h3 {
+  margin: 0;
+  flex: 1;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: default;
+}
+
+.transaction-count {
+  margin-left: auto;
+}
+
+.card-content {
+  background: var(--elevation-1);
+  padding: 2.2rem 1.5rem 1rem 1.5rem;
+  color: var(--text-primary);
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.budget-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.budget-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: default;
+  font-size: 1.3rem;
+}
+
+.budget-info-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.budget-info-icon {
+  font-size: 1.2rem;
+  color: var(--budget-info-icon);
+  margin-right: 0.2rem;
+  text-shadow: var(--budget-info-icon-glow);
+}
+
+.budget-info-value {
+  font-weight: 700;
+  color: var(--budget-info-value);
+  margin-left: auto;
+  text-align: right;
+  cursor: default;
+}
+
+.budget-divider, .filter-divider {
+  border: none;
+  border-top: 1.5px solid var(--secondary-bg);
+  margin: 0.7rem 0 0.7rem 0;
+}
+
+.custom-btn-edit, .custom-btn-save, .custom-btn-cancel {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 0.3rem;
+  margin-left: 0.5rem;
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-btn-edit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.custom-btn-edit:hover:not(:disabled), .custom-btn-save:hover, .custom-btn-cancel:hover {
+  background: var(--secondary-bg);
+}
+
+.custom-btn-save .material-icons {
+  color: var(--primary);
+}
+
+.custom-btn-cancel .material-icons {
+  color: #e53935;
+}
+
+.custom-input-budget {
+  width: 70px;
+  min-width: 0;
+  font-size: 1.1rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--primary);
+  background: var(--elevation-1);
+  color: var(--text-primary);
+  outline: none;
+  margin-right: 0.5rem;
+}
+
+.transactions-card {
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  border: none;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+  max-width: 100%;
+}
+
+.custom-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.custom-form-group label {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.custom-select, input[type='date'], .custom-input-budget {
+  font-size: 1.18rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--primary);
+  background: var(--elevation-1);
+  color: var(--text-primary);
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  position: relative;
+  padding-right: 2.5rem;
+}
+
+.custom-select:focus, input[type='date']:focus, .custom-input-budget:focus {
+  border-color: var(--primary);
+  box-shadow:
+    0 0 12px 2px #ff80ab33,
+    0 0 28px 4px #ff80ab22;
+}
+
+.custom-clear-btn {
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-35%);
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--calendar-clear-btn);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  z-index: 2;
+}
+
+.custom-hint {
+  color: var(--choose-account-bg);
+  font-weight: 600;
+  background: var(--calendar-background);
+  border-radius: 12px;
+  padding: 0.2rem 0.8rem;
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 1.08rem;
+  cursor: default;
+}
+
+.half-width-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.half-width {
+  flex: 1;
+}
+
+.pill-green {
+  background: var(--table-total-bg);
+  color: #fff;
+  padding: 0.4rem 1.1rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 1rem;
+  display: inline-block;
+  cursor: default;
+}
+
+.payment-table th, .payment-table td,
+.transactions-table th, .transactions-table td {
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: var(--secondary-bg);
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--secondary-bg);
+  border-right: 1.5px solid var(--table-border);
+}
+
+.payment-table th, .transactions-table th {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow: 0 1px 4px rgba(66, 86, 165, 0.08);
+  border-bottom: 1.4px solid var(--primary);
+  white-space: normal;
+  word-break: break-all;
+  padding: 8px 10px;
+  border-right: none !important;
+}
+
+.payment-table th:last-child,
+.payment-table td:last-child,
+.transactions-table th:last-child,
+.transactions-table td:last-child {
+  border-right: none;
+}
+
+.payment-table td, .transactions-table td {
+  background: none;
+  white-space: normal;
+  font-size: 1.12rem;
+  line-height: 1.8;
+  border-bottom: 1px solid var(--secondary-bg);
+  color: var(--text-primary) !important;
+}
+
+.transactions-table tr:nth-child(odd),
+.payment-table tr:nth-child(odd) {
+  background: var(--table-row-odd-bg);
+}
+
+.transactions-table tr:nth-child(even),
+.payment-table tr:nth-child(even) {
+  background: var(--table-row-even-bg);
+}
+
+.transactions-table tr:hover,
+.payment-table tr:hover {
+  background: var(--table-hover-bg);
+}
+
+.transactions-table .no-data-row,
+.payment-table .no-data-row {
+  background: var(--elevation-0);
+  td {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+}
+
+.payment-table td.mat-column-description,
+.transactions-table td.mat-column-description {
+  white-space: normal;
+  word-break: break-word;
+  text-align: center;
+}
+
+.payment-table td.mat-column-amount,
+.transactions-table td.mat-column-amount {
+  text-align: right;
+  min-width: 80px;
+  max-width: 120px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.payment-table th.mat-column-recurringPeriodYear,
+.payment-table td.mat-column-recurringPeriodYear,
+.payment-table th.mat-column-recurringPeriodMonth,
+.payment-table td.mat-column-recurringPeriodMonth,
+.payment-table th.mat-column-recurringPeriodDay,
+.payment-table td.mat-column-recurringPeriodDay,
+.transactions-table th.mat-column-recurringPeriodYear,
+.transactions-table td.mat-column-recurringPeriodYear,
+.transactions-table th.mat-column-recurringPeriodMonth,
+.transactions-table td.mat-column-recurringPeriodMonth,
+.transactions-table th.mat-column-recurringPeriodDay,
+.transactions-table td.mat-column-recurringPeriodDay {
+  min-width: 80px;
+  max-width: 100px;
+  text-align: center;
+}
+
+.payment-table td.mat-column-recurringPeriodYear,
+.payment-table td.mat-column-recurringPeriodMonth,
+.payment-table td.mat-column-recurringPeriodDay,
+.transactions-table td.mat-column-recurringPeriodYear,
+.transactions-table td.mat-column-recurringPeriodMonth,
+.transactions-table td.mat-column-recurringPeriodDay {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.payment-table th.mat-sort-header,
+.transactions-table th.mat-sort-header {
+  cursor: pointer;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 0 2.5rem 0;
+  color: var(--text-primary);
+  background: var(--elevation-0);
+  border-radius: 12px;
+  min-height: 140px;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+}
+
+.empty-state mat-icon {
+  font-size: 3.2rem;
+  color: #fff;
+  background: var(--primary);
+  border-radius: 50%;
+  padding: 0.7rem;
+  margin-bottom: 0.7rem;
+  box-shadow: 0 2px 8px rgba(66, 165, 245, 0.18);
+  height: 56px;
+  width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-state h3 {
+  margin: 0.7rem 0 0.3rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: center;
+}
+
+.budget-edit-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+  align-items: center;
+}
+
+.custom-btn-edit .material-icons {
+  color: var(--edit-btn-icon);
+}
+
+@media (max-width: 1100px) {
+  .ledger-card-row {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0 0.5rem 1.5rem 0.5rem;
+  }
+  .filter-card {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .filter-card {
+    flex-basis: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-card {
+    flex-basis: 100%;
+  }
+}
+
+.custom-form-group input[type='date']::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.table-content {
+  padding: 0 ;
+}
+
+.payment-table th:first-child {
+  border-top: none !important;
+}
+.payment-table tr:first-child th {
+  border-top: 2px solid #1860a9 !important;
+}
+
+::ng-deep .transactions-table th.mat-header-cell,
+::ng-deep .transactions-table th[mat-header-cell],
+::ng-deep .payment-table th.mat-header-cell,
+::ng-deep .payment-table th[mat-header-cell] {
+  text-align: center !important;
+  vertical-align: middle !important;
+  padding: 0 !important;
+  position: relative;
+}
+::ng-deep .transactions-table .mat-sort-header-container,
+::ng-deep .payment-table .mat-sort-header-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100%;
+  height: 100%;
+}
+::ng-deep .transactions-table .mat-sort-header-content,
+::ng-deep .payment-table .mat-sort-header-content {
+  min-width: unset !important;
+  gap: 2px !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+::ng-deep .transactions-table .mat-sort-header-arrow,
+::ng-deep .payment-table .mat-sort-header-arrow {
+  color: var(--table-header-text);
+  opacity: 1 !important;
+  transition: color 0.2s;
+  display: inline-block !important;
+}
+::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow,
+::ng-deep .payment-table .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--table-sort) !important;
+  text-shadow: 0 0 8px var(--table-sort), 0 0 2px var(--table-header-text);
+}
+::ng-deep .transactions-table .mat-sort-header-indicator,
+::ng-deep .payment-table .mat-sort-header-indicator {
+  opacity: 1 !important;
+  color: var(--primary) !important;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-arrow,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-arrow {
+  color: #fff !important;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--table-sort) !important;
+  text-shadow: 0 0 8px var(--table-sort), 0 0 2px #fff;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-indicator,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-indicator {
+  color: var(--table-sort) !important;
 }

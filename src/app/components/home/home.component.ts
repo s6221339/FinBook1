@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FadeInOnScrollDirective } from '../../fade-in-on-scroll.directive';
 
 @Component({
@@ -14,7 +14,6 @@ import { FadeInOnScrollDirective } from '../../fade-in-on-scroll.directive';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
 constructor(private router: Router) {}
 
   // 打字效果相關
@@ -51,22 +50,22 @@ constructor(private router: Router) {}
     },
   ]
 
-  // 輪播圖片列表 - 推薦的圖片主題
+  // 輪播圖片列表 - 記帳本主題
   carouselImages = [
     {
-      src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop", // 數據分析圖表
+      src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop&crop=center", // AI智能分析 - 數據儀表板
       alt: "AI智能分析儀表板",
       title: "智能分析",
     },
     {
-      src: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=400&fit=crop", // 手機應用界面
-      alt: "手機記帳應用界面",
-      title: "便捷記帳",
+      src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=400&fit=crop&crop=center", // 家庭共享 - 團隊協作
+      alt: "家庭共享記帳",
+      title: "家庭共享",
     },
     {
-      src: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=400&fit=crop", // 家庭理財
-      alt: "理財管理",
-      title: "共享",
+      src: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=400&fit=crop&crop=center", // 記事本記帳 - 筆記本和筆
+      alt: "記事本記帳",
+      title: "記帳本",
     },
   ]
 
@@ -100,7 +99,7 @@ constructor(private router: Router) {}
       } else {
         // 打字完成，清除當前interval
         clearInterval(this.typingInterval)
-        // 等待2秒後重新開始
+        // 等待8秒後重新開始
         setTimeout(() => {
           this.typingText = ""
           this.typingIndex = 0

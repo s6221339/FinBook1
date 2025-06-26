@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import localeZh from '@angular/common/locales/zh'; // 導入中文語言環境資料
+import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 
 // 註冊中文語言環境數據，用於日期格式化
 registerLocaleData(localeZh, 'zh-TW');
@@ -35,6 +36,7 @@ registerLocaleData(localeZh, 'zh-TW');
     MatSelectModule,
     ReactiveFormsModule,
     MatDatepickerModule,
+    CustomPaginatorComponent, // 補充：自訂分頁器
   ],
   templateUrl: './transfer-history.component.html',
   styleUrl: './transfer-history.component.scss',
@@ -108,6 +110,12 @@ export class TransferHistoryComponent {
 
   // 使用 @ViewChild 裝飾器獲取模板中 MatSort 元件的實例。
   @ViewChild(MatSort) sort!: MatSort;
+
+  /**
+   * 補充：自訂分頁器 currentPage/itemsPerPage 與事件
+   */
+  public currentPage: number = 1;
+  public itemsPerPage: number = 5;
 
   // =====================================
   // 生命週期鉤子 (Lifecycle Hooks)
@@ -281,47 +289,59 @@ export class TransferHistoryComponent {
 
   /**
    * 當帳戶選擇下拉選單的值發生變化時觸發的方法。
-   * 負責更新 `currentBalanceId` 並重新載入轉帳資料。
-   * @param value 選定帳戶的 ID (number 或 null)。`null` 可能在清除選擇時發生。
-   * @returns Promise<void>
+   * 可同時支援 HTML select 事件（$event）或直接傳入帳戶 ID。
+   *
+   * @param eventOrValue - 可能是帳戶 ID (number/null)，或 select change 事件 (Event)。
+   *   - 若為 number/null，直接指定帳戶 ID。
+   *   - 若為 Event，會自動解析 value 並轉成 number。
+   * @returns Promise<void> - 異步操作完成的 Promise。
    */
-  public onAccountSelectionChange(value: number | null): Promise<void> {
-    this.currentBalanceId = value; // 更新當前選中的帳戶 ID
-
-    // 如果傳入的值為 null，這表示選擇被清除了（儘管目前沒有明確清除按鈕）
-    if (value === null) {
-      this.dataSource.data = []; // 清空表格數據
-      this.totalItems = 0; // 總筆數歸零
-      this._allTransferRecords = []; // 清空原始數據
-      this.lastTransactionDate = ''; // 清空最後一筆日期
-      console.log('已清除帳戶選擇，表格數據已清空。');
-      return Promise.resolve(); // 返回一個已解決的 Promise，結束函數執行
+  public onAccountSelectionChange(eventOrValue: Event | number | null): Promise<void> {
+    let value: number | null = null;
+    if (typeof eventOrValue === 'number' || eventOrValue === null) {
+      value = eventOrValue;
+    } else if (eventOrValue && eventOrValue.target) {
+      const v = (eventOrValue.target as HTMLSelectElement).value;
+      value = v ? Number(v) : null;
     }
-
-    // 呼叫 loadTransfersByBalanceId 方法載入新選定帳戶的轉帳紀錄
+    this.currentBalanceId = value;
+    if (value === null) {
+      this.dataSource.data = [];
+      this.totalItems = 0;
+      this._allTransferRecords = [];
+      this.lastTransactionDate = '';
+      console.log('已清除帳戶選擇，表格數據已清空。');
+      return Promise.resolve();
+    }
     return this.loadTransfersByBalanceId(value)
       .then(() => {
         console.log('指定帳戶轉帳資料載入完成。');
       })
       .catch(error => {
-        // 如果載入失敗，關閉提示並顯示錯誤訊息
         console.error('更新轉帳資料失敗！', error);
         Swal.fire('錯誤', '載入轉帳資料失敗，請稍後再試。', 'error');
-        // loadTransfersByBalanceId 內部已處理數據清空，這裡無需重複
       });
   }
 
   /**
-   * 用於在 HTML 模板中，根據帳戶 ID 獲取其對應的帳戶名稱。
-   * 例如，將 `fromBalanceId` 和 `toBalanceId` 從數字 ID 轉換為易讀的「帳戶名稱 (ID: 123)」格式。
-   * @param balanceId 帳戶的數字 ID
+   * 用於在 HTML 模板中，根據帳戶 ID 或 FormControl 取得其對應的帳戶名稱。
+   *
+   * @param balanceIdOrControl - 可以是帳戶 ID (number)、FormControl 或 null。
+   *   - 若為 number，直接查詢帳戶名稱。
+   *   - 若為 FormControl，會自動取其 value。
+   *   - 若為 null，回傳空字串。
    * @returns string - 返回格式化後的帳戶名稱或 ID 字符串。
    */
-  public getAccountName(balanceId: number): string {
-    // 嘗試從 accountNameMap 中獲取帳戶名稱
-    const accountName = this.accountNameMap.get(balanceId);
-    // 如果找到了名稱，返回 "名稱 (ID)" 的格式；否則，只返回 "ID: [ID]" 的格式。
-    return accountName ? `${accountName} (ID: ${balanceId})` : `ID: ${balanceId}`;
+  public getAccountName(balanceIdOrControl: number | { value: number | null } | null): string {
+    let id: number | null = null;
+    if (typeof balanceIdOrControl === 'number') {
+      id = balanceIdOrControl;
+    } else if (balanceIdOrControl && typeof balanceIdOrControl === 'object' && 'value' in balanceIdOrControl) {
+      id = balanceIdOrControl.value;
+    }
+    if (id == null) return '';
+    const accountName = this.accountNameMap.get(id);
+    return accountName ? `${accountName} (ID: ${id})` : `ID: ${id}`;
   }
 
   /**
@@ -375,9 +395,12 @@ export class TransferHistoryComponent {
       });
     }
 
-    // 更新 MatTableDataSource 的數據源為篩選後的數據
-    this.dataSource.data = filteredData;
+    // 將篩選後的資料存到一個屬性，供分頁切片用
+    (this as any)._filteredTransferRecords = filteredData;
     this.totalItems = filteredData.length; // 更新顯示的總筆數為篩選後的數量
+
+    // 呼叫分頁切片方法，確保只顯示分頁範圍資料
+    this.updatePagedData();
 
     // 如果分頁器存在，將其重置到第一頁，以便顯示篩選後的數據
     if (this.paginator) {
@@ -390,5 +413,30 @@ export class TransferHistoryComponent {
     }
 
     console.log('dataSource.data', this.dataSource.data, 'currentBalanceId', this.currentBalanceId, 'startDate', this.startDate, 'endDate', this.endDate);
+  }
+
+  /**
+   * 補充：根據 currentPage/itemsPerPage 更新表格顯示資料
+   * 只顯示分頁範圍內的資料，無資料時只顯示一行空狀態。
+   */
+  updatePagedData(): void {
+    // 取得目前篩選後的資料來源
+    const filteredData = (this as any)._filteredTransferRecords || [];
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.dataSource.data = filteredData.slice(startIndex, endIndex);
+  }
+
+  // 分頁事件處理
+  onPageChange(newPage: number): void {
+    this.currentPage = newPage;
+    this.updatePagedData();
+  }
+
+  // 每頁筆數變更事件處理
+  onPageSizeChange(newPageSize: number): void {
+    this.itemsPerPage = newPageSize;
+    this.currentPage = 1; // 重置到第一頁
+    this.updatePagedData();
   }
 }

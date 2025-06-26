@@ -23,6 +23,7 @@ export class AppComponent {
   currentYear = new Date().getFullYear() // 當前年份（用於頁尾版權）
   gifSrc = `/notebook-change1.gif?${Date.now()}`; // 動態載入GIF圖片，避免快取問題
   isDarkMode = false;
+  isFamilyMenuOpen = false;
 
   // 監聽滾動事件
   @HostListener("window:scroll", [])
@@ -98,6 +99,11 @@ export class AppComponent {
     } else {
       body.classList.remove('dark-mode');
     }
+  }
+
+  // 切換家庭管理選單（行動裝置用）
+  toggleFamilyMenu() {
+    this.isFamilyMenuOpen = !this.isFamilyMenuOpen;
   }
 
 }

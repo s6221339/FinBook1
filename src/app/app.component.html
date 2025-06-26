@@ -43,62 +43,83 @@
         統計報表
       </a>
 
-      <!-- 固定支出連結 -->
-      <a routerLink="/recurring" class="nav-link" routerLinkActive="active">
-        <span class="material-icons">sync</span>
-        固定支出
-      </a>
-
-      <!-- 家庭管理連結 -->
-      <a routerLink="/family" class="nav-link" routerLinkActive="active">
-        <span class="material-icons">group</span>
-        家庭管理
-      </a>
-    </nav>
-
-    <!-- 深色模式切換按鈕，移到 user-menu 之前 -->
-    <button class="theme-toggle-btn" (click)="toggleDarkMode()" [attr.aria-label]="isDarkMode ? '切換為亮色模式' : '切換為深色模式'">
-      <span class="material-icons">
-        {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
-      </span>
-    </button>
-
-    <!-- 用戶選單 -->
-    <div class="user-menu">
-      <!-- 用戶選單觸發器 -->
-      <div class="user-menu-trigger">
-        @if (!isLoggedIn) {
-          <button class="login-button" (click)="goLogin()">
-            <span class="material-icons">person</span>
-            登入
-          </button>
-        } @else {
-          <button class="user-button">
-            <span class="material-icons">account_circle</span>
-            您好，用戶
-          </button>
-          <div class="dropdown-menu">
-            <div class="dropdown-bridge"></div>
-            <div class="dropdown-content">
-              <a routerLink="/profile" class="menu-item">
-                <span class="material-icons">settings</span>
-                個人設置
-              </a>
-              <a routerLink="/family-settings" class="menu-item">
-                <span class="material-icons">home</span>
-                家庭設置
-              </a>
-              <a routerLink="/notifications" class="menu-item">
-                <span class="material-icons">notifications</span>
-                提醒設置
-              </a>
-              <a (click)="logout()" class="menu-item">
-                <span class="material-icons">logout</span>
-                登出
-              </a>
+      <!-- 家庭管理下拉選單（登入後才顯示） -->
+      @if (isLoggedIn) {
+        <div class="user-menu family-menu">
+          <div class="user-menu-trigger family-menu-trigger">
+            <a class="nav-link family-link">
+              <span class="material-icons">group</span>
+              家庭管理
+              <span class="material-icons arrow">expand_more</span>
+            </a>
+            <div class="dropdown-menu">
+              <div class="dropdown-bridge"></div>
+              <div class="dropdown-content">
+                <a routerLink="/my-family" class="menu-item">
+                  <span class="material-icons">groups</span>
+                  我的家庭
+                </a>
+                <a routerLink="/create-family" class="menu-item">
+                  <span class="material-icons">group_add</span>
+                  創建家庭
+                </a>
+                <a routerLink="/family-invite" class="menu-item">
+                  <span class="material-icons">mail</span>
+                  家庭邀請
+                </a>
+              </div>
             </div>
           </div>
-        }
+        </div>
+      }
+    </nav>
+
+    <!-- user-actions 區塊，主題切換與登入/用戶按鈕固定排列 -->
+    <div class="user-actions">
+      <button class="theme-toggle-btn" (click)="toggleDarkMode()" [attr.aria-label]="isDarkMode ? '切換為亮色模式' : '切換為深色模式'">
+        <span class="material-icons">
+          {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
+        </span>
+      </button>
+      <div class="user-menu">
+        <div class="user-menu-trigger">
+          @if (!isLoggedIn) {
+            <button class="login-button action-button" (click)="login(); goLogin()">
+              <span class="material-icons">person</span>
+              會員登入
+            </button>
+          } @else {
+            <button class="user-button action-button">
+              <span class="material-icons">account_circle</span>
+              您好，用戶
+            </button>
+            <div class="dropdown-menu">
+              <div class="dropdown-bridge"></div>
+              <div class="dropdown-content">
+                <a routerLink="/profile" class="menu-item">
+                  <span class="material-icons">account_box</span>
+                  我的帳戶
+                </a>
+                <a routerLink="/transfersHistory" class="menu-item">
+                  <span class="material-icons">swap_horiz</span>
+                  轉帳紀錄
+                </a>
+                <a routerLink="/pendingDeletion" class="menu-item">
+                  <span class="material-icons">delete_sweep</span>
+                  最近刪除
+                </a>
+                <a routerLink="/recurring" class="menu-item">
+                  <span class="material-icons">sync</span>
+                  固定支出
+                </a>
+                <a (click)="logout()" class="menu-item">
+                  <span class="material-icons">logout</span>
+                  登出
+                </a>
+              </div>
+            </div>
+          }
+        </div>
       </div>
     </div>
 
@@ -197,7 +218,7 @@
           <li><a routerLink="/reports">統計分析</a></li>
           <li><a routerLink="/recurring">固定支出管理</a></li>
           <li><a routerLink="/family">共享</a></li>
-          <li><a>AI 財務建議</a></li>
+          <li><a routerLink="/ai-financial-advice">AI 財務建議</a></li>
         </ul>
       </div>
 
@@ -220,15 +241,15 @@
         <ul class="contact-info">
           <li>
             <span class="material-icons">location_on</span>
-            <span>高雄市軟體園區</span>
+            <a href="https://www.google.com/maps?q=高雄市前鎮區復興四路2號" target="_blank" rel="noopener" class="contact-link">高雄市前鎮區復興四路2號</a>
           </li>
           <li>
             <span class="material-icons">phone</span>
-            <span>+886 2 1234 5678</span>
+            <span>07-3309195</span>
           </li>
           <li>
             <span class="material-icons">email</span>
-            <span>contact&#64;smartbudget.tw</span>
+            <a href="example@example.com" class="contact-link">example&#64;example.com</a>
           </li>
         </ul>
 

@@ -1,12 +1,12 @@
 <!-- 首頁主要內容 -->
 <div class="home-page">
 
-  <!-- 英雄區塊（主要宣傳區域） -->
+  <!-- 英雄區塊（主要宣傳區域）- 立即顯示，建立品牌印象 -->
   <section class="hero-section">
     <div class="hero-container">
 
-      <!-- 左側文字內容 -->
-      <div class="hero-content">
+      <!-- 左側文字內容 - 從左滑入 -->
+      <div class="hero-content animate-hero-left">
         <h1 class="hero-title">
           智慧帳本
           <div class="hero-subtitle">AI驅動的智能記帳工具</div>
@@ -46,8 +46,8 @@
         </div>
       </div>
 
-      <!-- 右側輪播圖片區域 -->
-      <div class="hero-image">
+      <!-- 右側輪播圖片區域 - 從右滑入 -->
+      <div class="hero-image animate-hero-right">
         <!-- 輪播容器 -->
         <div class="carousel-container">
           <!-- 圖片輪播 -->
@@ -65,22 +65,26 @@
     </div>
   </section>
 
-  <!-- 主要功能區塊 -->
+  <!-- 主要功能區塊 - 滾動觸發，漸進式披露 -->
   <section class="features-section">
     <div class="section-container">
 
-      <!-- 區塊標題 -->
-      <div class="section-header">
+      <!-- 區塊標題 - 從下淡入 -->
+      <div class="section-header" appFadeInOnScroll animationType="fade-in-up" [threshold]="0.3">
         <h2 class="section-title">為什麼選擇智慧帳本？</h2>
         <p class="section-subtitle">
           我們提供最先進的AI記帳功能，讓您的財務管理更輕鬆、更智能
         </p>
       </div>
 
-      <!-- 功能卡片網格 -->
+      <!-- 功能卡片網格 - 順序顯示 -->
       <div class="features-grid">
-        @for (feature of features; track feature.title) {
-          <div class="feature-card">
+        @for (feature of features; track feature.title; let i = $index) {
+          <div class="feature-card"
+               appFadeInOnScroll
+               animationType="fade-in-up"
+               [delay]="i * 0.25"
+               [threshold]="0.2">
             <!-- 功能圖標 -->
             <div class="feature-icon" [style.background-color]="feature.color">
               <span class="material-icons">{{ feature.icon }}</span>
@@ -103,19 +107,21 @@
     </div>
   </section>
 
-  <!-- 使用步驟區塊 -->
+  <!-- 使用步驟區塊 - 流程引導 -->
   <section class="steps-section">
     <div class="section-container">
 
-      <div class="section-header">
+      <!-- 區塊標題 - 從下淡入 -->
+      <div class="section-header" appFadeInOnScroll animationType="fade-in-up" [threshold]="0.3">
         <h2 class="section-title">三步驟開始智能記帳</h2>
         <p class="section-subtitle">
           簡單三步驟，立即體驗AI驅動的記帳體驗
         </p>
       </div>
 
+      <!-- 步驟容器 - 流程引導動畫 -->
       <div class="steps-container">
-        <div class="step-item">
+        <div class="step-item" appFadeInOnScroll animationType="fade-in-up" [delay]="0" [threshold]="0.2">
           <div class="step-number">1</div>
           <div class="step-content">
             <h3 class="step-title">註冊帳戶</h3>
@@ -123,11 +129,11 @@
           </div>
         </div>
 
-        <div class="step-arrow">
+        <div class="step-arrow" appFadeInOnScroll animationType="fade-in-up" [delay]="0.20" [threshold]="0.2">
           <span class="material-icons">arrow_forward</span>
         </div>
 
-        <div class="step-item">
+        <div class="step-item" appFadeInOnScroll animationType="fade-in-up" [delay]="0.40" [threshold]="0.2">
           <div class="step-number">2</div>
           <div class="step-content">
             <h3 class="step-title">開始記帳</h3>
@@ -135,11 +141,11 @@
           </div>
         </div>
 
-        <div class="step-arrow">
+        <div class="step-arrow" appFadeInOnScroll animationType="fade-in-up" [delay]="0.60" [threshold]="0.2">
           <span class="material-icons">arrow_forward</span>
         </div>
 
-        <div class="step-item">
+        <div class="step-item" appFadeInOnScroll animationType="fade-in-up" [delay]="0.80" [threshold]="0.2">
           <div class="step-number">3</div>
           <div class="step-content">
             <h3 class="step-title">獲得洞察</h3>
@@ -150,10 +156,10 @@
     </div>
   </section>
 
-  <!-- 行動呼籲區塊 -->
+  <!-- 行動呼籲區塊 - 強調轉換 -->
   <section class="cta-section">
     <div class="section-container">
-      <div class="cta-content">
+      <div class="cta-content" appFadeInOnScroll animationType="scale-in" [threshold]="0.3">
 
         <h2 class="cta-title">準備開始您的智能記帳之旅嗎？</h2>
 

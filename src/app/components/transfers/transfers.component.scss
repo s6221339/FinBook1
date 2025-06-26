@@ -3,10 +3,10 @@
   padding: 2rem; /* 內邊距 */
   max-width: 600px; /* 最大寬度，限制表單不會過寬 */
   margin: 0 auto; /* 水平置中 */
-  background: white; /* 背景顏色為白色 */
+  background: var(--elevation-1); /* 背景顏色為變數 */
   border-radius: 16px; /* 圓角邊框 */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 陰影效果，x軸偏移0，y軸偏移4px，模糊20px，顏色為半透明黑色 */
-  border: 1px solid #f1f5f9; /* 淺灰色邊框 */
+  /* border: 1px solid #f1f5f9;  // 已移除外框線 */
 }
 
 /* 表單頭部區塊樣式 (包含圖示和標題) */
@@ -128,7 +128,7 @@
   align-items: center; /* 垂直置中 Flex 項目 */
   border: 2px solid #e2e8f0; /* 淺灰色邊框 */
   border-radius: 8px; /* 圓角 */
-  background: white; /* 背景為白色 */
+  background: var(--elevation-1); /* 背景為變數 */
   transition: all 0.2s ease; /* 所有屬性在 0.2 秒內平滑過渡 */
 
   /* 當輸入框或其內部元素聚焦時的樣式 */
@@ -181,7 +181,7 @@
   position: relative; /* 相對定位 */
   border: 2px solid #e2e8f0; /* 淺灰色邊框 */
   border-radius: 8px; /* 圓角 */
-  background: white; /* 白色背景 */
+  background: var(--elevation-1); /* 白色背景 */
   transition: all 0.2s ease; /* 平滑過渡 */
 
   /* 聚焦時的樣式 */
@@ -216,7 +216,7 @@
     right: 0.75rem; /* 右側偏移 */
     font-size: 0.75rem; /* 字體大小 */
     color: #9ca3af; /* 淺灰色文字 */
-    background: white; /* 白色背景 */
+    background: var(--elevation-1); /* 白色背景 */
     padding: 0.25rem; /* 內邊距 */
   }
 }

@@ -1,7 +1,8 @@
 .book-keeping-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  padding-top: 80px; // 為固定header留空間
+  background: var(--elevation-0);
+  padding-top: 35px;
+  color: var(--text-primary);
 }
 
 // 頁面標題區域
@@ -35,85 +36,195 @@
   }
 }
 
-// 內容容器
+// 內容容器（移除大白框背景，僅作為間距和排版）
 .content-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem 4rem;
+  padding: 0 2rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
+// 卡片header主題色底，icon/標題白色
+.form-header {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 2.2rem;
+  padding-bottom: 1.2rem;
+  border-bottom: none;
+  background: none;
+}
+.form-header .header-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--expense);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 24px rgba(231,111,81,0.18);
+}
+.form-header .header-icon .material-icons {
+  color: #fff;
+  font-size: 2.6rem;
+}
+.form-header .header-text h2 {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--expense);
+  margin: 0 0 0.3rem 0;
+  letter-spacing: 1px;
+}
+.form-header .header-text p {
+  color: #64748b;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+// 主題色分隔線加粗
+.form-container hr, .expenses-form hr, .income-form hr, .fixed-expenses-form hr, .fixed-income-form hr {
+  border: none;
+  border-top: 3px solid var(--expense);
+  margin: 1.5rem 0 2.2rem 0;
+  border-radius: 2px;
+}
+
+// 移除多餘的內容區域白底、圓角、陰影，讓內容直接在卡片本體
+.form-content {
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  color: inherit;
+}
+
+// 主題色氛圍延伸到icon、分隔線、主要按鈕
+.section-header .material-icons {
+  color: var(--expense);
+  font-size: 1.5rem;
+}
+.btn-primary {
+  background: var(--expense);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(231,111,81,0.18);
+  border: none;
+  &:hover:not(:disabled) {
+    background: #e76f51cc;
+    color: #fff;
+    box-shadow: 0 8px 25px rgba(231,111,81,0.22);
+  }
+}
+
 // 類型選擇卡片
 .type-selector-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f1f5f9;
-  overflow: hidden;
+  background: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 28px;
+  margin-bottom: 2.5rem;
+  padding: 0;
+  overflow: visible;
+}
 
-  .card-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1.5rem 2rem;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    border-bottom: 1px solid #e2e8f0;
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.2rem 2.2rem;
+  background: var(--primary);
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
 
-    .material-icons {
-      color: #3b82f6;
-      font-size: 1.5rem;
-    }
+.card-header .material-icons {
+  color: #fff;
+  font-size: 2rem;
+  cursor: default;
+}
 
-    h3 {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #1e293b;
-      margin: 0;
-    }
-  }
+.card-header h3 {
+  margin: 0;
+  flex: 1;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: default;
+}
 
-  .card-content {
-    padding: 2rem;
-  }
+.card-content {
+  background: none;
+  color: var(--text-primary);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 2.2rem 1.5rem 1rem 1.5rem;
+  transition: background 0.4s, color 0.4s;
 }
 
 // 類型按鈕群組
 .type-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: nowrap;
 }
 
-// 類型按鈕樣式
+.type-btn {
+  width: 220px;
+  min-width: 180px;
+  max-width: 240px;
+  flex: 0 0 auto;
+}
+
+// 類型按鈕現代化
 .type-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   padding: 1.5rem 1rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  background: white;
+  border: 2px solid transparent;
+  border-radius: 18px;
+  background: var(--secondary-bg);
+  color: var(--primary);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s, background 0.4s, color 0.4s, border-color 0.4s;
   text-align: center;
-
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  }
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
 
   .btn-icon {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
+    color: #fff;
+    background: currentColor;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+    transition: background 0.3s, color 0.3s, opacity 0.3s;
   }
 
   .btn-text {
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 0.25rem;
+    color: currentColor;
+    opacity: 0.95;
+    transition: color 0.3s, opacity 0.3s;
   }
 
   .btn-desc {
@@ -123,124 +234,122 @@
   }
 }
 
-// 各類型按鈕的特定顏色
+// 主題色按鈕樣式
 .type-btn.expenses {
+  color: var(--expense);
+  background: rgba(231,111,81,0.10);
+  border-color: rgba(231,111,81,0.18);
+  .btn-icon { background: var(--expense); }
   &:hover, &.active {
-    border-color: #ef4444;
-    background: #fef2f2;
-
-    .btn-icon {
-      color: #ef4444;
-    }
-
-    .btn-text {
-      color: #dc2626;
-    }
+    background: var(--expense);
+    color: #fff;
+    border-color: var(--expense);
+    .btn-icon { background: #fff; color: var(--expense); }
+    .btn-text, .btn-desc { color: #fff; }
   }
 }
-
 .type-btn.income {
+  color: var(--income);
+  background: rgba(42,157,143,0.10);
+  border-color: rgba(42,157,143,0.18);
+  .btn-icon { background: var(--income); }
   &:hover, &.active {
-    border-color: #10b981;
-    background: #f0fdf4;
-
-    .btn-icon {
-      color: #10b981;
-    }
-
-    .btn-text {
-      color: #059669;
-    }
+    background: var(--income);
+    color: #fff;
+    border-color: var(--income);
+    .btn-icon { background: #fff; color: var(--income); }
+    .btn-text, .btn-desc { color: #fff; }
   }
 }
-
 .type-btn.fixed-expenses {
+  color: var(--fixed-expense);
+  background: rgba(244,162,97,0.10);
+  border-color: rgba(244,162,97,0.18);
+  .btn-icon { background: var(--fixed-expense); }
   &:hover, &.active {
-    border-color: #f59e0b;
-    background: #fffbeb;
-
-    .btn-icon {
-      color: #f59e0b;
-    }
-
-    .btn-text {
-      color: #d97706;
-    }
+    background: var(--fixed-expense);
+    color: #fff;
+    border-color: var(--fixed-expense);
+    .btn-icon { background: #fff; color: var(--fixed-expense); }
+    .btn-text, .btn-desc { color: #fff; }
   }
 }
-
 .type-btn.fixed-income {
+  color: var(--fixed-income);
+  background: rgba(131,103,199,0.10);
+  border-color: rgba(131,103,199,0.18);
+  .btn-icon { background: var(--fixed-income); }
   &:hover, &.active {
-    border-color: #8b5cf6;
-    background: #faf5ff;
-
-    .btn-icon {
-      color: #8b5cf6;
-    }
-
-    .btn-text {
-      color: #7c3aed;
-    }
+    background: var(--fixed-income);
+    color: #fff;
+    border-color: var(--fixed-income);
+    .btn-icon { background: #fff; color: var(--fixed-income); }
+    .btn-text, .btn-desc { color: #fff; }
   }
 }
-
 .type-btn.transfers {
+  color: var(--transfer);
+  background: rgba(0,180,216,0.10);
+  border-color: rgba(0,180,216,0.18);
+  .btn-icon { background: var(--transfer); }
   &:hover, &.active {
-    border-color: #06b6d4;
-    background: #f0f9ff;
-
-    .btn-icon {
-      color: #06b6d4;
-    }
-
-    .btn-text {
-      color: #0891b2;
-    }
+    background: var(--transfer);
+    color: #fff;
+    border-color: var(--transfer);
+    .btn-icon { background: #fff; color: var(--transfer); }
+    .btn-text, .btn-desc { color: #fff; }
   }
 }
 
-// 表單容器
-.form-container {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f1f5f9;
-  overflow: hidden;
+// 移除 header 相關樣式
+.type-selector-card.no-header {
+  background: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  margin: 0 auto 2.5rem auto;
+  padding: 0;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-header { display: none; }
+
+.card-content {
+  background: none;
+  color: var(--text-primary);
+  border-radius: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  transition: background 0.4s, color 0.4s;
 }
 
 // 響應式設計
-@media (max-width: 768px) {
-  .content-container {
-    padding: 0 1rem 2rem;
-  }
-
+@media (max-width: 1200px) {
   .type-buttons {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .page-title {
-    font-size: 2rem;
-  }
-
-  .type-btn {
-    padding: 1rem 0.75rem;
-
-    .btn-icon {
-      font-size: 2rem;
-    }
-
-    .btn-text {
-      font-size: 1rem;
-    }
-
-    .btn-desc {
-      font-size: 0.8rem;
-    }
+    flex-wrap: wrap;
+    gap: 1.2rem;
   }
 }
 
 @media (max-width: 480px) {
   .type-buttons {
     grid-template-columns: 1fr;
+    gap: 0.7rem;
   }
+  .type-selector-card.no-header {
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+  }
+}
+
+// 主題切換動畫
+.book-keeping-page, .type-selector-card, .form-container, .card-header, .card-content, .type-btn {
+  transition: background 0.4s cubic-bezier(0.4,0,0.2,1), color 0.4s cubic-bezier(0.4,0,0.2,1), border-color 0.4s cubic-bezier(0.4,0,0.2,1);
 }

@@ -1,363 +1,185 @@
-/* 主頁容器（整個 transfer-history 頁面） */
+/* transfer-history 上方卡片、表格、分頁器、統計摘要 - 統一新風格，支援暗黑模式 */
+
 .transfer-history-page {
   min-height: 100vh;
-  padding-top: 80px;
-  background: #f5f5f8;
+  padding-top: 35px;
+  background: var(--elevation-0);
   font-size: 16px;
-  color: #263159;
+  color: var(--text-primary);
 }
 
-/* 內容主區（卡片群的外層） */
 .content-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem 4rem;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+
 }
 
-/* 卡片（篩選、交易紀錄、統計摘要） */
-.filter-card,
-.transactions-card,
-.summary-card {
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.10);
-  border: none;
-  overflow: hidden;
-  transition: box-shadow 0.3s;
+.filter-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* 卡片標題區（藍色漸層，白字） */
+.filter-card {
+  width: 480px;
+  min-width: 280px;
+  max-width: 480px;
+  flex: none;
+  background: var(--elevation-1) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
 .card-header {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  padding: 1.6rem 2.2rem;
-  background: linear-gradient(90deg, #42a5f5 60%, #00bcd4 100%);
-  border-bottom: 2px solid #1976d2;
+  padding: 1rem 2.2rem;
+  background: var(--primary);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
   color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
 }
+
 .card-header .material-icons {
   color: #fff;
   font-size: 2rem;
+  cursor: default;
 }
+
+.card-header span:last-child {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: default;
+}
+
 .card-header h3 {
-  margin: 0; flex: 1;
+  margin: 0;
+  flex: 1;
   font-size: 1.5rem;
   font-weight: 700;
   color: #fff;
+  cursor: default;
 }
 
-/* 卡片內容區（白底，主字色） */
 .card-content {
-  background: #fff;
-  padding: 2.2rem;
-  color: #263159;
-}
-
-/* 主畫面容器 */
-.transfer-history-page {
-  min-height: 100vh;
-  padding-top: 80px; /* 留給固定 Header */
-  background: #f5f5f8;
-  font-size: 16px;
-  color: #263159;
-}
-
-/* 內容主區 */
-.content-container {
-  max-width: 1000px; /* 寬度設為 1000px */
-  margin: 0 auto;
-  padding: 0 2rem 4rem;
+  background: var(--elevation-1);
+  color: var(--text-primary);
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem; /* 增加卡片之間的間距，讓視覺更寬鬆 */
+  padding: 2.2rem 1.5rem 1rem 1.5rem;
 }
 
-/* 統一卡片樣式 */
-.filter-card,
-.transactions-card,
-.summary-card {
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.10);
-  border: none;
-  overflow: hidden;
-  transition: box-shadow 0.3s;
-}
-
-/* 卡片頭部樣式 */
-.card-header {
+.custom-form-group {
   display: flex;
-  align-items: center;
-  gap: 0.8rem; /* 稍微增加圖標與文字間距 */
-  padding: 1.6rem 2.2rem; /* 增加內邊距，讓標題區塊更顯著 */
-  background: linear-gradient(90deg, #42a5f5 60%, #00bcd4 100%);
-  border-bottom: 2px solid #1976d2;
-  color: #fff;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  position: relative;
 }
 
-.card-header .material-icons {
-  color: #fff;
-  font-size: 2rem; /* 進一步放大圖標，使其更具存在感 */
-}
-
-.card-header h3 {
-  margin: 0; flex: 1;
-  font-size: 1.5rem; /* 進一步放大標題文字 */
-  font-weight: 700;
-  color: #fff;
-}
-
-/* 統一 card-content 背景色與 padding 設置 */
-.card-content {
-  background: #fff;
-  padding: 2rem 2rem 2.2rem 2rem;
-  color: #263159;
-}
-
-
-/* --- 篩選區塊排版優化 --- */
-.filter-content-layout {
-  display: grid;
-  grid-template-columns: 1fr; /* 預設小螢幕下為單列堆疊 */
-  gap: 3rem; /* 帳戶選擇和日期篩選之間的間距加大 */
-}
-
-/* 帳戶選擇區塊，用於垂直置中 */
-.account-selection-section {
-  display: flex;
-  flex-direction: column; /* 確保內容是垂直的 */
-  justify-content: center; /* 垂直置中 */
-}
-
-/* 日期選擇器上的文字標籤 */
-.date-label {
-  font-size: 1.1rem;
-  color: #1976d2;
-  margin-bottom: 0.8rem;
+.custom-form-group label {
+  font-size: 1.15rem;
   font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
 }
 
-/* 日期輸入框的群組，確保標籤和輸入框的佈局 */
-.date-input-group {
-  margin-bottom: 1.4rem; /* 日期組之間的間距 */
-}
-.date-input-group:last-child {
-  margin-bottom: 0; /* 最後一個日期組沒有下方間距 */
-}
-
-/* Angular Material Form Fields (調整輸入框整體樣式) */
-mat-form-field.full-width {
-  width: 100%;
-  font-size: 1.1rem;
-}
-.mat-form-field-label {
-  color: #42a5f5 !important;
-  font-size: 1.1rem !important;
-}
-.mat-input-element {
-  color: #263159;
-}
-
-
-/* --- 轉帳記錄卡片 --- */
-/* 調整 transactions-card 的 card-content padding */
-.transactions-card .card-content {
-  padding: 0;
-  background: #fff;
-}
-
-.transactions-card .card-header .transaction-count {
-  background: #43a047;
-  color: #fff;
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.transactions-table {
-  border-radius: 0;
-  border: none;
-  background: #fff;
-  font-family: 'Noto Sans TC', 'Roboto', 'Arial', sans-serif;
-  box-shadow: none;
-}
-
-/* 表格最佳化：標題與內容置中、金額靠右、備註欄寬、單雙數行配色、hover 明顯 */
-.transactions-table th {
-  text-align: center !important;
-  vertical-align: middle;
-  background: #e3eafc;
-  color: #1976d2;
+.custom-select, input[type='date'] {
   font-size: 1.18rem;
-  font-weight: 700;
-  border-bottom: 2px solid #42a5f5;
-  white-space: nowrap;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--primary);
+  background: var(--elevation-1);
+  color: var(--text-primary);
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  position: relative;
+  padding-right: 2.5rem;
 }
 
-.transactions-table td {
-  text-align: center;
-  vertical-align: middle;
-  white-space: nowrap;
-  font-size: 1.12rem;
-  line-height: 1.8;
-  border-bottom: 1px solid #e0e0e0;
+.custom-select:focus, input[type='date']:focus {
+  border-color: var(--primary);
+  box-shadow:
+    0 0 12px 2px #ff80ab33,
+    0 0 28px 4px #ff80ab22;
+}
+
+.custom-clear-btn {
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-35%);
   background: none;
-}
-
-.transactions-table td.mat-column-amount {
-  text-align: right;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.transactions-table th.mat-column-amount,
-.transactions-table th.mat-column-createDate {
-  text-align: center !important;
-}
-
-.transactions-table td.mat-column-description,
-.transactions-table th.mat-column-description {
-  min-width: 160px;
-  max-width: 320px;
-  white-space: normal;
-  word-break: break-word;
-  text-align: center;
-}
-
-.transactions-table tr:nth-child(odd) {
-  background: #fff;
-}
-.transactions-table tr:nth-child(even) {
-  background: #f7f9fc;
-}
-.transactions-table tr:hover {
-  background: #fffde7;
-}
-
-.transactions-table td.mat-column-amount {
-  font-weight: 700;
-  text-align: right;
-}
-.transactions-table td.mat-column-description {
-  color: #616161;
-}
-.transactions-table .no-data-row {
-  background: #f5f5f8;
-  td {
-    color: #b0b8c9;
-    font-size: 1.1rem;
-    font-style: italic;
-  }
-}
-
-.transactions-card mat-paginator {
-  background: #f5f5f8;
-  font-size: 1rem;
-  padding: 0.8rem 1rem;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-  display: flex;
-  justify-content: flex-end;
-}
-
-
-/* --- 統計摘要卡片 --- */
-/* .summary-card .card-content 會使用 .card-content 的預設 padding 和背景色 */
-
-/* 恢復統計摘要為左右顯示 */
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.summary-item {
-  background: #f1f8e9;
-  border-radius: 10px;
-  padding: 2.2rem 1.2rem;
-  color: #388e3c;
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(67, 160, 71, 0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 90px;
-}
-
-.summary-item:hover {
-  background: #e3fcec;
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(67, 160, 71, 0.12);
-}
-
-.summary-label {
-  font-size: 1.08rem;
-  color: #1976d2;
-  font-weight: 600;
-  margin-bottom: 0.3rem;
-}
-
-.summary-value {
+  border: none;
   font-size: 2rem;
-  font-weight: 800;
-  color: #388e3c;
+  color: var(--calendar-clear-btn);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  z-index: 2;
 }
 
-/* 轉入/轉出金額背景色調整 */
-/* 將金額顏色加深，確保可讀性 */
-.transfer-in {
-  color: #43a047;
-  background: #e8f5e9;
-  font-weight: 700;
-  border-radius: 4px;
-  padding: 0.2em 0.5em;
+.custom-hint {
+  color: var(--choose-account-bg);
+  font-weight: 600;
+  background: var(--calendar-background);
+  border-radius: 12px;
+  padding: 0.2rem 0.8rem;
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 1.08rem;
+  cursor: default;
 }
 
-.transfer-out {
-  color: #e53935;
-  background: #ffebee;
-  font-weight: 700;
-  border-radius: 4px;
-  padding: 0.2em 0.5em;
+/* 隱藏 input[type='date'] 的日曆圖標（Chrome/Safari/Edge/Firefox） */
+input[type='date']::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+input[type='date']::-moz-calendar-picker-indicator {
+  display: none;
+}
+input[type='date']::-ms-input-placeholder {
+  color: var(--text-primary);
 }
 
-/* 排序圖示顏色調整，與新的藍色系搭配 */
-.mat-sort-header-arrow {
-  color: #1976d2 !important;
-  font-size: 1.3em !important;
-}
-
-/* Material Input field specific styles */
-.mat-form-field-appearance-outline .mat-form-field-wrapper {
-  margin: 0 !important;
-  padding-bottom: 0 !important;
-}
-.mat-form-field-appearance-outline .mat-form-field-flex {
-  padding: 0.8em 1em !important;
-}
-.mat-form-field-label-wrapper {
-  padding-top: 0.5em !important;
-}
-
-
-/* --- 響應式設計 --- */
-@media (min-width: 769px) {
-  .filter-content-layout {
-    grid-template-columns: 1.5fr 1fr;
-    align-items: center;
+@media (max-width: 900px) {
+  .filter-card {
+    flex-basis: 45%;
   }
 }
 
 @media (max-width: 768px) {
-  .content-container {
-    padding: 0 1rem 2rem;
+  .filter-container {
+    justify-content: stretch;
+  }
+  .filter-card {
+    flex-basis: 100%;
+    max-width: 100%;
   }
   .card-content {
     padding: 1.2rem;
@@ -371,126 +193,152 @@ mat-form-field.full-width {
   .card-header h3 {
     font-size: 1.3rem;
   }
+}
 
-  .transactions-table th,
-  .transactions-table td {
-    padding: 0.9rem 0.7rem;
-    font-size: 1.05rem; /* 表格文字在手機上稍小但仍清晰 */
-  }
+/* 只保留必要的表格、分頁器、統計摘要等樣式，全部用 CSS 變數（略，依需求可再補充） */
 
-  .transactions-table th.mat-column-rowIndex,
-  .transactions-table td.mat-column-rowIndex {
-    width: 60px;
-    min-width: 60px;
-    max-width: 60px;
-  }
-  .transactions-table th.mat-column-createDate,
-  .transactions-table td.mat-column-createDate {
-    width: 110px;
-    min-width: 110px;
-    max-width: 110px;
-  }
-  .transactions-table th.mat-column-amount,
-  .transactions-table td.mat-column-amount {
-    width: 110px;
-    min-width: 110px;
-    max-width: 110px;
-  }
-  .transactions-table th.mat-column-description,
-  .transactions-table td.mat-column-description {
-    min-width: 50px;
-    max-width: 70px;
-  }
-  .transactions-card .card-header .transaction-count {
-    font-size: 0.85rem;
-    padding: 0.3rem 0.8rem;
-  }
-  .summary-item {
-    padding: 1.2rem;
+/* 表格卡片，顯示帳款列表 */
+.transactions-card {
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  border: none;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.payment-table th, .payment-table td,
+.transactions-table th, .transactions-table td {
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: var(--secondary-bg);
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--secondary-bg);
+  border-right: 1.5px solid var(--table-border);
+}
+.payment-table th, .transactions-table th {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow: 0 1px 4px rgba(66, 86, 165, 0.08);
+  border-bottom: 1.4px solid var(--primary);
+  white-space: normal;
+  word-break: break-all;
+  padding: 8px 10px;
+  border-right: none !important;
+}
+
+.payment-table th:last-child,
+.payment-table td:last-child,
+.transactions-table th:last-child,
+.transactions-table td:last-child {
+  border-right: none;
+}
+
+.payment-table td, .transactions-table td {
+  background: none;
+  white-space: normal;
+  font-size: 1.12rem;
+  line-height: 1.8;
+  border-bottom: 1px solid var(--secondary-bg);
+  color: var(--text-primary) !important;
+}
+
+.transactions-table tr:nth-child(odd),
+.payment-table tr:nth-child(odd) {
+  background: var(--table-row-odd-bg);
+}
+.transactions-table tr:nth-child(even),
+.payment-table tr:nth-child(even) {
+  background: var(--table-row-even-bg);
+}
+.transactions-table tr:hover,
+.payment-table tr:hover {
+  background: var(--table-hover-bg);
+}
+.transactions-table .no-data-row,
+.payment-table .no-data-row {
+  background: var(--elevation-0);
+  td {
+    color: var(--text-secondary);
     font-size: 1.1rem;
-  }
-  .summary-value {
-    font-size: 1.3rem;
-  }
-  .summary-item {
-    padding: 1.2rem;
-  }
-  .transactions-card mat-paginator {
-    font-size: 0.9rem;
-    padding: 0.7rem 0.8rem;
-  }
-  .date-label {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  .date-input-group {
-    margin-bottom: 1rem;
+    font-style: italic;
   }
 }
 
-/* --- 用 ::ng-deep 全局覆蓋 mat-sort-header 置中與箭頭顯示 --- */
-::ng-deep .transactions-table th.mat-header-cell,
-::ng-deep .transactions-table th[mat-header-cell] {
-  text-align: center !important;
-  vertical-align: middle !important;
-  padding: 0 !important;
-  position: relative;
-}
-
-::ng-deep .transactions-table .mat-sort-header-container {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  width: 100%;
-  height: 100%;
-}
-
-::ng-deep .transactions-table .mat-sort-header-content {
-  min-width: 60px;
-  justify-content: center !important;
-  align-items: center !important;
-  display: flex !important;
-  position: relative;
-}
-
-::ng-deep .transactions-table .mat-sort-header-arrow {
-  opacity: 1 !important;
-  color: #1976d2 !important;
-  transition: none !important;
-  display: inline-block !important;
-  margin-left: 6px;
-  margin-right: 0;
-  vertical-align: middle;
-  position: relative !important;
-  left: unset !important;
-  right: unset !important;
-  transform: rotate(0deg) !important;
-}
-
-/* 讓排序時根據狀態旋轉箭頭（向上排序時） */
-::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow {
-  transform: rotate(180deg) !important;
-}
-
-::ng-deep .transactions-table .mat-sort-header-indicator {
-  opacity: 1 !important;
-  color: #1976d2 !important;
-}
-
-/* 若有特別短的欄位可單獨加大 min-width */
-::ng-deep .transactions-table th.mat-column-amount .mat-sort-header-content {
-  min-width: 80px;
-}
-
+/* 表格外層容器，負責橫向捲動 */
 .table-container {
   width: 100%;
   overflow-x: auto;
 }
 
-.transactions-table {
-  width: 100%;
-  min-width: 800px;
-  table-layout: fixed;
+.pill-green {
+  background: var(--table-total-bg);
+  color: #fff;
+  padding: 0.4rem 1.1rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 1rem;
+  display: inline-block;
+  cursor: default;
+}
+
+.transactions-card, .summary-card {
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  border: none;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+  max-width: 100%;
+  margin-bottom: 0;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 2.2rem;
+  background: var(--primary);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.card-header .material-icons {
+  color: #fff;
+  font-size: 2rem;
+  cursor: default;
+}
+
+.card-header h3 {
+  margin: 0;
+  flex: 1;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: default;
+}
+
+.card-content, .table-content {
+  background: var(--elevation-1);
+  color: var(--text-primary);
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.5rem 1rem 1.5rem;
+}
+
+.table-content {
+  padding: 0;
 }
 
 .empty-state {
@@ -499,8 +347,8 @@ mat-form-field.full-width {
   align-items: center;
   justify-content: center;
   padding: 3.5rem 0 2.5rem 0;
-  color: #263159;
-  background: #f5f5f8;
+  color: var(--text-primary);
+  background: var(--elevation-0);
   border-radius: 12px;
   min-height: 140px;
   box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
@@ -509,7 +357,7 @@ mat-form-field.full-width {
 .empty-state mat-icon {
   font-size: 3.2rem;
   color: #fff;
-  background: #42a5f5;
+  background: var(--primary);
   border-radius: 50%;
   padding: 0.7rem;
   margin-bottom: 0.7rem;
@@ -525,49 +373,150 @@ mat-form-field.full-width {
   margin: 0.7rem 0 0.3rem 0;
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1976d2;
+  color: var(--primary);
   text-align: center;
 }
 
-.empty-state p {
-  color: #888;
-  font-size: 1.05rem;
-  margin: 0.2rem 0 0 0;
-  text-align: center;
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* -------- 表格欄位置中與排序圖標樣式同步 ledger/modify-payment -------- */
+/* 日期、金額表頭置中 */
+.transactions-table th.mat-column-createDate,
+.transactions-table th.mat-column-amount {
+  text-align: center !important;
+}
+/* 金額欄位表身靠右 */
+.transactions-table td.mat-column-amount {
+  text-align: right !important;
+  min-width: 80px;
+  max-width: 120px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+/* 日期欄位表身置中 */
+.transactions-table td.mat-column-createDate {
+  text-align: center !important;
+  min-width: 110px;
+  max-width: 110px;
+}
+/* ::ng-deep 排序圖標樣式（顏色、常顯、用變數） */
+::ng-deep .transactions-table th.mat-header-cell,
+::ng-deep .transactions-table th[mat-header-cell] {
+  text-align: center !important;
+  vertical-align: middle !important;
+  padding: 0 !important;
+  position: relative;
+}
+::ng-deep .transactions-table .mat-sort-header-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100%;
+  height: 100%;
+}
+::ng-deep .transactions-table .mat-sort-header-content {
+  min-width: unset !important;
+  gap: 2px !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+::ng-deep .transactions-table .mat-sort-header-arrow {
+  color: var(--table-header-text) !important;
+  opacity: 1 !important;
+  transition: color 0.2s;
+  display: inline-block !important;
+}
+::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--table-sort) !important;
+  text-shadow: 0 0 8px var(--table-sort), 0 0 2px var(--table-header-text);
+}
+::ng-deep .transactions-table .mat-sort-header-indicator {
+  opacity: 1 !important;
+  color: var(--table-header-text) !important;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-arrow {
+  color: #fff !important;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--table-sort) !important;
+  text-shadow: 0 0 8px var(--table-sort), 0 0 2px #fff;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-indicator {
+  color: var(--table-sort) !important;
 }
 
 .transactions-table th.mat-column-rowIndex,
 .transactions-table td.mat-column-rowIndex {
-  width: 120px;
-  min-width: 120px;
-  max-width: 120px;
+  min-width: 90px;
+  max-width: 90px;
+  width: 90px;
+  white-space: nowrap;
 }
+
 .transactions-table th.mat-column-createDate,
 .transactions-table td.mat-column-createDate {
-  width: 120px;
-  min-width: 120px;
-  max-width: 120px;
+  min-width: 110px;
+  max-width: 110px;
+  width: 110px;
+  white-space: nowrap;
 }
-.transactions-table th.mat-column-amount,
+
 .transactions-table td.mat-column-amount {
-  width: 170px;
-  min-width: 170px;
-  max-width: 170px;
+  white-space: nowrap;
 }
-.transactions-table th.mat-column-fromBalanceId,
-.transactions-table td.mat-column-fromBalanceId {
-  width: 170px;
-  min-width: 170px;
-  max-width: 170px;
-}
-.transactions-table th.mat-column-toBalanceId,
-.transactions-table td.mat-column-toBalanceId {
-  width: 170px;
-  min-width: 170px;
-  max-width: 170px;
-}
+
 .transactions-table th.mat-column-description,
 .transactions-table td.mat-column-description {
-  min-width: 100px;
-  max-width: 100px;
+  min-width: 110px;
+  max-width: 200px;
+  width: 180px;
+  white-space: normal;
+  word-break: break-all;
 }
+
+.transactions-table th.mat-column-fromBalanceId,
+.transactions-table td.mat-column-fromBalanceId {
+  min-width: 140px;
+  max-width: 140px;
+  width: 140px;
+  white-space: normal;
+}
+
+.transactions-table th.mat-column-toBalanceId,
+.transactions-table td.mat-column-toBalanceId {
+  min-width: 140px;
+  max-width: 140px;
+  width: 140px;
+  white-space: normal;
+}
+
+.transactions-table th.mat-column-amount,
+.transactions-table td.mat-column-amount {
+  min-width: 120px;
+  max-width: 120px;
+  width: 120px;
+  white-space: nowrap;
+}
+
+.transactions-table td.mat-column-amount.transfer-out {
+  color: var(--transfer-out) !important;
+  font-weight: 700;
+}
+.transactions-table td.mat-column-amount.transfer-in {
+  color: var(--transfer-in) !important;
+  font-weight: 700;
+}
+
+.transactions-table th,
+.transactions-table td {
+  cursor: default;
+}
+.transactions-table th.mat-sort-header {
+  cursor: pointer;
+}
+

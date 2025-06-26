@@ -97,15 +97,13 @@
       <div class="card-header">
         <span class="material-icons">list_alt</span>
         <h3>帳款列表</h3>
+        <div class="action-buttons">
+          <button class="custom-btn custom-btn-accent" [ngClass]="{'custom-disabled': selection.isEmpty()}" (click)="!selection.isEmpty() && goEditPayment()">編輯</button>
+          <button class="custom-btn custom-btn-warn" [ngClass]="{'custom-disabled': selection.isEmpty()}" (click)="!selection.isEmpty() && deleteSelectedPayments()">刪除</button>
+        </div>
         <span class="transaction-count pill-green">共 {{ totalFilteredItems }} 筆</span>
       </div>
       <div class="card-content">
-        <div class="action-buttons-row">
-          <div class="action-buttons">
-            <button class="custom-btn custom-btn-accent" [ngClass]="{'custom-disabled': selection.isEmpty()}" (click)="!selection.isEmpty() && goEditPayment()">編輯</button>
-            <button class="custom-btn custom-btn-warn" [ngClass]="{'custom-disabled': selection.isEmpty()}" (click)="!selection.isEmpty() && deleteSelectedPayments()">刪除</button>
-          </div>
-        </div>
         <div class="table-container">
           <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 payment-table transactions-table">
             <!-- 多選 Checkbox 欄 -->
@@ -177,7 +175,6 @@
             </tr>
           </table>
         </div>
-
         <!-- 自訂分頁器 -->
         <app-custom-paginator
           [totalItems]="totalFilteredItems"

@@ -15,11 +15,13 @@
   --title-text-color:linear-gradient(45deg, var(--primary), var(--expense));
 
   /* 功能色（子路由主題色） */
-  --income: #2a9d8f;
-  --expense: #e76f51;
-  --fixed-expense: #f4a261;
-  --fixed-income: #8367c7;
-  --transfer: #00b4d8;
+  --expense: #F87171;
+  --income: #34D399;
+  --fixed-expense: #FBBF24;
+  --fixed-income: #A78BFA;
+  --transfer: #38BDF8;
+  --transfer-out: #ef0000;
+  --transfer-in:  #176c2a;
 
   /* 字體大小 */
   --font-size-h1: 3rem;
@@ -39,17 +41,18 @@
 
   --choose-account-bg: #04950c; /* 選擇帳戶背景 */
 
-  --table-hover-bg: #c7d0ea; /* 表格 hover 用 */
+  --table-hover-bg: #fcf8cf; /* 表格 hover 用 */
 
   /* 表格單雙數行底色 */
   --table-row-odd-bg:   #f4f7fd;     /* 單數行 */
   --table-row-even-bg:   #e3e6f3; /* 雙數行*/
 
   /* 表格表頭底色（藍紫科技感） */
-  --table-header-bg: #2563eb;
-  --table-header-text: #fff;
+  --table-header-bg: #e3f0ff;
+  --table-header-text: #1976d2;
   --table-hover-text: #263159;
   --table-border: #b0b8d1;
+  --table-sort: #04950c;
 
   --checkbox-border: #263159;
 
@@ -59,7 +62,7 @@
   --mdc-checkbox-selected-hover-icon-color: #ffd600;
 
   /* 分頁器專用顏色 */
-  --paginator-bg: #ccd7ed; /* 日間分頁器背景，表頭色加白 */
+  --paginator-bg: #f5f5f8; /* 日間分頁器背景，表頭色加白 */
   --paginator-border: #e3e6f3; /* 分頁器上邊界線 */
   --paginator-label: #263159; /* 分頁器label主色 */
   --paginator-icon: #263159; /* 分頁器icon顏色 */
@@ -77,11 +80,14 @@
   --nav-link-active: #2563eb; /* 導航連結active */
 
   --battery-outline: #333;
+  --battery-percent-text: #fff;    // 電池百分比文字顏色
 
   --budget-info-icon: var(--primary);
   --budget-info-icon-glow: none;
   --budget-info-value: var(--primary);
   --edit-btn-icon:   #6b6b6b;
+
+  --user-button-pink:  #eb6ab1; /* 登入後 user-button 專用粉紅色 */
 }
 
 /* 暗黑模式 */
@@ -102,6 +108,8 @@
   --fixed-expense: #fab57f;   /* 橘黃 */
   --fixed-income: #a38ad1;    /* 亮紫 */
   --transfer: #2ac5e3;        /* 輔助藍綠 */
+  --transfer-out: #ff5252;
+  --transfer-in:  #69f0ae;
 
   --choose-account-bg: #ffd600; /* 選擇帳戶背景 */
   --table-hover-bg: #4256a5; /* hover 明顯 */
@@ -115,6 +123,7 @@
   --table-header-text: #fff;
   --table-hover-text: #fff;
   --table-border: var(--secondary-bg);
+  --table-sort: #ffd600;
 
   --checkbox-border: #fff;
 
@@ -141,12 +150,15 @@
   --nav-link-active: #ffd600; /* 導航連結active */
 
   --battery-outline: #fff;
+  --battery-percent-text: #fff;    // 電池百分比文字顏色
 
   --budget-info-icon: #ffd600;
   --budget-info-text: #fff;
   --budget-info-icon-glow: none;
   --budget-info-value: #fff;
   --edit-btn-icon: #ff8000 ;
+
+  --user-button-pink: #e055a1; /* 暗黑模式同色，若需可調整 */
 }
 
 /* 英雄區塊動畫 - 滑入效果 */

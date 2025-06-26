@@ -27,6 +27,12 @@
   /* 初始狀態：隱藏在上方 */
   transform: translateY(-100%);
   opacity: 0;
+
+  /* 修正 header 高度 */
+  min-height: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
 }
 
 /* 頁首顯示狀態 */
@@ -51,20 +57,18 @@
 
 /* 頁首內容容器 */
 .header-container {
-  /* 使用彈性佈局，讓元素並排 */
   display: flex;
-  /* 垂直置中對齊 */
   align-items: center;
-  /* 兩端對齊 */
-  justify-content: space-between;
-  /* 內邊距 */
-  padding: var(--space-md) var(--space-xl);
-  /* 最大寬度 */
+  justify-content: flex-start;
+  padding: 0 2vw; /* 響應式安全距離 */
   max-width: 1400px;
-  /* 水平置中 */
+  width: 100%;
   margin: 0 auto;
-  /* 元素間距 */
   gap: var(--space-md);
+  height: 72px;
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 /* Logo區域 */
@@ -128,6 +132,9 @@
   margin-left: auto;
   margin-right: var(--space-md);
   cursor: pointer;
+  height: 72px;
+  min-height: 72px;
+  align-items: center;
 }
 
 /* 導航連結 */
@@ -145,7 +152,7 @@
   /* 字體粗細 */
   font-weight: 700;
   /* 內邊距 */
-  padding: var(--space-sm) var(--space-md);
+  padding: 0 20px;
   /* 圓角 */
   border-radius: 8px;
   /* 過渡效果 */
@@ -154,6 +161,8 @@
   font-size: 1.15rem;
   /* 不換行 */
   white-space: nowrap;
+  height: 56px;
+  line-height: 56px;
 }
 
 /* 導航連結icon */
@@ -184,75 +193,120 @@
 
 /* 用戶選單 */
 .user-menu {
-  /* 相對定位，為下拉選單定位 */
-  position: relative;
-  /* 不縮小 */
-  flex-shrink: 0;
+  margin-left: auto;
+  min-width: 0;
+  max-width: 220px;
+  flex-shrink: 1;
+  display: flex;
+  justify-content: flex-end;
+  box-sizing: border-box;
 }
 
 /* 用戶選單觸發器 */
 .user-menu-trigger {
   position: relative;
-}
-
-/* 登入/用戶按鈕基本樣式 */
-.login-button,
-.user-button {
-  /* 使用彈性佈局 */
   display: flex;
-  /* 垂直置中 */
   align-items: center;
-  /* icon和文字間距 */
-  gap: var(--space-xs);
-  /* 移除邊框 */
+  line-height: normal;
+}
+
+/* 統一登入與用戶按鈕寬度與內容置中 */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* icon 與按鈕間距 */
+  min-width: 0;
+}
+
+.theme-toggle-btn {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: none;
   border: none;
-  /* 圓角 */
-  border-radius: 8px;
-  /* 內邊距 */
-  padding: var(--space-sm) var(--space-lg);
-  /* 字體粗細 */
-  font-weight: 700;
-  /* 滑鼠指標 */
   cursor: pointer;
-  /* 過渡效果 */
-  transition: all 0.2s ease;
-  /* 字體大小 */
-  font-size: 1.15rem;
+  transition: background 0.2s;
+}
+.theme-toggle-btn .material-icons {
+  font-size: 24px;
 }
 
-/* 登入按鈕樣式 */
+/* 統一按鈕基本樣式 */
+.action-button, .login-button, .user-button {
+  height: 56px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 24px;
+  border-radius: 12px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  justify-content: center;
+  font-weight: 700;
+  color: #fff;
+  border: none;
+  box-shadow: none;
+  line-height: 1.2;
+}
+
+/* 登入按鈕（藍色） */
 .login-button {
-  background-color: #376fe8;
-  color: #fff;
-  font-weight: 700;
-  border: none;
-  transition: background 0.2s;
-  font-size: 1.15rem;
+  background: var(--primary);
+}
+.login-button:hover, .login-button:focus {
+  background: #1746a2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.10);
+}
+.login-button:active {
+  background: #0d2e6a;
+  transform: scale(0.98);
 }
 
-
-/* 用戶按鈕樣式（已登入） */
+/* 用戶按鈕（粉紅色） */
 .user-button {
-  background-color: #f0047a;
-  color: #fff;
-  font-weight: 700;
-  border: none;
-  transition: background 0.2s;
-  font-size: 1.15rem;
+  background: var(--user-button-pink);
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 16px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user-button:hover, .user-button:focus {
+  background: #e055a1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(224, 85, 161, 0.10);
+}
+.user-button:active {
+  background: #c0448b;
+  transform: scale(0.98);
 }
 
-/* 按鈕hover效果 */
-.login-button:hover {
-  /* 更深的藍色 */
-  background-color: #1661da;
-  /* 輕微上移 */
-  transform: translateY(-2px);
+/* icon 統一 */
+.action-button .material-icons,
+.login-button .material-icons,
+.user-button .material-icons {
+  font-size: 22px;
 }
 
-.user-button:hover {
-  background-color: #f10064;
-  /* 輕微上移 */
-  transform: translateY(-2px);
+/* 主題切換 icon */
+.theme-toggle-btn .material-icons {
+  color: var(--theme-toggle-yellow);
+  transition: color 0.2s;
 }
 
 /* 下拉選單容器 */
@@ -290,18 +344,12 @@
 
 /* 下拉選單內容 */
 .dropdown-content {
-  /* 白色背景 */
   background-color: var(--elevation-1);
-  /* 圓角 */
   border-radius: 8px;
-  /* 陰影效果 */
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  /* 內邊距 */
-  padding: var(--space-xs) 0;
-  /* 與按鈕的間距 */
+  padding: var(--space-xs) var(--space-sm);
   margin-top: var(--space-xs);
-  /* 最小寬度 */
-  min-width: 200px;
+  min-width: 150px;
 }
 
 /* 顯示下拉選單 */
@@ -311,6 +359,7 @@
   visibility: visible;
   /* 移到正確位置 */
   transform: translateY(0);
+  pointer-events: auto
 }
 
 /* 選單項目樣式 */
@@ -322,7 +371,7 @@
   /* icon和文字間距 */
   gap: var(--space-sm);
   /* 內邊距 */
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-sm) 12px;
   /* 文字顏色 */
   color: var(--text-primary);
   /* 移除底線 */
@@ -333,6 +382,7 @@
   font-size: var(--font-size-body);
   border-radius: 4px;
   font-weight: 400;
+  cursor: pointer;
 }
 
 /* 選單項目icon */
@@ -370,10 +420,8 @@
 
 /* 主要內容區域 */
 .main-content {
-  /* 為固定頁首留出空間 */
-  padding-top: 50px;
-  /* 最小高度 */
-  min-height: calc(100vh - 80px);
+  /* 為固定頁首留出空間，與 header 高度一致 */
+  padding-top: 40px;
   /* 淺灰藍色背景 */
   background-color: var(--elevation-0);
 }
@@ -634,7 +682,7 @@
   color: var(--primary);
 }
 
-/* 回到頂部按鈕（淡化版本） */
+/* 回到頂部按鈕 - 配合專案配色系統 */
 .scroll-to-top {
   position: fixed;
   bottom: var(--space-lg);
@@ -642,34 +690,149 @@
   width: 65px;
   height: 65px;
   border-radius: 50px;
-  /* 淡化的藍色背景 */
-  background-color: rgba(42, 157, 143, 0.7);
+
+  /* 亮色模式：使用品牌藍色系 */
+  background: linear-gradient(135deg, var(--primary), var(--income));
   color: var(--elevation-1);
-  border: none;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  /* 淡化的陰影 */
-  box-shadow: 0 4px 12px rgba(94, 226, 253, 0.2);
-  transition: all 0.3s ease;
+
+  /* 陰影效果 - 配合品牌色 */
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 99;
-  /* 淡化的透明度 */
-  opacity: 0.8;
+
+  /* 初始狀態：更透明 */
+  opacity: 0.6;
+
+  /* 添加微妙的邊框光暈 */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, var(--primary), var(--income), var(--expense));
+    border-radius: 50px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
 }
 
 /* 回到頂部按鈕hover效果 */
 .scroll-to-top:hover {
-  background-color: rgba(42, 157, 143, 0.9);
-  transform: translateY(-3px);
+  /* 更深的漸層背景 */
+  background: linear-gradient(135deg, var(--income), var(--primary));
+
+  /* 上移並放大 */
+  transform: translateY(-5px) scale(1.05);
+
+  /* 增強陰影 */
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
+
+  /* hover時完全不透明 */
   opacity: 1;
+
+  /* 顯示邊框光暈 */
+  &::before {
+    opacity: 0.3;
+  }
 }
 
-/* TOP文字 */
+/* 按鈕點擊效果 */
+.scroll-to-top:active {
+  transform: translateY(-2px) scale(0.98);
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+
+/* TOP文字樣式 */
 .top-text {
   font-size: var(--font-size-caption);
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  color: var(--elevation-1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 暗色模式適配 */
+.dark-mode .scroll-to-top {
+  /* 暗色模式：使用亮色系漸層 */
+  background: linear-gradient(135deg, var(--primary), var(--income));
+  border: 2px solid rgba(255, 255, 255, 0.15);
+
+  /* 暗色模式陰影 */
+  box-shadow: 0 6px 20px rgba(123, 176, 255, 0.3);
+
+  /* 暗色模式初始透明度 */
+  opacity: 0.7;
+
+  &::before {
+    background: linear-gradient(135deg, var(--primary), var(--income), var(--expense));
+  }
+}
+
+.dark-mode .scroll-to-top:hover {
+  background: linear-gradient(135deg, var(--income), var(--primary));
+  box-shadow: 0 10px 30px rgba(123, 176, 255, 0.4);
+  opacity: 1;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .scroll-to-top {
+    width: 55px;
+    height: 55px;
+    bottom: var(--space-md);
+    right: var(--space-md);
+  }
+
+  .top-text {
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+  }
+
+  .user-button {
+    padding: 0 8px;
+    font-size: 0.95rem;
+    max-width: 120px;
+  }
+  .user-menu {
+    max-width: 120px;
+  }
+}
+
+/* 動畫效果 - 進入和退出 */
+.scroll-to-top {
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  to {
+    opacity: 0.6; /* 調整為與初始透明度一致 */
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 無障礙支援 */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-to-top {
+    transition: none;
+    animation: none;
+  }
+
+  .scroll-to-top:hover {
+    transform: none;
+  }
 }
 
 .social-link svg {
@@ -689,31 +852,6 @@
   filter: invert(1);
 }
 
-.theme-toggle-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: var(--space-xs);
-  padding: var(--space-xs);
-  border-radius: 50%;
-  transition: background 0.2s;
-
-  .material-icons {
-    font-size: 28px;
-    color: var(--theme-toggle-yellow);
-    transition: color 0.2s;
-  }
-}
-.theme-toggle-btn:hover {
-  background: rgba(42, 157, 143, 0.10);
-  .material-icons {
-    color: #ffd600;
-  }
-}
-
 .contact-link {
   color: var(--text-primary);
   text-decoration: none;
@@ -729,91 +867,38 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-
-  .family-menu-trigger {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-    font-weight: 700;
-    color: var(--text-primary);
-    padding: var(--space-sm) var(--space-md);
-    border-radius: 8px;
-    transition: background 0.2s, color 0.2s;
-    user-select: none;
-    .arrow {
-      font-size: 20px;
-      transition: transform 0.2s;
-    }
-  }
-  &:hover .family-menu-trigger,
-  &.open .family-menu-trigger {
-    color: var(--primary);
-  }
-  &:hover .arrow,
-  &.open .arrow {
-    transform: rotate(180deg);
-  }
-  .family-dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    min-width: 200px;
-    background: var(--elevation-1);
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    margin-top: var(--space-xs);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: all 0.2s ease;
-    z-index: 100;
-  }
-  .family-dropdown-menu.open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-  .dropdown-content {
-    padding: var(--space-xs) 0;
-    min-width: 200px;
-  }
-  .menu-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: var(--space-sm) var(--space-md);
-    color: var(--text-primary);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    font-size: var(--font-size-body);
-    border-radius: 4px;
-    font-weight: 400;
-  }
-  .menu-item .material-icons {
-    font-size: 20px;
-    color: var(--primary);
-    width: 20px;
-  }
-  .menu-item:hover {
-    background-color: rgba(42, 157, 143, 0.1);
-    color: var(--primary);
-  }
+  margin-left: 0;
 }
 
-@media (max-width: 768px) {
-  .family-menu {
-    width: 100%;
-  }
-  .family-menu .family-menu-trigger {
-    width: 100%;
-  }
-  .family-menu .family-dropdown-menu {
-    position: static;
-    box-shadow: none;
-    min-width: 0;
-    width: 100%;
-    border-radius: 0 0 8px 8px;
-    margin-top: 0;
-  }
+/* icon 大小統一 */
+.login-button .material-icons,
+.user-button .material-icons {
+  font-size: 22px;
 }
+
+.family-menu .nav-link,
+.family-menu .action-button {
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 0 20px;
+  height: 56px;
+  line-height: 56px;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  white-space: nowrap;
+}
+
+.family-menu .nav-link:hover,
+.family-menu .action-button:hover {
+  background-color: rgba(42, 157, 143, 0.1) !important;
+  transform: translateY(-2px);
+  color: var(--primary) !important;
+}
+
 

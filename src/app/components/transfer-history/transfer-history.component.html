@@ -1,52 +1,44 @@
 <div class="transfer-history-page">
   <div class="content-container">
-
-    <div class="filter-card">
-      <div class="card-header">
-        <span class="material-icons">filter_list</span>
-        <h3>篩選轉帳記錄</h3>
-      </div>
-      <div class="card-content filter-content-layout">
-        <div class="account-selection-section">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>請選擇一個帳戶</mat-label>
-            <mat-select [formControl]="selectedAccountId" (selectionChange)="onAccountSelectionChange($event.value)">
-              @for (account of accounts; track account.balanceId) {
-                <mat-option [value]="account.balanceId">
-                  {{ account.name }} (ID: {{ account.balanceId }})
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+    <div class="filter-container" style="display: flex; gap: 2.2rem; flex-wrap: wrap;">
+      <!-- 帳戶選擇卡片 -->
+      <div class="filter-card">
+        <div class="card-header">
+          <span class="material-icons">account_balance_wallet</span>
+          <span>帳戶選擇</span>
         </div>
-
-        <div class="date-filter-section">
-          <div class="date-input-group">
-            <label class="date-label">開始時間</label>
-            <mat-form-field appearance="outline" class="full-width">
-              <input matInput
-                     [matDatepicker]="startDatePicker"
-                     [(ngModel)]="startDate"
-                     (ngModelChange)="onDateRangeChange()"
-                     [max]="today"
-                     placeholder="YYYY/MM/DD">
-              <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #startDatePicker></mat-datepicker>
-            </mat-form-field>
+        <div class="card-content">
+          <div class="custom-form-group">
+            <label for="account">選擇帳戶</label>
+            <select id="account" [ngModel]="selectedAccountId.value" (ngModelChange)="onAccountSelectionChange($event)" class="custom-select">
+              @for (account of accounts; track account.balanceId) {
+                <option [value]="account.balanceId">{{ account.name }} (ID: {{ account.balanceId }})</option>
+              }
+            </select>
+            <div class="custom-hint">目前選擇: {{ getAccountName(selectedAccountId.value || selectedAccountId) || '尚未選擇' }}</div>
           </div>
-
-          <div class="date-input-group">
-            <label class="date-label">結束時間</label>
-            <mat-form-field appearance="outline" class="full-width">
-              <input matInput
-                     [matDatepicker]="endDatePicker"
-                     [(ngModel)]="endDate"
-                     (ngModelChange)="onDateRangeChange()"
-                     [max]="today"
-                     placeholder="YYYY/MM/DD">
-              <mat-datepicker-toggle matIconSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #endDatePicker></mat-datepicker>
-            </mat-form-field>
+        </div>
+      </div>
+      <!-- 日期區間卡片 -->
+      <div class="filter-card">
+        <div class="card-header">
+          <span class="material-icons">date_range</span>
+          <span>日期區間</span>
+        </div>
+        <div class="card-content">
+          <div class="custom-form-group">
+            <label for="start-date">開始日期</label>
+            <input id="start-date" type="date" [(ngModel)]="startDate" (ngModelChange)="onDateRangeChange()" [max]="today" class="custom-select" placeholder="YYYY/MM/DD">
+            @if (startDate) {
+              <button type="button" (click)="startDate='' ; onDateRangeChange()" class="custom-clear-btn" title="清除開始日期">×</button>
+            }
+          </div>
+          <div class="custom-form-group">
+            <label for="end-date">結束日期</label>
+            <input id="end-date" type="date" [(ngModel)]="endDate" (ngModelChange)="onDateRangeChange()" [max]="today" class="custom-select" placeholder="YYYY/MM/DD">
+            @if (endDate) {
+              <button type="button" (click)="endDate='' ; onDateRangeChange()" class="custom-clear-btn" title="清除結束日期">×</button>
+            }
           </div>
         </div>
       </div>
@@ -54,36 +46,36 @@
 
     <div class="transactions-card">
       <div class="card-header">
-        <span class="material-icons">swap_horiz</span>
+        <span class="material-icons">list_alt</span>
         <h3>轉帳記錄</h3>
-        <span class="transaction-count">共 {{ totalItems }} 筆</span>
+        <span class="transaction-count pill-green">共 {{ totalItems }} 筆</span>
       </div>
-      <div class="card-content">
+      <div class="card-content table-content">
         <div class="table-container">
-          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2 transactions-table">
-
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 payment-table transactions-table">
+            <!-- 交易序號 -->
             <ng-container matColumnDef="rowIndex">
               <th mat-header-cell *matHeaderCellDef class="mat-column-rowIndex">交易序號</th>
               <td mat-cell *matCellDef="let row; let i = index;" class="mat-column-rowIndex">
-                {{ i + 1 + (paginator.pageIndex * paginator.pageSize) }}
+                {{ (currentPage - 1) * itemsPerPage + i + 1 }}
               </td>
             </ng-container>
-
+            <!-- 日期 -->
             <ng-container matColumnDef="createDate">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-createDate">日期</th>
               <td mat-cell *matCellDef="let row" class="mat-column-createDate">{{ row.createDate | date:'yyyy/MM/dd' }}</td>
             </ng-container>
-
+            <!-- 轉出帳戶 -->
             <ng-container matColumnDef="fromBalanceId">
               <th mat-header-cell *matHeaderCellDef class="mat-column-fromBalanceId">轉出帳戶</th>
               <td mat-cell *matCellDef="let row" class="mat-column-fromBalanceId">{{ getAccountName(row.fromBalanceId) }}</td>
             </ng-container>
-
+            <!-- 轉入帳戶 -->
             <ng-container matColumnDef="toBalanceId">
               <th mat-header-cell *matHeaderCellDef class="mat-column-toBalanceId">轉入帳戶</th>
               <td mat-cell *matCellDef="let row" class="mat-column-toBalanceId">{{ getAccountName(row.toBalanceId) }}</td>
             </ng-container>
-
+            <!-- 金額 -->
             <ng-container matColumnDef="amount">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-column-amount">金額</th>
               <td mat-cell *matCellDef="let row"
@@ -95,41 +87,43 @@
                 {{ row.amount | currency:'TWD' }}
               </td>
             </ng-container>
-
+            <!-- 備註 -->
             <ng-container matColumnDef="description">
               <th mat-header-cell *matHeaderCellDef class="mat-column-description">備註</th>
               <td mat-cell *matCellDef="let row" class="mat-column-description">{{ row.description }}</td>
             </ng-container>
-
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <!-- 無資料顯示 -->
+            <tr class="mat-row no-data-row" *matNoDataRow>
+              <td class="mat-cell" colspan="6" style="text-align: center; color: #999;">
+                <div class="empty-state">
+                  <mat-icon>search_off</mat-icon>
+                  @if (currentBalanceId === null) {
+                    <h3>請先在上方選擇一個帳戶來查看交易紀錄。</h3>
+                  }
+                  @if (currentBalanceId !== null && !startDate && !endDate) {
+                    <h3>目前選擇的帳戶沒有任何交易紀錄。</h3>
+                  }
+                  @if (currentBalanceId !== null && (startDate || endDate)) {
+                    <h3>在選定的日期區間內沒有找到交易紀錄。</h3>
+                  }
+                </div>
+              </td>
+            </tr>
           </table>
-
-          @if (dataSource.data.length === 0) {
-            <div class="empty-state">
-              <mat-icon>search_off</mat-icon>
-              <ng-container *ngIf="currentBalanceId === null">
-                <h3>請先在上方選擇一個帳戶來查看交易紀錄。</h3>
-              </ng-container>
-              <ng-container *ngIf="currentBalanceId !== null && !startDate && !endDate">
-                <h3>目前選擇的帳戶沒有任何交易紀錄。</h3>
-              </ng-container>
-              <ng-container *ngIf="currentBalanceId !== null && (startDate || endDate)">
-                <h3>在選定的日期區間內沒有找到交易紀錄。</h3>
-              </ng-container>
-            </div>
-          }
         </div>
-        <mat-paginator #paginator
-                       [length]="totalItems"
-                       [pageSize]="pageSize"
-                       [pageSizeOptions]="[5,10,20]"
-                       [showFirstLastButtons]="true">
-        </mat-paginator>
+        <app-custom-paginator
+          [totalItems]="totalItems"
+          [currentPage]="currentPage"
+          [pageSize]="itemsPerPage"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onPageSizeChange($event)">
+        </app-custom-paginator>
       </div>
     </div>
 
-    <div class="summary-card">
+    <!-- <div class="summary-card">
       <div class="card-header">
         <span class="material-icons">analytics</span>
         <h3>轉帳統計摘要</h3>
@@ -144,6 +138,6 @@
           <div class="summary-value">{{ lastTransactionDate || '無紀錄' }}</div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>

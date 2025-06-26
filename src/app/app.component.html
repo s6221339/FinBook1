@@ -43,86 +43,83 @@
         統計報表
       </a>
 
-      <!-- 固定支出連結 -->
-      <a routerLink="/recurring" class="nav-link" routerLinkActive="active">
-        <span class="material-icons">sync</span>
-        固定支出
-      </a>
-
       <!-- 家庭管理下拉選單（登入後才顯示） -->
       @if (isLoggedIn) {
-        <div class="nav-link family-menu" (mouseenter)="isFamilyMenuOpen = true" (mouseleave)="isFamilyMenuOpen = false">
-          <div class="family-menu-trigger" (click)="toggleFamilyMenu()">
-            <span class="material-icons">group</span>
-            家庭管理
-            <span class="material-icons arrow">expand_more</span>
-          </div>
-          <div class="dropdown-menu family-dropdown-menu" [class.open]="isFamilyMenuOpen">
-            <div class="dropdown-bridge"></div>
-            <div class="dropdown-content">
-              @if (isFamilyMenuOpen) {
-                <a routerLink="/my-family" class="menu-item" (click)="isFamilyMenuOpen = false">
+        <div class="user-menu family-menu">
+          <div class="user-menu-trigger family-menu-trigger">
+            <a class="nav-link family-link">
+              <span class="material-icons">group</span>
+              家庭管理
+              <span class="material-icons arrow">expand_more</span>
+            </a>
+            <div class="dropdown-menu">
+              <div class="dropdown-bridge"></div>
+              <div class="dropdown-content">
+                <a routerLink="/my-family" class="menu-item">
                   <span class="material-icons">groups</span>
                   我的家庭
                 </a>
-                <a routerLink="/create-family" class="menu-item" (click)="isFamilyMenuOpen = false">
+                <a routerLink="/create-family" class="menu-item">
                   <span class="material-icons">group_add</span>
                   創建家庭
                 </a>
-                <a routerLink="/family-invite" class="menu-item" (click)="isFamilyMenuOpen = false">
+                <a routerLink="/family-invite" class="menu-item">
                   <span class="material-icons">mail</span>
                   家庭邀請
                 </a>
-              }
+              </div>
             </div>
           </div>
         </div>
       }
     </nav>
 
-    <!-- 深色模式切換按鈕，移到 user-menu 之前 -->
-    <button class="theme-toggle-btn" (click)="toggleDarkMode()" [attr.aria-label]="isDarkMode ? '切換為亮色模式' : '切換為深色模式'">
-      <span class="material-icons">
-        {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
-      </span>
-    </button>
-
-    <!-- 用戶選單 -->
-    <div class="user-menu">
-      <!-- 用戶選單觸發器 -->
-      <div class="user-menu-trigger">
-        @if (!isLoggedIn) {
-          <button class="login-button" (click)="login(); goLogin()">
-            <span class="material-icons">person</span>
-            會員登入
-          </button>
-        } @else {
-          <button class="user-button">
-            <span class="material-icons">account_circle</span>
-            您好，用戶
-          </button>
-          <div class="dropdown-menu">
-            <div class="dropdown-bridge"></div>
-            <div class="dropdown-content">
-              <a routerLink="/profile" class="menu-item">
-                <span class="material-icons">account_box</span>
-                我的帳戶
-              </a>
-              <a routerLink="/transfersHistory" class="menu-item">
-                <span class="material-icons">swap_horiz</span>
-                轉帳紀錄
-              </a>
-              <a routerLink="/pendingDeletion" class="menu-item">
-                <span class="material-icons">delete_sweep</span>
-                最近刪除
-              </a>
-              <a (click)="logout()" class="menu-item">
-                <span class="material-icons">logout</span>
-                登出
-              </a>
+    <!-- user-actions 區塊，主題切換與登入/用戶按鈕固定排列 -->
+    <div class="user-actions">
+      <button class="theme-toggle-btn" (click)="toggleDarkMode()" [attr.aria-label]="isDarkMode ? '切換為亮色模式' : '切換為深色模式'">
+        <span class="material-icons">
+          {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
+        </span>
+      </button>
+      <div class="user-menu">
+        <div class="user-menu-trigger">
+          @if (!isLoggedIn) {
+            <button class="login-button action-button" (click)="login(); goLogin()">
+              <span class="material-icons">person</span>
+              會員登入
+            </button>
+          } @else {
+            <button class="user-button action-button">
+              <span class="material-icons">account_circle</span>
+              您好，用戶
+            </button>
+            <div class="dropdown-menu">
+              <div class="dropdown-bridge"></div>
+              <div class="dropdown-content">
+                <a routerLink="/profile" class="menu-item">
+                  <span class="material-icons">account_box</span>
+                  我的帳戶
+                </a>
+                <a routerLink="/transfersHistory" class="menu-item">
+                  <span class="material-icons">swap_horiz</span>
+                  轉帳紀錄
+                </a>
+                <a routerLink="/pendingDeletion" class="menu-item">
+                  <span class="material-icons">delete_sweep</span>
+                  最近刪除
+                </a>
+                <a routerLink="/recurring" class="menu-item">
+                  <span class="material-icons">sync</span>
+                  固定支出
+                </a>
+                <a (click)="logout()" class="menu-item">
+                  <span class="material-icons">logout</span>
+                  登出
+                </a>
+              </div>
             </div>
-          </div>
-        }
+          }
+        </div>
       </div>
     </div>
 

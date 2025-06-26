@@ -1,6 +1,6 @@
 import { PaymentFormData } from './../../models/paymentFormData';
 import { ApiService } from './../../@services/api.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -15,6 +15,7 @@ import { Category } from '../../models/categories';
 import { Balance } from '../../models/Balance';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
+import { MatSortModule, MatSort } from '@angular/material/sort';
 import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 
 @Component({
@@ -22,14 +23,14 @@ import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.c
   imports: [
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, MatFormFieldModule,
     MatSelectModule, FormsModule, MatButtonModule, CommonModule, MatTooltipModule,
-    MatTableModule, CustomPaginatorComponent
+    MatTableModule, MatSortModule, CustomPaginatorComponent
   ],
   providers: [provideNativeDateAdapter()],
   standalone: true,
   templateUrl: './ledger.component.html',
   styleUrl: './ledger.component.scss'
 })
-export class LedgerComponent implements OnInit{
+export class LedgerComponent implements OnInit, AfterViewInit{
 
   constructor(
     private apiService: ApiService
@@ -37,6 +38,7 @@ export class LedgerComponent implements OnInit{
 
   @ViewChild('batteryFill') batteryFillElement!: ElementRef<SVGRectElement>;
   @ViewChild('batteryPercentText') batteryPercentTextElement!: ElementRef<SVGTextElement>;
+  @ViewChild(MatSort) sort!: MatSort;
   year: number = new Date().getFullYear(); //  預設帳戶時間（年）
   month: number = new Date().getMonth() + 1;  //  預設帳戶時間（月）
   years: number[] = []; //  年份列表
@@ -63,9 +65,6 @@ export class LedgerComponent implements OnInit{
   selectedBalanceId?: number = 0; //  使用者選擇的 balanceId
   balanceList: Balance[] = [];  //  透過帳號取得帳戶給下拉式選單用
   rawPaymentList: any[] = []; //  原始 API 回傳的 balanceWithPaymentList
-  //  排序控制
-  sortField: 'amount' | 'recordDate' | '' = '';
-  sortDirection: 'asc' | 'desc' = 'asc';
   //  分頁控制
   currentPage: number = 1;
   itemsPerPage: number = 5;
@@ -113,6 +112,12 @@ export class LedgerComponent implements OnInit{
       this.loadBudgetData();
       this.loadPayments();
       this.updateTotalFilteredItems();
+  }
+
+  ngAfterViewInit(): void {
+    this.sort.sortChange.subscribe(() => {
+      this.updateTotalFilteredItems();
+    });
   }
 
   updateBattery(budgetPercentRemaining: number): void {
@@ -307,17 +312,6 @@ export class LedgerComponent implements OnInit{
       (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
     );
 
-    //  排序邏輯
-    if(this.sortField) {
-      payments.sort((a: any, b: any) => {
-        const aVal = a[this.sortField];
-        const bVal = b[this.sortField];
-        return this.sortDirection == 'asc'
-          ? aVal > bVal ? 1: -1
-          : aVal < bVal ? 1: -1;
-      });
-    }
-
     return payments;
   }
 
@@ -477,19 +471,6 @@ export class LedgerComponent implements OnInit{
     this.loadSavingsFromAllPayments();
     this.updateBudgetDisplay();
     this.loadPayments();
-    this.updateTotalFilteredItems();
-  }
-
-  toggleSort(field: 'amount' | 'recordDate'): void {
-    if(this.sortField == field) {
-      //  若點擊的欄位已經是目前排序欄位，則切換排序方向（asc ↔ desc）
-      this.sortDirection = this.sortDirection == 'asc' ? 'desc' : 'asc';
-    }
-     else{
-      //  若點擊的是新的欄位，則設定為新排序欄位並預設為升冪排序（asc）
-      this.sortField = field;
-      this.sortDirection = 'asc';
-    }
     this.updateTotalFilteredItems();
   }
 

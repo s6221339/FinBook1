@@ -95,7 +95,6 @@
 /* 卡片內容區塊，主要用於內部 padding 與顏色 */
 .card-content {
   background: var(--elevation-1);
-  padding: 2.2rem;
   color: var(--text-primary);
 }
 
@@ -197,6 +196,7 @@
 .action-buttons {
   display: flex;
   gap: 1.2rem;
+  align-items: center;
 }
 
 /* 表格外層容器，負責橫向捲動 */
@@ -387,106 +387,23 @@
 .transactions-table td.mat-column-recurringPeriodMonth,
 .transactions-table th.mat-column-recurringPeriodDay,
 .transactions-table td.mat-column-recurringPeriodDay {
-  min-width: 60px;
-  max-width: 70px;
+  min-width: 80px;
+  max-width: 100px;
   text-align: center;
-  white-space: nowrap;
+}
+
+/* 循環週期表身允許換行 */
+.payment-table td.mat-column-recurringPeriodYear,
+.payment-table td.mat-column-recurringPeriodMonth,
+.payment-table td.mat-column-recurringPeriodDay,
+.transactions-table td.mat-column-recurringPeriodYear,
+.transactions-table td.mat-column-recurringPeriodMonth,
+.transactions-table td.mat-column-recurringPeriodDay {
+  white-space: normal;
+  word-break: break-word;
 }
 
 /*  不針對紀錄日期設寬度，讓其自動分配 */
-
-/* --- 用 ::ng-deep 全局覆蓋 mat-sort-header 置中與箭頭顯示（複製自 transfer-history，並支援 .payment-table） --- */
-::ng-deep .transactions-table th.mat-header-cell,
-::ng-deep .transactions-table th[mat-header-cell],
-::ng-deep .payment-table th.mat-header-cell,
-::ng-deep .payment-table th[mat-header-cell] {
-  text-align: center !important;
-  vertical-align: middle !important;
-  padding: 0 !important;
-  position: relative;
-}
-
-::ng-deep .transactions-table .mat-sort-header-container,
-::ng-deep .payment-table .mat-sort-header-container {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  width: 100%;
-  height: 100%;
-}
-
-::ng-deep .transactions-table .mat-sort-header-content,
-::ng-deep .payment-table .mat-sort-header-content {
-  min-width: unset !important;
-  gap: 2px !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-}
-
-::ng-deep .transactions-table .mat-sort-header-arrow,
-::ng-deep .payment-table .mat-sort-header-arrow {
-  color: #fff !important;
-  opacity: 1 !important;
-  transition: color 0.2s;
-  display: inline-block !important;
-}
-
-::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow,
-::ng-deep .payment-table .mat-sort-header-sorted .mat-sort-header-arrow {
-  color: #ffd600 !important;
-  text-shadow: 0 0 8px #ffd600, 0 0 2px #fff;
-}
-
-::ng-deep .transactions-table .mat-sort-header-indicator,
-::ng-deep .payment-table .mat-sort-header-indicator {
-  opacity: 1 !important;
-  color: var(--primary) !important;
-}
-
-/* -------- 表格欄位換行與寬度精準控制 -------- */
-// 1. 表頭允許換行，避免長字撐寬
-.payment-table th,
-.transactions-table th {
-  white-space: normal !important;
-  word-break: break-all !important;
-}
-// 2. 金額、紀錄日期、循環週期（年/月/日）欄位的表身（td）單行顯示，寬度精簡
-.payment-table td.mat-column-amount,
-.transactions-table td.mat-column-amount,
-.payment-table td.mat-column-recordDate,
-.transactions-table td.mat-column-recordDate,
-.payment-table td.mat-column-recurringPeriodYear,
-.transactions-table td.mat-column-recurringPeriodYear,
-.payment-table td.mat-column-recurringPeriodMonth,
-.transactions-table td.mat-column-recurringPeriodMonth,
-.payment-table td.mat-column-recurringPeriodDay,
-.transactions-table td.mat-column-recurringPeriodDay {
-  white-space: nowrap !important;
-  text-align: center;
-  min-width: 60px;
-  max-width: 120px;
-}
-// 金額欄位靠右
-.payment-table td.mat-column-amount,
-.transactions-table td.mat-column-amount {
-  text-align: right;
-  min-width: 80px;
-  max-width: 120px;
-}
-// 紀錄日期欄位寬度
-.payment-table td.mat-column-recordDate,
-.transactions-table td.mat-column-recordDate {
-  width: 110px;
-  max-width: 110px;
-}
-// 3. 其他欄位（如描述、分類、項目）允許換行
-
-.payment-table td,
-.transactions-table td {
-  cursor: default;
-}
 
 /* ====== 表單欄位/自訂表單 ====== */
 /* 自訂表單欄位外層，仿 Material 外觀 */
@@ -644,6 +561,95 @@
   .filter-card {
     flex-basis: 100%;
   }
+}
+
+.icon-text-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.icon-text-btn .mat-icon {
+  font-size: 1.2rem;
+}
+.icon-text-btn.accent {
+  color: var(--primary);
+}
+.icon-text-btn.warn {
+  color: #e53935;
+}
+.icon-text-btn:disabled,
+.icon-text-btn.custom-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.icon-text-btn:hover:not(:disabled):not(.custom-disabled) {
+  background: #f5f5f5;
+}
+
+::ng-deep .transactions-table th.mat-header-cell,
+::ng-deep .transactions-table th[mat-header-cell],
+::ng-deep .payment-table th.mat-header-cell,
+::ng-deep .payment-table th[mat-header-cell] {
+  text-align: center !important;
+  vertical-align: middle !important;
+  padding: 0 !important;
+  position: relative;
+}
+::ng-deep .transactions-table .mat-sort-header-container,
+::ng-deep .payment-table .mat-sort-header-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100%;
+  height: 100%;
+}
+::ng-deep .transactions-table .mat-sort-header-content,
+::ng-deep .payment-table .mat-sort-header-content {
+  min-width: unset !important;
+  gap: 2px !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+::ng-deep .transactions-table .mat-sort-header-arrow,
+::ng-deep .payment-table .mat-sort-header-arrow {
+  color: var(--table-header-text);
+  opacity: 1 !important;
+  transition: color 0.2s;
+  display: inline-block !important;
+}
+::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow,
+::ng-deep .payment-table .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--table-sort) !important;
+  text-shadow: 0 0 8px var(--table-sort), 0 0 2px var(--table-header-text);
+}
+::ng-deep .transactions-table .mat-sort-header-indicator,
+::ng-deep .payment-table .mat-sort-header-indicator {
+  opacity: 1 !important;
+  color: var(--primary) !important;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-arrow,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-arrow {
+  color: #fff !important;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--table-sort) !important;
+  text-shadow: 0 0 8px var(--table-sort), 0 0 2px #fff;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-indicator,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-indicator {
+  color: var(--table-sort) !important;
 }
 
 

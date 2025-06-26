@@ -271,6 +271,20 @@ export class ApiService {
     });
   }
 
+  //  接受家庭邀請
+  acceptFamilyInvitation(data: any) {
+    return axios.post('http://localhost:8080/finbook/family/acceptInvite', data, {
+      withCredentials: true
+    });
+  }
+
+  //  拒絕家庭邀請
+  rejectFamilyInvitation(data: any) {
+    return axios.post('http://localhost:8080/finbook/family/rejectInvite', data, {
+      withCredentials: true
+    });
+  }
+
 }
 
 

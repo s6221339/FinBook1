@@ -21,7 +21,7 @@
       <div class="form-group">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>請選擇第一筆生效日期</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="today" [min]="today" required>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="today" [min]="minDate" required>
           <mat-hint>選擇固定支出的首次生效日期</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker">
             <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>

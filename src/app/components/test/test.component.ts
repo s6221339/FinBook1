@@ -135,6 +135,10 @@ data18 = {
     familyId: 1, owner: "a6221339@yahoo.com.tw", invitee: "littlelambmero@gmail.com"
   };
   account1: string = "littlelambmero@gmail.com";
+  data20 = {
+    "account": "littlelambmero@gmail.com",
+    "familyId": 5
+  };
 
   getTypeByAccount(){
     this.apiService.getTypeByAccount(this.account)
@@ -507,6 +511,30 @@ data18 = {
       .catch(err => {
         console.error('送出失敗：', err);
         alert('顯示帳號家庭邀請失敗，請稍後再試');
+    });
+  }
+
+  acceptFamilyInvitation(){
+    this.apiService.acceptFamilyInvitation(this.data20)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('接受家庭邀請成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('接受家庭邀請失敗，請稍後再試');
+    });
+  }
+
+  rejectFamilyInvitation(){
+    this.apiService.rejectFamilyInvitation(this.data20)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('拒絕家庭邀請成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('拒絕家庭邀請失敗，請稍後再試');
     });
   }
 

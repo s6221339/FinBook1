@@ -16,8 +16,8 @@
             <td>{{ invite.familyName }}</td>
             <td>{{ invite.statusText }}</td>
             <td>
-              <button class="accept-btn">✅ 接受</button>
-              <button class="reject-btn">❌ 拒絕</button>
+              <button class="accept-btn" (click)="acceptInvite(invite.familyId)">✅ 接受</button>
+              <button class="reject-btn" (click)="rejectInvite(invite.familyId)">❌ 拒絕</button>
             </td>
           </tr>
         }

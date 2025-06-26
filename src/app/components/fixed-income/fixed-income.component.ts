@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 import { Balance } from '../../models/Balance';
 
 
+
 @Component({
   selector: 'app-fixed-income',
   imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,MatFormFieldModule,
@@ -48,8 +49,14 @@ export class FixedIncomeComponent implements OnInit{
   recurringPeriodDay: number | null = 0; //  循環天數
   balanceOptions: Balance[] = []; //  API取得下拉式選單帳戶資料
   selectedBalanceId: number = 0;  //  實際綁定 balanceId
+  minDate: Date = new Date(); //  最小日期限制
 
   ngOnInit(): void {
+    //  設定首次生效日期不可為今天，需為明天起
+    this.minDate = new Date();
+    this.minDate.setDate(this.minDate.getDate() + 1);
+    this.today = new Date(this.minDate);  //  預設 today 為明天
+
     //  API取得帳號type
     this.apiService.getTypeByAccount(this.account)
       .then(res => {

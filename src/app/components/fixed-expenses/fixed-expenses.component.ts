@@ -52,6 +52,11 @@ export class FixedExpensesComponent implements OnInit{
   minDate: Date = new Date(); //  固定帳款最小能選擇日期
 
   ngOnInit(): void {
+    //  設定首次生效日期不可為今天，需為明天起
+    this.minDate = new Date();
+    this.minDate.setDate(this.minDate.getDate() + 1);
+    this.today = new Date(this.minDate);  //  預設 today 為明天
+
     //  API取得帳號type
     this.apiService.getTypeByAccount(this.account)
       .then(res => {

@@ -1,1 +1,34 @@
-<p>unaccepted-family-invitation works!</p>
+<div class="invitation-page">
+  <h2 class="title">你還有 {{ invitationList.length }} 筆家庭邀請未確認</h2>
+
+  @if(invitationList.length > 0){
+    <table class="invitation-table">
+      <thead>
+        <tr style="border-bottom: 1px solid #ccc;">
+          <th style="padding: 8px;">家庭名稱</th>
+          <th style="padding: 8px;">狀態</th>
+          <th style="padding: 8px;">採取動作</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(invite of invitationList; track $index){
+          <tr>
+            <td>{{ invite.familyName }}</td>
+            <td>{{ invite.statusText }}</td>
+            <td>
+              <button class="accept-btn">✅ 接受</button>
+              <button class="reject-btn">❌ 拒絕</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+  @else {
+    <p style="color: gray;">目前沒有家庭邀請</p>
+  }
+
+  <div class="footer">
+    <button class="back-btn" (click)="goHome()">回首頁</button>
+  </div>
+</div>

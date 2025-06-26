@@ -49,6 +49,7 @@ export class FixedExpensesComponent implements OnInit{
   recurringPeriodDay: number | null = 0; //  循環天數
   balanceOptions: Balance[] = [];  //  API取得下拉式選單帳戶資料
   selectedBalanceId: number = 0;  //  實際綁定 balanceId
+  minDate: Date = new Date(); //  固定帳款最小能選擇日期
 
   ngOnInit(): void {
     //  API取得帳號type

@@ -28,6 +28,7 @@ export class FamilyManagementComponent implements OnInit{
   isAllSelected: boolean = false;
   showInviteList: boolean = false;
   invitingMembers: FamilyMember[] = [];
+  isOwner: boolean = false;
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
@@ -52,6 +53,8 @@ export class FamilyManagementComponent implements OnInit{
           this.displayFamilyName = this.familyData.name?.trim() !== ''
             ? this.familyData.name
             : '🆔：' + this.familyData.id;
+
+          this.isOwner = this.familyData.owner.account == this.account;
         }
       }
     })
@@ -345,6 +348,73 @@ export class FamilyManagementComponent implements OnInit{
         Swal.fire('錯誤', '無法取得邀請名單', 'error');
       });
     }
+  }
+
+  leaveFamily(): void {
+    if(!this.familyId) return;
+
+    Swal.fire({
+      title: '確定要退出這個家庭嗎？',
+      text: '退出後將無法存取此家庭的任何資料',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '確認退出',
+      cancelButtonText: '取消'
+    })
+    .then(result => {
+      if(result.isConfirmed) {
+        const payload = {
+          familyId: this.familyId,
+          memberAccount: this.account
+        };
+
+        this.apiService.leaveFamily(payload)
+        .then(res => {
+          if(res.data.code == 200) {
+            Swal.fire('✅ 已退出', '您已成功退出家庭', 'success')
+              .then(() => this.router.navigate(['/myFamily']));
+          }
+          else{
+            Swal.fire('❌ 退出失敗', res.data.message || '請稍後再試', 'error');
+          }
+        })
+        .catch(err => {
+          console.error('退出家庭失敗', err);
+          Swal.fire('錯誤', '伺服器錯誤，請稍後再試', 'error');
+        });
+      }
+    });
+  }
+
+  cancelInvite(inviteeAccount: string): void {
+    if(!this.familyId || !this.isOwner) return;
+
+    Swal.fire({
+      title: '確認取消邀請？',
+      html: `帳號：<b>${inviteeAccount}</b>`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '確認取消',
+      cancelButtonText: '取消'
+    })
+    .then(result => {
+      if(result.isConfirmed){
+        this.apiService.cancelPendingInvitation(this.familyId!, this.account, inviteeAccount)
+        .then(res => {
+          if(res.data.code == 200) {
+            Swal.fire('✅ 成功', '已取消邀請', 'success');
+            this.toggleInviteList();  //  重新載入邀請中名單
+          }
+          else{
+            Swal.fire('❌ 失敗', res.data.message || '取消邀請失敗', 'error');
+          }
+        })
+        .catch(err => {
+          console.error('取消邀請失敗', err);
+          Swal.fire('錯誤', '伺服器錯誤，請稍後再試', 'error');
+        });
+      }
+    });
   }
 
 }

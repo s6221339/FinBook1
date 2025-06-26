@@ -248,6 +248,29 @@ export class ApiService {
     });
   }
 
+  //  退出家庭
+  leaveFamily(data: any) {
+    return axios.post('http://localhost:8080/finbook/family/quit', data, {
+      withCredentials: true
+    });
+  }
+
+  //  取消待邀請家庭成員
+  cancelPendingInvitation(familyId: number, owner: string, invitee: string) {
+    return axios.post('http://localhost:8080/finbook/family/cancelInvite', null, {
+      params: { familyId, owner, invitee },
+      withCredentials: true
+    });
+  }
+
+  //  顯示帳號家庭邀請
+  getFamilyInvitationByAccount(account: string) {
+    return axios.post('http://localhost:8080/finbook/family/getInvitationStatus', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
 }
 
 

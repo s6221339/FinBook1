@@ -24,6 +24,13 @@ import { ChangePasswordsComponent } from './components/change-passwords/change-p
 import { ForgetPasswordsComponent } from './components/forget-passwords/forget-passwords.component';
 import { CreateFamilyComponent } from './components/create-family/create-family.component';
 import { FamilyManagementComponent } from './components/family-management/family-management.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import { ExpenseByCategoryComponent } from './components/expense-by-category/expense-by-category.component';
+import { ExpenseByAccountComponent } from './components/expense-by-account/expense-by-account.component';
+import { IncomeByCategoryComponent } from './components/income-by-category/income-by-category.component';
+import { IncomeByAccountComponent } from './components/income-by-account/income-by-account.component';
+import { IncomeExpenseTrendChartComponent } from './components/income-expense-trend-chart/income-expense-trend-chart.component';
+import { UnacceptedFamilyInvitationComponent } from './components/unaccepted-family-invitation/unaccepted-family-invitation.component';
 
 export const routes: Routes = [
   { path:'bookKeeping', component: BookKeepingComponent,
@@ -54,6 +61,16 @@ export const routes: Routes = [
   { path:'forget',component: ForgetPasswordsComponent },
   { path:'createFamily',component: CreateFamilyComponent },
   { path:'familyManagement',component: FamilyManagementComponent },
+  { path:'statistics',component: StatisticsComponent,
+    children: [
+      { path: 'incomeExpenseTrendChart', component: IncomeExpenseTrendChartComponent },
+      { path: 'expenseByCategory', component: ExpenseByCategoryComponent },
+      { path: 'expenseByAccount', component: ExpenseByAccountComponent },
+      { path: 'incomeByCategory', component: IncomeByCategoryComponent },
+      { path: 'incomeByAccount', component: IncomeByAccountComponent },
+    ]
+  },
+  { path:'unacceptedFamilyInvitation',component: UnacceptedFamilyInvitationComponent },
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent }

@@ -113,6 +113,10 @@ data17 = {
   "familyId": 6,
   "owner": "a6221339@yahoo.com.tw"
 }
+data18 = {
+ "familyId": 6,
+ "memberAccount": "littlelambmero@gmail.com"
+};
 
   createType(){
     this.apiService.createType(this.data)
@@ -127,6 +131,10 @@ data17 = {
   }
   balanceId: number = 3;
   familyId: number = 1;
+  data19: { familyId: number, owner: string, invitee: string} = {
+    familyId: 1, owner: "a6221339@yahoo.com.tw", invitee: "littlelambmero@gmail.com"
+  };
+  account1: string = "littlelambmero@gmail.com";
 
   getTypeByAccount(){
     this.apiService.getTypeByAccount(this.account)
@@ -463,6 +471,42 @@ data17 = {
       .catch(err => {
         console.error('送出失敗：', err);
         alert('顯示邀請中的家庭成員清單失敗，請稍後再試');
+    });
+  }
+
+  leaveFamily(){
+    this.apiService.leaveFamily(this.data18)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('退出家庭成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('退出家庭失敗，請稍後再試');
+    });
+  }
+
+  cancelPendingInvitation(){
+    this.apiService.cancelPendingInvitation(this.data19.familyId, this.data19.owner, this.data19.invitee)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('取消待邀請家庭成員成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('取消待邀請家庭成員失敗，請稍後再試');
+    });
+  }
+
+  getFamilyInvitationByAccount(){
+    this.apiService.getFamilyInvitationByAccount(this.account1)
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('顯示帳號家庭邀請成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('顯示帳號家庭邀請失敗，請稍後再試');
     });
   }
 

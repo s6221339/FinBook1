@@ -12,10 +12,10 @@
             <label for="account">選擇帳戶</label>
             <select id="account" [ngModel]="selectedAccountId.value" (ngModelChange)="onAccountSelectionChange($event)" class="custom-select">
               @for (account of accounts; track account.balanceId) {
-                <option [value]="account.balanceId">{{ account.name }} (ID: {{ account.balanceId }})</option>
+                <option [ngValue]="account.balanceId">{{ account.name }} (ID: {{ account.balanceId }})</option>
               }
             </select>
-            <div class="custom-hint">目前選擇: {{ getAccountName(selectedAccountId.value || selectedAccountId) || '尚未選擇' }}</div>
+            <div class="custom-hint">目前選擇: {{ getAccountName(currentBalanceId) || '尚未選擇' }}</div>
           </div>
         </div>
       </div>

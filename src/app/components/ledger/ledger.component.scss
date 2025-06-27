@@ -101,6 +101,7 @@
   margin: 0 auto 2.5rem auto;
   max-width: 1200px;
   justify-content: flex-start;
+  align-items: stretch;
 }
 
 .filter-card {
@@ -113,6 +114,11 @@
   display: flex;
   flex-direction: column;
   margin: 0;
+  height: 460px;
+  min-height: unset;
+  max-height: 460px;
+  overflow: hidden;
+  justify-content: flex-start;
 }
 
 .card-header {
@@ -172,11 +178,10 @@
 }
 
 .budget-info-row {
-  display: flex;
   align-items: center;
-  justify-content: flex-start;
-  cursor: default;
+  display: flex;
   font-size: 1.3rem;
+  padding: 0;
 }
 
 .budget-info-right {
@@ -238,16 +243,15 @@
 }
 
 .custom-input-budget {
-  width: 70px;
-  min-width: 0;
+  flex-grow: 1;
+  max-width: 220px;
+  min-width: 80px;
+  height: 32px;
   font-size: 1.1rem;
   padding: 0.3rem 0.7rem;
-  border-radius: 8px;
-  border: 1.5px solid var(--primary);
-  background: var(--elevation-1);
-  color: var(--text-primary);
-  outline: none;
+  box-sizing: border-box;
   margin-right: 0.5rem;
+  display: inline-block;
 }
 
 .transactions-card {
@@ -287,6 +291,10 @@
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
   position: relative;
   padding-right: 2.5rem;
+  height: 48px;
+  min-height: 48px;
+  line-height: 48px;
+  box-sizing: border-box;
 }
 
 .custom-select:focus, input[type='date']:focus, .custom-input-budget:focus {
@@ -495,15 +503,35 @@
 }
 
 .budget-edit-row {
+  width: 100%;
+  max-width: 100%;
   display: flex;
-  gap: 0.5rem;
-  margin-left: 1rem;
-  margin-top: 0.5rem;
   align-items: center;
+  gap: 0.3rem;
+  margin-left: 0;
+  margin-top: 0.3rem;
+  padding-right: 0.5rem;
+  justify-content: flex-end;
 }
 
 .custom-btn-edit .material-icons {
   color: var(--edit-btn-icon);
+}
+
+.custom-btn-save,
+.custom-btn-cancel {
+  height: 32px;
+  width: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-btn-cancel {
+  margin-right: 0;
 }
 
 @media (max-width: 1100px) {

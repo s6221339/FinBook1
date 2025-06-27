@@ -66,6 +66,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   selectedItem?: string | null;  //  下拉式選單(item)
   categoriesFilteredItems: string[] = []; //  兩層下拉式選單第二層的對象
   selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
+  selectedRecordDateStr: string | null = null;
   allSelected: boolean = false;
 
   // 分頁相關
@@ -191,6 +192,12 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     this.monthEndDate = new Date(this.year, this.month, 0);
 
     this.loadPayments();
+    // 同步日期字串
+    if (this.selectedRecordDate) {
+      this.selectedRecordDateStr = this.selectedRecordDate.toISOString().slice(0, 10);
+    } else {
+      this.selectedRecordDateStr = null;
+    }
   }
 
   //  取得特定月份帳號所有帳款
@@ -243,6 +250,12 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   onBalanceChange(){
     this.loadPayments();
     this.applyFilters();
+    // 同步日期字串
+    if (this.selectedRecordDate) {
+      this.selectedRecordDateStr = this.selectedRecordDate.toISOString().slice(0, 10);
+    } else {
+      this.selectedRecordDateStr = null;
+    }
   }
 
   //  更新所選帳戶顯示
@@ -256,11 +269,18 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     this.generateMonths();
     this.loadPayments();
     this.applyFilters();
+    // 同步日期字串
+    if (this.selectedRecordDate) {
+      this.selectedRecordDateStr = this.selectedRecordDate.toISOString().slice(0, 10);
+    } else {
+      this.selectedRecordDateStr = null;
+    }
   }
 
   //  清除日期選擇器篩選表格選擇日期
   clearSelectedRecordDate(): void {
     this.selectedRecordDate = null;
+    this.selectedRecordDateStr = null;
     this.applyFilters();
   }
 
@@ -332,6 +352,13 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   applyFilters(): void {
     const selected = this.rawPaymentList.find(p => p.balanceId == this.selectedBalanceId);
 
+    // 修正：若 selectedRecordDateStr 有值，轉成 Date
+    if (this.selectedRecordDateStr) {
+      this.selectedRecordDate = new Date(this.selectedRecordDateStr);
+    } else {
+      this.selectedRecordDate = null;
+    }
+
     if(!selected){
       this.dataSource.data = [];
       this.allFilteredData = [];
@@ -352,10 +379,10 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
       selected: false
     }));
 
-    //  篩選
+    //  篩選（type/item 用 ===）
     payments = payments.filter(t =>
-      (!this.selectedType || this.selectedType == '全部' || t.type?.includes(this.selectedType!)) &&
-      (!this.selectedItem || this.selectedItem == '全部' || t.item?.includes(this.selectedItem!)) &&
+      (!this.selectedType || this.selectedType == '全部' || t.type === this.selectedType) &&
+      (!this.selectedItem || this.selectedItem == '全部' || t.item === this.selectedItem) &&
       (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
     );
 

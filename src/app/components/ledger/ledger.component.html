@@ -56,7 +56,7 @@
         @if (categoriesFilteredItems.length > 0) {
           <div class="custom-form-group">
             <label for="item">選擇項目</label>
-            <select id="item" [(ngModel)]="selectedItem" class="custom-select">
+            <select id="item" [(ngModel)]="selectedItem" (change)="onItemChange()" class="custom-select">
               @for (item of categoriesFilteredItems; track item) {
                 <option [value]="item">{{ item }}</option>
               }
@@ -66,8 +66,8 @@
         <hr class="filter-divider" />
         <div class="custom-form-group">
           <label for="date">篩選特定日期</label>
-          <input id="date" type="date" [(ngModel)]="selectedRecordDate" (change)="updateMonthRange()" [min]="monthStartDate" [max]="monthEndDate" class="custom-select" placeholder="請選擇日期">
-          @if (selectedRecordDate) {
+          <input id="date" type="date" [(ngModel)]="selectedRecordDateStr" (change)="onRecordDateChange()" [min]="monthStartDate" [max]="monthEndDate" class="custom-select" placeholder="請選擇日期">
+          @if (selectedRecordDateStr) {
             <button type="button" (click)="clearSelectedRecordDate()" class="custom-clear-btn" title="清除選擇的日期">×</button>
           }
         </div>
@@ -145,7 +145,7 @@
         <span class="transaction-count pill-green">共 {{ totalFilteredItems }} 筆</span>
       </div>
       <div class="card-content table-content">
-        <table mat-table [dataSource]="filteredTestData" matSort #sort="matSort" class="mat-elevation-z8 payment-table transactions-table">
+        <table mat-table [dataSource]="dataSource" matSort #sort="matSort" class="mat-elevation-z8 payment-table transactions-table">
           <!-- 分類 -->
           <ng-container matColumnDef="type">
             <th mat-header-cell *matHeaderCellDef>分類</th>

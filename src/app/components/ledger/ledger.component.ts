@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 import { Category } from '../../models/categories';
 import { Balance } from '../../models/Balance';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 
@@ -59,6 +59,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   distinctTypes: string[] = []; //  不重複的類型
   account: string = "a6221339@yahoo.com.tw"; //  預設帳號
   selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
+  selectedRecordDateStr: string | null = null;
   monthStartDate: Date = new Date(this.year, this.month-1, 1);  //  日期選擇器篩選表格開始日期
   monthEndDate: Date = new Date(this.year, this.month, 0);  //  日期選擇器篩選表格結束日期
   budgetList: any[] = [];  //  存 API 回傳 budgetList ，給統計用
@@ -69,6 +70,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalFilteredItems: number = 0;
+  dataSource = new MatTableDataSource<PaymentIdFormData>();
 
   ngOnInit(): void {
     //  初始化年份選單列表
@@ -112,11 +114,14 @@ export class LedgerComponent implements OnInit, AfterViewInit{
       this.loadBudgetData();
       this.loadPayments();
       this.updateTotalFilteredItems();
+      this.updateDataSource();
   }
 
   ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
     this.sort.sortChange.subscribe(() => {
       this.updateTotalFilteredItems();
+      this.updateDataSource();
     });
   }
 
@@ -284,6 +289,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     //  預設 item 選「全部」
     this.selectedItem = '全部';
     this.updateTotalFilteredItems();
+    this.updateDataSource();
   }
 
   //  get 方法在裡面值有變動時會自動執行調整
@@ -306,9 +312,8 @@ export class LedgerComponent implements OnInit, AfterViewInit{
 
     //  篩選條件
     payments = payments.filter((t: PaymentIdFormData) =>
-      (!this.selectedType || this.selectedType == '全部' || t.type?.includes(this.selectedType!)) &&
-      //  ?. 是 Optional Chaining（可選鏈結運算子）如果前面的東西是 undefined 或 null，就不繼續執行後面的操作，直接回傳 undefined。
-      (!this.selectedItem || this.selectedItem == '全部' || t.item?.includes(this.selectedItem!)) &&  // ! 非空斷言運算子
+      (!this.selectedType || this.selectedType == '全部' || t.type === this.selectedType) &&
+      (!this.selectedItem || this.selectedItem == '全部' || t.item === this.selectedItem) &&
       (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
     );
 
@@ -328,6 +333,13 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.loadBudgetData();  //  month 變動時撈資料
     this.loadPayments();
     this.updateTotalFilteredItems();
+    this.updateDataSource();
+    // 同步日期字串
+    if (this.selectedRecordDate) {
+      this.selectedRecordDateStr = this.selectedRecordDate.toISOString().slice(0, 10);
+    } else {
+      this.selectedRecordDateStr = null;
+    }
   }
 
   //  日期選擇器篩選選擇日期
@@ -340,6 +352,10 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   //  清除日期選擇器篩選表格選擇日期
   clearSelectedRecordDate(): void {
     this.selectedRecordDate = null;
+    this.selectedRecordDateStr = null;
+    this.currentPage = 1;
+    this.updateTotalFilteredItems();
+    this.updateDataSource();
   }
 
   //  年月下拉式選單月份生成不超過目前月份
@@ -377,6 +393,13 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.loadBudgetData();  //  year 變動時撈資料
     this.loadPayments();
     this.updateTotalFilteredItems();
+    this.updateDataSource();
+    // 同步日期字串
+    if (this.selectedRecordDate) {
+      this.selectedRecordDateStr = this.selectedRecordDate.toISOString().slice(0, 10);
+    } else {
+      this.selectedRecordDateStr = null;
+    }
   }
 
   //  撈 budget API
@@ -459,10 +482,12 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.apiService.getPaymentByAccountAndMonth(data)
     .then(res => {
       this.rawPaymentList = res.data.balanceWithPaymentList || [];
+      this.updateDataSource();
     })
     .catch(err => {
       console.error('取得帳款資料失敗：', err);
       this.rawPaymentList = [];
+      this.updateDataSource();
     });
   }
 
@@ -472,6 +497,13 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.updateBudgetDisplay();
     this.loadPayments();
     this.updateTotalFilteredItems();
+    this.updateDataSource();
+    // 同步日期字串
+    if (this.selectedRecordDate) {
+      this.selectedRecordDateStr = this.selectedRecordDate.toISOString().slice(0, 10);
+    } else {
+      this.selectedRecordDateStr = null;
+    }
   }
 
   //  換頁方法
@@ -479,6 +511,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   prevPage(): void {
     if(this.currentPage > 1) {
       this.currentPage--;
+      this.updateDataSource();
     }
   }
 
@@ -488,6 +521,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     const startIndex = this.currentPage * this.itemsPerPage;
     if(startIndex < this.filteredFullData.length) {
       this.currentPage++;
+      this.updateDataSource();
     }
   }
 
@@ -531,5 +565,26 @@ export class LedgerComponent implements OnInit, AfterViewInit{
 
   updateTotalFilteredItems(): void {
     this.totalFilteredItems = this.filteredFullData.length;
+  }
+
+  updateDataSource(): void {
+    this.dataSource.data = this.filteredTestData;
+  }
+
+  onRecordDateChange(): void {
+    if (this.selectedRecordDateStr) {
+      this.selectedRecordDate = new Date(this.selectedRecordDateStr);
+    } else {
+      this.selectedRecordDate = null;
+    }
+    this.currentPage = 1;
+    this.updateTotalFilteredItems();
+    this.updateDataSource();
+  }
+
+  onItemChange(): void {
+    this.currentPage = 1;
+    this.updateTotalFilteredItems();
+    this.updateDataSource();
   }
 }

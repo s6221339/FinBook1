@@ -83,8 +83,8 @@
         <mat-card-content>
           <div class="custom-form-group">
             <label for="date">篩選特定日期</label>
-            <input id="date" type="date" [(ngModel)]="selectedRecordDate" (change)="applyFilters()" [min]="monthStartDate" [max]="monthEndDate" class="custom-select" placeholder="請選擇日期">
-            @if (selectedRecordDate) {
+            <input id="date" type="date" [(ngModel)]="selectedRecordDateStr" (change)="applyFilters()" [min]="monthStartDate" [max]="monthEndDate" class="custom-select" placeholder="請選擇日期">
+            @if (selectedRecordDateStr) {
               <button type="button" (click)="clearSelectedRecordDate()" class="custom-clear-btn" title="清除選擇的日期">×</button>
             }
           </div>

@@ -139,12 +139,12 @@ export class TransferHistoryComponent {
           // 步驟 1: 先默默地(不觸發事件)設定表單控制項的值，
           // 這樣做的目的是讓下拉選單的 UI 正確顯示預設選項。
           this.selectedAccountId.setValue(defaultAccountId, { emitEvent: false });
+          this.currentBalanceId = defaultAccountId;
           console.log(`已預設選取帳戶: ${defaultAccountId}`);
 
           // 步驟 2: 然後直接、明確地呼叫處理函式來載入資料。
           // onAccountSelectionChange 會處理後續的 SweetAlert 提示和資料載入。
           this.onAccountSelectionChange(defaultAccountId);
-
         } else {
           // ... (沒有帳戶的處理邏輯不變)
           this.currentBalanceId = null;
@@ -304,7 +304,14 @@ export class TransferHistoryComponent {
       const v = (eventOrValue.target as HTMLSelectElement).value;
       value = v ? Number(v) : null;
     }
+    // 修正：value 若為字串則轉成 number
+    if (typeof value === 'string') {
+      value = Number(value);
+    }
     this.currentBalanceId = value;
+    if (typeof this.selectedAccountId.setValue === 'function') {
+      this.selectedAccountId.setValue(value, { emitEvent: false });
+    }
     if (value === null) {
       this.dataSource.data = [];
       this.totalItems = 0;
@@ -338,6 +345,10 @@ export class TransferHistoryComponent {
       id = balanceIdOrControl;
     } else if (balanceIdOrControl && typeof balanceIdOrControl === 'object' && 'value' in balanceIdOrControl) {
       id = balanceIdOrControl.value;
+    }
+    // 修正：如果 id 是字串，轉成數字
+    if (typeof id === 'string') {
+      id = Number(id);
     }
     if (id == null) return '';
     const accountName = this.accountNameMap.get(id);

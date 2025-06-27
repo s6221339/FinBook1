@@ -12,10 +12,10 @@
           <label for="account">選擇帳戶</label>
           <select id="account" [(ngModel)]="selectedBalanceId" (change)="onBalanceChange()" class="custom-select">
             @for (b of balanceList; track b.balanceId) {
-              <option [value]="b.balanceId">{{ b.name }}</option>
+              <option [value]="b.balanceId">{{ b.name }} (ID: {{ b.balanceId }})</option>
             }
           </select>
-          <div class="custom-hint">目前選擇: {{ selectedBalanceName }}</div>
+          <div class="custom-hint">目前選擇: {{ selectedBalanceName }} (ID: {{ selectedBalanceId }})</div>
         </div>
         <div class="half-width-container">
           <div class="custom-form-group half-width">
@@ -193,6 +193,7 @@
               <div class="empty-state">
                 <mat-icon>search_off</mat-icon>
                 <h3>目前沒有符合的款項</h3>
+                <p>請嘗試選擇其他月份或新增付款記錄</p>
               </div>
             </td>
           </tr>

@@ -14,7 +14,7 @@ import { FadeInOnScrollDirective } from '../../fade-in-on-scroll.directive';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-constructor(private router: Router) {}
+  constructor(private router: Router) {}
 
   // 打字效果相關
   typingText = ""

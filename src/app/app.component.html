@@ -55,15 +55,15 @@
             <div class="dropdown-menu">
               <div class="dropdown-bridge"></div>
               <div class="dropdown-content">
-                <a routerLink="/my-family" class="menu-item">
+                <a  class="menu-item" (click)="goMyFamily()">
                   <span class="material-icons">groups</span>
                   我的家庭
                 </a>
-                <a routerLink="/create-family" class="menu-item">
+                <a (click)="goCreateFamily()" class="menu-item">
                   <span class="material-icons">group_add</span>
                   創建家庭
                 </a>
-                <a routerLink="/family-invite" class="menu-item">
+                <a (click)="goUnacceptedFamilyInvitation()" class="menu-item">
                   <span class="material-icons">mail</span>
                   家庭邀請
                 </a>
@@ -96,7 +96,7 @@
             <div class="dropdown-menu">
               <div class="dropdown-bridge"></div>
               <div class="dropdown-content">
-                <a routerLink="/profile" class="menu-item">
+                <a routerLink="/profile" class="menu-item" (click)="goMyBalance()">
                   <span class="material-icons">account_box</span>
                   我的帳戶
                 </a>
@@ -104,7 +104,7 @@
                   <span class="material-icons">swap_horiz</span>
                   轉帳紀錄
                 </a>
-                <a routerLink="/pendingDeletion" class="menu-item">
+                <a routerLink="/pendingDeletion" class="menu-item" (click)="goPendingDeletion()">
                   <span class="material-icons">delete_sweep</span>
                   最近刪除
                 </a>

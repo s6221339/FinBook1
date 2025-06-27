@@ -106,4 +106,24 @@ export class AppComponent {
     this.isFamilyMenuOpen = !this.isFamilyMenuOpen;
   }
 
+  goCreateFamily(){
+    this.router.navigate(['/createFamily']);
+  }
+
+  goMyBalance(){
+    this.router.navigate(['/myBalance']);
+  }
+
+  goMyFamily(){
+    this.router.navigate(['/myFamily']);
+  }
+
+  goPendingDeletion(){
+    this.router.navigate(['/pendingDeletion']);
+  }
+
+  goUnacceptedFamilyInvitation(){
+    this.router.navigate(['/unacceptedFamilyInvitation']);
+  }
+
 }

@@ -54,7 +54,7 @@ export class FixedExpensesComponent implements OnInit, AfterViewInit {
     //  設定首次生效日期不可為今天，需為明天起
     this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate() + 1);
-    this.today = new Date(this.minDate);
+    this.today = new Date(this.minDate);  //  預設 today 為明天
     this.todayString = this.formatDate(this.today);
 
     //  API取得帳號type
@@ -124,7 +124,6 @@ export class FixedExpensesComponent implements OnInit, AfterViewInit {
         });
       });
   }
-
 
   get currentAccount(): string {
     const user = this.authService.getCurrentUser();

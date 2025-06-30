@@ -51,6 +51,7 @@ export class FixedIncomeComponent implements OnInit, AfterViewInit {
   minDate: Date = new Date(); //  最小日期限制
 
   ngOnInit(): void {
+    //  設定首次生效日期不可為今天，需為明天起
     this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate() + 1);
     this.today = new Date(this.minDate);  //  預設 today 為明天
@@ -104,7 +105,6 @@ export class FixedIncomeComponent implements OnInit, AfterViewInit {
       this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
-
         //  每次返回頁面都重新抓分類資料
         this.apiService.getPaymentByAccount(this.currentAccount)
         .then(res => {
@@ -119,7 +119,6 @@ export class FixedIncomeComponent implements OnInit, AfterViewInit {
         });
       });
   }
-
 
   get currentAccount(): string {
     const user = this.authService.getCurrentUser();
@@ -144,6 +143,7 @@ export class FixedIncomeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  //  根據 selectedType 更新 categoriesFilteredItems
   updateCategoriesFiltedItems(){
     this.categoriesFiltedItems = this.categories
       .filter(c => c.type === this.selectedType)
@@ -273,4 +273,5 @@ export class FixedIncomeComponent implements OnInit, AfterViewInit {
       });
     });
   }
+
 }

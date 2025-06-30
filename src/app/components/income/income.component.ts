@@ -116,7 +116,6 @@ export class IncomeComponent implements OnInit, AfterViewInit {
         });
   }
 
-
   get currentAccount(): string {
     const user = this.authService.getCurrentUser();
     if(!user) {

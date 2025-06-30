@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { AuthService } from './@services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,11 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
   constructor(
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ){}
 
  // 基本屬性
@@ -24,6 +26,15 @@ export class AppComponent {
   gifSrc = `/notebook-change1.gif?${Date.now()}`; // 動態載入GIF圖片，避免快取問題
   isDarkMode = false;
   isFamilyMenuOpen = false;
+  userName: string = '';
+
+  ngOnInit(): void {
+    //  監聽登入狀態
+    this.authService.currentUser$.subscribe(user => {
+      this.isLoggedIn = !!user;
+      this.userName = user?.name ?? '';
+    });
+  }
 
   // 監聽滾動事件
   @HostListener("window:scroll", [])
@@ -42,14 +53,16 @@ export class AppComponent {
 
   // 模擬登入功能（之後會連接後端API）
   login() {
-    this.isLoggedIn = true
-    console.log("登入功能 - 之後連接後端API")
+    this.router.navigate(['/login']);
   }
 
   // 模擬登出功能（之後會連接後端API）
   logout() {
-    this.isLoggedIn = false
-    console.log("登出功能 - 之後連接後端API")
+    this.authService.logout().subscribe(success => {
+      if(success) {
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   // 平滑滾動到頁面頂部

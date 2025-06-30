@@ -285,6 +285,19 @@ export class ApiService {
     });
   }
 
+  //  會員登出
+  logout() {
+    return axios.post('http://localhost:8080/finbook/user/logout', null, {
+      withCredentials: true
+    });
+  }
+
+  //  獲得會員資料
+  getUserByAccount(account: string) {
+    return axios.post('http://localhost:8080/finbook/user/getUser', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
 }
-
-

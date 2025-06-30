@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 // 導入 Angular 核心模組和功能
 import { Component, OnInit, ViewChild } from '@angular/core'; // Component: 定義元件; OnInit: 生命週期鉤子; ViewChild: 獲取模板元素
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core'; // Material Datepicker 相關設定
@@ -43,7 +44,12 @@ export class TransfersComponent implements OnInit { // 實作 OnInit 介面，�
 
   // 構造函數 (Constructor)：當 Angular 建立這個元件的實例時會執行
   // 這裡注入了所需的服務：ApiService 用於 API 呼叫，Router 用於路由，DatePipe 用於日期格式化
-  constructor(private apiService: ApiService, private router: Router, private datePipe: DatePipe) { }
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private datePipe: DatePipe,
+    private authService: AuthService
+  ) {}
 
   // @ViewChild 裝飾器：用於從元件的模板 (HTML) 中獲取對元素的引用
   // 透過 #templateReferenceVariable (如 #fromBalanceField) 來指定要獲取的元素
@@ -76,7 +82,18 @@ export class TransfersComponent implements OnInit { // 實作 OnInit 介面，�
     // 雖然轉帳日期在 HTML 中被註解掉，但如果未來需要，這裡可以設定初始值
     // this.transferDateString = this.today;
 
-    const accountString = 'a6221339@yahoo.com.tw'; // 帳戶查詢字串，假設為登入帳號，硬編碼用於範例
+    const currentUser = this.authService.getCurrentUser();
+    const accountString = currentUser?.account;
+
+    if(!accountString) {
+      Swal.fire({
+        icon: 'error',
+        title: '尚未登入',
+        text: '請先登入以載入帳戶清單',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
 
     // 呼叫 ApiService 的 getBalanceByAccount 方法，從後端取得帳戶列表
     this.apiService.getBalanceByAccount(accountString)

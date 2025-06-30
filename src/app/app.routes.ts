@@ -31,9 +31,12 @@ import { IncomeByCategoryComponent } from './components/income-by-category/incom
 import { IncomeByAccountComponent } from './components/income-by-account/income-by-account.component';
 import { IncomeExpenseTrendChartComponent } from './components/income-expense-trend-chart/income-expense-trend-chart.component';
 import { UnacceptedFamilyInvitationComponent } from './components/unaccepted-family-invitation/unaccepted-family-invitation.component';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { AuthGuard } from './@guards/auth.guard';
+import { AdminGuard } from './@guards/admin.guard';
 
 export const routes: Routes = [
-  { path:'bookKeeping', component: BookKeepingComponent,
+  { path:'bookKeeping', component: BookKeepingComponent, canActivate: [AuthGuard],
     children: [
       { path: 'fixedIncome', component: FixedIncomeComponent },
       { path: 'fixedExpenses', component: FixedExpensesComponent },
@@ -42,17 +45,17 @@ export const routes: Routes = [
       { path: 'transfers', component: TransfersComponent },
       { path: '', component: ExpensesComponent }]},
   { path: 'transfersHistory', component: TransferHistoryComponent },
-  { path: 'test', component: TestComponent},
-  { path: 'createItem', component: CreateItemComponent},
+  { path: 'test', component: TestComponent, canActivate: [AdminGuard] },
+  { path: 'createItem', component: CreateItemComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'ledger', component: LedgerComponent },
-  { path: 'modifyPayment', component: ModifyPaymentComponent },
-  { path: 'editPayment', component: EditPaymentComponent },
-  { path: 'pendingDeletion', component: PendingDeletionComponent },
-  { path: 'myBalance', component: MyBalanceComponent },
+  { path: 'ledger', component: LedgerComponent, canActivate: [AuthGuard] },
+  { path: 'modifyPayment', component: ModifyPaymentComponent, canActivate: [AuthGuard] },
+  { path: 'editPayment', component: EditPaymentComponent, canActivate: [AuthGuard] },
+  { path: 'pendingDeletion', component: PendingDeletionComponent, canActivate: [AuthGuard] },
+  { path: 'myBalance', component: MyBalanceComponent, canActivate: [AuthGuard] },
   { path: 'myFamily', component: MyFamilyComponent },
-  { path:'memberCenter', component: MemberCenterComponent,
+  { path:'memberCenter', component: MemberCenterComponent, canActivate: [AuthGuard],
     children: [
       { path: 'memberInfo', component: MemberInfoComponent },
       { path: 'memberConfirm', component: MemberConfirmComponent },
@@ -71,6 +74,7 @@ export const routes: Routes = [
     ]
   },
   { path:'unacceptedFamilyInvitation',component: UnacceptedFamilyInvitationComponent },
+  { path:'unauthorized',component: UnauthorizedComponent },
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent }

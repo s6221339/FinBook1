@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { PaymentService } from './../../@services/payment.service';
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {provideNativeDateAdapter} from '@angular/material/core';
@@ -28,7 +29,8 @@ export class ExpensesComponent implements OnInit{
   constructor(
     private router: Router,
     private apiService: ApiService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private authService: AuthService
   ){}
 
   today: Date = new Date();
@@ -41,7 +43,7 @@ export class ExpensesComponent implements OnInit{
   distinctTypes: string[] = []; //  不重複的類型
   amount?: number | null;  //  支出金額
   description?: string; //  款項描述
-  account: string = "a6221339@yahoo.com.tw"; //  測試帳號
+  account: string = ''; //  測試帳號
   recurringPeriodYear?: number | null;  //  循環年數
   recurringPeriodMonth?: number | null; //  循環月數
   recurringPeriodDay?: number | null; //  循環天數
@@ -49,8 +51,16 @@ export class ExpensesComponent implements OnInit{
   selectedBalanceId: number = 0;  //  實際綁定 balanceId
 
   ngOnInit(): void {
+    const user = this.authService.getCurrentUser();
+    if(!user) {
+      Swal.fire('錯誤', '尚未登入', 'error');
+      this.router.navigate(['/login']);
+      return;
+    }
+    const account = user.account;
+
     //  API取得帳號type
-    this.apiService.getTypeByAccount(this.account)
+    this.apiService.getTypeByAccount(account)
       .then(res => {
         const list: Category[] = res.data.paymentTypeList || [];
         this.categories = list;
@@ -60,7 +70,7 @@ export class ExpensesComponent implements OnInit{
         )];
 
         //  接著抓帳戶資料
-        return this.apiService.getBalanceByAccount(this.account);
+        return this.apiService.getBalanceByAccount(account);
       })
       .then(res => {
         this.balanceOptions = res.data.balanceList || [];
@@ -97,8 +107,13 @@ export class ExpensesComponent implements OnInit{
   this.router.events
     .pipe(filter(event => event instanceof NavigationEnd))
     .subscribe(() => {
+      //  必須再次取 user.account
+      const refreshedUser = this.authService.getCurrentUser();
+      if(!refreshedUser) return;
+      const refreshedAccount = refreshedUser.account;
+
       //  每次返回頁面都重新抓分類資料
-      this.apiService.getTypeByAccount(this.account)
+      this.apiService.getTypeByAccount(refreshedAccount)
         .then(res => {
           const list: Category[] = res.data.paymentTypeList || [];
           this.categories = list;

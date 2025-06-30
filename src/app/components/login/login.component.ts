@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../@services/auth.service';
+import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterLink,RouterLinkActive],
+  imports: [RouterLink,RouterLinkActive, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 
@@ -11,7 +14,13 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 export class LoginComponent {
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ){}
+
+  account: string = '';
+  password: string = '';
 
   RegisterClick() {
     console.log('註冊按鈕被點擊了！');
@@ -19,7 +28,19 @@ export class LoginComponent {
   }
 
   LoginClick(): void {
-    console.log('登入按鈕被點擊了！');
-    this.router.navigate(['/memberCenter']); // 使用 router.navigate() 導航
+    this.authService.login(this.account, this.password).subscribe(success => {
+      if(success) {
+        this.router.navigate(['/memberCenter']);
+      }
+      else{
+        Swal.fire({
+          icon: 'error',
+          title: '登入失敗',
+          text: '請確認帳號密碼',
+          confirmButtonText: '確定'
+        });
+      }
+    });
   }
+
 }

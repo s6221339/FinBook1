@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Balance } from '../../models/Balance';
 import { PendingDeletionPayment } from '../../models/PendingDeletionPayment';
@@ -8,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-pending-deletion',
@@ -18,10 +20,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 export class PendingDeletionComponent implements OnInit{
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ){}
 
-  account: string= 'a6221339@yahoo.com.tw';  //  預設帳號
   balances: Balance[] = []; //  所有使用者帳戶
   selectedBalanceId: number | null = null;  //  使用者選擇的 balanceId
   pendingList: PendingDeletionPayment[] = []; //  待刪區款項
@@ -30,7 +32,7 @@ export class PendingDeletionComponent implements OnInit{
 
   ngOnInit(): void {
     //  取得帳戶
-    this.apiService.getBalanceByAccount(this.account)
+    this.apiService.getBalanceByAccount(this.currentAccount)
     .then(res => {
       this.balances = res.data.balanceList || [];
       if(this.balances.length > 0) {
@@ -44,9 +46,18 @@ export class PendingDeletionComponent implements OnInit{
     });
   }
 
+  get currentAccount(): string {
+    const user = this.authService.getCurrentUser();
+    if(!user) {
+      Swal.fire('錯誤', '尚未登入，請重新登入', 'error');
+      throw new Error('未登入使用者');
+    }
+    return user.account;
+  }
+
   //  載入待刪款項
   loadPayments(): void {
-    this.apiService.getPaymentInPendingDeletion(this.account)
+    this.apiService.getPaymentInPendingDeletion(this.currentAccount)
     .then(res => {
       this.pendingList = res.data.balanceWithPaymentList || [];
       this.filterByBalanceId();

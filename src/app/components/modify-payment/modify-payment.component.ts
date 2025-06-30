@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { PaymentModifiedService } from './../../@services/payment-modified.service';
 import { ApiService } from './../../@services/api.service';
 import { CommonModule} from '@angular/common';
@@ -48,6 +49,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     private apiService: ApiService,
     private router: Router,
     private paymentModifiedService: PaymentModifiedService,
+    private authService: AuthService
   ){}
 
   balanceList: Balance[] = []; //  透過帳號取得帳戶給下拉式選單用
@@ -57,7 +59,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   months: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; //  月份列表
   monthStartDate: Date = new Date(this.year, this.month-1, 1);  //  日期選擇器篩選表格開始日期
   monthEndDate: Date = new Date(this.year, this.month, 0);  //  日期選擇器篩選表格結束日期
-  account: string = "a6221339@yahoo.com.tw"; //  預設帳號
+  account: string = ''; //  預設帳號
   rawPaymentList: any[] = []; //  原始 API 回傳的 balanceWithPaymentList
   selectedBalanceId?: number = 0; //  使用者選擇的 balanceId
   categories: Category[] = [];
@@ -93,6 +95,14 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
 
+    //  從 AuthService 取得登入會員帳號
+    const user = this.authService.getCurrentUser();
+    if(!user) {
+      Swal.fire('錯誤', '尚未登入，請重新登入', 'error');
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.account = user.account;
 
     //  初始化年份選單列表
     this.generateYears();

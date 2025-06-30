@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { PaymentFormData } from './../../models/paymentFormData';
 import { ApiService } from './../../@services/api.service';
 import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
@@ -17,6 +18,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ledger',
@@ -33,7 +36,9 @@ import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.c
 export class LedgerComponent implements OnInit, AfterViewInit{
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService,
+    private router: Router
   ){}
 
   @ViewChild('batteryFill') batteryFillElement!: ElementRef<SVGRectElement>;
@@ -57,7 +62,6 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   categoriesFilteredItems: string[] = []; //  兩層下拉式選單第二層的對象
   categories: Category[] = [];
   distinctTypes: string[] = []; //  不重複的類型
-  account: string = "a6221339@yahoo.com.tw"; //  預設帳號
   selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
   selectedRecordDateStr: string | null = null;
   monthStartDate: Date = new Date(this.year, this.month-1, 1);  //  日期選擇器篩選表格開始日期
@@ -79,7 +83,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.updateMonthRange();
 
     //  取得 balanceList ，因下拉式選單要用
-    this.apiService.getBalanceByAccount(this.account)
+    this.apiService.getBalanceByAccount(this.currentAccount)
       .then(res => {
         this.balanceList = res.data.balanceList || [];
 
@@ -89,7 +93,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
         }
 
         //  在撈分類資料
-        return this.apiService.getTypeByAccount(this.account);
+        return this.apiService.getTypeByAccount(this.currentAccount);
       })
       .then(res => {
         const list: Category[] = res.data.paymentTypeList || [];
@@ -123,6 +127,16 @@ export class LedgerComponent implements OnInit, AfterViewInit{
       this.updateTotalFilteredItems();
       this.updateDataSource();
     });
+  }
+
+  get currentAccount(): string {
+    const user = this.authService.getCurrentUser();
+    if(!user) {
+      Swal.fire('錯誤', '尚未登入，請重新登入', 'error');
+      this.router.navigate(['/login']);
+      throw new Error('尚未登入');
+    }
+    return user.account;
   }
 
   updateBattery(budgetPercentRemaining: number): void {
@@ -405,7 +419,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   //  撈 budget API
   loadBudgetData(): void {
     const data = {
-      account: this.account,
+      account: this.currentAccount,
       year: this.year,
       month: this.month
     };
@@ -474,7 +488,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   //  取得特定月份帳號所有帳款
   loadPayments(): void {
     const data = {
-      account: this.account,
+      account: this.currentAccount,
       year: this.year,
       month: this.month
     };
@@ -532,7 +546,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
 
   //  根據帳戶.年.月撈取 savings 資料
   loadSavingsFromAllPayments(): void {
-    this.apiService.getSavingsByAccount(this.account)
+    this.apiService.getSavingsByAccount(this.currentAccount)
     .then(res => {
       const savingsList = res.data.savingsList || [];
 

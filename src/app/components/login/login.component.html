@@ -3,12 +3,12 @@
         <div class="textArea">
             <h2 class="login-title">智能記帳登入</h2> <div class="form-group">
                 <span class="accountLabel">帳號</span>
-                <input class="accountInput" type="text" placeholder="請輸入帳號">
+                <input class="accountInput" type="text" placeholder="請輸入帳號" [(ngModel)]="account">
             </div>
 
             <div class="form-group">
                 <span class="passwordLabel">密碼</span>
-                <input class="passwordInput" type="password" placeholder="請輸入密碼"> </div>
+                <input class="passwordInput" type="password" placeholder="請輸入密碼" [(ngModel)]="password"> </div>
                 <br>
                 <a routerLink="/forget" routerLinkActive="active">忘記密碼</a>
 

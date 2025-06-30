@@ -538,4 +538,28 @@ data18 = {
     });
   }
 
+  logout(){
+    this.apiService.logout()
+    .then(res => {
+        console.log('成功送出：', res.data);
+        alert('登出帳號成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('登出帳號失敗，請稍後再試');
+    });
+  }
+
+  getUserByAccount(){
+    this.apiService.getUserByAccount(this.account)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得會員資料成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得會員資料失敗，請稍後再試');
+    });
+  }
+
 }

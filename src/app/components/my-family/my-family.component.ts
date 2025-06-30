@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { ApiService } from './../../@services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -16,14 +17,14 @@ export class MyFamilyComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ){}
 
-  account: string = "a6221339@yahoo.com.tw";
   familyList: Family[] = [];
 
   ngOnInit(): void {
-    this.apiService.getFamilyByAccount(this.account)
+    this.apiService.getFamilyByAccount(this.currentAccount)
     .then(res => {
       if(res.data.code == 200) {
         this.familyList = res.data.familyList;
@@ -33,6 +34,16 @@ export class MyFamilyComponent implements OnInit {
       console.error('取得家庭列表失敗', err);
       alert('取得家庭列表失敗');
     });
+  }
+
+  get currentAccount(): string {
+    const user = this.authService.getCurrentUser();
+    if(!user) {
+      Swal.fire('錯誤', '尚未登入，請重新登入', 'error');
+      this.router.navigate(['/login']);
+      throw new Error('尚未登入');
+    }
+    return user.account;
   }
 
   goFamilyManagement(familyId: number): void {

@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { ApiService } from './../../@services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,14 +14,26 @@ export class UnacceptedFamilyInvitationComponent implements OnInit{
 
   constructor(
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ){}
 
-  account: string = "a6221339@yahoo.com.tw";
   invitationList: { familyId: number; familyName: string; statusText: string }[] = [];
 
   ngOnInit(): void {
-    this.apiService.getFamilyInvitationByAccount(this.account)
+    const account = this.authService.getCurrentUser()?.account;
+
+    if(!account) {
+      Swal.fire({
+        icon: 'error',
+        title: '尚未登入',
+        text: '請先登入以查看家族邀請',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    this.apiService.getFamilyInvitationByAccount(account)
       .then(res => {
         if(Array.isArray(res.data)) {
           this.invitationList = res.data;
@@ -38,8 +51,11 @@ export class UnacceptedFamilyInvitationComponent implements OnInit{
   }
 
   acceptInvite(familyId: number): void {
+    const account = this.authService.getCurrentUser()?.account;
+    if(!account) return;
+
     const data = {
-      account: this.account,
+      account: account,
       familyId: familyId
     };
 
@@ -67,8 +83,11 @@ export class UnacceptedFamilyInvitationComponent implements OnInit{
   }
 
   rejectInvite(familyId: number): void {
+    const account = this.authService.getCurrentUser()?.account;
+    if(!account) return;
+
     const data = {
-      account: this.account,
+      account: account,
       familyId: familyId
     };
 

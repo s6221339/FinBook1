@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { PaymentModifiedService } from './../../@services/payment-modified.service';
 import { ApiService } from './../../@services/api.service';
 import { Component, OnInit } from '@angular/core';
@@ -26,11 +27,12 @@ export class EditPaymentComponent implements OnInit{
     private route: ActivatedRoute,
     private router: Router,
     private paymentModifiedService: PaymentModifiedService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ){}
 
   paymentId!: number;
-  account: string= 'a6221339@yahoo.com.tw';
+  account: string= '';
   paymentData!: PaymentIdFormData;
   categories: Category[] = [];
   filteredItems: string[] = []; //  根據 type 篩選過的 item
@@ -51,6 +53,15 @@ export class EditPaymentComponent implements OnInit{
   canEditRecurring: boolean = true; //  控制「循環週期」欄位是否可編輯
 
   ngOnInit(): void {
+    //  從 AuthService 取得登入使用者帳號
+    const user = this.authService.getCurrentUser();
+    if(!user) {
+      Swal.fire('錯誤', '尚未登入，請重新登入', 'error');
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.account = user.account;
+
     //  取得 URL 中的 paymentId
     const id = this.route.snapshot.queryParamMap.get('paymentId');
     if(id){

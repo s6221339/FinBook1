@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../@services/api.service';
 import { AxiosResponse } from 'axios';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../@services/auth.service';
 @Component({
   selector: 'app-create-item',
   imports: [
@@ -22,6 +23,7 @@ export class CreateItemComponent {
   */
   constructor(
     private apiService: ApiService,
+    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -65,11 +67,19 @@ export class CreateItemComponent {
   collapsed: { [type: string]: boolean } = {}
 
   /** 模擬目前登入的帳號；後續可改由 AuthService 提供 */
-  currentAccount = "a6221339@yahoo.com.tw"
+  currentAccount: string = '';
 
   /** ngOnInit：元件初始化完成後，載入後端資料 */
   ngOnInit(): void {
-    this.fetchAllItems()
+    const user = this.authService.getCurrentUser();
+    if(!user) {
+      Swal.fire('尚未登入', '請先登入後使用此功能', 'warning');
+      this.router.navigate(['/login']);
+      return;
+    }
+    /** 設定為登入者帳號 */
+    this.currentAccount = user.account;
+    this.fetchAllItems();
   }
 
   /**
@@ -87,45 +97,45 @@ export class CreateItemComponent {
         console.log("後端回傳 response.data =", response.data)
 
         // 取出真正的 paymentTypeList (陣列)
-        const list: { type: string; item: string }[] = response.data.paymentTypeList || []
+        const list: { type: string; item: string }[] = response.data.paymentTypeList || [];
 
         // 先清空所有
-        this.paymentTypeList = []
-        this.categories = []
-        this.groupedItems = {}
-        this.collapsed = {}
+        this.paymentTypeList = [];
+        this.categories = [];
+        this.groupedItems = {};
+        this.collapsed = {};
 
         // 1. 把所有拿到的元素放進 this.paymentTypeList
         list.forEach((vo) => {
           // vo.type 對應後端的 type
           // vo.item 對應後端的 item
-          this.paymentTypeList.push({ type: vo.type, item: vo.item })
-        })
+          this.paymentTypeList.push({ type: vo.type, item: vo.item });
+        });
 
         // 2. 用一個 Set 先收集所有不重複的 type
-        const typeSet = new Set<string>()
+        const typeSet = new Set<string>();
         this.paymentTypeList.forEach((vo) => {
-          typeSet.add(vo.type)
+          typeSet.add(vo.type);
         })
         // 再把 Set 轉成陣列存到 this.categories
-        this.categories = Array.from(typeSet)
+        this.categories = Array.from(typeSet);
 
         // 3. 按分類分組到 groupedItems
         this.categories.forEach((cat) => {
           // filter 出 this.paymentTypeList 裡面 type === cat 的項目
-          const itemsOfCat = this.paymentTypeList.filter((entry) => entry.type === cat)
-          this.groupedItems[cat] = itemsOfCat
+          const itemsOfCat = this.paymentTypeList.filter((entry) => entry.type === cat);
+          this.groupedItems[cat] = itemsOfCat;
           // 一開始就縮起來
-          this.collapsed[cat] = true
-        })
+          this.collapsed[cat] = true;
+        });
 
         console.log("分組後 groupedItems =", this.groupedItems)
         console.log("collapsed 初始狀態 =", this.collapsed)
       })
       .catch((error: any) => {
-        console.error("fetchAllItems() 發生錯誤 =", error)
-        Swal.fire("無法載入分類資料，請稍後再試", "", "error")
-      })
+        console.error("fetchAllItems() 發生錯誤 =", error);
+        Swal.fire("無法載入分類資料，請稍後再試", "", "error");
+      });
   }
 
   /**
@@ -140,27 +150,23 @@ export class CreateItemComponent {
   addItem(): void {
     // 1. 若未選分類
     if (!this.selectedCategory) {
-      Swal.fire("請先選擇主分類", "", "warning")
-      return
+      Swal.fire("請先選擇主分類", "", "warning");
+      return;
     }
 
     // 2. 若沒輸入細項
     if (!this.newItem.trim()) {
-      Swal.fire("請輸入細項名稱", "", "warning")
-      return
+      Swal.fire("請輸入細項名稱", "", "warning");
+      return;
     }
-    const itemLabel = this.newItem.trim()
+    const itemLabel = this.newItem.trim();
 
-    // 3. 用 forEach 檢查 groupedItems[選的分類] 裡是否有相同的 item
-    let isDuplicate = false
-    this.groupedItems[this.selectedCategory].forEach((entry) => {
-      if (entry.item.toLowerCase() === itemLabel.toLowerCase()) {
-        isDuplicate = true
-      }
-    })
+    const isDuplicate = this.groupedItems[this.selectedCategory]?.some(
+      (entry) => entry.item.toLowerCase() == itemLabel.toLowerCase()
+    );
     if (isDuplicate) {
-      Swal.fire("此細項已存在，請勿重複新增", "", "error")
-      return
+      Swal.fire("此細項已存在，請勿重複新增", "", "error");
+      return;
     }
 
     // 4. 呼叫後端 createType API
@@ -168,7 +174,7 @@ export class CreateItemComponent {
       type: this.selectedCategory,
       item: itemLabel,
       account: this.currentAccount,
-    }
+    };
     console.log("addItem() 傳 payload =", payload)
 
     this.apiService
@@ -183,20 +189,20 @@ export class CreateItemComponent {
             icon: "success",
             timer: 1500,
             showConfirmButton: false,
-          })
+          });
 
           // 新增到 paymentTypeList
-          const newEntry = { type: this.selectedCategory, item: itemLabel }
-          this.paymentTypeList.unshift(newEntry)
+          const newEntry = { type: this.selectedCategory, item: itemLabel };
+          this.paymentTypeList.unshift(newEntry);
 
           // 新增到 groupedItems
           if (this.groupedItems[this.selectedCategory]) {
             this.groupedItems[this.selectedCategory].unshift(newEntry)
           } else {
             // 如果 groupedItems 裡本來沒有這個分類
-            this.groupedItems[this.selectedCategory] = [newEntry]
-            this.collapsed[this.selectedCategory] = false
-            this.categories.push(this.selectedCategory)
+            this.groupedItems[this.selectedCategory] = [newEntry];
+            this.collapsed[this.selectedCategory] = false;
+            this.categories.push(this.selectedCategory);
           }
 
           // 5. 清空 newItem
@@ -218,8 +224,8 @@ export class CreateItemComponent {
    * 清空表單
    */
   clearForm(): void {
-    this.selectedCategory = ""
-    this.newItem = ""
+    this.selectedCategory = "";
+    this.newItem = "";
   }
 
   /**
@@ -236,13 +242,14 @@ export class CreateItemComponent {
    * collapsed[type] = !collapsed[type]
    */
   toggleCollapse(type: string): void {
-    this.collapsed[type] = !this.collapsed[type]
+    this.collapsed[type] = !this.collapsed[type];
   }
 
   /**
    * 計算總細項數量
    */
   getTotalItemCount(): number {
-    return this.paymentTypeList.length
+    return this.paymentTypeList.length;
   }
+
 }

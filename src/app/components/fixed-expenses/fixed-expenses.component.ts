@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { PaymentService } from './../../@services/payment.service';
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {provideNativeDateAdapter} from '@angular/material/core';
@@ -30,7 +31,8 @@ export class FixedExpensesComponent implements OnInit{
   constructor(
     private router: Router,
     private apiService: ApiService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private authService: AuthService
   ){}
 
   today: Date = new Date();
@@ -43,7 +45,6 @@ export class FixedExpensesComponent implements OnInit{
   distinctTypes: string[] = []; //  不重複的類型
   amount?: number | null;  //  金額
   description?: string; //  款項描述
-  account: string = "a6221339@yahoo.com.tw"; //  測試帳號
   recurringPeriodYear: number | null = 0;  //  循環年數
   recurringPeriodMonth: number | null = 0; //  循環月數
   recurringPeriodDay: number | null = 0; //  循環天數
@@ -58,7 +59,7 @@ export class FixedExpensesComponent implements OnInit{
     this.today = new Date(this.minDate);  //  預設 today 為明天
 
     //  API取得帳號type
-    this.apiService.getTypeByAccount(this.account)
+    this.apiService.getTypeByAccount(this.currentAccount)
       .then(res => {
         const list: Category[] = res.data.paymentTypeList || [];
         this.categories = list;
@@ -68,7 +69,7 @@ export class FixedExpensesComponent implements OnInit{
         )];
 
         //  接著抓帳戶資料
-        return this.apiService.getBalanceByAccount(this.account);
+        return this.apiService.getBalanceByAccount(this.currentAccount);
       })
       .then(res => {
         this.balanceOptions = res.data.balanceList || [];
@@ -110,7 +111,7 @@ export class FixedExpensesComponent implements OnInit{
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         //  每次返回頁面都重新抓分類資料
-        this.apiService.getPaymentByAccount(this.account)
+        this.apiService.getPaymentByAccount(this.currentAccount)
         .then(res => {
           const list: Category[] = res.data.paymentTypeList || [];
           this.categories = list;
@@ -122,6 +123,16 @@ export class FixedExpensesComponent implements OnInit{
           }
         });
       });
+  }
+
+  get currentAccount(): string {
+    const user = this.authService.getCurrentUser();
+    if(!user) {
+      Swal.fire('錯誤', '尚未登入，請重新登入', 'error');
+      this.router.navigate(['/login']);
+      throw new Error('尚未登入');
+    }
+    return user.account;
   }
 
   //  根據 selectedType 更新 categoriesFilteredItems

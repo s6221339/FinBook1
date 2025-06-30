@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { ApiService } from './../../@services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,11 +18,11 @@ export class FamilyManagementComponent implements OnInit{
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ){}
 
   familyId: number | null = null;
-  account: string = "a6221339@yahoo.com.tw";
   familyData: Family | null = null;
   displayFamilyName: string = '';
   selectedAccounts: Set<string> = new Set();  //  勾選帳號集合
@@ -41,8 +42,18 @@ export class FamilyManagementComponent implements OnInit{
     });
   }
 
+  get currentAccount(): string {
+    const user = this.authService.getCurrentUser();
+    if(!user) {
+      Swal.fire('錯誤', '尚未登入，請重新登入', 'error');
+      this.router.navigate(['/login']);
+      throw new Error('尚未登入');
+    }
+    return user.account;
+  }
+
   loadFamilyData(): void {
-    this.apiService.getFamilyByAccount(this.account)
+    this.apiService.getFamilyByAccount(this.currentAccount)
     .then(res => {
       if(res.data.code == 200) {
         const list: Family[] = res.data.familyList;
@@ -54,7 +65,7 @@ export class FamilyManagementComponent implements OnInit{
             ? this.familyData.name
             : '🆔：' + this.familyData.id;
 
-          this.isOwner = this.familyData.owner.account == this.account;
+          this.isOwner = this.familyData.owner.account == this.currentAccount;
         }
       }
     })
@@ -113,7 +124,7 @@ export class FamilyManagementComponent implements OnInit{
       if(result.isConfirmed && result.value.trim() !== '' && this.familyId !== null) {
         const payload = {
           familyId: this.familyId,
-          owner: this.account,
+          owner: this.currentAccount,
           newName: result.value.trim()
         };
 
@@ -163,7 +174,7 @@ export class FamilyManagementComponent implements OnInit{
 
         const payload = {
           familyId: this.familyId,
-          owner: this.account,
+          owner: this.currentAccount,
           invitor: [inviteAccount]
         };
 
@@ -207,7 +218,7 @@ export class FamilyManagementComponent implements OnInit{
         //  串型或並行發送 API 請求
         const payload = {
           familyId: this.familyId,
-          owner: this.account,
+          owner: this.currentAccount,
           memberAccounts: toKick
         };
 
@@ -260,7 +271,7 @@ export class FamilyManagementComponent implements OnInit{
       if(result.isConfirmed) {
         const payload = {
           familyId: this.familyId,
-          oldOwner: this.account,
+          oldOwner: this.currentAccount,
           newOwner: newOwner
         };
 
@@ -286,7 +297,7 @@ export class FamilyManagementComponent implements OnInit{
   disbandFamily(): void {
     if(!this.familyId || !this.familyData) return;
 
-    if(this.account !== this.familyData.owner.account){
+    if(this.currentAccount !== this.familyData.owner.account){
       Swal.fire('⚠️ 無權限', '只有家庭擁有者可以解散群組', 'warning');
       return;
     }
@@ -310,7 +321,7 @@ export class FamilyManagementComponent implements OnInit{
       if(result.isConfirmed) {
         const payload = {
           familyId: this.familyId,
-          owner: this.account
+          owner: this.currentAccount
         };
 
         this.apiService.disbandFamily(payload)
@@ -365,7 +376,7 @@ export class FamilyManagementComponent implements OnInit{
       if(result.isConfirmed) {
         const payload = {
           familyId: this.familyId,
-          memberAccount: this.account
+          memberAccount: this.currentAccount
         };
 
         this.apiService.leaveFamily(payload)
@@ -399,7 +410,7 @@ export class FamilyManagementComponent implements OnInit{
     })
     .then(result => {
       if(result.isConfirmed){
-        this.apiService.cancelPendingInvitation(this.familyId!, this.account, inviteeAccount)
+        this.apiService.cancelPendingInvitation(this.familyId!, this.currentAccount, inviteeAccount)
         .then(res => {
           if(res.data.code == 200) {
             Swal.fire('✅ 成功', '已取消邀請', 'success');

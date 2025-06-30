@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { ApiService } from './../../@services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -15,28 +16,26 @@ export class CreateFamilyComponent implements OnInit{
 
   constructor(
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ){}
 
-  account: string = "a6221339@yahoo.com.tw";
   creatorName: string = "載入中...";
   familyName: string = '';
   invitedMenbers: { name: string; account: string }[] = [];
+  ownerAccount: string = '';
 
   ngOnInit(): void {
-    this.apiService.getNameByAccount(this.account)
-    .then(res => {
-      if(res.data.code == 200) {
-        this.creatorName = res.data.memberData.name;
-      }
-      else{
-        this.creatorName = "查無此帳號名稱";
-      }
-    })
-    .catch(err => {
-      console.error("取得創建者名稱失敗", err);
-      this.creatorName = "取得失敗";
-    });
+    const user = this.authService.getCurrentUser();
+
+    if(user) {
+      this.creatorName = user.name;
+      this.ownerAccount = user.account;
+    }
+    else{
+      //  安全防呆：如果沒登入或抓不到帳號，導回首頁
+      this.router.navigate(['/home']);
+    }
   }
 
   addMember(): void {
@@ -53,7 +52,7 @@ export class CreateFamilyComponent implements OnInit{
         const inputAccount = result.value.trim();
 
         //  防呆：不能邀請自己
-        if(inputAccount == this.account){
+        if(inputAccount == this.ownerAccount){
           Swal.fire('錯誤', '無法邀請自己加入家庭群組', 'warning');
           return;
         }
@@ -95,7 +94,7 @@ export class CreateFamilyComponent implements OnInit{
 
     const payload = {
       name: this.familyName,
-      owner: this.account,
+      owner: this.ownerAccount,
       invitor: this.invitedMenbers.map(member => member.account)
     };
 

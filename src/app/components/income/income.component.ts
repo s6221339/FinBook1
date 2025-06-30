@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { ApiService } from './../../@services/api.service';
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {provideNativeDateAdapter} from '@angular/material/core';
@@ -28,7 +29,8 @@ export class IncomeComponent implements OnInit{
   constructor(
     private router: Router,
     private apiService: ApiService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private authService: AuthService
   ){}
 
 
@@ -42,7 +44,6 @@ export class IncomeComponent implements OnInit{
   distinctTypes: string[] = []; //  不重複的類型
   amount?: number | null;  //  金額
   description?: string; //  款項描述
-  account: string = "a6221339@yahoo.com.tw"; //  測試帳號
   recurringPeriodYear?: number | null; //  循環年數
   recurringPeriodMonth?: number | null; //  循環月數
   recurringPeriodDay?: number | null; //  循環天數
@@ -51,7 +52,7 @@ export class IncomeComponent implements OnInit{
 
   ngOnInit(): void {
     //  API取得帳號type
-    this.apiService.getTypeByAccount(this.account)
+    this.apiService.getTypeByAccount(this.currentAccount)
       .then(res => {
         const list: Category[] = res.data.paymentTypeList || [];
         this.categories = list;
@@ -61,7 +62,7 @@ export class IncomeComponent implements OnInit{
         )];
 
         //  接著抓帳戶資料
-        return this.apiService.getBalanceByAccount(this.account);
+        return this.apiService.getBalanceByAccount(this.currentAccount);
       })
       .then(res => {
         this.balanceOptions = res.data.balanceList || [];
@@ -99,7 +100,7 @@ export class IncomeComponent implements OnInit{
         .pipe(filter(event => event instanceof NavigationEnd))
         .subscribe(() => {
           //  每次返回頁面都重新抓分頁資料
-          this.apiService.getTypeByAccount(this.account)
+          this.apiService.getTypeByAccount(this.currentAccount)
           .then(res => {
             const list: Category[] = res.data.paymentTypeList || [];
             this.categories = list;
@@ -113,6 +114,15 @@ export class IncomeComponent implements OnInit{
         });
   }
 
+  get currentAccount(): string {
+    const user = this.authService.getCurrentUser();
+    if(!user) {
+      Swal.fire('錯誤', '尚未登入，請重新登入', 'error');
+      this.router.navigate(['/login']);
+      throw new Error('尚未登入');
+    }
+    return user.account;
+  }
 
   //  根據 selectedType 更新 categoriesFilteredItems
   updateCategoriesFiltedItems(){

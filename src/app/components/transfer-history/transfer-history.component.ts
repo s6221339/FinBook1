@@ -1,3 +1,4 @@
+import { AuthService } from './../../@services/auth.service';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -46,7 +47,7 @@ registerLocaleData(localeZh, 'zh-TW');
   ]
 })
 
-export class TransferHistoryComponent {
+export class TransferHistoryComponent implements OnInit {
 
   // 構造函數 (Constructor)：用於注入服務
   // private api: ApiService：用於與後端 API 進行交互
@@ -55,7 +56,8 @@ export class TransferHistoryComponent {
   constructor(
     private api: ApiService,
     private paginatorIntl: MatPaginatorIntl,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {}
 
   // =====================================
@@ -193,10 +195,8 @@ export class TransferHistoryComponent {
    * @returns Promise<void> - 返回一個 Promise，表示非同步操作完成。
    */
   private loadAccountNames(): Promise<void> {
-    // **重要：這裡的 'a6221339@yahoo.com.tw' 是寫死 (hardcoded) 的測試用戶帳號。**
-    // 在未來，當你的應用程式有完整的登入功能時，這個值應該被替換為實際登入用戶的帳號。
-    // 例如：可以從一個認證服務 (AuthService) 或狀態管理中獲取。
-    const testAccount = 'a6221339@yahoo.com.tw';
+    const currentUser = this.authService.getCurrentUser();
+    const testAccount = currentUser?.account || '';
 
     // 檢查用戶帳號是否有效，如果為空則直接拒絕 Promise，防止無效請求
     if (!testAccount) {

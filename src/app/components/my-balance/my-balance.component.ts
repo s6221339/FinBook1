@@ -1,7 +1,9 @@
+import { AuthService } from './../../@services/auth.service';
 import { Balance } from '../../models/Balance';
 import { ApiService } from './../../@services/api.service';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-balance',
@@ -13,15 +15,15 @@ import Swal from 'sweetalert2';
 export class MyBalanceComponent implements OnInit{
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ){}
 
-  account: string= 'a6221339@yahoo.com.tw';
   balanceList: Balance[] = [];  //  帳戶清單
   familyId: number = 0; //  帳號創建帳戶區，使用無家庭預設 familyId
 
   ngOnInit(): void {
-    this.apiService.getBalanceByAccount(this.account)
+    this.apiService.getBalanceByAccount(this.currentAccount)
     .then(res => {
       this.balanceList = res.data.balanceList || [];
     })
@@ -29,6 +31,15 @@ export class MyBalanceComponent implements OnInit{
       console.error('取得帳戶失敗', err);
       alert('無法載入帳戶，請稍後再試');
     });
+  }
+
+  get currentAccount(): string {
+    const user = this.authService.getCurrentUser();
+    if(!user) {
+      Swal.fire('錯誤', '尚未登入，請重新登入', 'error');
+      throw new Error('尚未登入');
+    }
+    return user.account;
   }
 
   //  創建帳戶
@@ -54,7 +65,7 @@ export class MyBalanceComponent implements OnInit{
 
         const payload = {
           familyId: this.familyId,
-          account: this.account,
+          account: this.currentAccount,
           name: name
         };
 
@@ -67,7 +78,7 @@ export class MyBalanceComponent implements OnInit{
           });
 
           //  重新載入帳戶清單
-          return this.apiService.getBalanceByAccount(this.account);
+          return this.apiService.getBalanceByAccount(this.currentAccount);
         })
         .then(res => {
           this.balanceList = res.data.balanceList || [];
@@ -152,7 +163,7 @@ export class MyBalanceComponent implements OnInit{
               });
 
               //  刷新帳戶列表
-              return this.apiService.getBalanceByAccount(this.account);
+              return this.apiService.getBalanceByAccount(this.currentAccount);
             })
             .then(res => {
               this.balanceList = res.data.balanceList || [];

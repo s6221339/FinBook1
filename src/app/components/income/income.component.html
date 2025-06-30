@@ -1,149 +1,134 @@
-<div class="form-container">
-  <!-- 表單標題 -->
-  <div class="form-header">
-    <div class="header-icon">
-      <span class="material-icons">add_circle</span>
-    </div>
-    <div class="header-text">
-      <h2>收入記錄</h2>
-      <p>記錄您的各項收入來源</p>
-    </div>
-  </div>
-
-  <!-- 表單內容 -->
-  <div class="form-content">
-
-    <!-- 日期選擇 -->
-    <div class="form-section">
-      <div class="section-header">
-        <span class="material-icons">event</span>
-        <h3>記帳日期</h3>
+<div class="income-theme">
+  <div class="type-form-divider"><!-- force render --></div>
+  <div class="form-container glass-card-theme">
+    <!-- 表單標題 -->
+    <div class="form-header">
+      <div class="header-icon">
+        <span class="material-icons">add_circle</span>
       </div>
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>請選擇日期</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="today" [max]="today" required>
-          <mat-hint>選擇收入入帳的日期</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker">
-            <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
-          </mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
+      <div class="header-text">
+        <h2>收入記錄</h2>
+        <p>記錄您的各項收入來源</p>
       </div>
     </div>
 
-    <!-- 帳戶選擇 -->
-    <div class="form-section">
-      <div class="section-header">
-        <span class="material-icons">account_balance_wallet</span>
-        <h3>收入帳戶</h3>
-      </div>
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>選擇帳戶</mat-label>
-          <mat-select [(value)]="selectedBalanceId">
-            @for(user of balanceOptions; track $index){
-              <mat-option [value]="user.balanceId">
-                {{ user.name }}
-              </mat-option>
-            }
-          </mat-select>
-          <mat-hint>選擇收入存入的帳戶：{{ selectedBalanceName }}</mat-hint>
-        </mat-form-field>
-      </div>
-    </div>
+    <!-- 表單內容 -->
+    <div class="form-content">
 
-    <!-- 金額輸入 -->
-    <div class="form-section">
-      <div class="section-header">
-        <span class="material-icons">attach_money</span>
-        <h3>收入金額</h3>
-      </div>
-      <div class="form-group">
-        <div class="amount-input-wrapper">
-          <span class="currency-symbol">NT$</span>
-          <input
-            type="number"
-            class="amount-input"
-            placeholder="請輸入收入金額"
-            min="1"
-            step="1"
-            [(ngModel)]="amount"
-          />
+      <!-- 日期選擇 -->
+      <div class="form-section">
+        <div class="section-header">
+          <span class="material-icons">event</span>
+          <h3>記帳日期</h3>
         </div>
-      </div>
-    </div>
-
-    <!-- 分類選擇 -->
-    <div class="form-section">
-      <div class="section-header">
-        <span class="material-icons">category</span>
-        <h3>收入分類</h3>
-      </div>
-      <div class="form-group">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>選擇類型</mat-label>
-          <mat-select [(value)]="selectedType" (valueChange)="updateCategoriesFiltedItems()">
-            @for(type of distinctTypes; track $index){
-              <mat-option [value]="type">{{ type }}</mat-option>
-            }
-          </mat-select>
-          <mat-hint>選擇收入的主要分類</mat-hint>
-        </mat-form-field>
-      </div>
-
-      @if(categoriesFiltedItems.length > 0){
         <div class="form-group">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>選擇項目</mat-label>
-            <mat-select [(value)]="selectedItem">
-              @for(item of categoriesFiltedItems; track $index){
-                <mat-option [value]="item">{{ item }}</mat-option>
-              }
-            </mat-select>
-            <mat-hint>選擇具體的收入項目</mat-hint>
-          </mat-form-field>
+          <input type="date" class="form-input full-width" [(ngModel)]="todayString" [attr.max]="todayString" required placeholder="請選擇日期" />
+          <div class="input-hint">選擇收入入帳的日期</div>
         </div>
-      }
-
-      <div class="add-item-section">
-        <button class="add-item-btn" (click)="goCreateItem()">
-          <span class="material-icons">add</span>
-          新增收入項目
-        </button>
       </div>
-    </div>
 
-    <!-- 備註輸入 -->
-    <div class="form-section">
-      <div class="section-header">
-        <span class="material-icons">note</span>
-        <h3>備註說明</h3>
+      <!-- 帳戶選擇 -->
+      <div class="form-section">
+        <div class="section-header">
+          <span class="material-icons">account_balance_wallet</span>
+          <h3>收入帳戶</h3>
+        </div>
+        <div class="form-group">
+          <select class="form-select full-width" [(ngModel)]="selectedBalanceId">
+            @for(user of balanceOptions; track $index){
+              <option [value]="user.balanceId">{{ user.name }}</option>
+            }
+          </select>
+          <div class="input-hint">選擇收入存入的帳戶：{{ selectedBalanceName }}</div>
+        </div>
       </div>
-      <div class="form-group">
-        <div class="note-input-wrapper">
+
+      <!-- 金額輸入 -->
+      <div class="form-section">
+        <div class="section-header">
+          <span class="material-icons">attach_money</span>
+          <h3>收入金額</h3>
+        </div>
+        <div class="form-group">
+          <div class="amount-input-wrapper">
+            <span class="currency-symbol">NT$</span>
+            <input
+              type="number"
+              class="form-input full-width"
+              [(ngModel)]="amount"
+              min="1"
+              step="1"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- 分類選擇 -->
+      <div class="form-section">
+        <div class="section-header">
+          <span class="material-icons">category</span>
+          <h3>收入分類</h3>
+        </div>
+        <div class="form-group">
+          <select class="form-select full-width" [(ngModel)]="selectedType" (change)="updateCategoriesFiltedItems()">
+            @for(type of distinctTypes; track $index){
+              <option [value]="type">{{ type }}</option>
+            }
+          </select>
+          <div class="input-hint">選擇收入的主要分類</div>
+        </div>
+
+        @if (categoriesFiltedItems.length > 0) {
+          <div class="form-group">
+            <select class="form-select full-width" [(ngModel)]="selectedItem">
+              @for(item of categoriesFiltedItems; track $index){
+                <option [value]="item">{{ item }}</option>
+              }
+            </select>
+            <div class="input-hint">選擇具體的收入項目</div>
+          </div>
+        }
+
+        <div class="add-item-section">
+          <button class="add-item-btn" (click)="goCreateItem()">
+            <span class="material-icons">add</span>
+            新增收入項目
+          </button>
+        </div>
+      </div>
+
+      <!-- 備註輸入 -->
+      <div class="form-section">
+        <div class="section-header">
+          <span class="material-icons">note</span>
+          <h3>備註說明</h3>
+        </div>
+        <div class="form-group">
           <textarea
-            class="note-input"
-            placeholder="記錄更多詳細資訊..."
+            class="form-textarea full-width"
+            placeholder="記錄更多詳細資訊"
+            [(ngModel)]="description"
             rows="3"
             maxlength="200"
-            [(ngModel)]="description"
           ></textarea>
-          <div class="char-count">0/200</div>
+          <div class="char-count">{{ description?.length || 0 }}/200</div>
         </div>
       </div>
-    </div>
 
-    <!-- 操作按鈕 -->
-    <div class="form-actions">
-      <button class="btn-secondary" (click)="goHome()">
-        <span class="material-icons">close</span>
-        取消
-      </button>
-      <button class="btn-primary" (click)="saveAndGoHome()">
-        <span class="material-icons">save</span>
-        儲存記錄
-      </button>
+      <!-- 操作按鈕 -->
+      <div class="form-actions">
+        <button class="btn-secondary" (click)="goHome()">
+          <span class="material-icons">close</span>
+          取消
+        </button>
+        <button
+          class="btn-primary"
+          (click)="saveAndGoHome()"
+        >
+          <span class="material-icons">save</span>
+          儲存記錄
+        </button>
+      </div>
     </div>
   </div>
 </div>

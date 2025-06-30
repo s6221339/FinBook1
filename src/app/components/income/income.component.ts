@@ -1,30 +1,22 @@
 import { AuthService } from './../../@services/auth.service';
-import { ApiService } from './../../@services/api.service';
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {provideNativeDateAdapter} from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { Category } from '../../models/categories';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from './../../@services/api.service';
 import { PaymentService } from '../../@services/payment.service';
+import { Category } from '../../models/categories';
+import { Balance } from '../../models/balance';
 import { filter } from 'rxjs';
 import Swal from 'sweetalert2';
-import { Balance } from '../../models/Balance';
 
 @Component({
   selector: 'app-income',
-  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,MatFormFieldModule,
-    MatSelectModule, FormsModule],
-  providers: [provideNativeDateAdapter()],
   standalone: true,
+  imports: [FormsModule],
   templateUrl: './income.component.html',
   styleUrl: './income.component.scss'
 })
-export class IncomeComponent implements OnInit{
+export class IncomeComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
@@ -33,8 +25,16 @@ export class IncomeComponent implements OnInit{
     private authService: AuthService
   ){}
 
-
-  today: Date = new Date();
+  // today 由 getter/setter 控制
+  todayString: string = '';
+  private _today: Date = new Date();
+  get today(): Date {
+    return this._today;
+  }
+  set today(val: Date) {
+    this._today = val;
+    this.todayString = this.formatDate(val);
+  }
   type?: string;
   item?: string;
   categories: Category[] = [];
@@ -51,6 +51,7 @@ export class IncomeComponent implements OnInit{
   selectedBalanceId: number = 0;  //  實際綁定 balanceId
 
   ngOnInit(): void {
+    this.todayString = this.formatDate(new Date());
     //  API取得帳號type
     this.apiService.getTypeByAccount(this.currentAccount)
       .then(res => {
@@ -76,6 +77,7 @@ export class IncomeComponent implements OnInit{
         const saved = this.paymentService.getFormData();
         if(saved){
           this.today = new Date(saved.recordDate);
+          this.todayString = this.formatDate(this.today);
           this.recurringPeriodYear = null;
           this.recurringPeriodMonth = null;
           this.recurringPeriodDay = null;
@@ -114,6 +116,7 @@ export class IncomeComponent implements OnInit{
         });
   }
 
+
   get currentAccount(): string {
     const user = this.authService.getCurrentUser();
     if(!user) {
@@ -122,6 +125,18 @@ export class IncomeComponent implements OnInit{
       throw new Error('尚未登入');
     }
     return user.account;
+  }
+  ngAfterViewInit(): void {
+    // 禁止滑鼠滾輪和上下鍵改變金額 input 數值
+    const input = document.querySelector('.form-input[type="number"]') as HTMLInputElement;
+    if (input) {
+      input.addEventListener('wheel', (e) => input.blur());
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault();
+        }
+      });
+    }
   }
 
   //  根據 selectedType 更新 categoriesFilteredItems

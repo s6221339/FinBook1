@@ -1,34 +1,23 @@
 import { AuthService } from './../../@services/auth.service';
-import { PaymentService } from './../../@services/payment.service';
-import { ApiService } from './../../@services/api.service';
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {provideNativeDateAdapter} from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import { NavigationEnd, Router } from '@angular/router';
-import { Category } from '../../models/categories';
-import { MatSelectModule } from '@angular/material/select';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '../../@services/api.service';
+import { PaymentService } from '../../@services/payment.service';
+import { Category } from '../../models/categories';
+import { Balance } from '../../models/balance';
 import { filter } from 'rxjs';
 import Swal from 'sweetalert2';
-import { Balance } from '../../models/Balance';
-
-
 
 
 @Component({
   selector: 'app-fixed-income',
-  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,MatFormFieldModule,
-    MatSelectModule, FormsModule],
-  providers: [provideNativeDateAdapter()],
   standalone: true,
+  imports: [FormsModule],
   templateUrl: './fixed-income.component.html',
   styleUrl: './fixed-income.component.scss'
 })
-export class FixedIncomeComponent implements OnInit{
-
+export class FixedIncomeComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private apiService: ApiService,
@@ -36,7 +25,15 @@ export class FixedIncomeComponent implements OnInit{
     private authService: AuthService
   ){}
 
-  today: Date = new Date();
+  todayString: string = '';
+  private _today: Date = new Date();
+  get today(): Date {
+    return this._today;
+  }
+  set today(val: Date) {
+    this._today = val;
+    this.todayString = this.formatDate(val);
+  }
   type?: string;
   item?: string;
   categories: Category[] = [];
@@ -54,7 +51,6 @@ export class FixedIncomeComponent implements OnInit{
   minDate: Date = new Date(); //  最小日期限制
 
   ngOnInit(): void {
-    //  設定首次生效日期不可為今天，需為明天起
     this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate() + 1);
     this.today = new Date(this.minDate);  //  預設 today 為明天
@@ -84,6 +80,7 @@ export class FixedIncomeComponent implements OnInit{
         const saved = this.paymentService.getFormData();
         if(saved){
           this.today = new Date(saved.recordDate);
+          this.todayString = this.formatDate(this.today);
           this.recurringPeriodYear = saved.recurringPeriodYear ?? null;
           this.recurringPeriodMonth = saved.recurringPeriodMonth ?? null;
           this.recurringPeriodDay = saved.recurringPeriodDay ?? null;
@@ -107,6 +104,7 @@ export class FixedIncomeComponent implements OnInit{
       this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
+
         //  每次返回頁面都重新抓分類資料
         this.apiService.getPaymentByAccount(this.currentAccount)
         .then(res => {
@@ -122,6 +120,7 @@ export class FixedIncomeComponent implements OnInit{
       });
   }
 
+
   get currentAccount(): string {
     const user = this.authService.getCurrentUser();
     if(!user) {
@@ -132,7 +131,19 @@ export class FixedIncomeComponent implements OnInit{
     return user.account;
   }
 
-  //  根據 selectedType 更新 categoriesFilteredItems
+  ngAfterViewInit(): void {
+    // 禁止滑鼠滾輪和上下鍵改變循環週期 input 數值
+    const periodInputs = document.querySelectorAll('.period-number') as NodeListOf<HTMLInputElement>;
+    periodInputs.forEach(input => {
+      input.addEventListener('wheel', (e) => input.blur());
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault();
+        }
+      });
+    });
+  }
+
   updateCategoriesFiltedItems(){
     this.categoriesFiltedItems = this.categories
       .filter(c => c.type === this.selectedType)
@@ -168,7 +179,6 @@ export class FixedIncomeComponent implements OnInit{
       selectedItem: this.selectedItem ?? null,
       description: this.description ?? ''
     });
-
     this.router.navigate(['/createItem'], {
       queryParams: { from: this.router.url}
     });
@@ -241,8 +251,6 @@ export class FixedIncomeComponent implements OnInit{
       },
       recordDate: this.formatDate(this.today) //  轉後端要的日期格式
     };
-
-    //  呼叫 API
     this.apiService.createPayment(payload)
     .then(() => {
       //  成功，清空資料並跳回首頁
@@ -265,5 +273,4 @@ export class FixedIncomeComponent implements OnInit{
       });
     });
   }
-
 }

@@ -1,13 +1,13 @@
 /* 亮色模式 */
 :root {
   /* 主題色系 */
-  --primary-bg: #fff;         /* 主背景（header/footer/主內容） */
+  --primary-bg: #f5f6fa;         /* 主背景（header/footer/主內容） */
   --secondary-bg: #f0f6ff;    /* 區塊/卡片/hover/分隔 */
   --primary: #2563eb;         /* 品牌藍，icon/active/底線 */
 
   /* 背景與卡片 */
-  --elevation-0: #f5f5f8;
-  --elevation-1: #fff;
+  --elevation-0: #f5f6fa;     /* 主背景 */
+  --elevation-1: #fff;        /* 卡片/表單 */
 
   /* 文字 */
   --text-primary: #263159;
@@ -38,6 +38,15 @@
   --space-lg: 24px;
   --space-xl: 32px;
 
+  /* 玻璃感卡片相關變數 */
+  --card-radius: 20px;                    /* 卡片圓角 */
+  --card-shadow: 0 8px 32px rgba(0,0,0,0.12);  /* 卡片陰影 */
+  --card-shadow-hover: 0 12px 40px rgba(0,0,0,0.18);  /* 卡片hover陰影 */
+  --glass-bg-light: rgba(255,255,255,0.18);    /* 亮色模式玻璃背景 */
+  --glass-bg-dark: rgba(30,41,59,0.18);        /* 暗色模式玻璃背景 */
+  --glass-border-light: rgba(255,255,255,0.25); /* 亮色模式玻璃邊框 */
+  --glass-border-dark: rgba(255,255,255,0.15);  /* 暗色模式玻璃邊框 */
+  --glass-blur: 12px;                           /* 毛玻璃模糊度 */
 
   --choose-account-bg: #04950c; /* 選擇帳戶背景 */
 
@@ -68,7 +77,6 @@
   --paginator-icon: #263159; /* 分頁器icon顏色 */
   --paginator-hover: rgba(37, 99, 235, 0.12); /* 分頁器hover */
 
-
   --calendar-clear-btn: #2563eb;
   --calendar-background: #f0f6ff;
 
@@ -80,7 +88,7 @@
   --nav-link-active: #2563eb; /* 導航連結active */
 
   --battery-outline: #333;
-  --battery-percent-text: #fff;    // 電池百分比文字顏色
+  --battery-percent-text: #000000;    // 電池百分比文字顏色
 
   --budget-info-icon: var(--primary);
   --budget-info-icon-glow: none;
@@ -88,6 +96,45 @@
   --edit-btn-icon:   #6b6b6b;
 
   --user-button-pink:  #eb6ab1; /* 登入後 user-button 專用粉紅色 */
+
+  /* 表單專用變數 */
+  --input-bg: #f9fafb;
+  --input-border: #e0e0e0;
+  --input-text: #263159;
+  --input-placeholder: #9ca3af;
+  --input-focus: var(--primary);
+  --input-hover: var(--primary);
+  --input-hint: #2b4b6b;
+  --input-error: var(--expense);
+  --input-icon: var(--primary);
+
+  /* 表單 UI 元素變數 */
+  --form-label: #263159;
+  --form-section-title: #115599;
+  --form-icon: var(--primary);
+  --form-desc: #64748b;
+  --btn-primary-bg: var(--expense);
+  --btn-primary-text: #fff;
+  --btn-primary-hover: #e76f51cc;
+  --btn-secondary-bg: #fff;
+  --btn-secondary-text: #6b7280;
+  --btn-secondary-border: #e5e7eb;
+  --btn-secondary-hover-bg: #f9fafb;
+  --btn-secondary-hover-border: #d1d5db;
+  --divider: #e0e0e0;
+
+  /* 主題色 RGB（全站共用，給分隔線等用） */
+  --expense-rgb: 248,113,113;
+  --income-rgb: 52,211,153;
+  --fixed-expense-rgb: 251,191,36;
+  --fixed-income-rgb: 167,139,250;
+  --transfer-rgb: 56,189,248;
+
+  /* 分隔線光暈透明度 */
+  --divider-glow-main: 0.45;
+  --divider-glow-side: 0.18;
+  --divider-glow-main-dark: 0.70;
+  --divider-glow-side-dark: 0.32;
 }
 
 /* 暗黑模式 */
@@ -110,6 +157,10 @@
   --transfer: #2ac5e3;        /* 輔助藍綠 */
   --transfer-out: #ff5252;
   --transfer-in:  #69f0ae;
+
+  /* 玻璃感卡片相關變數（暗色模式） */
+  --card-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  --card-shadow-hover: 0 12px 40px rgba(0,0,0,0.35);
 
   --choose-account-bg: #ffd600; /* 選擇帳戶背景 */
   --table-hover-bg: #4256a5; /* hover 明顯 */
@@ -159,6 +210,38 @@
   --edit-btn-icon: #ff8000 ;
 
   --user-button-pink: #e055a1; /* 暗黑模式同色，若需可調整 */
+
+  /* 表單專用變數 */
+  --input-bg: #181c24;
+  --input-border: #7bb0ff;
+  --input-text: #fff;
+  --input-placeholder: #e0e0e0;
+  --input-focus: #ffd600;
+  --input-hover: #ffd600;
+  --input-hint: #e0e0e0;
+  --input-error: var(--expense);
+  --input-icon: var(--primary);
+
+  /* 表單 UI 元素變數 */
+  --form-label: #f6faff;
+  --form-section-title: #ffd600;
+  --form-icon: #ffd600;
+  --form-desc: #b0b8d1;
+  --btn-primary-bg: var(--expense);
+  --btn-primary-text: #fff;
+  --btn-primary-hover: #f08a70;
+  --btn-secondary-bg: #232a36;
+  --btn-secondary-text: #f6faff;
+  --btn-secondary-border: #3a4a7c;
+  --btn-secondary-hover-bg: #313a5c;
+  --btn-secondary-hover-border: #7bb0ff;
+
+  --add-item-btn-bg: #232a36;
+  --add-item-btn-border: #3a4a7c;
+  --add-item-btn-text: #b0b8d1;
+  --add-item-btn-hover-bg: #313a5c;
+  --add-item-btn-hover-border: #ffd600;
+  --add-item-btn-hover-text: #ffd600;
 }
 
 /* 英雄區塊動畫 - 滑入效果 */
@@ -286,6 +369,122 @@
   .animate-hero-right {
     animation-duration: 0.8s;
   }
+}
 
+/* 玻璃感卡片基礎樣式 */
+.glass-card {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1.5px solid var(--glass-border-light);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-shadow-hover);
+  }
+}
+
+/* 暗色模式自動切換 */
+.dark-mode .glass-card {
+  background: var(--glass-bg-dark);
+  border-color: var(--glass-border-dark);
+}
+
+/* 主題色卡片變體 */
+.expense-theme .glass-card {
+  border-color: var(--expense);
+  box-shadow: 0 8px 32px rgba(248, 113, 113, 0.2);
+
+  &:hover {
+    box-shadow: 0 12px 40px rgba(248, 113, 113, 0.3);
+  }
+}
+
+.income-theme .glass-card {
+  border-color: var(--income);
+  box-shadow: 0 8px 32px rgba(52, 211, 153, 0.2);
+
+  &:hover {
+    box-shadow: 0 12px 40px rgba(52, 211, 153, 0.3);
+  }
+}
+
+.fixed-expense-theme .glass-card {
+  border-color: var(--fixed-expense);
+  box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
+
+  &:hover {
+    box-shadow: 0 12px 40px rgba(251, 191, 36, 0.3);
+  }
+}
+
+.fixed-income-theme .glass-card {
+  border-color: var(--fixed-income);
+  box-shadow: 0 8px 32px rgba(167, 139, 250, 0.2);
+
+  &:hover {
+    box-shadow: 0 12px 40px rgba(167, 139, 250, 0.3);
+  }
+}
+
+.transfer-theme .glass-card {
+  border-color: var(--transfer);
+  box-shadow: 0 8px 32px rgba(56, 189, 248, 0.2);
+
+  &:hover {
+    box-shadow: 0 12px 40px rgba(56, 189, 248, 0.3);
+  }
+}
+
+/* 響應式玻璃感卡片 */
+@media (max-width: 768px) {
+  .glass-card {
+    border-radius: 16px;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+/* 主題色動態變數（全站主題切換） */
+.expense-theme {
+  --theme-main: var(--expense);
+  --theme-main-rgb: var(--expense-rgb);
+}
+.income-theme {
+  --theme-main: var(--income);
+  --theme-main-rgb: var(--income-rgb);
+}
+.fixed-expense-theme {
+  --theme-main: var(--fixed-expense);
+  --theme-main-rgb: var(--fixed-expense-rgb);
+}
+.fixed-income-theme {
+  --theme-main: var(--fixed-income);
+  --theme-main-rgb: var(--fixed-income-rgb);
+}
+.transfer-theme {
+  --theme-main: var(--transfer);
+  --theme-main-rgb: var(--transfer-rgb);
+}
+
+.glass-card-theme {
+  background: color-mix(in srgb, var(--theme-main) 10%, var(--glass-bg-dark));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1.5px solid color-mix(in srgb, var(--theme-main) 18%, var(--glass-border-dark));
+  border-radius: var(--card-radius);
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--theme-main) 20%, #000 20%);
+  transition: box-shadow 0.4s, background 0.4s, border-color 0.4s;
+  &:hover {
+    box-shadow: 0 12px 40px color-mix(in srgb, var(--theme-main) 30%, #000 30%);
+    background: color-mix(in srgb, var(--theme-main) 18%, var(--glass-bg-dark));
+    border-color: var(--theme-main);
+  }
+}
+:root .glass-card-theme {
+  background: color-mix(in srgb, var(--theme-main) 10%, var(--glass-bg-light));
+  border: 1.5px solid color-mix(in srgb, var(--theme-main) 18%, var(--glass-border-light));
 }

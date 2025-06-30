@@ -13,7 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { PaymentIdFormData } from '../../models/paymentIdFormData';
 import { CommonModule } from '@angular/common';
 import { Category } from '../../models/categories';
-import { Balance } from '../../models/Balance';
+import { Balance } from '../../models/balance';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatSortModule, MatSort } from '@angular/material/sort';

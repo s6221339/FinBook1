@@ -7,6 +7,11 @@
   border-radius: 16px; /* 圓角邊框 */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 陰影效果，x軸偏移0，y軸偏移4px，模糊20px，顏色為半透明黑色 */
   /* border: 1px solid #f1f5f9;  // 已移除外框線 */
+  transition: box-shadow 0.3s, transform 0.3s;
+  &:hover {
+    box-shadow: 0 8px 32px color-mix(in srgb, var(--theme-main) 20%, #000 30%);
+    transform: translateY(-2px) scale(1.01);
+  }
 }
 
 /* 表單頭部區塊樣式 (包含圖示和標題) */
@@ -16,18 +21,18 @@
   gap: 1rem; /* Flex 項目之間的間距 */
   margin-bottom: 2rem; /* 底部外邊距 */
   padding-bottom: 1rem; /* 底部內邊距 */
-  border-bottom: 2px solid #e0f7fa; /* 底部藍色邊框 */
+  border-bottom: 2px solid var(--theme-main);
 
   /* 頭部圖示容器樣式 */
   .header-icon {
     width: 60px; /* 寬度 */
     height: 60px; /* 高度 */
     border-radius: 50%; /* 完全圓形 */
-    background: linear-gradient(45deg, #06b6d4, #0891b2); /* 藍色漸層背景 */
+    background: var(--theme-main);
     display: flex; /* 使用 Flexbox 排版 */
     align-items: center; /* 垂直置中 Material Icon */
     justify-content: center; /* 水平置中 Material Icon */
-    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3); /* 陰影效果 */
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--theme-main) 40%, #000 20%);
 
     /* Material Icon 的樣式 */
     .material-icons {
@@ -42,7 +47,7 @@
     h2 {
       font-size: 1.8rem; /* 字體大小 */
       font-weight: 700; /* 字體粗細 */
-      color: #0891b2; /* 藍色文字顏色 */
+      color: var(--theme-main);
       margin: 0 0 0.25rem 0; /* 上右下左外邊距 */
     }
 
@@ -68,7 +73,7 @@
 
     /* 區塊標題圖示的樣式 */
     .material-icons {
-      color: #06b6d4; /* 藍色圖標顏色 */
+      color: var(--theme-main);
       font-size: 1.3rem; /* 圖標字體大小 */
     }
 
@@ -76,7 +81,7 @@
     h3 {
       font-size: 1.1rem; /* 字體大小 */
       font-weight: 600; /* 字體粗細 */
-      color: #374151; /* 深灰色文字顏色 */
+      color: var(--theme-main);
       margin: 0; /* 無外邊距 */
     }
   }
@@ -254,23 +259,15 @@
 
 /* 主要按鈕 (確認轉帳) 的樣式 */
 .btn-primary {
-  background: linear-gradient(45deg, #06b6d4, #0891b2); /* 藍色漸層背景 */
-  color: white; /* 白色文字 */
-  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3); /* 陰影效果 */
-
-  /* 滑鼠懸停時的樣式 (非禁用狀態) */
-  &:hover:not(:disabled) {
-    transform: translateY(-2px); /* 向上移動 2px */
-    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4); /* 增強陰影效果 */
-  }
-
-  /* 禁用狀態的樣式 */
-  &:disabled {
-    background: #e5e7eb; /* 淺灰色背景 */
-    color: #9ca3af; /* 灰色文字 */
-    cursor: not-allowed; /* 鼠標指針為禁止符號 */
-    transform: none; /* 無轉換 */
-    box-shadow: none; /* 無陰影 */
+  background: var(--theme-main);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 15px color-mix(in srgb, var(--theme-main) 30%, #000 10%);
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+  &:hover:not(:disabled), &.active {
+    background: color-mix(in srgb, var(--theme-main) 80%, #fff 20%);
+    box-shadow: 0 8px 25px color-mix(in srgb, var(--theme-main) 40%, #000 20%);
+    transform: translateY(-2px) scale(1.03);
   }
 }
 
@@ -357,4 +354,8 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none; /* 移除預設外觀 */
   margin: 0; /* 移除可能存在的預設邊距 */
+}
+
+hr {
+  border-top: 3px solid var(--theme-main);
 }

@@ -9,10 +9,86 @@ body {
   font-family: 'Noto Sans TC', 'Microsoft JhengHei', Arial, sans-serif;
 }
 
-body.dark-mode .hero-section,
-body.dark-mode .steps-section {
-  background: var(--primary-bg) !important;
+/* 全域表單統一樣式 */
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid var(--input-border);
+  border-radius: var(--card-radius);
+  background: var(--input-bg);
+  color: var(--input-text);
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: var(--input-placeholder);
+  }
+
+  &:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--input-focus) 20%, transparent);
+  }
+
+  &:hover {
+    border-color: var(--input-hover);
+  }
 }
-body.dark-mode .cta-section {
-  background: var(--secondary-bg) !important;
+
+.form-select {
+  cursor: pointer;
+
+  &:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--input-focus) 20%, transparent);
+  }
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+/* 輔助樣式 */
+.input-hint {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: var(--input-hint);
+  line-height: 1.4;
+}
+
+.input-error {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--input-error);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/* 特殊樣式 */
+.currency-symbol {
+  color: var(--input-text);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.char-count {
+  font-size: 1rem;
+  color: var(--input-hint);
+  text-align: right;
+  margin-top: 0.25rem;
+}
+
+/* 響應式 */
+@media (max-width: 768px) {
+  .form-input,
+  .form-select,
+  .form-textarea {
+    padding: 0.875rem;
+    font-size: 1rem;
+  }
 }

@@ -9,7 +9,7 @@
   align-items: center;
   min-height: 80vh;
   padding: 2rem 2.2em;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  background: var(--primary-bg);
   position: relative;
 }
 
@@ -443,7 +443,7 @@
 // Steps Section
 .steps-section {
   padding: 3rem 0;
-  background: #fff;
+  background: var(--primary-bg);
 }
 
 .steps-container {
@@ -503,7 +503,7 @@
 // CTA Section
 .cta-section {
   padding: 6rem 0;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--income) 100%);
+  background: var(--secondary-bg);
   color: #fff;
   text-align: center;
 }

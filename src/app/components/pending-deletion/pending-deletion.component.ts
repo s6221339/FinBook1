@@ -1,5 +1,5 @@
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Balance } from '../../models/Balance';
+import { Balance } from '../../models/balance';
 import { PendingDeletionPayment } from '../../models/PendingDeletionPayment';
 import { ApiService } from './../../@services/api.service';
 import { Component, OnInit } from '@angular/core';

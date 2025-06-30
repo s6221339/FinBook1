@@ -1,31 +1,21 @@
-import { PaymentService } from './../../@services/payment.service';
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {provideNativeDateAdapter} from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import { NavigationEnd, Router } from '@angular/router';
-import { Category } from '../../models/categories';
-import { MatSelectModule } from '@angular/material/select';
-import { ApiService } from '../../@services/api.service';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '../../@services/api.service';
+import { PaymentService } from '../../@services/payment.service';
+import { Category } from '../../models/categories';
+import { Balance } from '../../models/balance';
 import { filter } from 'rxjs';
 import Swal from 'sweetalert2';
-import { Balance } from '../../models/Balance';
 
 @Component({
   selector: 'app-fixed-expenses',
-  imports: [MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule,MatFormFieldModule,
-    MatSelectModule, FormsModule],
-  //  日期選擇器注入
-  providers: [provideNativeDateAdapter()],
-  //  component 獨立使用
   standalone: true,
+  imports: [FormsModule],
   templateUrl: './fixed-expenses.component.html',
   styleUrl: './fixed-expenses.component.scss'
 })
-export class FixedExpensesComponent implements OnInit{
+export class FixedExpensesComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
@@ -33,7 +23,15 @@ export class FixedExpensesComponent implements OnInit{
     private paymentService: PaymentService
   ){}
 
-  today: Date = new Date();
+  todayString: string = '';
+  private _today: Date = new Date();
+  get today(): Date {
+    return this._today;
+  }
+  set today(val: Date) {
+    this._today = val;
+    this.todayString = this.formatDate(val);
+  }
   type?: string;
   item?: string;
   categories: Category[] = [];
@@ -45,7 +43,7 @@ export class FixedExpensesComponent implements OnInit{
   description?: string; //  款項描述
   account: string = "a6221339@yahoo.com.tw"; //  測試帳號
   recurringPeriodYear: number | null = 0;  //  循環年數
-  recurringPeriodMonth: number | null = 0; //  循環月數
+  recurringPeriodMonth: number | null = 1; //  循環月數
   recurringPeriodDay: number | null = 0; //  循環天數
   balanceOptions: Balance[] = [];  //  API取得下拉式選單帳戶資料
   selectedBalanceId: number = 0;  //  實際綁定 balanceId
@@ -55,7 +53,8 @@ export class FixedExpensesComponent implements OnInit{
     //  設定首次生效日期不可為今天，需為明天起
     this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate() + 1);
-    this.today = new Date(this.minDate);  //  預設 today 為明天
+    this.today = new Date(this.minDate);
+    this.todayString = this.formatDate(this.today);
 
     //  API取得帳號type
     this.apiService.getTypeByAccount(this.account)
@@ -82,6 +81,7 @@ export class FixedExpensesComponent implements OnInit{
         const saved = this.paymentService.getFormData();
         if(saved){
           this.today = new Date(saved.recordDate);
+          this.todayString = this.formatDate(this.today);
           this.recurringPeriodYear = saved.recurringPeriodYear ?? null;
           this.recurringPeriodMonth = saved.recurringPeriodMonth ?? null;
           this.recurringPeriodDay = saved.recurringPeriodDay ?? null;
@@ -122,6 +122,19 @@ export class FixedExpensesComponent implements OnInit{
           }
         });
       });
+  }
+
+  ngAfterViewInit(): void {
+    // 禁止滑鼠滾輪和上下鍵改變循環週期 input 數值
+    const periodInputs = document.querySelectorAll('.period-number') as NodeListOf<HTMLInputElement>;
+    periodInputs.forEach(input => {
+      input.addEventListener('wheel', (e) => input.blur());
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault();
+        }
+      });
+    });
   }
 
   //  根據 selectedType 更新 categoriesFilteredItems

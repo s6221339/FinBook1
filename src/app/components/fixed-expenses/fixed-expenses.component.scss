@@ -1,13 +1,14 @@
 // 固定支出表單容器
 .form-container {
-  background: var(--elevation-1);
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
   padding: 2rem;
-  max-width: 600px;
+  max-width: 900px;
   margin: 0 auto;
   color: var(--text-primary);
-  transition: background 0.4s, color 0.4s;
+  &:hover {
+    box-shadow:
+      0 8px 32px color-mix(in srgb, var(--theme-main) 12%, #000 12%),
+      0 0 24px 4px color-mix(in srgb, var(--theme-main) 12%, transparent 88%);
+  }
 }
 
 // 表單標題
@@ -17,17 +18,17 @@
   gap: 1rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid var(--fixed-expense);
+  border-bottom: 2px solid var(--theme-main);
 
   .header-icon {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: var(--fixed-expense);
+    background: var(--theme-main);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 15px color-mix(in srgb, var(--theme-main) 40%, #000 20%);
 
     .material-icons {
       color: white;
@@ -39,12 +40,12 @@
     h2 {
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--fixed-expense);
+      color: var(--theme-main);
       margin: 0 0 0.25rem 0;
     }
 
     p {
-      color: #64748b;
+      color: var(--input-hint);
       margin: 0;
       font-size: 1rem;
     }
@@ -62,14 +63,14 @@
     margin-bottom: 1rem;
 
     .material-icons {
-      color: #f59e0b; // 橘色圖標
-      font-size: 1.3rem;
+      color: var(--theme-main);
+      font-size: 1.6rem;
     }
 
     h3 {
-      font-size: 1.1rem;
+      font-size: 1.5rem;
       font-weight: 600;
-      color: #374151;
+      color: var(--theme-main);
       margin: 0;
     }
   }
@@ -82,13 +83,20 @@
 
 // 循環週期輸入
 .period-inputs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 1rem;
+  align-items: center;
+}
 
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-  }
+.period-input {
+  display: flex;
+  align-items: center;
+}
+
+.period-unit {
+  margin-left: 0.3rem;
+  font-size: 1.1rem;
+  color: var(--input-hint);
 }
 
 // Material UI 樣式覆蓋
@@ -123,47 +131,35 @@
   position: relative;
   display: flex;
   align-items: center;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  background: white;
-  transition: all 0.2s ease;
+}
 
-  &:focus-within {
-    border-color: #f59e0b; // 橘色聚焦邊框
-    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
-  }
+.currency-symbol {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--input-placeholder);
+  font-weight: 600;
+  font-size: 1.1rem;
+  pointer-events: none;
+  z-index: 2;
+}
 
-  .currency-symbol {
-    padding: 1rem 0 1rem 1rem;
-    color: #6b7280;
-    font-weight: 600;
-    font-size: 1.1rem;
-  }
+.form-input[type='number'] {
+  width: 100%;
+  padding-left: 3.5rem;
+  color: var(--input-text);
+  padding-top: 1.2rem;
+}
 
-  .amount-input {
-    flex: 1;
-    padding: 1rem 1rem 1rem 0.5rem;
-    border: none;
-    outline: none;
-    font-size: 1.1rem;
-    color: #374151;
-    background: transparent;
+.form-input[type='number']::placeholder {
+  color: var(--input-placeholder);
+  opacity: 1;
+}
 
-    &::placeholder {
-      color: #9ca3af;
-    }
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    &[type=number] {
-      appearance: textfield;
-      -moz-appearance: textfield;
-    }
-  }
+.input-hint {
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.5px;
 }
 
 // 備註輸入樣式
@@ -217,24 +213,40 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  border: 2px dashed #d1d5db;
+  border: 1.5px dashed var(--input-border);
   border-radius: 8px;
-  background: #f9fafb;
-  color: #6b7280;
+  background: var(--input-bg);
+  color: var(--input-text);
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 500;
   width: 100%;
-
-  &:hover {
-    border-color: #f59e0b; // 橘色hover邊框
-    background: #fffbeb; // 淺橘色背景
-    color: #f59e0b; // 橘色文字
-  }
-
+  transition: all 0.2s;
   .material-icons {
     font-size: 1.2rem;
+    color: var(--input-icon);
+    transition: color 0.2s;
+  }
+  &:hover, &:focus {
+    border-color: var(--input-focus);
+    color: var(--input-focus);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--input-focus) 40%, transparent 60%);
+    .material-icons { color: var(--input-focus); }
+    background: var(--input-bg);
+  }
+}
+
+.dark-mode .add-item-btn {
+  background: var(--input-bg);
+  color: var(--input-text);
+  border-color: var(--input-border);
+  .material-icons { color: var(--input-icon); }
+  &:hover, &:focus {
+    border-color: var(--input-focus);
+    color: var(--input-focus);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--input-focus) 40%, transparent 60%);
+    .material-icons { color: var(--input-focus); }
+    background: var(--input-bg);
   }
 }
 
@@ -261,22 +273,22 @@
   transition: all 0.2s ease;
   border: none;
   flex: 1;
-
   .material-icons {
     font-size: 1.2rem;
   }
 }
 
 .btn-primary {
-  background: linear-gradient(45deg, #f59e0b, #d97706); // 橘色漸層
-  color: white;
-  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-
-  &:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+  background: var(--theme-main);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 15px color-mix(in srgb, var(--theme-main) 30%, #000 10%);
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+  &:hover:not(:disabled), &.active {
+    background: color-mix(in srgb, var(--theme-main) 80%, #fff 20%);
+    box-shadow: 0 8px 25px color-mix(in srgb, var(--theme-main) 40%, #000 20%);
+    transform: translateY(-2px) scale(1.03);
   }
-
   &:disabled {
     background: #e5e7eb;
     color: #9ca3af;
@@ -287,13 +299,12 @@
 }
 
 .btn-secondary {
-  background: white;
-  color: #6b7280;
-  border: 2px solid #e5e7eb;
-
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border: 2px solid var(--btn-secondary-border);
   &:hover {
-    background: #f9fafb;
-    border-color: #d1d5db;
+    background: var(--btn-secondary-hover-bg);
+    border-color: var(--btn-secondary-hover-border);
     transform: translateY(-2px);
   }
 }
@@ -322,6 +333,10 @@
   .form-actions {
     flex-direction: column;
   }
+
+  .period-inputs {
+    gap: 0.5rem;
+  }
 }
 
 // 主題切換動畫
@@ -336,3 +351,108 @@
   box-shadow: none;
   color: inherit;
 }
+
+.form-content,
+.form-content *:not(input):not(textarea):not(select) {
+  cursor: default;
+}
+
+.form-header, .form-header * {
+  cursor: default !important;
+}
+
+.type-form-divider {
+  position: relative;
+  width: 100% !important;
+  max-width: 800px !important;
+  height: 0.5px !important;
+  margin: 0 auto 1.5rem auto !important;
+  border-radius: 1px !important;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(var(--theme-main-rgb), 0.12) 18%,
+      rgba(var(--theme-main-rgb), 0.38) 50%,
+      rgba(var(--theme-main-rgb), 0.12) 82%,
+      transparent 100%
+    ),
+    linear-gradient(
+      90deg,
+      #e0e7ef 0%,
+      #e0e7ef 100%
+    );
+  display: block !important;
+  opacity: 1;
+  transition: background 0.4s;
+  z-index: 1;
+}
+.type-form-divider::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1.2px;
+  background: rgb(var(--theme-main-rgb));
+  transform: translateY(-50%);
+  width: 100%;
+  z-index: 2;
+  opacity: 0.58;
+  pointer-events: none;
+}
+.dark-mode .type-form-divider {
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(var(--theme-main-rgb), 0.16) 18%,
+      rgba(var(--theme-main-rgb), 0.40) 50%,
+      rgba(var(--theme-main-rgb), 0.16) 82%,
+      transparent 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(49,58,92,0.32) 0%,
+      rgba(49,58,92,0.32) 100%
+    );
+  opacity: 1;
+  height: 2.5px !important;
+}
+.dark-mode .type-form-divider::after {
+  background: rgb(var(--theme-main-rgb));
+  opacity: 0.62;
+}
+
+hr {
+  border-top: 3px solid var(--theme-main);
+}
+
+.period-number::-webkit-outer-spin-button,
+.period-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.period-number {
+  appearance: textfield;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.form-input[type='date']::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+// 主題色
+.fixed-expense-theme {
+  --theme-main: var(--fixed-expense);
+  --theme-main-rgb: var(--fixed-expense-rgb);
+}
+
+.expense-theme { --theme-main-rgb: 248,113,113; }
+.income-theme { --theme-main-rgb: 52,211,153; }
+.fixed-expense-theme { --theme-main-rgb: 251,191,36; }
+.fixed-income-theme { --theme-main-rgb: 167,139,250; }
+.transfer-theme { --theme-main-rgb: 56,189,248; }

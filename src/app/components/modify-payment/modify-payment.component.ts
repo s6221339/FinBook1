@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Balance } from '../../models/Balance';
+import { Balance } from '../../models/balance';
 import { Category } from '../../models/categories';
 import { PaymentIdFormData } from '../../models/paymentIdFormData';
 import { MatCheckboxModule } from '@angular/material/checkbox';

@@ -126,8 +126,8 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.sort.sortChange.subscribe(() => {
-      this.updateTotalFilteredItems();
-      this.updateDataSource();
+      this.currentPage = 1;
+      this.applyFilters();
     });
   }
 
@@ -304,8 +304,8 @@ export class LedgerComponent implements OnInit, AfterViewInit{
 
     //  預設 item 選「全部」
     this.selectedItem = '全部';
-    this.updateTotalFilteredItems();
-    this.updateDataSource();
+    this.currentPage = 1;
+    this.applyFilters();
   }
 
   //  get 方法在裡面值有變動時會自動執行調整
@@ -380,8 +380,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.selectedRecordDate = null;
     this.selectedRecordDateStr = null;
     this.currentPage = 1;
-    this.updateTotalFilteredItems();
-    this.updateDataSource();
+    this.applyFilters();
   }
 
   //  年月下拉式選單月份生成不超過目前月份
@@ -508,14 +507,14 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.apiService.getPaymentByAccountAndMonth(data)
     .then(res => {
       this.rawPaymentList = res.data.balanceWithPaymentList || [];
-      this.updateTotalFilteredItems();
-      this.updateDataSource();
+      this.currentPage = 1;
+      this.applyFilters();
     })
     .catch(err => {
       console.error('取得帳款資料失敗：', err);
       this.rawPaymentList = [];
-      this.updateTotalFilteredItems();
-      this.updateDataSource();
+      this.currentPage = 1;
+      this.applyFilters();
     });
   }
 
@@ -524,9 +523,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.loadSavingsFromAllPayments();
     this.updateBudgetDisplay();
     this.loadPayments();
-    this.updateTotalFilteredItems();
-    this.updateDataSource();
-    // 同步日期字串
+    // 日期字串同步
     if (this.selectedRecordDate) {
       this.selectedRecordDateStr = this.selectedRecordDate.toISOString().slice(0, 10);
     } else {
@@ -539,7 +536,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   prevPage(): void {
     if(this.currentPage > 1) {
       this.currentPage--;
-      this.updateDataSource();
+      this.applyFilters();
     }
   }
 
@@ -549,7 +546,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     const startIndex = this.currentPage * this.itemsPerPage;
     if(startIndex < this.filteredFullData.length) {
       this.currentPage++;
-      this.updateDataSource();
+      this.applyFilters();
     }
   }
 
@@ -602,7 +599,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   // 分頁事件處理
   onPageChange(newPage: number): void {
     this.currentPage = newPage;
-    this.updateDataSource();
+    this.applyFilters();
   }
 
   onRecordDateChange(): void {
@@ -612,23 +609,19 @@ export class LedgerComponent implements OnInit, AfterViewInit{
       this.selectedRecordDate = null;
     }
     this.currentPage = 1;
-    this.updateTotalFilteredItems();
-    this.updateDataSource();
+    this.applyFilters();
   }
 
   onItemChange(): void {
     this.currentPage = 1;
-    this.updateTotalFilteredItems();
-    this.updateDataSource();
+    this.applyFilters();
   }
 
   // 每頁筆數變更事件處理
   onPageSizeChange(newPageSize: number): void {
     this.itemsPerPage = newPageSize;
-    this.currentPage = 1; // 重置到第一頁
-    this.updateTotalFilteredItems();
-    this.updateDataSource();
-    // 滾動到表格頂部
+    this.currentPage = 1;// 重置到第一頁
+    this.applyFilters();
     setTimeout(() => {
       this.scrollToTableTop();
     }, 100);
@@ -642,5 +635,73 @@ export class LedgerComponent implements OnInit, AfterViewInit{
         block: 'start'
       });
     }
+  }
+
+  /**
+   * 先過濾、再排序、再分頁
+   * allFilteredData：所有過濾後的完整資料（未分頁）
+   * dataSource.data：當前分頁要顯示的資料
+   */
+  applyFilters(): void {
+    // 取得目前選擇的帳戶資料
+    const selected = this.rawPaymentList.find(p => p.balanceId == this.selectedBalanceId);
+    // 修正：若 selectedRecordDateStr 有值，轉成 Date
+    if (this.selectedRecordDateStr) {
+      this.selectedRecordDate = new Date(this.selectedRecordDateStr);
+    } else {
+      this.selectedRecordDate = null;
+    }
+    if (!selected) {
+      this.dataSource.data = [];
+      this.allFilteredData = [];
+      this.totalFilteredItems = 0;
+      return;
+    }
+    const today = new Date();
+    // 這裡 map/filter 流程等同原本 filteredFullData 的註解
+    // 1. 先將 paymentInfoList 轉成 PaymentIdFormData 陣列
+    // 2. 過濾掉「循環且日期在未來」的資料
+    // 3. 再依 type/item/日期做篩選
+    let payments: (PaymentIdFormData & { isRecurring?: string })[] = selected.paymentInfoList
+      .map((p: any) => {
+        const r = p.recurringPeriod || { year: 0, month: 0, day: 0 };
+        const isRecurring = r.year !== 0 || r.month !== 0 || r.day !== 0;
+        const recordDate = new Date(p.recordDate);
+        return {
+          paymentId: p.paymentId,
+          type: p.type,
+          item: p.item,
+          description: p.description,
+          amount: p.amount,
+          recordDate,
+          recurringPeriodYear: r.year,
+          recurringPeriodMonth: r.month,
+          recurringPeriodDay: r.day,
+          isRecurring: isRecurring ? '是' : '否'
+        };
+      })
+      .filter((p: any) => {
+        //  篩掉「循環且日期在未來」
+        const isRecurring = p.isRecurring == '是';
+        return !(isRecurring && p.recordDate > today);
+      });
+    // 依 type/item/日期做篩選（和原本 filteredFullData 註解一致）
+    payments = payments.filter(t =>
+      (!this.selectedType || this.selectedType == '全部' || t.type === this.selectedType) &&
+      (!this.selectedItem || this.selectedItem == '全部' || t.item === this.selectedItem) &&
+      (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
+    );
+    // allFilteredData：所有過濾後的完整資料（未分頁）
+    this.allFilteredData = payments;
+    this.totalFilteredItems = payments.length;
+    // 如果有排序，這裡會針對全部資料排序
+    if (this.sort && this.sort.active) {
+      this.allFilteredData = this.dataSource.sortData([...this.allFilteredData], this.sort);
+    }
+    // 分頁（等同原本 filteredTestData 的 slice 註解）
+    // dataSource.data：當前分頁要顯示的資料
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.dataSource.data = this.allFilteredData.slice(startIndex, endIndex);
   }
 }

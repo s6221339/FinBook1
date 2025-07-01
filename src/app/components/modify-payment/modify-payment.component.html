@@ -141,20 +141,16 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header>金額</th>
               <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
             </ng-container>
-            <!-- 循環週期（年） -->
-            <ng-container matColumnDef="recurringPeriodYear">
-              <th mat-header-cell *matHeaderCellDef>循環週期（年）</th>
-              <td mat-cell *matCellDef="let element">{{ element.recurringPeriodYear }}</td>
-            </ng-container>
-            <!-- 循環週期（月） -->
-            <ng-container matColumnDef="recurringPeriodMonth">
-              <th mat-header-cell *matHeaderCellDef>循環週期（月）</th>
-              <td mat-cell *matCellDef="let element">{{ element.recurringPeriodMonth }}</td>
-            </ng-container>
-            <!-- 循環週期（日） -->
-            <ng-container matColumnDef="recurringPeriodDay">
-              <th mat-header-cell *matHeaderCellDef>循環週期（日）</th>
-              <td mat-cell *matCellDef="let element">{{ element.recurringPeriodDay }}</td>
+            <!-- 是否循環 -->
+            <ng-container matColumnDef="isRecurring">
+              <th mat-header-cell *matHeaderCellDef
+                matTooltip="『是』表示此帳款為固定週期性記錄（如每月房租、水電等），僅顯示已到期的記錄。"
+                matTooltipShowDelay="300"
+                matTooltipPosition="above"
+                class="tooltip-header">
+                是否循環
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.isRecurring}}</td>
             </ng-container>
             <!-- 紀錄日期 -->
             <ng-container matColumnDef="recordDate">

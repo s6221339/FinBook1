@@ -652,4 +652,8 @@
   color: var(--table-sort) !important;
 }
 
-
+.tooltip-header {
+  cursor: help;
+  text-decoration: underline dotted #666;
+  text-underline-offset: 2px;
+}

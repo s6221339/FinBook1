@@ -85,9 +85,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     'item',
     'description',
     'amount',
-    'recurringPeriodYear',
-    'recurringPeriodMonth',
-    'recurringPeriodDay',
+    'isRecurring',
     'recordDate'
   ];
 
@@ -376,18 +374,33 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
       return;
     }
 
-    let payments: (PaymentIdFormData & { selected?: boolean })[] = selected.paymentInfoList.map((p: any) => ({
-      paymentId: p.paymentId,
-      type: p.type,
-      item: p.item,
-      description: p.description,
-      amount: p.amount,
-      recurringPeriodYear: p.recurringPeriod.year,
-      recurringPeriodMonth: p.recurringPeriod.month,
-      recurringPeriodDay: p.recurringPeriod.day,
-      recordDate: new Date(p.recordDate),
-      selected: false
-    }));
+    const today = new Date();
+
+    let payments: (PaymentIdFormData & { selected?: boolean, isRecurring: string })[] = selected.paymentInfoList
+    .map((p: any) => {
+      const r = p.recurringPeriod;
+      const isRecurring = r.year !== 0 || r.month !== 0 || r.day !== 0;
+      const recordDate = new Date(p.recordDate);
+
+      return {
+        paymentId: p.paymentId,
+        type: p.type,
+        item: p.item,
+        description: p.description,
+        amount: p.amount,
+        recordDate,
+        recurringPeriodYear: r.year,
+        recurringPeriodMonth: r.month,
+        recurringPeriodDay: r.day,
+        isRecurring: isRecurring ? '是' : '否',
+        selected: false
+      };
+    })
+    .filter((p: any) => {
+      //  篩掉「循環且日期在未來」
+      const isRecurring = p.isRecurring == '是';
+      return !(isRecurring && p.recordDate > today);
+    });
 
     //  篩選（type/item 用 ===）
     payments = payments.filter(t =>

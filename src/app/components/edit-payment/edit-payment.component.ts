@@ -171,6 +171,10 @@ export class EditPaymentComponent implements OnInit{
     return `${yyyy}-${mm}-${dd}`;
   }
 
+  get showRecurringFields(): boolean {
+    return (this.recurringYear ?? 0) !== 0 || (this.recurringMonth ?? 0) !== 0 || (this.recurringDay ?? 0) !== 0;
+  }
+
   //  取消回修改帳款頁面
   goBackModifyPayment(){
     this.paymentModifiedService.cleanPaymentFormData();

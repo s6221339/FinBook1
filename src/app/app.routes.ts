@@ -42,7 +42,6 @@ export const routes: Routes = [
       { path: 'fixedExpenses', component: FixedExpensesComponent },
       { path: 'income', component: IncomeComponent },
       { path: 'expenses', component: ExpensesComponent },
-      { path: 'transfers', component: TransfersComponent },
       { path: '', component: ExpensesComponent }]},
   { path: 'transfersHistory', component: TransferHistoryComponent },
   { path: 'test', component: TestComponent, canActivate: [AdminGuard] },
@@ -75,6 +74,7 @@ export const routes: Routes = [
   },
   { path:'unacceptedFamilyInvitation',component: UnacceptedFamilyInvitationComponent },
   { path:'unauthorized',component: UnauthorizedComponent },
+  { path: 'transfers', component: TransfersComponent },
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent }

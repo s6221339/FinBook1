@@ -38,26 +38,28 @@
     </mat-form-field>
   </div>
 
-  <!-- 循環週期 -->
-  <div style="display: flex; gap: 8px;">
-    <!-- 年 -->
-    <mat-form-field appearance="outline">
-      <mat-label>年</mat-label>
-      <input matInput type="number" [(ngModel)]="recurringYear" [readonly]="!canEditRecurring" min="0" step="1"/>
-    </mat-form-field>
+  @if(showRecurringFields) {
+    <!-- 循環週期 -->
+    <div style="display: flex; gap: 8px;">
+      <!-- 年 -->
+      <mat-form-field appearance="outline">
+        <mat-label>年</mat-label>
+        <input matInput type="number" [(ngModel)]="recurringYear" [readonly]="!canEditRecurring" min="0" step="1"/>
+      </mat-form-field>
 
-    <!-- 月 -->
-    <mat-form-field appearance="outline">
-      <mat-label>月</mat-label>
-      <input matInput type="number" [(ngModel)]="recurringMonth" [readonly]="!canEditRecurring" min="0" step="1"/>
-    </mat-form-field>
+      <!-- 月 -->
+      <mat-form-field appearance="outline">
+        <mat-label>月</mat-label>
+        <input matInput type="number" [(ngModel)]="recurringMonth" [readonly]="!canEditRecurring" min="0" step="1"/>
+      </mat-form-field>
 
-    <!-- 日 -->
-    <mat-form-field appearance="outline">
-      <mat-label>日</mat-label>
-      <input matInput type="number" [(ngModel)]="recurringDay" [readonly]="!canEditRecurring" min="0" step="1"/>
-    </mat-form-field>
-  </div>
+      <!-- 日 -->
+      <mat-form-field appearance="outline">
+        <mat-label>日</mat-label>
+        <input matInput type="number" [(ngModel)]="recurringDay" [readonly]="!canEditRecurring" min="0" step="1"/>
+      </mat-form-field>
+    </div>
+  }
 
   <!-- 紀錄日期 -->
   <div>

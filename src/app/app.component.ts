@@ -139,4 +139,8 @@ export class AppComponent implements OnInit{
     this.router.navigate(['/unacceptedFamilyInvitation']);
   }
 
+  goTransfers(){
+    this.router.navigate(['/transfers']);
+  }
+
 }

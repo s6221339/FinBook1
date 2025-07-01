@@ -137,7 +137,7 @@
   </div>
 
   <!-- 表格區塊 -->
-  <div class="content-container">
+  <div class="content-container" #tableContainer>
     <div class="transactions-card">
       <div class="card-header">
         <span class="material-icons">list_alt</span>
@@ -203,8 +203,8 @@
           [totalItems]="totalFilteredItems"
           [currentPage]="currentPage"
           [pageSize]="itemsPerPage"
-          (pageChange)="currentPage = $event"
-          (pageSizeChange)="itemsPerPage = $event">
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onPageSizeChange($event)">
         </app-custom-paginator>
       </div>
     </div>

@@ -44,7 +44,7 @@ export class FixedIncomeComponent implements OnInit, AfterViewInit {
   amount?: number | null;  //  金額
   description?: string; //  款項描述
   recurringPeriodYear: number | null = 0;  //  循環年數
-  recurringPeriodMonth: number | null = 0; //  循環月數
+  recurringPeriodMonth: number | null = 1; //  循環月數
   recurringPeriodDay: number | null = 0; //  循環天數
   balanceOptions: Balance[] = []; //  API取得下拉式選單帳戶資料
   selectedBalanceId: number = 0;  //  實際綁定 balanceId

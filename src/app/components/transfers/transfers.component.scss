@@ -1,43 +1,40 @@
 /* 轉帳表單容器的整體樣式 */
-.transfers-form {
-  padding: 2rem; /* 內邊距 */
-  max-width: 600px; /* 最大寬度，限制表單不會過寬 */
-  margin: 0 auto; /* 水平置中 */
-  background: var(--elevation-1); /* 背景顏色為變數 */
-  border-radius: 16px; /* 圓角邊框 */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 陰影效果，x軸偏移0，y軸偏移4px，模糊20px，顏色為半透明黑色 */
-  /* border: 1px solid #f1f5f9;  // 已移除外框線 */
-  transition: box-shadow 0.3s, transform 0.3s;
+.form-container {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  color: var(--text-primary);
   &:hover {
-    box-shadow: 0 8px 32px color-mix(in srgb, var(--theme-main) 20%, #000 30%);
-    transform: translateY(-2px) scale(1.01);
+    box-shadow:
+      0 8px 32px color-mix(in srgb, var(--theme-main) 12%, #000 12%),
+      0 0 24px 4px color-mix(in srgb, var(--theme-main) 12%, transparent 88%);
   }
 }
 
 /* 表單頭部區塊樣式 (包含圖示和標題) */
 .form-header {
-  display: flex; /* 使用 Flexbox 排版，讓圖示和文字水平排列 */
-  align-items: center; /* 垂直置中對齊 Flex 項目 */
-  gap: 1rem; /* Flex 項目之間的間距 */
-  margin-bottom: 2rem; /* 底部外邊距 */
-  padding-bottom: 1rem; /* 底部內邊距 */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
   border-bottom: 2px solid var(--theme-main);
 
   /* 頭部圖示容器樣式 */
   .header-icon {
-    width: 60px; /* 寬度 */
-    height: 60px; /* 高度 */
-    border-radius: 50%; /* 完全圓形 */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
     background: var(--theme-main);
-    display: flex; /* 使用 Flexbox 排版 */
-    align-items: center; /* 垂直置中 Material Icon */
-    justify-content: center; /* 水平置中 Material Icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: 0 4px 15px color-mix(in srgb, var(--theme-main) 40%, #000 20%);
 
     /* Material Icon 的樣式 */
     .material-icons {
-      color: white; /* 圖標顏色為白色 */
-      font-size: 2rem; /* 圖標字體大小 */
+      color: white;
+      font-size: 2rem;
     }
   }
 
@@ -45,215 +42,192 @@
   .header-text {
     /* 標題 h2 的樣式 */
     h2 {
-      font-size: 1.8rem; /* 字體大小 */
-      font-weight: 700; /* 字體粗細 */
+      font-size: 1.8rem;
+      font-weight: 700;
       color: var(--theme-main);
-      margin: 0 0 0.25rem 0; /* 上右下左外邊距 */
+      margin: 0 0 0.25rem 0;
     }
 
     /* 副標題 p 的樣式 */
     p {
-      color: #64748b; /* 灰色文字顏色 */
-      margin: 0; /* 無外邊距 */
-      font-size: 1rem; /* 字體大小 */
+      color: var(--input-hint);
+      margin: 0;
+      font-size: 1rem;
     }
   }
 }
 
 /* 表單每個主要區塊的樣式 */
 .form-section {
-  margin-bottom: 2rem; /* 底部外邊距 */
+  margin-bottom: 2rem;
 
   /* 區塊標題樣式 */
   .section-header {
-    display: flex; /* 使用 Flexbox 排版，讓圖示和文字水平排列 */
-    align-items: center; /* 垂直置中對齊 Flex 項目 */
-    gap: 0.5rem; /* Flex 項目之間的間距 */
-    margin-bottom: 1rem; /* 底部外邊距 */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
 
     /* 區塊標題圖示的樣式 */
     .material-icons {
       color: var(--theme-main);
-      font-size: 1.3rem; /* 圖標字體大小 */
+      font-size: 1.6rem;
     }
 
     /* 區塊標題 h3 的樣式 */
     h3 {
-      font-size: 1.1rem; /* 字體大小 */
-      font-weight: 600; /* 字體粗細 */
+      font-size: 1.5rem;
+      font-weight: 600;
       color: var(--theme-main);
-      margin: 0; /* 無外邊距 */
+      margin: 0;
     }
   }
 }
 
 /* 表單群組樣式 (用於包含輸入框和相關內容) */
 .form-group {
-  margin-bottom: 1rem; /* 底部外邊距 */
+  margin-bottom: 1rem;
 }
 
 /* 讓元素佔滿父容器的寬度 */
 .full-width {
-  width: 100%; /* 寬度佔 100% */
+  width: 100%;
 }
 
-/* ::ng-deep 用於穿透元件封裝的樣式，修改 Material UI 元件的內部樣式 */
-::ng-deep {
-  /* Material 表單欄位基本樣式 */
-  .mat-mdc-form-field {
-    /* 聚焦時的背景覆蓋層顏色 */
-    .mat-mdc-form-field-focus-overlay {
-      background-color: rgba(6, 182, 212, 0.04); /* 淺藍色半透明 */
-    }
+/* 表單輸入元素 */
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1.5px solid var(--input-border);
+  border-radius: 8px;
+  background: var(--elevation-1);
+  color: var(--text-primary);
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
 
-    /* 聚焦時的表單欄位樣式 */
-    &.mat-focused {
-      /* 聚焦時的邊框顏色 */
-      .mat-mdc-form-field-outline-thick {
-        color: #06b6d4; /* 藍色聚焦邊框 */
-      }
-    }
+  &:hover {
+    border-color: var(--input-hover);
   }
 
-  /* Material Select 選項面板的樣式 */
-  .mat-mdc-select-panel {
-    border-radius: 8px; /* 圓角 */
+  &:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--input-focus) 40%, transparent 60%);
   }
 
-  /* Material Select 選中選項的樣式 */
-  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
-    background-color: rgba(6, 182, 212, 0.1); /* 藍色選中背景 */
+  &::placeholder {
+    color: var(--input-placeholder);
   }
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.form-select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+  appearance: none;
 }
 
 /* amount-input-wrapper 相關的樣式，目前未在 HTML 中使用，但保留以供參考 */
 .amount-input-wrapper {
-  position: relative; /* 相對定位，用於子元素的絕對定位 */
-  display: flex; /* 使用 Flexbox 排版 */
-  align-items: center; /* 垂直置中 Flex 項目 */
-  border: 2px solid #e2e8f0; /* 淺灰色邊框 */
-  border-radius: 8px; /* 圓角 */
-  background: var(--elevation-1); /* 背景為變數 */
-  transition: all 0.2s ease; /* 所有屬性在 0.2 秒內平滑過渡 */
-
-  /* 當輸入框或其內部元素聚焦時的樣式 */
-  &:focus-within {
-    border-color: #06b6d4; /* 藍色邊框 */
-    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1); /* 淺藍色陰影 */
-  }
-
-  /* 貨幣符號的樣式 */
-  .currency-symbol {
-    padding: 1rem 0 1rem 1rem; /* 內邊距 */
-    color: #6b7280; /* 灰色文字 */
-    font-weight: 600; /* 字體粗細 */
-    font-size: 1.1rem; /* 字體大小 */
-  }
-
-  /* 金額輸入框的樣式 */
-  .amount-input {
-    flex: 1; /* 佔據剩餘空間 */
-    padding: 1rem 1rem 1rem 0.5rem; /* 內邊距 */
-    border: none; /* 無邊框 */
-    outline: none; /* 無外框 */
-    font-size: 1.1rem; /* 字體大小 */
-    color: #374151; /* 深灰色文字 */
-    background: transparent; /* 透明背景 */
-
-    /* 佔位符的樣式 */
-    &::placeholder {
-      color: #9ca3af; /* 淺灰色佔位符文字 */
-    }
-
-    /* 隱藏 Chrome, Safari, Edge 瀏覽器中 type="number" 的增減箭頭 */
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none; /* 移除預設外觀 */
-      margin: 0; /* 移除預設邊距 */
-    }
-
-    /* 隱藏 Firefox 瀏覽器中 type="number" 的增減箭頭 */
-    /*
-    &[type=number] {
-      -moz-appearance: textfield;
-    }
-    */
-  }
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-/* note-input-wrapper 相關的樣式，目前未在 HTML 中使用，但保留以供參考 */
-.note-input-wrapper {
-  position: relative; /* 相對定位 */
-  border: 2px solid #e2e8f0; /* 淺灰色邊框 */
-  border-radius: 8px; /* 圓角 */
-  background: var(--elevation-1); /* 白色背景 */
-  transition: all 0.2s ease; /* 平滑過渡 */
+.currency-symbol {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--input-placeholder);
+  font-weight: 600;
+  font-size: 1.1rem;
+  pointer-events: none;
+  z-index: 2;
+}
 
-  /* 聚焦時的樣式 */
-  &:focus-within {
-    border-color: #06b6d4; /* 藍色邊框 */
-    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1); /* 淺藍色陰影 */
-  }
+.form-input[type='number'] {
+  padding-left: 3.5rem;
+  color: var(--input-text);
+  padding-top: 1.2rem;
+  width: 100%;
+}
 
-  /* 備註輸入框的樣式 */
-  .note-input {
-    width: 100%; /* 寬度佔滿 */
-    padding: 1rem; /* 內邊距 */
-    border: none; /* 無邊框 */
-    outline: none; /* 無外框 */
-    font-size: 1rem; /* 字體大小 */
-    color: #374151; /* 深灰色文字 */
-    background: transparent; /* 透明背景 */
-    resize: vertical; /* 允許垂直調整大小 */
-    min-height: 80px; /* 最小高度 */
-    font-family: inherit; /* 繼承父元素的字體 */
+/* 轉入帳戶輸入框特殊樣式 */
+.form-input.account-input {
+  padding-left: 1.2rem;
+}
 
-    /* 佔位符的樣式 */
-    &::placeholder {
-      color: #9ca3af; /* 淺灰色佔位符文字 */
-    }
-  }
+/* 隱藏數字輸入框的增減箭頭 */
+.form-input[type='number']::-webkit-outer-spin-button,
+.form-input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
-  /* 字數統計的樣式 */
-  .char-count {
-    position: absolute; /* 絕對定位 */
-    bottom: 0.5rem; /* 底部偏移 */
-    right: 0.75rem; /* 右側偏移 */
-    font-size: 0.75rem; /* 字體大小 */
-    color: #9ca3af; /* 淺灰色文字 */
-    background: var(--elevation-1); /* 白色背景 */
-    padding: 0.25rem; /* 內邊距 */
-  }
+.form-input[type='number'] {
+  appearance: textfield;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* 提示文字 */
+.input-hint {
+  color: var(--input-hint);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.5px;
+}
+
+/* 字數統計 */
+.char-count {
+  text-align: right;
+  color: var(--input-hint);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
 }
 
 /* 表單操作按鈕區塊樣式 */
 .form-actions {
-  display: flex; /* 使用 Flexbox 排版 */
-  gap: 1rem; /* Flex 項目之間的間距 */
-  margin-top: 3rem; /* 頂部外邊距 */
-  padding-top: 2rem; /* 頂部內邊距 */
-  border-top: 1px solid #e5e7eb; /* 頂部淺灰色邊框 */
+  display: flex;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
 }
 
 /* 主要按鈕和次要按鈕的共同樣式 */
 .btn-primary,
 .btn-secondary {
-  display: flex; /* 使用 Flexbox 排版，讓內容水平置中 */
-  align-items: center; /* 垂直置中 */
-  justify-content: center; /* 水平置中 */
-  gap: 0.5rem; /* 圖標和文字之間的間距 */
-  padding: 1rem 2rem; /* 內邊距 */
-  border-radius: 8px; /* 圓角 */
-  font-weight: 600; /* 字體粗細 */
-  font-size: 1rem; /* 字體大小 */
-  cursor: pointer; /* 鼠標指針為手型 */
-  transition: all 0.2s ease; /* 所有屬性在 0.2 秒內平滑過渡 */
-  border: none; /* 無邊框 */
-  flex: 1; /* 佔據等寬空間 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  flex: 1;
 
   /* 按鈕內 Material Icon 的樣式 */
   .material-icons {
-    font-size: 1.2rem; /* 圖標字體大小 */
+    font-size: 1.2rem;
   }
 }
 
@@ -264,31 +238,40 @@
   border: none;
   box-shadow: 0 4px 15px color-mix(in srgb, var(--theme-main) 30%, #000 10%);
   transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+
   &:hover:not(:disabled), &.active {
-    background: color-mix(in srgb, var(--theme-main) 80%, #fff 20%);
+    background: var(--theme-main);
     box-shadow: 0 8px 25px color-mix(in srgb, var(--theme-main) 40%, #000 20%);
     transform: translateY(-2px) scale(1.03);
+  }
+
+  &:disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 }
 
 /* 次要按鈕 (取消) 的樣式 */
 .btn-secondary {
-  background: white; /* 白色背景 */
-  color: #6b7280; /* 灰色文字 */
-  border: 2px solid #e5e7eb; /* 淺灰色邊框 */
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border: 2px solid var(--btn-secondary-border);
 
   /* 滑鼠懸停時的樣式 */
   &:hover {
-    background: #f9fafb; /* 淺灰色背景 */
-    border-color: #d1d5db; /* 略深灰色邊框 */
-    transform: translateY(-2px); /* 向上移動 2px */
+    background: var(--btn-secondary-hover-bg);
+    border-color: var(--btn-secondary-hover-border);
+    transform: translateY(-2px);
   }
 }
 
 /* 響應式設計：當螢幕寬度小於或等於 768px 時應用 */
 @media (max-width: 768px) {
   /* 表單容器的內邊距調整 */
-  .transfers-form {
+  .form-container {
     padding: 1rem;
   }
 
@@ -310,52 +293,144 @@
 
   /* 操作按鈕在小螢幕上垂直排列 */
   .form-actions {
-    flex-direction: column; /* 垂直堆疊 Flex 項目 */
+    flex-direction: column;
   }
 }
 
 /* 建議列表的樣式 */
 .suggestions {
-  border: 1px solid #000000; /* 黑色邊框 */
-  border-radius: 4px; /* 圓角 */
-  background: #eae9e9; /* 淺灰色背景 */
-  margin-top: 10px; /* 頂部外邊距 */
+  margin-top: 0.5rem;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  background: var(--elevation-1);
+  overflow: hidden;
 }
 
 /* 建議列表項目的樣式 */
 .suggestion-item {
-  padding: 0.5rem; /* 內邊距 */
-  cursor: pointer; /* 鼠標指針為手型 */
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid var(--input-border);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: var(--secondary-bg);
+  }
+
+  &.selected {
+    background: color-mix(in srgb, var(--theme-main) 10%, var(--elevation-1));
+    border-left: 4px solid var(--theme-main);
+    color: var(--theme-main);
+    font-weight: 600;
+  }
 }
 
-/* 建議列表項目的選中狀態樣式 */
-.suggestion-item.selected {
-  background: rgba(0, 0, 0, 0.1); /* 淺黑色背景 */
-  border-left: 12px solid #0690a8; /* 左側藍色粗邊框 */
+/* 主題切換動畫 */
+.form-container, .form-header, .header-icon, .header-text h2, .btn-primary, .btn-secondary {
+  transition: background 0.4s, color 0.4s, border-color 0.4s;
 }
 
-/* 穿透 Material UI 按鈕的預設樣式 */
-::ng-deep button[mat-icon-button] {
-  background: transparent !important; /* 強制透明背景 */
-  box-shadow: none !important; /* 強制無陰影 */
-  border: none !important; /* 強制無邊框 */
-}
-
-/* 隱藏 type="number" 輸入框的增減箭頭 (跨瀏覽器兼容性) */
-/* 這是針對 Firefox 瀏覽器 */
-/*
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-*/
-
-/* 這是針對 Chrome, Safari, Edge 瀏覽器 */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none; /* 移除預設外觀 */
-  margin: 0; /* 移除可能存在的預設邊距 */
+.form-content {
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  color: inherit;
 }
 
 hr {
   border-top: 3px solid var(--theme-main);
 }
+
+.form-content,
+.form-content *:not(input):not(textarea):not(select) {
+  cursor: default;
+}
+
+.form-header, .form-header * {
+  cursor: default !important;
+}
+
+.form-header p {
+  color: #475569;
+}
+
+.section-header h3 {
+  font-size: 1.1rem;
+}
+
+.section-header .material-icons {
+  font-size: 1.3rem;
+}
+
+.type-form-divider {
+  position: relative;
+  width: 100% !important;
+  max-width: 800px !important;
+  height: 0.5px !important;
+  margin: 0 auto 1.5rem auto !important;
+  border-radius: 1px !important;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(var(--theme-main-rgb), 0.12) 18%,
+      rgba(var(--theme-main-rgb), 0.38) 50%,
+      rgba(var(--theme-main-rgb), 0.12) 82%,
+      transparent 100%
+    ),
+    linear-gradient(
+      90deg,
+      #e0e7ef 0%,
+      #e0e7ef 100%
+    );
+  display: block !important;
+  opacity: 1;
+  transition: background 0.4s;
+  z-index: 1;
+}
+
+.type-form-divider::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  height: 1.2px;
+  background: rgb(var(--theme-main-rgb));
+  transform: translateY(-50%);
+  width: 100%;
+  z-index: 2;
+  opacity: 0.58;
+  pointer-events: none;
+}
+
+.dark-mode .type-form-divider {
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(var(--theme-main-rgb), 0.16) 18%,
+      rgba(var(--theme-main-rgb), 0.40) 50%,
+      rgba(var(--theme-main-rgb), 0.16) 82%,
+      transparent 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(49,58,92,0.32) 0%,
+      rgba(49,58,92,0.32) 100%
+    );
+  opacity: 1;
+  height: 2.5px !important;
+}
+
+.dark-mode .type-form-divider::after {
+  background: rgb(var(--theme-main-rgb));
+  opacity: 0.62;
+}
+
+/* 針對主題色自動切換，補充 rgb 變數（轉帳藍） */
+.transfer-theme { --theme-main-rgb: 56,189,248; }

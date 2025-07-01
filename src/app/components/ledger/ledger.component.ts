@@ -44,6 +44,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   @ViewChild('batteryFill') batteryFillElement!: ElementRef<SVGRectElement>;
   @ViewChild('batteryPercentText') batteryPercentTextElement!: ElementRef<SVGTextElement>;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('tableContainer') tableContainer!: ElementRef<HTMLElement>;
   year: number = new Date().getFullYear(); //  預設帳戶時間（年）
   month: number = new Date().getMonth() + 1;  //  預設帳戶時間（月）
   years: number[] = []; //  年份列表
@@ -585,6 +586,12 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.dataSource.data = this.filteredTestData;
   }
 
+  // 分頁事件處理
+  onPageChange(newPage: number): void {
+    this.currentPage = newPage;
+    this.updateDataSource();
+  }
+
   onRecordDateChange(): void {
     if (this.selectedRecordDateStr) {
       this.selectedRecordDate = new Date(this.selectedRecordDateStr);
@@ -600,5 +607,27 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.currentPage = 1;
     this.updateTotalFilteredItems();
     this.updateDataSource();
+  }
+
+  // 每頁筆數變更事件處理
+  onPageSizeChange(newPageSize: number): void {
+    this.itemsPerPage = newPageSize;
+    this.currentPage = 1; // 重置到第一頁
+    this.updateTotalFilteredItems();
+    this.updateDataSource();
+    // 滾動到表格頂部
+    setTimeout(() => {
+      this.scrollToTableTop();
+    }, 100);
+  }
+
+  // 滾動到表格頂部
+  scrollToTableTop(): void {
+    if (this.tableContainer && this.tableContainer.nativeElement) {
+      this.tableContainer.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 }

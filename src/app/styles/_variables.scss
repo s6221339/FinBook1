@@ -15,11 +15,11 @@
   --title-text-color:linear-gradient(45deg, var(--primary), var(--expense));
 
   /* 功能色（子路由主題色） */
-  --expense: #F87171;
-  --income: #34D399;
-  --fixed-expense: #FBBF24;
-  --fixed-income: #A78BFA;
-  --transfer: #38BDF8;
+  --expense: #fd4848;
+  --income: #02a267;
+  --fixed-expense: #ffa200;
+  --fixed-income: #c701ef;
+  --transfer: #009adc;
   --transfer-out: #ef0000;
   --transfer-in:  #176c2a;
 
@@ -472,9 +472,7 @@
 }
 
 .glass-card-theme {
-  background: color-mix(in srgb, var(--theme-main) 10%, var(--glass-bg-dark));
   backdrop-filter: blur(var(--glass-blur));
-  border: 1.5px solid color-mix(in srgb, var(--theme-main) 18%, var(--glass-border-dark));
   border-radius: var(--card-radius);
   box-shadow: 0 8px 32px color-mix(in srgb, var(--theme-main) 20%, #000 20%);
   transition: box-shadow 0.4s, background 0.4s, border-color 0.4s;
@@ -485,6 +483,6 @@
   }
 }
 :root .glass-card-theme {
-  background: color-mix(in srgb, var(--theme-main) 10%, var(--glass-bg-light));
+  background: color-mix(in srgb, var(--theme-main) 20%, var(--glass-bg-light));
   border: 1.5px solid color-mix(in srgb, var(--theme-main) 18%, var(--glass-border-light));
 }

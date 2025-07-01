@@ -1,25 +1,16 @@
 import { AuthService } from './../../@services/auth.service';
-import { CommonModule, registerLocaleData } from '@angular/common';
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../@services/api.service';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { Transfer, ApiResponse, Account } from '../../models/transfers';
+import { Transfer, Account } from '../../models/transfers';
 import Swal from 'sweetalert2';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
-import localeZh from '@angular/common/locales/zh'; // 導入中文語言環境資料
 import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
-
-// 註冊中文語言環境數據，用於日期格式化
-registerLocaleData(localeZh, 'zh-TW');
 
 @Component({
   selector: 'app-transfer-history', // 元件的選擇器名稱，用於在 HTML 模板中使用 <app-transfer-history>
@@ -28,23 +19,15 @@ registerLocaleData(localeZh, 'zh-TW');
     CommonModule, // 提供 *ngIf, *ngFor 等常見指令
     RouterModule,
     FormsModule, // 提供 ngModel 等表單相關功能
-    MatFormFieldModule, // Material Design 表單欄位外觀
-    MatInputModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
     MatIconModule,
-    MatSelectModule,
     ReactiveFormsModule,
-    MatDatepickerModule,
     CustomPaginatorComponent, // 補充：自訂分頁器
   ],
   templateUrl: './transfer-history.component.html',
-  styleUrl: './transfer-history.component.scss',
-  providers: [
-    provideNativeDateAdapter(),
-    { provide: MAT_DATE_LOCALE, useValue: 'zh-TW' },
-  ]
+  styleUrl: './transfer-history.component.scss'
 })
 
 export class TransferHistoryComponent implements OnInit {
@@ -52,11 +35,13 @@ export class TransferHistoryComponent implements OnInit {
   // 構造函數 (Constructor)：用於注入服務
   // private api: ApiService：用於與後端 API 進行交互
   // private paginatorIntl: MatPaginatorIntl：用於自定義 Material 分頁器的文字
-  // private route: ActivatedRoute：用於獲取路由參數 (儘管目前未使用，但保留)
+  // private route: ActivatedRoute：用於獲取查詢參數
+  // private router: Router：用於更新查詢參數
   constructor(
     private api: ApiService,
     private paginatorIntl: MatPaginatorIntl,
     private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService
   ) {}
 
@@ -113,6 +98,8 @@ export class TransferHistoryComponent implements OnInit {
   // 使用 @ViewChild 裝飾器獲取模板中 MatSort 元件的實例。
   @ViewChild(MatSort) sort!: MatSort;
 
+  @ViewChild('tableContainer') tableContainer!: ElementRef<HTMLElement>;
+
   /**
    * 補充：自訂分頁器 currentPage/itemsPerPage 與事件
    */
@@ -130,44 +117,58 @@ export class TransferHistoryComponent implements OnInit {
     this.paginatorIntl.firstPageLabel = '第一頁';
     this.paginatorIntl.lastPageLabel = '最後一頁';
 
-    this.loadAccountNames()
-      .then(() => {
-        console.log("帳戶名稱及列表已成功載入。");
+    // 處理查詢參數
+    this.route.queryParams.subscribe(params => {
+      const accountId = params['id'] ? Number(params['id']) : null;
+      console.log('從查詢參數獲取到的帳戶ID:', accountId);
 
-        if (this.accounts.length > 0) {
-          // 【✔️ 修正】採用更直接可靠的呼叫方式
-          const defaultAccountId = this.accounts[0].balanceId;
+      this.loadAccountNames()
+        .then(() => {
+          console.log("帳戶名稱及列表已成功載入。");
 
-          // 步驟 1: 先默默地(不觸發事件)設定表單控制項的值，
-          // 這樣做的目的是讓下拉選單的 UI 正確顯示預設選項。
-          this.selectedAccountId.setValue(defaultAccountId, { emitEvent: false });
-          this.currentBalanceId = defaultAccountId;
-          console.log(`已預設選取帳戶: ${defaultAccountId}`);
+          if (this.accounts.length > 0) {
+            let targetAccountId: number;
 
-          // 步驟 2: 然後直接、明確地呼叫處理函式來載入資料。
-          // onAccountSelectionChange 會處理後續的 SweetAlert 提示和資料載入。
-          this.onAccountSelectionChange(defaultAccountId);
-        } else {
-          // ... (沒有帳戶的處理邏輯不變)
+            // 如果有查詢參數且該帳戶存在，則使用查詢參數的帳戶ID
+            if (accountId && this.accounts.find(acc => acc.balanceId === accountId)) {
+              targetAccountId = accountId;
+              console.log(`使用查詢參數指定的帳戶: ${targetAccountId}`);
+            } else {
+              // 否則使用第一個帳戶作為預設
+              targetAccountId = this.accounts[0].balanceId;
+              console.log(`使用預設帳戶: ${targetAccountId}`);
+            }
+
+            // 步驟 1: 先默默地(不觸發事件)設定表單控制項的值，
+            // 這樣做的目的是讓下拉選單的 UI 正確顯示預設選項。
+            this.selectedAccountId.setValue(targetAccountId, { emitEvent: false });
+            this.currentBalanceId = targetAccountId;
+
+            // 步驟 2: 然後直接、明確地呼叫處理函式來載入資料。
+            // onAccountSelectionChange 會處理後續的 SweetAlert 提示和資料載入。
+            this.onAccountSelectionChange(targetAccountId);
+          } else {
+            // ... (沒有帳戶的處理邏輯不變)
+            this.currentBalanceId = null;
+            this.dataSource.data = [];
+            this.totalItems = 0;
+            this._allTransferRecords = [];
+            this.lastTransactionDate = '';
+            console.warn('該用戶沒有任何帳戶可供查詢。');
+            Swal.fire('提示', '您沒有任何可查詢的帳戶。', 'info');
+          }
+        })
+        .catch(error => {
+          // ... (catch 區塊不變)
+          console.error('初始化失敗：載入帳戶名稱時出錯！', error);
+          Swal.fire('錯誤', '載入資料時發生錯誤，請稍後再試。', 'error');
           this.currentBalanceId = null;
           this.dataSource.data = [];
           this.totalItems = 0;
           this._allTransferRecords = [];
           this.lastTransactionDate = '';
-          console.warn('該用戶沒有任何帳戶可供查詢。');
-          Swal.fire('提示', '您沒有任何可查詢的帳戶。', 'info');
-        }
-      })
-      .catch(error => {
-        // ... (catch 區塊不變)
-        console.error('初始化失敗：載入帳戶名稱時出錯！', error);
-        Swal.fire('錯誤', '載入資料時發生錯誤，請稍後再試。', 'error');
-        this.currentBalanceId = null;
-        this.dataSource.data = [];
-        this.totalItems = 0;
-        this._allTransferRecords = [];
-        this.lastTransactionDate = '';
-      });
+        });
+    });
 }
 
   ngAfterViewInit(): void {
@@ -312,6 +313,10 @@ export class TransferHistoryComponent implements OnInit {
     if (typeof this.selectedAccountId.setValue === 'function') {
       this.selectedAccountId.setValue(value, { emitEvent: false });
     }
+
+    // 更新 URL 查詢參數
+    this.updateQueryParams(value);
+
     if (value === null) {
       this.dataSource.data = [];
       this.totalItems = 0;
@@ -328,6 +333,26 @@ export class TransferHistoryComponent implements OnInit {
         console.error('更新轉帳資料失敗！', error);
         Swal.fire('錯誤', '載入轉帳資料失敗，請稍後再試。', 'error');
       });
+  }
+
+  /**
+   * 更新 URL 查詢參數
+   * @param accountId 帳戶ID，如果為 null 則清除查詢參數
+   */
+  private updateQueryParams(accountId: number | null): void {
+    if (accountId) {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { id: accountId },
+        queryParamsHandling: 'merge'
+      });
+    } else {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {},
+        queryParamsHandling: ''
+      });
+    }
   }
 
   /**
@@ -449,5 +474,19 @@ export class TransferHistoryComponent implements OnInit {
     this.itemsPerPage = newPageSize;
     this.currentPage = 1; // 重置到第一頁
     this.updatePagedData();
+    // 滾動到表格頂部
+    setTimeout(() => {
+      this.scrollToTableTop();
+    }, 100);
+  }
+
+  // 滾動到表格頂部
+  scrollToTableTop(): void {
+    if (this.tableContainer && this.tableContainer.nativeElement) {
+      this.tableContainer.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 }

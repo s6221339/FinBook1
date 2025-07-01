@@ -200,7 +200,7 @@
   transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
 
   &:hover:not(:disabled), &.active {
-    background: color-mix(in srgb, var(--theme-main) 80%, #fff 20%);
+    background: var(--theme-main);
     box-shadow: 0 8px 25px color-mix(in srgb, var(--theme-main) 40%, #000 20%);
     transform: translateY(-2px) scale(1.03);
   }

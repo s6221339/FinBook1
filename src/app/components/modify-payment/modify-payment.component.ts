@@ -2,7 +2,7 @@ import { AuthService } from './../../@services/auth.service';
 import { PaymentModifiedService } from './../../@services/payment-modified.service';
 import { ApiService } from './../../@services/api.service';
 import { CommonModule} from '@angular/common';
-import { Component, OnInit, AfterViewInit, ViewChild, Renderer2 } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Renderer2, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -90,6 +90,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   ];
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('tableContainer') tableContainer!: ElementRef<HTMLElement>;
 
   ngOnInit(): void {
 
@@ -453,6 +454,20 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     this.itemsPerPage = newPageSize;
     this.currentPage = 1; // 重置到第一頁
     this.updatePagedData();
+    // 滾動到表格頂部
+    setTimeout(() => {
+      this.scrollToTableTop();
+    }, 100);
+  }
+
+  // 滾動到表格頂部
+  scrollToTableTop(): void {
+    if (this.tableContainer && this.tableContainer.nativeElement) {
+      this.tableContainer.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   }
 
   //  前往編輯款項

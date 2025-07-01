@@ -25,15 +25,7 @@ export class FixedExpensesComponent implements OnInit, AfterViewInit {
     private authService: AuthService
   ){}
 
-  todayString: string = '';
-  private _today: Date = new Date();
-  get today(): Date {
-    return this._today;
-  }
-  set today(val: Date) {
-    this._today = val;
-    this.todayString = this.formatDate(val);
-  }
+  todayString: string = this.formatDate(new Date());
   type?: string;
   item?: string;
   categories: Category[] = [];
@@ -44,7 +36,7 @@ export class FixedExpensesComponent implements OnInit, AfterViewInit {
   amount?: number | null;  //  金額
   description?: string; //  款項描述
   recurringPeriodYear: number | null = 0;  //  循環年數
-  recurringPeriodMonth: number | null = 1; //  循環月數
+  recurringPeriodMonth: number | null = 0; //  循環月數
   recurringPeriodDay: number | null = 0; //  循環天數
   balanceOptions: Balance[] = [];  //  API取得下拉式選單帳戶資料
   selectedBalanceId: number = 0;  //  實際綁定 balanceId
@@ -82,7 +74,7 @@ export class FixedExpensesComponent implements OnInit, AfterViewInit {
         const saved = this.paymentService.getFormData();
         if(saved){
           this.today = new Date(saved.recordDate);
-          this.todayString = this.formatDate(this.today);
+          this.todayString = this.formatDate(new Date(saved.recordDate));
           this.recurringPeriodYear = saved.recurringPeriodYear ?? null;
           this.recurringPeriodMonth = saved.recurringPeriodMonth ?? null;
           this.recurringPeriodDay = saved.recurringPeriodDay ?? null;
@@ -145,6 +137,14 @@ export class FixedExpensesComponent implements OnInit, AfterViewInit {
         }
       });
     });
+  }
+
+  // 監聽 today 變動自動更新 todayString
+  get today(): Date {
+    return new Date(this.todayString)
+  }
+  set today(val: Date) {
+    this.todayString = this.formatDate(val);
   }
 
   //  根據 selectedType 更新 categoriesFilteredItems
@@ -257,7 +257,7 @@ export class FixedExpensesComponent implements OnInit, AfterViewInit {
         month: this.recurringPeriodMonth,
         day: this.recurringPeriodDay
       },
-      recordDate: this.formatDate(this.today) //  轉後端要的日期格式
+      recordDate: this.todayString //  轉後端要的日期格式
     };
 
     //  呼叫 API

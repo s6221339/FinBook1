@@ -25,7 +25,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     private authService: AuthService
   ){}
 
-  todayString: string = '';
+  todayString: string = this.formatDate(new Date());
   type?: string;
   item?: string;
   categories: Category[] = [];
@@ -76,7 +76,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
         //  一定要放在 API 成功後，才有分類資料可以使用
         const saved = this.paymentService.getFormData();
           if(saved){
-          this.today = new Date(saved.recordDate);
+          this.todayString = this.formatDate(new Date(saved.recordDate));
           this.recurringPeriodYear = null;
           this.recurringPeriodMonth = null;
           this.recurringPeriodDay = null;
@@ -134,14 +134,12 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
   }
 
   // 監聽 today 變動自動更新 todayString
+  get today(): Date {
+    return new Date(this.todayString)
+  }
   set today(val: Date) {
-    this._today = val;
     this.todayString = this.formatDate(val);
   }
-  get today(): Date {
-    return this._today;
-  }
-  private _today: Date = new Date();
 
   //  根據 selectedType 更新 categoriesFilteredItems
   updateCategoriesFiltedItems(){
@@ -232,7 +230,7 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
         month: 0,
         day: 0
       },
-      recordDate: this.formatDate(this.today) //  轉後端要的日期格式
+      recordDate: this.todayString //  轉後端要的日期格式
     };
 
     //  呼叫 API

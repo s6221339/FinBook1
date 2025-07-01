@@ -26,15 +26,7 @@ export class IncomeComponent implements OnInit, AfterViewInit {
   ){}
 
   // today 由 getter/setter 控制
-  todayString: string = '';
-  private _today: Date = new Date();
-  get today(): Date {
-    return this._today;
-  }
-  set today(val: Date) {
-    this._today = val;
-    this.todayString = this.formatDate(val);
-  }
+  todayString: string = this.formatDate(new Date());
   type?: string;
   item?: string;
   categories: Category[] = [];
@@ -76,7 +68,7 @@ export class IncomeComponent implements OnInit, AfterViewInit {
         //  一定要放在 API 成功後，才有分類資料可以使用
         const saved = this.paymentService.getFormData();
         if(saved){
-          this.today = new Date(saved.recordDate);
+          this.todayString = this.formatDate(new Date(saved.recordDate));
           this.todayString = this.formatDate(this.today);
           this.recurringPeriodYear = null;
           this.recurringPeriodMonth = null;
@@ -136,6 +128,14 @@ export class IncomeComponent implements OnInit, AfterViewInit {
         }
       });
     }
+  }
+
+  // 監聽 today 變動自動更新 todayString
+  get today(): Date {
+    return new Date(this.todayString)
+  }
+  set today(val: Date) {
+    this.todayString = this.formatDate(val);
   }
 
   //  根據 selectedType 更新 categoriesFilteredItems
@@ -227,7 +227,7 @@ export class IncomeComponent implements OnInit, AfterViewInit {
         month: 0,
         day: 0
       },
-      recordDate: this.formatDate(this.today) //  轉換後端的日期格式
+      recordDate: this.todayString //  轉換後端的日期格式
     };
 
     //  呼叫 API

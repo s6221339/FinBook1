@@ -76,6 +76,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   itemsPerPage: number = 5;
   totalFilteredItems: number = 0;
   dataSource = new MatTableDataSource<PaymentIdFormData>();
+  allFilteredData: (PaymentIdFormData & { isRecurring?: string })[] = [];
 
   ngOnInit(): void {
     //  初始化年份選單列表
@@ -310,28 +311,38 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   //  get 方法在裡面值有變動時會自動執行調整
   get filteredFullData(): PaymentIdFormData[] {
     const selected = this.rawPaymentList.find(p => p.balanceId == this.selectedBalanceId);
-
     if(!selected) return [];
-
-    let payments = selected.paymentInfoList.map((p: any) => ({
-      paymentId: p.paymentId,
-      type: p.type,
-      item: p.item,
-      description: p.description,
-      amount: p.amount,
-      recurringPeriodYear: p.recurringPeriod.year,
-      recurringPeriodMonth: p.recurringPeriod.month,
-      recurringPeriodDay: p.recurringPeriod.day,
-      recordDate: new Date(p.recordDate)
-    }));
-
-    //  篩選條件
-    payments = payments.filter((t: PaymentIdFormData) =>
+    const today = new Date();
+    let payments: (PaymentIdFormData & { isRecurring?: string })[] = selected.paymentInfoList
+      .map((p: any) => {
+        const r = p.recurringPeriod || { year: 0, month: 0, day: 0 };
+        const isRecurring = r.year !== 0 || r.month !== 0 || r.day !== 0;
+        const recordDate = new Date(p.recordDate);
+        return {
+          paymentId: p.paymentId,
+          type: p.type,
+          item: p.item,
+          description: p.description,
+          amount: p.amount,
+          recordDate,
+          recurringPeriodYear: r.year,
+          recurringPeriodMonth: r.month,
+          recurringPeriodDay: r.day,
+          isRecurring: isRecurring ? '是' : '否'
+        };
+      })
+      .filter((p: any) => {
+        //  篩掉「循環且日期在未來」
+        const isRecurring = p.isRecurring == '是';
+        return !(isRecurring && p.recordDate > today);
+      });
+    payments = payments.filter(t =>
       (!this.selectedType || this.selectedType == '全部' || t.type === this.selectedType) &&
       (!this.selectedItem || this.selectedItem == '全部' || t.item === this.selectedItem) &&
       (!this.selectedRecordDate || this.isSameDate(t.recordDate, this.selectedRecordDate))
     );
-
+    this.allFilteredData = payments;
+    this.totalFilteredItems = payments.length;
     return payments;
   }
 
@@ -497,11 +508,13 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.apiService.getPaymentByAccountAndMonth(data)
     .then(res => {
       this.rawPaymentList = res.data.balanceWithPaymentList || [];
+      this.updateTotalFilteredItems();
       this.updateDataSource();
     })
     .catch(err => {
       console.error('取得帳款資料失敗：', err);
       this.rawPaymentList = [];
+      this.updateTotalFilteredItems();
       this.updateDataSource();
     });
   }

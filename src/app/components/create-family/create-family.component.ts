@@ -24,6 +24,8 @@ export class CreateFamilyComponent implements OnInit{
   familyName: string = '';
   invitedMenbers: { name: string; account: string }[] = [];
   ownerAccount: string = '';
+  selectedAccounts: Set<string> = new Set();
+  isAllSelected: boolean = false;
 
   ngOnInit(): void {
     const user = this.authService.getCurrentUser();
@@ -80,6 +82,59 @@ export class CreateFamilyComponent implements OnInit{
         });
       }
     });
+  }
+
+  //  批次移除邀請成員
+  removeSelectedMembers(): void {
+    const toRemove = Array.from(this.selectedAccounts);
+    if(toRemove.length == 0) {
+      Swal.fire('⚠️', '請先勾選要取消邀請的成員', 'warning');
+      return;
+    }
+
+    Swal.fire({
+      title: '確定要取消這些邀請嗎？',
+      html: toRemove.map(account => `<div>${account}</div>`).join(''),
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: '確認取消',
+      cancelButtonText: '返回'
+    }).then(result => {
+      if(result.isConfirmed){
+        this.invitedMenbers = this.invitedMenbers.filter(m => !this.selectedAccounts.has(m.account));
+        this.selectedAccounts.clear();
+        this.isAllSelected = false;
+        Swal.fire('✅ 已取消', '選定的邀請成員已移除', 'success');
+      }
+    });
+  }
+
+  onToggleMember(account: string, event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    if(checked) {
+      this.selectedAccounts.add(account);
+    }
+    else{
+      this.selectedAccounts.delete(account);
+    }
+    this.syncSelectAllState();
+  }
+
+  toggleSelectAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.isAllSelected = checked;
+
+    if(checked) {
+      this.invitedMenbers.forEach(m => this.selectedAccounts.add(m.account));
+    }
+    else{
+      this.selectedAccounts.clear();
+    }
+  }
+
+  private syncSelectAllState(): void {
+    const total = this.invitedMenbers.length;
+    this.isAllSelected = total > 0 && this.selectedAccounts.size == total;
   }
 
   cancel(): void {

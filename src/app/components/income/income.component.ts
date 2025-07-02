@@ -241,7 +241,9 @@ export class IncomeComponent implements OnInit, AfterViewInit {
         timer: 1500 //  1.5 秒自動關閉
       });
       this.paymentService.cleanFormData();
-      this.router.navigate(['/home']);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500); // 等 Swal 動畫結束再 reload
     })
     .catch(err => {
       console.error('儲存失敗', err);

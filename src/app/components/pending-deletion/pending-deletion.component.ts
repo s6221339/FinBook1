@@ -42,7 +42,12 @@ export class PendingDeletionComponent implements OnInit{
     })
     .catch(err => {
       console.error('載入帳戶失敗', err);
-      alert('帳戶資料載入失敗，請稍後再試');
+      Swal.fire({
+        icon: 'error',
+        title: '錯誤',
+        text: '帳戶資料載入失敗，請稍後再試',
+        confirmButtonText: '確定'
+      });
     });
   }
 
@@ -64,7 +69,12 @@ export class PendingDeletionComponent implements OnInit{
     })
     .catch(err => {
       console.error('取得待刪除資料失敗', err);
-      alert('待刪除帳款資料載入失敗，請稍後再試');
+      Swal.fire({
+        icon: 'error',
+        title: '錯誤',
+        text: '待刪除帳款資料載入失敗，請稍後再試',
+        confirmButtonText: '確定'
+      });
     });
   }
 
@@ -90,19 +100,34 @@ export class PendingDeletionComponent implements OnInit{
   recoverSelectedPayments(): void {
     const selected = this.filteredPayments.filter(p => p.selected);
     if(selected.length == 0) {
-      alert('請先選擇要復原的資料');
+      Swal.fire({
+        icon: 'warning',
+        title: '提醒',
+        text: '請先選擇要復原的資料',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
     const ids = selected.map(p => p.paymentId);
     this.apiService.recoveryPayments(ids)
     .then(res => {
-      alert('✅ 復原成功');
+      Swal.fire({
+        icon: 'success',
+        title: '成功',
+        text: '復原成功',
+        confirmButtonText: '確定'
+      });
       this.loadPayments();
     })
     .catch(err => {
       console.error('復原失敗', err);
-      alert('❌ 復原失敗，請稍後再試');
+      Swal.fire({
+        icon: 'error',
+        title: '復原失敗',
+        text: '請稍後再試',
+        confirmButtonText: '確定'
+      });
     });
   }
 

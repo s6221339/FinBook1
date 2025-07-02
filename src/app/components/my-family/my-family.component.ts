@@ -32,7 +32,12 @@ export class MyFamilyComponent implements OnInit {
     })
     .catch(err => {
       console.error('取得家庭列表失敗', err);
-      alert('取得家庭列表失敗');
+      Swal.fire({
+        icon: 'error',
+        title: '錯誤',
+        text: '取得家庭列表失敗',
+        confirmButtonText: '確定'
+      });
     });
   }
 

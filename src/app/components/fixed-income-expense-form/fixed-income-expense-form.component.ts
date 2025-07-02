@@ -23,10 +23,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 
 @Component({
-  selector: 'app-modify-payment',
-  templateUrl: './modify-payment.component.html',
-  styleUrls: ['./modify-payment.component.scss'],
-  standalone: true,
+  selector: 'app-fixed-income-expense-form',
   imports: [
     CommonModule,
     FormsModule,
@@ -39,11 +36,14 @@ import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.c
     MatCardModule,
     CustomPaginatorComponent,
   ],
+  standalone: true,
+  templateUrl: './fixed-income-expense-form.component.html',
+  styleUrl: './fixed-income-expense-form.component.scss',
   providers: [
     provideNativeDateAdapter(),
   ]
 })
-export class ModifyPaymentComponent implements OnInit, AfterViewInit{
+export class FixedIncomeExpenseFormComponent implements OnInit, AfterViewInit{
 
   constructor(
     private apiService: ApiService,
@@ -70,7 +70,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
   selectedRecordDateStr: string | null = null;
   allSelected: boolean = false;
-  todayString: string = new Date().toISOString().slice(0, 10);
+  minSelectableDate: string = '';
 
   // 分頁相關
   currentPage: number = 1;  //  當前頁
@@ -86,7 +86,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     'item',
     'description',
     'amount',
-    'isRecurring',
+    'recurringDescription',
     'recordDate'
   ];
 
@@ -159,11 +159,16 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
   //  產生年份列表
   generateYears(): void {
     const currentYear = new Date().getFullYear();
-    const startYear = 1970;
+    const endYear = currentYear + 10; //  最多顯示未來 10 年
     this.years = [];
 
-    for(let y = currentYear; y >= startYear; y--) {
+    for(let y = currentYear ; y <= endYear; y++) {
       this.years.push(y);
+    }
+
+    //  若目前 year 不在合法範圍內，設為今年
+    if(!this.years.includes(this.year)){
+      this.year = currentYear;
     }
   }
 
@@ -172,24 +177,24 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth() + 1; //  1~12
 
-    //  如果選的年份是今年 -> 鎖住未來月份
+    this.months = [];
+
     if(this.year == currentYear) {
-      this.months = [];
-      for(let m = 1; m <= currentMonth; m++) {
+      //  今年可選本月份
+      for(let m = currentMonth; m <= 12; m++) {
         this.months.push(m);
       }
     }
     else{
-      //  如果選的年份是過去年份 -> 可以選 1~12
-      this.months = [];
+      //  如果選的年份是未來年份 -> 可以選 1~12
       for(let m = 1; m <= 12; m++) {
         this.months.push(m);
       }
     }
 
     //  檢查目前 month 是否還在合法範圍內
-    if(this.month > this.months[this.months.length - 1]) {
-      this.month = this.months[this.months.length - 1];
+    if(!this.months.includes(this.month)) {
+      this.month = this.months[0];
     }
 
     //  更新下方日期篩選範圍
@@ -201,8 +206,16 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     this.monthStartDate = new Date(this.year, this.month - 1, 1);
     this.monthEndDate = new Date(this.year, this.month, 0);
 
+    //  設定明天為最小可選日期
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    //  給 input 的 [min] 使用
+    this.minSelectableDate = tomorrow.toISOString().slice(0, 10);
+
+    //  載入該月的資料
     this.loadPayments();
-    // 同步日期字串
+
+    //  同步日期字串
     if (this.selectedRecordDate) {
       this.selectedRecordDateStr = this.selectedRecordDate.toISOString().slice(0, 10);
     } else {
@@ -360,6 +373,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
 
   //  抽方法，公用篩選韓式：根據用戶資料 + 篩選條件 更新表格資料
   applyFilters(): void {
+    //  找出目前選取的帳戶
     const selected = this.rawPaymentList.find(p => p.balanceId == this.selectedBalanceId);
 
     // 修正：若 selectedRecordDateStr 有值，轉成 Date
@@ -378,11 +392,20 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
 
     const today = new Date();
 
-    let payments: (PaymentIdFormData & { selected?: boolean, isRecurring: string })[] = selected.paymentInfoList
+    //  對 selected 帳戶的所有 payment 資料進行格式化與初步篩選
+    let payments: (PaymentIdFormData & { selected?: boolean })[] = selected.paymentInfoList
     .map((p: any) => {
       const r = p.recurringPeriod;
-      const isRecurring = r.year !== 0 || r.month !== 0 || r.day !== 0;
+      const year = r.year || 0;
+      const month = r.month || 0;
+      const day = r.day || 0;
       const recordDate = new Date(p.recordDate);
+
+      //  是否為循環項目（只要有任一週期設定）
+      const hasCycle = year > 0 || month > 0 || day > 0;
+
+      //  將循環描述格式化成文字（如：每 3 年 2 月 5 天循環）
+      const recurringDescription = this.formatRecurringDescription({ year, month, day });
 
       return {
         paymentId: p.paymentId,
@@ -391,20 +414,21 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
         description: p.description,
         amount: p.amount,
         recordDate,
-        recurringPeriodYear: r.year,
-        recurringPeriodMonth: r.month,
-        recurringPeriodDay: r.day,
-        isRecurring: isRecurring ? '是' : '否',
+        recurringPeriodYear: year,
+        recurringPeriodMonth: month,
+        recurringPeriodDay: day,
+        recurringDescription,
         selected: false
       };
     })
     .filter((p: any) => {
-      //  篩掉「循環且日期在未來」
-      const isRecurring = p.isRecurring == '是';
-      return !(isRecurring && p.recordDate > today);
+      //  只保留「循環週期不為 0」且「且記錄日期為未來」的項目
+      const hasCycle = p.recurringPeriodYear > 0 || p.recurringPeriodMonth > 0 || p.recurringPeriodDay > 0;
+      const isFuture = p.recordDate > today;
+      return hasCycle && isFuture;
     });
 
-    //  篩選（type/item 用 ===）
+    // 依 type、item、recordDate 條件進行進一步篩選
     payments = payments.filter(t =>
       (!this.selectedType || this.selectedType == '全部' || t.type === this.selectedType) &&
       (!this.selectedItem || this.selectedItem == '全部' || t.item === this.selectedItem) &&
@@ -425,6 +449,14 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
 
     // 實作分頁邏輯
     this.updatePagedData();
+  }
+
+  formatRecurringDescription(r: { year: number, month: number, day: number}): string {
+    const parts: string[] = [];
+    if(r.year > 0) parts.push(`每 ${r.year} 年`);
+    if(r.month > 0) parts.push(`每 ${r.month} 月`);
+    if(r.day > 0) parts.push(`每 ${r.day} 日`);
+    return parts.length > 0 ? parts.join(' ') + '循環' : '';
   }
 
   // 更新分頁資料
@@ -500,7 +532,7 @@ export class ModifyPaymentComponent implements OnInit, AfterViewInit{
     this.router.navigate(['/editPayment'], {
       queryParams: {
         paymentId: selectedPaymentId,
-        from: 'modifyPayment'
+        from: 'fixedIncomeExpenseForm'
       }
     });
   }

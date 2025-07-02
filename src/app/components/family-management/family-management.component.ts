@@ -71,7 +71,12 @@ export class FamilyManagementComponent implements OnInit{
     })
     .catch(err => {
       console.error('取得家庭資料失敗', err);
-      alert('取得家庭資料失敗');
+      Swal.fire({
+        icon: 'error',
+        title: '錯誤',
+        text: '取得家庭資料失敗',
+        confirmButtonText: '確定'
+      });
     });
   }
 
@@ -182,6 +187,9 @@ export class FamilyManagementComponent implements OnInit{
           .then(res => {
             if(res.data.code == 200){
               Swal.fire('✅ 成功', '邀請已送出', 'success');
+            }
+            else if (res.data.message?.includes("重複邀請")){
+              Swal.fire('重複邀請', res.data.message || '邀請失敗', 'info');
             }
             else{
               Swal.fire('❌ 失敗', res.data.message || '邀請失敗', 'error');

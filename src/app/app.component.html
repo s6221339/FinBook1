@@ -31,6 +31,12 @@
         修改帳款
        </a>
 
+      <!-- 固定收支連結 -->
+      <a routerLink="/ledger" class="nav-link" routerLinkActive="active" (click)="goFixedIncomeExpenseForm()">
+        <span class="material-icons">book</span>
+        固定收支
+      </a>
+
       <!-- 帳本功能連結 -->
       <a routerLink="/ledger" class="nav-link" routerLinkActive="active" (click)="goLedger()">
         <span class="material-icons">book</span>
@@ -111,10 +117,6 @@
                 <a routerLink="/pendingDeletion" class="menu-item" (click)="goPendingDeletion()">
                   <span class="material-icons">delete_sweep</span>
                   最近刪除
-                </a>
-                <a routerLink="/recurring" class="menu-item">
-                  <span class="material-icons">sync</span>
-                  固定支出
                 </a>
                 <a (click)="logout()" class="menu-item">
                   <span class="material-icons">logout</span>

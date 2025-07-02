@@ -143,4 +143,8 @@ export class AppComponent implements OnInit{
     this.router.navigate(['/transfers']);
   }
 
+  goFixedIncomeExpenseForm(){
+    this.router.navigate(['/fixedIncomeExpenseForm']);
+  }
+
 }

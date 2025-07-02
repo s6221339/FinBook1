@@ -71,6 +71,8 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   selectedBalanceId?: number = 0; //  使用者選擇的 balanceId
   balanceList: Balance[] = [];  //  透過帳號取得帳戶給下拉式選單用
   rawPaymentList: any[] = []; //  原始 API 回傳的 balanceWithPaymentList
+  todayString: string = '';
+
   //  分頁控制
   currentPage: number = 1;
   itemsPerPage: number = 5;
@@ -79,6 +81,9 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   allFilteredData: (PaymentIdFormData & { isRecurring?: string })[] = [];
 
   ngOnInit(): void {
+    //  設定今天自串供日期選擇器使用（格式 yyyy-MM-dd）
+    this.todayString = new Date().toISOString().slice(0, 10);
+
     //  初始化年份選單列表
     this.generateYears();
     this.generateMonths();

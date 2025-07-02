@@ -29,7 +29,12 @@ export class MyBalanceComponent implements OnInit{
     })
     .catch(err => {
       console.error('取得帳戶失敗', err);
-      alert('無法載入帳戶，請稍後再試');
+      Swal.fire({
+        icon: 'error',
+        title: '錯誤',
+        text: '無法載入帳戶，請稍後再試',
+        confirmButtonText: '確定'
+      });
     });
   }
 

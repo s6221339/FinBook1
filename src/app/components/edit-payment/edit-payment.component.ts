@@ -51,6 +51,7 @@ export class EditPaymentComponent implements OnInit{
   recurringDay: number | null = this.currentDay;
   canEditAll: boolean = true; //  控制是否可編輯
   canEditRecurring: boolean = true; //  控制「循環週期」欄位是否可編輯
+  fromPage: string = '/modifyPayment';  //  預設返回頁
 
   ngOnInit(): void {
     //  從 AuthService 取得登入使用者帳號
@@ -62,6 +63,10 @@ export class EditPaymentComponent implements OnInit{
     }
     this.account = user.account;
 
+    //  加：取得 URL 中的來源頁參數 ?from=xxx
+    const from = this.route.snapshot.queryParamMap.get('from');
+    this.fromPage = from ? `/${from}` : '/modifyPayment'; //  預設為 modifyPayment
+
     //  取得 URL 中的 paymentId
     const id = this.route.snapshot.queryParamMap.get('paymentId');
     if(id){
@@ -69,15 +74,26 @@ export class EditPaymentComponent implements OnInit{
       //  根據 paymentId 撈資料進行編輯
     }
     else{
-      alert('未傳入要編輯的 paymentId');
-      this.router.navigate(['/modifyPayment']);
+      Swal.fire({
+        icon: 'warning',
+        title: '錯誤',
+        text: '未傳入要編輯的 paymentId',
+        confirmButtonText: '確定'
+      });
+      this.router.navigate([this.fromPage]);  //  導回來源頁
+      return;
     }
 
     //  從 service 拿暫存資料
     const data = this.paymentModifiedService.getPaymentFormData();
 
     if(!data){
-      alert('找不到要編輯的資料');
+      Swal.fire({
+        icon: 'error',
+        title: '錯誤',
+        text: '找不到要編輯的資料',
+        confirmButtonText: '確定'
+      });
       this.router.navigate(['/modifyPayment']);
       return;
     }
@@ -128,7 +144,7 @@ export class EditPaymentComponent implements OnInit{
         text: '此循環帳款已開始，無法再編輯',
         cancelButtonText: '返回'
       }).then(() => {
-        this.router.navigate(['/modifyPayment']);
+        this.router.navigate([this.fromPage]);  //  返回來源頁
       });
       return;
     }
@@ -178,7 +194,7 @@ export class EditPaymentComponent implements OnInit{
   //  取消回修改帳款頁面
   goBackModifyPayment(){
     this.paymentModifiedService.cleanPaymentFormData();
-    this.router.navigate(['/modifyPayment']);
+    this.router.navigate([this.fromPage]);  //  導回來源頁
   }
 
   //  儲存並返回
@@ -259,7 +275,7 @@ export class EditPaymentComponent implements OnInit{
         confirmButtonText: '返回'
       }).then(() => {
         this.paymentModifiedService.cleanPaymentFormData();
-        this.router.navigate(['/modifyPayment']);
+        this.router.navigate([this.fromPage]);
       });
     })
     .catch(err => {

@@ -1,0 +1,659 @@
+/* 主頁面外層容器，負責整體背景與字體顏色 */
+.modify-payment-page {
+  padding-top: 35px;
+  background: var(--elevation-0);
+  min-height: 100vh;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+/* 內容主容器，負責頁面寬度與內邊距 */
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* 篩選卡片的外層容器，負責卡片排列與間距 */
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.2rem; /* 卡片之間的間距 */
+}
+
+/* 單一篩選卡片，含卡片背景、圓角、陰影 */
+.filter-card {
+  flex: 1 1 300px; /* 卡片基本寬度 300px，可伸縮換行 */
+  background: var(--elevation-1) !important; /* 卡片背景色 */
+  border-radius: 18px !important;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  display: flex;
+  flex-direction: column;
+
+  mat-card-header {
+    padding: 1rem 1.5rem;
+    background: var(--primary);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    margin-bottom: 1.5rem;
+  }
+
+  mat-card-title {
+    color: #fff; /* 標題文字顏色 */
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    cursor: default;
+  }
+}
+
+/* 年月/分類/日期下拉選單的左右並排容器 */
+.half-width-container {
+  display: flex;
+  gap: 1rem;
+  .half-width {
+    flex: 1;
+  }
+}
+
+/* 半寬欄位，讓下拉選單平均分配寬度 */
+.half-width {
+  flex: 1;
+}
+
+/* 卡片標題區塊，含 icon 與標題文字 */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 2.2rem;
+  background: var(--primary);
+  border-bottom: 2px solid var(--primary);
+  color: #fff;
+
+  .material-icons {
+    color: #fff;
+    font-size: 2rem;
+    cursor: default;
+  }
+
+  h3 {
+    margin: 0;
+    flex: 1;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: default;
+  }
+}
+
+/* 卡片內容區塊，主要用於內部 padding 與顏色 */
+.card-content {
+  background: var(--elevation-1);
+  color: var(--text-primary);
+}
+
+/* 帳款總數 pill 樣式，顯示於卡片標題右側 */
+.pill-green {
+  background: var(--table-total-bg);
+  color: #fff;
+  padding: 0.4rem 1.1rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 1rem;
+  display: inline-block;
+  cursor: default;
+}
+
+/* 表格卡片，顯示帳款列表 */
+.transactions-card {
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  border: none;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.payment-table th, .payment-table td,
+.transactions-table th, .transactions-table td {
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: var(--secondary-bg);
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--secondary-bg);
+  border-right: 1.5px solid var(--table-border);
+}
+.payment-table th, .transactions-table th {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: 2px;      // 微字距
+  text-shadow: 0 1px 4px rgba(66, 86, 165, 0.08);
+  border-bottom: 1.4px solid var(--primary);
+  white-space: normal;
+  word-break: break-all;
+  padding: 8px 10px;
+  border-right: none !important;
+}
+
+.payment-table th:last-child,
+.payment-table td:last-child,
+.transactions-table th:last-child,
+.transactions-table td:last-child {
+  border-right: none;
+}
+
+.payment-table td, .transactions-table td {
+  background: none;
+  white-space: normal;
+  font-size: 1.12rem;
+  line-height: 1.8;
+  border-bottom: 1px solid var(--secondary-bg);
+  color: var(--text-primary) !important;
+}
+
+.transactions-table tr:nth-child(odd),
+.payment-table tr:nth-child(odd) {
+  background: var(--table-row-odd-bg);
+}
+.transactions-table tr:nth-child(even),
+.payment-table tr:nth-child(even) {
+  background: var(--table-row-even-bg);
+}
+.transactions-table tr:hover,
+.payment-table tr:hover {
+  background: var(--table-hover-bg);
+}
+.transactions-table .no-data-row,
+.payment-table .no-data-row {
+  background: var(--elevation-0);
+  td {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+}
+
+/* 操作按鈕列，負責「編輯」「刪除」等操作按鈕的排列 */
+.action-buttons-row {
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+
+/* 操作按鈕的外層容器，排列多個按鈕 */
+.action-buttons {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+/* 表格外層容器，負責橫向捲動 */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* 篩選卡片內容區塊，主要用於內部 padding */
+.filter-content-layout {
+  padding: 0;
+}
+
+/* 篩選卡片橫向排列的外層 */
+.filter-card-row {
+  display: flex;
+  flex-direction: row;
+  gap: 2.2rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* 篩選卡片群組的外層容器 */
+.filter-card-section-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 45%;
+  gap: 2.2rem;
+}
+
+/* 篩選卡片群組（單一卡片） */
+.filter-card-section {
+  background: var(--secondary-bg);
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(44, 62, 80, 0.06);
+  padding: 1.5rem 1.3rem 1.2rem 1.3rem;
+  min-width: 260px;
+  max-width: 340px;
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* 篩選卡片標題列，含 icon 與清除按鈕 */
+.filter-section-title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  gap: 0.5rem;
+}
+
+/* 篩選卡片標題文字 */
+.filter-section-title {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+  flex: 1;
+}
+
+/* 篩選卡片標題 icon 樣式 */
+.filter-section-icon {
+  color: var(--primary);
+  font-size: 1.4rem;
+  margin-right: 0.3rem;
+}
+
+/* 篩選卡片清除按鈕（目前隱藏） */
+.clear-section-btn {
+  display: none;
+}
+
+/* 自訂 disabled 狀態樣式 */
+.custom-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+
+/* 自訂按鈕樣式，仿 Material 風格 */
+.custom-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  padding: 0.7rem 2rem;
+  border-radius: 24px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: 2px solid transparent;
+  background: var(--elevation-1);
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+  margin-right: 1rem;
+  outline: none;
+  position: relative;
+  user-select: none;
+}
+.custom-btn:last-child { margin-right: 0; }
+
+/* 主要操作按鈕（藍色） */
+.custom-btn-accent {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.custom-btn-accent:hover {
+  background: var(--secondary-bg);
+  color: var(--primary);
+  box-shadow: 0 4px 16px rgba(66, 165, 245, 0.15);
+}
+.custom-btn-accent:active {
+  background: var(--secondary-bg);
+  color: var(--primary);
+  box-shadow: 0 1px 4px rgba(66, 165, 245, 0.10);
+}
+
+/* 危險操作按鈕（紅色） */
+.custom-btn-warn {
+  color: #e53935;
+  border-color: #e53935;
+}
+.custom-btn-warn:hover {
+  background: #ffebee;
+  color: #b71c1c;
+  box-shadow: 0 4px 16px rgba(229, 57, 53, 0.12);
+}
+.custom-btn-warn:active {
+  background: #ffcdd2;
+  color: #b71c1c;
+  box-shadow: 0 1px 4px rgba(229, 57, 53, 0.08);
+}
+
+.custom-disabled,
+.custom-disabled:hover,
+.custom-disabled:active {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: auto;
+  background: var(--elevation-0) !important;
+  color: var(--text-secondary) !important;
+  border-color: var(--secondary-bg) !important;
+  box-shadow: none !important;
+}
+
+/* 表格欄位 cursor 樣式 */
+.payment-table th,
+.transactions-table th {
+  cursor: default;
+}
+
+/* 表格欄位 cursor 樣式 */
+.payment-table th.mat-sort-header,
+.transactions-table th.mat-sort-header {
+  cursor: pointer;
+}
+
+/*  描述欄允許換行 */
+.payment-table td.mat-column-description,
+.transactions-table td.mat-column-description {
+  white-space: normal;
+  word-break: break-word;
+  text-align: center;
+}
+
+/*  金額欄靠右 */
+.payment-table td.mat-column-amount,
+.transactions-table td.mat-column-amount {
+  text-align: right;
+  min-width: 80px;
+  max-width: 120px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+/*  循環週期三欄寬度精簡 */
+.payment-table th.mat-column-recurringPeriodYear,
+.payment-table td.mat-column-recurringPeriodYear,
+.payment-table th.mat-column-recurringPeriodMonth,
+.payment-table td.mat-column-recurringPeriodMonth,
+.payment-table th.mat-column-recurringPeriodDay,
+.payment-table td.mat-column-recurringPeriodDay,
+.transactions-table th.mat-column-recurringPeriodYear,
+.transactions-table td.mat-column-recurringPeriodYear,
+.transactions-table th.mat-column-recurringPeriodMonth,
+.transactions-table td.mat-column-recurringPeriodMonth,
+.transactions-table th.mat-column-recurringPeriodDay,
+.transactions-table td.mat-column-recurringPeriodDay {
+  min-width: 80px;
+  max-width: 100px;
+  text-align: center;
+}
+
+/* 循環週期表身允許換行 */
+.payment-table td.mat-column-recurringPeriodYear,
+.payment-table td.mat-column-recurringPeriodMonth,
+.payment-table td.mat-column-recurringPeriodDay,
+.transactions-table td.mat-column-recurringPeriodYear,
+.transactions-table td.mat-column-recurringPeriodMonth,
+.transactions-table td.mat-column-recurringPeriodDay {
+  white-space: normal;
+  word-break: break-word;
+}
+
+/*  不針對紀錄日期設寬度，讓其自動分配 */
+
+/* ====== 表單欄位/自訂表單 ====== */
+/* 自訂表單欄位外層，仿 Material 外觀 */
+.custom-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  position: relative;
+
+  label {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+  }
+
+  /* 自訂下拉選單與日期 input 樣式 */
+  .custom-select, input[type='date'] {
+    font-size: 1.18rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
+    border: 1.5px solid var(--primary);
+    background: var(--elevation-1);
+    color: var(--text-primary);
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+    position: relative;
+    padding-right: 2.5rem;
+    &:focus {
+      border-color: var(--primary);
+      box-shadow:
+        0 0 12px 2px #ff80ab33,
+        0 0 28px 4px #ff80ab22;
+    }
+  }
+
+  /* 自訂表單欄位的清除按鈕（叉叉） */
+  .custom-clear-btn {
+    position: absolute;
+    right: 0.7rem;
+    top: 50%;
+    transform: translateY(-35%);
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--calendar-clear-btn);
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    z-index: 2;
+  }
+
+  input[type='date']::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+/* 篩選提示文字（如「目前選擇: 花旗」） */
+.custom-hint {
+  color: var(--choose-account-bg);
+  font-weight: 600;
+  background: var(--calendar-background);
+  border-radius: 12px;
+  padding: 0.2rem 0.8rem;
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 1.08rem;
+}
+
+/* 無資料時的空狀態顯示 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 0 2.5rem 0;
+  color: var(--text-primary);
+  background: var(--elevation-0);
+  border-radius: 12px;
+  min-height: 140px;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+}
+
+/* 空狀態下的 icon 樣式 */
+.empty-state mat-icon {
+  font-size: 3.2rem;
+  color: #fff;
+  background: var(--primary);
+  border-radius: 50%;
+  padding: 0.7rem;
+  margin-bottom: 0.7rem;
+  box-shadow: 0 2px 8px rgba(66, 165, 245, 0.18);
+  height: 56px;
+  width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 空狀態下的標題文字 */
+.empty-state h3 {
+  margin: 0.7rem 0 0.3rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-align: center;
+}
+
+/* 帳戶選擇區塊（預留） */
+.account-selection-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 分類選擇區塊（預留） */
+.category-selection-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 日期篩選區塊（預留） */
+.date-filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* 日期 input 群組（預留） */
+.date-input-group {
+  margin-bottom: 1.1rem;
+}
+
+/* 全寬度樣式（預留） */
+.full-width {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .filter-card {
+    flex-basis: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-card {
+    flex-basis: 100%;
+  }
+}
+
+.icon-text-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.icon-text-btn .mat-icon {
+  font-size: 1.2rem;
+}
+.icon-text-btn.accent {
+  color: var(--primary);
+}
+.icon-text-btn.warn {
+  color: #e53935;
+}
+.icon-text-btn:disabled,
+.icon-text-btn.custom-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.icon-text-btn:hover:not(:disabled):not(.custom-disabled) {
+  background: #f5f5f5;
+}
+
+::ng-deep .transactions-table th.mat-header-cell,
+::ng-deep .transactions-table th[mat-header-cell],
+::ng-deep .payment-table th.mat-header-cell,
+::ng-deep .payment-table th[mat-header-cell] {
+  text-align: center !important;
+  vertical-align: middle !important;
+  padding: 0 !important;
+  position: relative;
+}
+::ng-deep .transactions-table .mat-sort-header-container,
+::ng-deep .payment-table .mat-sort-header-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100%;
+  height: 100%;
+}
+::ng-deep .transactions-table .mat-sort-header-content,
+::ng-deep .payment-table .mat-sort-header-content {
+  min-width: unset !important;
+  gap: 2px !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+::ng-deep .transactions-table .mat-sort-header-arrow,
+::ng-deep .payment-table .mat-sort-header-arrow {
+  color: var(--table-header-text);
+  opacity: 1 !important;
+  transition: color 0.2s;
+  display: inline-block !important;
+}
+::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow,
+::ng-deep .payment-table .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--table-sort) !important;
+  text-shadow: 0 0 8px var(--table-sort), 0 0 2px var(--table-header-text);
+}
+::ng-deep .transactions-table .mat-sort-header-indicator,
+::ng-deep .payment-table .mat-sort-header-indicator {
+  opacity: 1 !important;
+  color: var(--primary) !important;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-arrow,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-arrow {
+  color: #fff !important;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--table-sort) !important;
+  text-shadow: 0 0 8px var(--table-sort), 0 0 2px #fff;
+}
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-indicator,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-indicator {
+  color: var(--table-sort) !important;
+}
+
+.tooltip-header {
+  cursor: help;
+  text-decoration: underline dotted #666;
+  text-underline-offset: 2px;
+}

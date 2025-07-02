@@ -51,23 +51,30 @@
       }
 
       @if(familyData.memberList.length > 0){
-        <div>
-          <label>
-            <input type="checkbox" [checked]="isAllSelected" (change)="toggleSelectAll(($event))"/>
-            全選
-          </label>
-        </div>
+        @if(isOwner){
+          <div>
+            <label>
+              <input type="checkbox" [checked]="isAllSelected" (change)="toggleSelectAll(($event))"/>
+              全選
+            </label>
+          </div>
+        }
         <ul>
           @for(member of familyData.memberList; track $index){
             <li>
-              <label>
-                <input
-                  type="checkbox"
-                  [checked]="selectedAccounts.has(member.account)"
-                  (change)="onToggleMember(member.account, $event)"
-                />
+              @if(isOwner){
+                <label>
+                  <input
+                    type="checkbox"
+                    [checked]="selectedAccounts.has(member.account)"
+                    (change)="onToggleMember(member.account, $event)"
+                  />
+                  {{ member.name }}（{{ member.account }}）
+                </label>
+              }
+              @else {
                 {{ member.name }}（{{ member.account }}）
-              </label>
+              }
             </li>
           }
         </ul>

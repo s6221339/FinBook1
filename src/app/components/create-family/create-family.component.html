@@ -11,12 +11,37 @@
   </div>
   <div>
     <h3>成員：（目前邀請人數 {{ invitedMenbers.length }}）</h3><br>
-    <ul>
-      @for(member of invitedMenbers; track $index){
-        <li>{{ member.name }}（{{ member.account }}）</li>
-      }
-    </ul>
 
+    @if(invitedMenbers.length > 0){
+      <!-- 全選勾選框 -->
+       <div>
+        <label>
+          <input type="checkbox" [checked]="isAllSelected" (change)="toggleSelectAll($event)"/>
+          全選
+        </label>
+       </div>
+
+      <!-- 成員列表 -->
+      <ul>
+        @for(member of invitedMenbers; track $index){
+          <li>
+            <label>
+              <input
+                type="checkbox"
+                [checked]="selectedAccounts.has(member.account)"
+                (change)="onToggleMember(member.account, $event)"
+              />
+              {{ member.name }}（{{ member.account }}）
+            </label>
+          </li>
+        }
+      </ul>
+
+      <!-- 批次取消按鈕 -->
+      <button (click)="removeSelectedMembers()">❌取消勾選成員</button>
+    }
+
+    <!-- 新增成員按鈕 -->
     <button (click)="addMember()">➕新增成員</button>
   </div>
 
@@ -24,4 +49,5 @@
     <button (click)="cancel()">取消</button>
     <button (click)="submit()">建立</button>
   </div>
+
 </div>

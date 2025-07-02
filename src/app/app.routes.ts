@@ -34,6 +34,7 @@ import { UnacceptedFamilyInvitationComponent } from './components/unaccepted-fam
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { AuthGuard } from './@guards/auth.guard';
 import { AdminGuard } from './@guards/admin.guard';
+import { FixedIncomeExpenseFormComponent } from './components/fixed-income-expense-form/fixed-income-expense-form.component';
 
 export const routes: Routes = [
   { path:'bookKeeping', component: BookKeepingComponent, canActivate: [AuthGuard],
@@ -75,6 +76,7 @@ export const routes: Routes = [
   { path:'unacceptedFamilyInvitation',component: UnacceptedFamilyInvitationComponent },
   { path:'unauthorized',component: UnauthorizedComponent },
   { path: 'transfers', component: TransfersComponent },
+  { path: 'fixedIncomeExpenseForm', component: FixedIncomeExpenseFormComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent }

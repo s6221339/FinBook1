@@ -39,7 +39,7 @@
   --space-xl: 32px;
 
   /* 玻璃感卡片相關變數 */
-  --card-radius: 20px;                    /* 卡片圓角 */
+  --card-radius: 8px;                    /* 卡片圓角 */
   --card-shadow: 0 8px 32px rgba(0,0,0,0.12);  /* 卡片陰影 */
   --card-shadow-hover: 0 12px 40px rgba(0,0,0,0.18);  /* 卡片hover陰影 */
   --glass-bg-light: rgba(255,255,255,0.18);    /* 亮色模式玻璃背景 */
@@ -101,7 +101,7 @@
   --input-bg: #f9fafb;
   --input-border: #e0e0e0;
   --input-text: #263159;
-  --input-placeholder: #9ca3af;
+  --input-placeholder: #7b7b7b;
   --input-focus: var(--primary);
   --input-hover: var(--primary);
   --input-hint: #2b4b6b;
@@ -135,6 +135,32 @@
   --divider-glow-side: 0.18;
   --divider-glow-main-dark: 0.70;
   --divider-glow-side-dark: 0.32;
+
+  /* =========================
+     取消按鈕（白底藍字藍框）專用變數
+     ========================= */
+  --btn-cancel-bg: #fff;
+  --btn-cancel-text: var(--primary);
+  --btn-cancel-border: var(--primary);
+  --btn-cancel-hover-bg: var(--secondary-bg);
+  --btn-cancel-hover-border: var(--primary);
+  --btn-cancel-hover-text: var(--primary);
+
+  /* =========================
+     分類表頭（category-header）專用變數
+     ========================= */
+  --category-header-bg: #b3d5fc;
+  --category-header-text: #004ae9;
+  --category-header-badge-bg: #e0f2fe;
+  --category-header-badge-text: #0369a1;
+  --category-header-shadow: none;
+
+  /* =========================
+     細項區塊（items-grid）與 chip 專用變數
+     ========================= */
+  --items-grid-bg: #f5f8fd;
+  --item-chip-bg: #fff;
+  --item-chip-text: #374151;
 }
 
 /* 暗黑模式 */
@@ -215,7 +241,7 @@
   --input-bg: #181c24;
   --input-border: #7bb0ff;
   --input-text: #fff;
-  --input-placeholder: #e0e0e0;
+  --input-placeholder: #cccccc;
   --input-focus: #ffd600;
   --input-hover: #ffd600;
   --input-hint: #e0e0e0;
@@ -242,6 +268,32 @@
   --add-item-btn-hover-bg: #313a5c;
   --add-item-btn-hover-border: #ffd600;
   --add-item-btn-hover-text: #ffd600;
+
+  /* =========================
+     取消按鈕（白底藍字藍框）專用變數（暗色模式）
+     ========================= */
+  --btn-cancel-bg: #232a36;
+  --btn-cancel-text: var(--primary);
+  --btn-cancel-border: var(--primary);
+  --btn-cancel-hover-bg: #313a5c;
+  --btn-cancel-hover-border: var(--primary);
+  --btn-cancel-hover-text: var(--primary);
+
+  /* =========================
+     分類表頭（category-header）專用變數（暗黑模式）
+     ========================= */
+  --category-header-bg: #263159;
+  --category-header-text: var(--primary);
+  --category-header-badge-bg: #7bb0ff;
+  --category-header-badge-text: #181c24;
+  --category-header-shadow: 0 1px 4px #181c24;
+
+  /* =========================
+     細項區塊（items-grid）與 chip 專用變數（暗黑模式）
+     ========================= */
+  --items-grid-bg: #232a36;
+  --item-chip-bg: #313a5c;
+  --item-chip-text: #f6faff;
 }
 
 /* 英雄區塊動畫 - 滑入效果 */

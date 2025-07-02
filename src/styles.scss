@@ -9,6 +9,14 @@ body {
   font-family: 'Noto Sans TC', 'Microsoft JhengHei', Arial, sans-serif;
 }
 
+/* ========== 全站 placeholder 文字顏色統一 ========== */
+input::placeholder,
+select::placeholder,
+textarea::placeholder {
+  color: var(--input-placeholder) !important;
+  opacity: 1 !important;
+}
+
 /* 全域表單統一樣式 */
 .form-input,
 .form-select,
@@ -23,10 +31,6 @@ body {
   transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
   box-sizing: border-box;
-
-  &::placeholder {
-    color: var(--input-placeholder);
-  }
 
   &:focus {
     border-color: var(--input-focus);

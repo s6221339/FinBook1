@@ -1,44 +1,11 @@
 <div class="create-item-page">
 
-      <button class="back-btn" (click)="cancel()">
-        <span class="material-icons" style="width: 25px;">arrow_back</span>
-        取消
-      </button>
-
   <div class="content-container">
-
-    <!-- 使用說明卡片 -->
-    <div class="instruction-card">
-      <div class="card-header">
-        <span class="material-icons">info</span>
-        <h3>使用說明</h3>
-      </div>
-      <div class="card-content">
-        <div class="steps-grid">
-          <div class="step-item">
-            <div class="step-number">1</div>
-            <p>選擇主分類</p>
-          </div>
-          <div class="step-item">
-            <div class="step-number">2</div>
-            <p>輸入細項名稱</p>
-          </div>
-          <div class="step-item">
-            <div class="step-number">3</div>
-            <p>點擊新增按鈕</p>
-          </div>
-          <div class="step-item">
-            <div class="step-number">4</div>
-            <p>查看新增結果</p>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- 新增表單卡片 -->
     <div class="form-card">
       <div class="card-header">
-        <span class="material-icons">add_circle</span>
+        <span class="material-icons theme-icon">add_circle</span>
         <h3>新增細項</h3>
       </div>
       <div class="card-content">
@@ -71,22 +38,21 @@
               id="subItem"
               type="text"
               [(ngModel)]="newItem"
-              placeholder="例如：停車費、午餐、咖啡..."
+              placeholder="例如：停車費、午餐、咖啡"
               maxlength="20"
             />
-            <span class="input-icon material-icons">label</span>
           </div>
         </div>
 
-        <!-- 按鈕群組 -->
+        <!-- 按鈕群組：左取消、右新增細項 -->
         <div class="button-group">
+          <button class="btn-cancel" (click)="cancel()">
+            <span class="material-icons">close</span>
+            取消
+          </button>
           <button class="btn-primary" (click)="addItem()" [disabled]="!selectedCategory || !newItem.trim()">
             <span class="material-icons">add</span>
             新增細項
-          </button>
-          <button class="btn-secondary" (click)="clearForm()">
-            <span class="material-icons">clear</span>
-            清空
           </button>
         </div>
       </div>

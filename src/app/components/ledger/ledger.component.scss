@@ -4,6 +4,7 @@
   width: 290px;
   height: 280px;
   cursor: default;
+  padding-top: 32px;
 }
 
 @keyframes pulseRed {
@@ -114,46 +115,69 @@
   display: flex;
   flex-direction: column;
   margin: 0;
-  height: 460px;
+  height: 430px;
   min-height: unset;
-  max-height: 460px;
+  max-height: 430px;
   overflow: hidden;
   justify-content: flex-start;
+  padding-bottom: 1.2rem !important;
+  mat-card-header {
+    padding: 1rem 1.5rem;
+    background: var(--primary);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    margin-bottom: 1rem;
+  }
+  mat-card-title {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: default;
+    line-height: 1;
+    min-height: 2.5rem;
+  }
+  mat-card-title mat-icon {
+    font-size: 1.6rem;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+  }
 }
 
 .card-header {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 1rem 2.2rem;
+  gap: 0.7rem;
+  padding: 1rem 1.5rem;
   background: var(--primary);
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
   color: #fff;
-  font-size: 1.15rem;
-  font-weight: 700;
 }
 
-.card-header .material-icons {
+.card-header mat-icon {
+  font-size: 1.7rem;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
   color: #fff;
-  font-size: 1.5rem;
-  cursor: default;
 }
 
-.card-header span:last-child {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #fff;
-  cursor: default;
-}
-
+.card-header span:last-child,
 .card-header h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  cursor: default;
   margin: 0;
   flex: 1;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #fff;
-  cursor: default;
+  line-height: 1;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .transaction-count {
@@ -162,7 +186,7 @@
 
 .card-content {
   background: var(--elevation-1);
-  padding: 2.2rem 1.5rem 1rem 1.5rem;
+  padding: 1rem 1.5rem 1rem 1.5rem;
   color: var(--text-primary);
   border-bottom-left-radius: 18px;
   border-bottom-right-radius: 18px;
@@ -425,14 +449,6 @@
   text-align: center;
 }
 
-.payment-table td.mat-column-amount,
-.transactions-table td.mat-column-amount {
-  text-align: right;
-  min-width: 80px;
-  max-width: 120px;
-  white-space: nowrap;
-  font-weight: 600;
-}
 
 .payment-table th.mat-column-recurringPeriodYear,
 .payment-table td.mat-column-recurringPeriodYear,
@@ -461,10 +477,7 @@
   word-break: break-word;
 }
 
-.payment-table th.mat-sort-header,
-.transactions-table th.mat-sort-header {
-  cursor: pointer;
-}
+
 
 .empty-state {
   display: flex;
@@ -634,4 +647,126 @@
 .dark-mode ::ng-deep .transactions-table .mat-sort-header-indicator,
 .dark-mode ::ng-deep .payment-table .mat-sort-header-indicator {
   color: var(--table-sort) !important;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.card-header .action-buttons {
+  margin-left: 0 !important;
+  width: auto !important;
+  flex: 0 0 auto !important;
+}
+
+.card-header .action-buttons .pill-green {
+  margin-left: 1rem !important;
+  width: auto !important;
+  min-width: unset !important;
+  max-width: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.2 !important;
+  height: 2.2rem !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  padding: 0.4rem 1.1rem !important;
+  border-radius: 20px !important;
+  background: var(--table-total-bg) !important;
+  color: #fff !important;
+  box-sizing: border-box !important;
+}
+
+// 篩選卡片互動元素游標設為 pointer
+.filter-card select,
+.filter-card input[type='date'],
+.filter-card button {
+  cursor: pointer !important;
+}
+
+// 預算/收支卡片純文字游標設為 default，避免顯示輸入游標
+.filter-card .budget-info-row,
+.filter-card .budget-info-value,
+.filter-card h5,
+.filter-card span {
+  cursor: default !important;
+}
+
+.payment-table th.mat-column-type,
+.payment-table td.mat-column-type,
+.transactions-table th.mat-column-type,
+.transactions-table td.mat-column-type {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.payment-table th.mat-column-item,
+.payment-table td.mat-column-item,
+.transactions-table th.mat-column-item,
+.transactions-table td.mat-column-item {
+  width: 140px;
+  min-width: 140px;
+  max-width: 140px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.payment-table th.mat-column-description,
+.payment-table td.mat-column-description,
+.transactions-table th.mat-column-description,
+.transactions-table td.mat-column-description {
+  width: 240px;
+  min-width: 240px;
+  max-width: 240px;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.payment-table th.mat-column-amount,
+.payment-table td.mat-column-amount,
+.transactions-table th.mat-column-amount,
+.transactions-table td.mat-column-amount {
+  width: 110px;
+  min-width: 110px;
+  max-width: 110px;
+  text-align: right;
+  white-space: nowrap;
+  padding-left: 0;
+  padding-right: 8px;
+  font-weight: 600;
+}
+
+.payment-table th.mat-column-isRecurring,
+.payment-table td.mat-column-isRecurring,
+.transactions-table th.mat-column-isRecurring,
+.transactions-table td.mat-column-isRecurring {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.payment-table th.mat-column-recordDate,
+.payment-table td.mat-column-recordDate,
+.transactions-table th.mat-column-recordDate,
+.transactions-table td.mat-column-recordDate {
+  width: 110px;
+  min-width: 110px;
+  max-width: 110px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
 }

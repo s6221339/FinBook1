@@ -223,7 +223,7 @@ export class TransfersComponent implements OnInit { // 實作 OnInit 介面，�
         Swal.fire({
           icon: 'error',
           title: '轉帳失敗',
-          text: errorMessage,
+          text: '請確認帳戶ID是否正確',
           confirmButtonText: '確定'
         });
       })

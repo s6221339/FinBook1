@@ -13,7 +13,7 @@
   width: 100%;
 
   /* 更明顯的藍色背景 */
-  background: var(--primary-bg);
+  background: var(--elevation-1);
 
   /* 輕微陰影效果 */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
@@ -127,10 +127,9 @@
   /* 使用彈性佈局，讓連結並排 */
   display: flex;
   /* 連結間距 */
-  gap: var(--space-xs);
+
   /* 靠右對齊 */
   margin-left: auto;
-  margin-right: var(--space-md);
   cursor: pointer;
   height: 72px;
   min-height: 72px;
@@ -138,57 +137,46 @@
 }
 
 /* 導航連結 */
-.nav-link {
-  /* 使用彈性佈局 */
-  display: flex;
-  /* 垂直置中 */
-  align-items: center;
-  /* icon和文字間距 */
-  gap: var(--space-xs);
-  /* 文字顏色 */
-  color: var(--text-primary);
-  /* 移除底線 */
-  text-decoration: none;
-  /* 字體粗細 */
-  font-weight: 700;
-  /* 內邊距 */
+button.nav-link {
+  color: var(--text-primary) !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer;
+  box-shadow: none;
+  outline: none;
   padding: 0 20px;
-  /* 圓角 */
+  margin: 0;
+  font: inherit;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  text-decoration: none;
+  font-weight: 700;
   border-radius: 8px;
-  /* 過渡效果 */
   transition: all 0.2s ease;
-  /* 字體大小 */
   font-size: 1.15rem;
-  /* 不換行 */
   white-space: nowrap;
   height: 56px;
   line-height: 56px;
 }
 
-/* 導航連結icon */
-.nav-link .material-icons {
-  font-size: 25px;
-  color: var(--primary);
+button.nav-link:hover,
+button.nav-link:focus,
+button.nav-link:active {
+  color: var(--primary) !important;
+  background: rgba(42, 157, 143, 0.1) !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-/* 導航連結hover效果 */
-.nav-link:hover {
-  /* 淺藍背景 */
-  background-color: rgba(42, 157, 143, 0.1);
-  /* 輕微上移 */
-  transform: translateY(-2px);
-  /* 文字變藍 */
-  color: var(--primary);
-}
-
-/* 活躍頁面的導航樣式 */
-.nav-link.active {
-  background-color: rgba(0, 70, 43, 0.12);
-  color: var(--nav-link-active);
+button.nav-link.active {
+  background-color: rgba(0, 70, 43, 0.12) !important;
+  color: var(--nav-link-active) !important;
   font-weight: 800;
 }
-.nav-link.active .material-icons {
-  color: var(--primary);
+
+button.nav-link .material-icons {
+  color: var(--primary) !important;
 }
 
 /* 用戶選單 */
@@ -205,9 +193,6 @@
 /* 用戶選單觸發器 */
 .user-menu-trigger {
   position: relative;
-  display: flex;
-  align-items: center;
-  line-height: normal;
 }
 
 /* 統一登入與用戶按鈕寬度與內容置中 */
@@ -218,20 +203,63 @@
   min-width: 0;
 }
 
-.theme-toggle-btn {
-  width: 48px;
-  height: 48px;
+.theme-toggle-group {
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
+  gap: 10px;
 }
-.theme-toggle-btn .material-icons {
-  font-size: 24px;
+.theme-icon {
+  font-size: 26px;
+  color: var(--theme-toggle-icon);
+  transition: color 0.3s, filter 0.3s;
+  filter: drop-shadow(0 1px 2px #fff8);
+  cursor: default;
+}
+:root .theme-icon {
+  color: var(--primary);
+  filter: drop-shadow(0 1px 2px #fff8);
+}
+.dark-mode .theme-icon {
+  color: #ffe066;
+  filter: drop-shadow(0 1px 2px #232946);
+}
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+}
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--theme-toggle-bg);
+  border-radius: 34px;
+  transition: background 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+}
+.dark-mode .slider {
+  background: #ffe066 !important;
+}
+.theme-switch input:checked + .slider:before {
+  transform: translateX(20px);
 }
 
 /* 統一按鈕基本樣式 */
@@ -311,10 +339,10 @@
 
 /* 下拉選單容器 */
 .dropdown-menu {
-  /* 絕對定位 */
+  display: none;
   position: absolute;
-  /* 在按鈕下方 */
   top: 100%;
+  left: 0;
   /* 靠右對齊 */
   right: 0;
   /* 初始隱藏 */
@@ -352,14 +380,21 @@
   min-width: 150px;
 }
 
-/* 顯示下拉選單 */
-.user-menu-trigger:hover .dropdown-menu {
-  /* 完全顯示 */
+/* 家庭管理 hover 展開 */
+.user-menu.family-menu .user-menu-trigger:hover .dropdown-menu {
+  display: block;
   opacity: 1;
   visibility: visible;
-  /* 移到正確位置 */
   transform: translateY(0);
-  pointer-events: auto
+}
+
+/* 會員登入 hover 展開（如需） */
+.user-menu:not(.family-menu) .user-menu-trigger:hover .dropdown-menu,
+.user-menu:not(.family-menu) .user-menu-trigger:focus-within .dropdown-menu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 /* 選單項目樣式 */
@@ -429,7 +464,7 @@
 /* 頁尾樣式 - 更明顯的顏色 */
 .footer {
   /* 淺藍色背景 */
-  background: var(--primary-bg);
+  background: var(--elevation-1);
   /* 內邊距 */
   padding: var(--space-xs) 0 var(--space-lg);
   /* 文字顏色 */
@@ -452,8 +487,8 @@
 .footer-top {
   /* 使用網格佈局 */
   display: grid;
-  /* 四欄，第一欄較寬 */
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  /* 三欄，第一欄較寬 */
+  grid-template-columns: 2fr 1fr 1fr;
   /* 欄位間距 */
   gap: var(--space-lg-2);
   /* 底部邊距 */
@@ -462,7 +497,7 @@
 
 /* 頁尾區塊標題 */
 .footer-title {
-  font-size: var(--font-size-h3);
+  font-size:28px;
   font-weight: 600;
   margin-bottom: var(--space-md);
   /* 藍色標題 */
@@ -489,9 +524,13 @@
   color: var(--text-primary);
   line-height: 1.6;
   margin-bottom: var(--space-lg);
-  font-size: var(--font-size-body);
+  font-size: 20px;
   padding-top: var(--space-lg);
   cursor: default;
+  max-width: 420px;
+  margin-left: 0;
+  margin-right: auto;
+  word-break: break-all;
 }
 
 /* 社群標題 */
@@ -587,7 +626,7 @@
   text-decoration: none;
   transition: all 0.2s ease;
   display: inline-block;
-  font-size: var(--font-size-body);
+  font-size: 20px;
 }
 
 /* 連結hover效果 */
@@ -629,7 +668,7 @@
   gap: var(--space-sm);
   margin-bottom: var(--space-sm);
   color: var(--text-primary);
-  font-size: var(--font-size-body);
+  font-size: 20px;
 }
 
 /* 聯絡資訊icon */
@@ -657,7 +696,7 @@
 /* 版權文字 */
 .copyright {
   color: var(--text-primary);
-  font-size: var(--font-size-caption);
+  font-size: 16px;
   order: 2; /* 排序：在下方 */
   cursor: default;
 }
@@ -790,6 +829,7 @@
     height: 55px;
     bottom: var(--space-md);
     right: var(--space-md);
+    max-width: 100%;
   }
 
   .top-text {

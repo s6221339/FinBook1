@@ -44,11 +44,13 @@
       </div>
     </div>
 
-    <div class="transactions-card" #tableContainer>
+    <mat-card class="transactions-card" #tableContainer>
       <div class="card-header">
-        <span class="material-icons">list_alt</span>
+        <mat-icon>list_alt</mat-icon>
         <h3>轉帳記錄</h3>
-        <span class="transaction-count pill-green">共 {{ totalItems }} 筆</span>
+        <div class="action-buttons">
+          <span class="transaction-count pill-green">共 {{ totalItems }} 筆</span>
+        </div>
       </div>
       <div class="card-content table-content">
         <div class="table-container">
@@ -84,7 +86,7 @@
                     'transfer-in': row.toBalanceId === currentBalanceId
                   }"
                   class="mat-column-amount">
-                {{ row.amount | currency:'TWD' }}
+                NT$ {{ row.amount | number:'1.0-0' }}
               </td>
             </ng-container>
             <!-- 備註 -->
@@ -121,7 +123,7 @@
           (pageSizeChange)="onPageSizeChange($event)">
         </app-custom-paginator>
       </div>
-    </div>
+    </mat-card>
 
     <!-- <div class="summary-card">
       <div class="card-header">

@@ -20,13 +20,14 @@ import { MatSortModule, MatSort } from '@angular/material/sort';
 import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-ledger',
   imports: [
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, MatFormFieldModule,
     MatSelectModule, FormsModule, MatButtonModule, CommonModule, MatTooltipModule,
-    MatTableModule, MatSortModule, CustomPaginatorComponent
+    MatTableModule, MatSortModule, CustomPaginatorComponent,MatCardModule
   ],
   providers: [provideNativeDateAdapter()],
   standalone: true,

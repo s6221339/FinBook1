@@ -6,9 +6,9 @@
 // Hero Section -
 .hero-section {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   min-height: 80vh;
-  padding: 2rem 2.2em;
+  padding: 5rem 2.2em;
   background: var(--primary-bg);
   position: relative;
 }
@@ -18,7 +18,7 @@
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 5rem;
   position: relative;
   z-index: 1;
@@ -27,10 +27,7 @@
 }
 
 .hero-content {
-  flex: 1 1 0;
-  min-width: 0;
-  max-width: 600px;
-  z-index: 1;
+  flex: 1.2 1 0;
 }
 
 .hero-title,
@@ -50,7 +47,7 @@
 
 .btn-secondary .material-icons,
 .btn-primary .material-icons {
-  color: var(--primary);
+  color: #f0f6ff;
   transition: none;
 }
 
@@ -61,7 +58,7 @@
 
 .hero-title {
   margin-top: auto;
-  font-size: 4.3rem;
+  font-size: 4.5rem;
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 0.5rem;
@@ -72,7 +69,7 @@
 }
 
 .hero-subtitle {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 400;
   margin-bottom: 1.5rem;
   background: var(--title-text-color);
@@ -111,6 +108,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  border: 2px solid var(--primary);
 
   &:hover {
     transform: translateY(-3px);
@@ -128,13 +126,48 @@
   }
 }
 
+.dark-mode .highlight-item {
+  border: 1.5px solid var(--secondary-bg);
+}
+
 .hero-buttons {
+  width: 100%;
   display: flex;
   gap: 1rem;
   margin-bottom: auto;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
-// 全域按鈕樣式
+// === [調整開始] 立即開始使用按鈕寬高，與 highlight-item 對齊 ===
+.hero-buttons .btn-secondary {
+  min-width: 372px;
+  height: 56px;
+  font-size: 1.2rem;
+  justify-content: center;
+  background: var(--cta-btn-bg);
+  color: var(--cta-btn-text);
+  border: 1.5px solid #013fc6;
+  box-shadow: 0 6px 24px rgba(37, 99, 235, 0.10);
+  border-radius: 12px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    background: var(--cta-btn-hover-bg);
+    color: var(--cta-btn-text);
+    box-shadow: 0 10px 32px rgba(37, 99, 235, 0.18);
+  }
+  .material-icons {
+    color: var(--cta-btn-icon);
+    transition: color 0.2s;
+  }
+}
+
+.dark-mode .hero-buttons .btn-secondary {
+  border: 2.5px solid var(--primary);
+}
+// === [調整結束] 可還原 ===
+
 .btn-primary, .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -177,86 +210,90 @@
 
 // 右側圖片區域
 .hero-image {
-  flex: 1 1 0;
-  min-width: 0;
-  max-width: 480px;
+  min-width: 520px;
+  max-width: 760px;
+  max-height: 460px;
+  aspect-ratio: 4/3;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
+  align-items: stretch;
+  margin-top: -15px;
 }
 
 // 輪播容器
 .carousel-container {
   width: 100%;
-  max-width: 480px;
-  height: 400px;
+  max-width: 580px;
+  height: 460px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  position: relative;
+  display: flex;
+  align-items: stretch;
 }
 
 .carousel-images {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .carousel-image {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
+  flex-shrink: 0;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-
-  &.active {
-    opacity: 1;
-  }
+  border-radius: 0;
+  transition: none;
+  position: relative;
+  opacity: 1;
+  transform: none;
 }
 
-// 輪播控制按鈕
+// Slide 動畫由 TS 控制 .active, .prev, .next class
+.carousel-image {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// 箭頭按鈕 hover 顯示
 .carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--elevation-1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, background 0.2s, box-shadow 0.2s;
+  background: rgba(37,99,235,0.7);
+  color: #fff;
   border: none;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 2;
-
-  &:hover {
-    background: var(--elevation-0);
-    transform: translateY(-50%) scale(1.1);
-  }
-
-  &.prev {
-    left: 15px;
-  }
-
-  &.next {
-    right: 15px;
-  }
-
-  .material-icons {
-    color: var(--primary);
-    font-size: 1.5rem;
-  }
+  box-shadow: 0 2px 8px rgba(37,99,235,0.10);
+  font-size: 1.5rem;
 }
+.carousel-btn .material-icons {
+  color: #fff;
+  font-size: 1.5rem;
+}
+.carousel-container:hover .carousel-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+.carousel-btn:hover {
+  background: rgba(37,99,235,0.95);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.18);
+}
+.carousel-btn.prev { left: 15px; }
+.carousel-btn.next { right: 15px; }
 
 // 輪播指示器
 .carousel-indicators {
   position: absolute;
-  bottom: 20px;
+  bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -265,17 +302,18 @@
 }
 
 .indicator {
-  width: 12px;
-  height: 12px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   border: none;
   background: var(--elevation-1);
   cursor: pointer;
-  transition: all 0.3s ease;
-
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: none;
   &.active {
     background: var(--primary);
     transform: scale(1.2);
+    box-shadow: 0 0 6px 2px rgba(37,99,235,0.18);
   }
 }
 
@@ -442,8 +480,8 @@
 
 // Steps Section
 .steps-section {
-  padding: 3rem 0;
-  background: var(--primary-bg);
+  padding: 6rem ;
+  background: var(--steps-bg);
 }
 
 .steps-container {
@@ -502,8 +540,8 @@
 
 // CTA Section
 .cta-section {
-  padding: 6rem 0;
-  background: var(--secondary-bg);
+  padding: 8rem;
+  background: var(--cta-bg);
   color: #fff;
   text-align: center;
 }
@@ -540,9 +578,11 @@
   gap: 0.5rem;
   font-size: 0.9rem;
   opacity: 0.8;
+  color: white;
+  font-size: 20px;
 
   .material-icons {
-    color: var(--income);
+    color: #00ff0e;
   }
 }
 
@@ -578,7 +618,13 @@
   }
   .carousel-container {
     max-width: 100%;
-    height: 300px;
+    height: 340px;
+  }
+  .hero-image {
+    min-width: 0;
+    max-width: 100%;
+    max-height: 340px;
+    aspect-ratio: unset;
   }
 }
 
@@ -594,7 +640,19 @@
   }
   .carousel-container {
     max-width: 100%;
-    height: 200px;
+    height: 220px;
+  }
+  .hero-buttons .btn-secondary {
+    min-width: 100%;
+    font-size: 1rem;
+    height: 48px;
+  }
+  .carousel-btn { display: none; }
+  .hero-image {
+    min-width: 0;
+    max-width: 100%;
+    max-height: 220px;
+    aspect-ratio: unset;
   }
 }
 
@@ -607,3 +665,4 @@
 .dark-mode .cta-section {
   background: var(--elevation-1) !important;
 }
+

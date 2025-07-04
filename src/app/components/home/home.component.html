@@ -6,7 +6,7 @@
     <div class="hero-container">
 
       <!-- 左側文字內容 - 從左滑入 -->
-      <div class="hero-content animate-hero-left">
+      <div class="hero-content animate-hero-left" #heroContent>
         <h1 class="hero-title">
           智慧帳本
           <div class="hero-subtitle">AI驅動的智能記帳工具</div>
@@ -36,28 +36,41 @@
         <!-- 行動按鈕 -->
         <div class="hero-buttons">
           <a routerLink="/register" class="btn-secondary">
-            <span class="material-icons">rocket_launch</span>
+            <span class="material-icons icon-rocket">rocket_launch</span>
             立即開始使用
           </a>
-          <a routerLink="/demo" class="btn-secondary">
+          <!-- <a routerLink="/demo" class="btn-secondary">
             <span class="material-icons">play_circle</span>
             觀看示範
-          </a>
+          </a> -->
         </div>
       </div>
 
       <!-- 右側輪播圖片區域 - 從右滑入 -->
       <div class="hero-image animate-hero-right">
         <!-- 輪播容器 -->
-        <div class="carousel-container">
-          <!-- 圖片輪播 -->
-          <div class="carousel-images">
+        <div class="carousel-container" #carouselContainer>
+          <!-- 左右箭頭按鈕（hover 顯示，桌機限定） -->
+          <button class="carousel-btn prev" (click)="prevImage()">
+            <span class="material-icons">chevron_left</span>
+          </button>
+          <button class="carousel-btn next" (click)="nextImage()">
+            <span class="material-icons">chevron_right</span>
+          </button>
+          <!-- 圖片輪播（flex 容器，slide 動畫） -->
+          <div class="carousel-images" [style.transform]="getCarouselTransform()">
             @for (image of carouselImages; track $index) {
               <img
                 [src]="image.src"
                 [alt]="image.alt"
                 [class]="'carousel-image ' + ($index === currentImageIndex ? 'active' : '')"
               >
+            }
+          </div>
+          <!-- 輪播指示小圓點 -->
+          <div class="carousel-indicators">
+            @for (image of carouselImages; track $index; let i = $index) {
+              <button class="indicator" [class.active]="i === currentImageIndex" (click)="goToImage(i)"></button>
             }
           </div>
         </div>
@@ -184,7 +197,7 @@
         <!-- 額外資訊 -->
         <div class="cta-note">
           <span class="material-icons">verified</span>
-          完全免費，無需信用卡，立即開始使用
+          完全免費，立即開始使用
         </div>
       </div>
     </div>

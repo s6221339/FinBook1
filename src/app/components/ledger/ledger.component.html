@@ -2,12 +2,14 @@
   <!-- 上方一行四卡片 -->
   <div class="ledger-card-row">
     <!-- 帳戶/年月卡片 -->
-    <div class="filter-card">
-      <div class="card-header">
-        <span class="material-icons">account_balance_wallet</span>
-        <span>帳戶/年月</span>
-      </div>
-      <div class="card-content">
+    <mat-card class="filter-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>account_balance_wallet</mat-icon>
+          帳戶/年月
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
         <div class="custom-form-group">
           <label for="account">選擇帳戶</label>
           <select id="account" [(ngModel)]="selectedBalanceId" (change)="onBalanceChange()" class="custom-select">
@@ -36,15 +38,17 @@
           </div>
         </div>
         <div class="custom-hint">目前選擇：{{ year }} 年 {{ month }} 月</div>
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
     <!-- 分類+日期卡片 -->
-    <div class="filter-card">
-      <div class="card-header">
-        <span class="material-icons">category</span>
-        <span>分類篩選</span>
-      </div>
-      <div class="card-content">
+    <mat-card class="filter-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>category</mat-icon>
+          分類篩選
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
         <div class="custom-form-group">
           <label for="type">選擇類型</label>
           <select id="type" [(ngModel)]="selectedType" (change)="updateCategoriesFiltedItems()" class="custom-select">
@@ -76,15 +80,17 @@
             <button type="button" (click)="clearSelectedRecordDate()" class="custom-clear-btn" title="清除選擇的日期">×</button>
           }
         </div>
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
     <!-- 電池卡片 -->
-    <div class="filter-card">
-      <div class="card-header">
-        <span class="material-icons">battery_charging_full</span>
-        <span>預算剩餘電量</span>
-      </div>
-      <div class="card-content" style="display: flex; align-items: center; justify-content: center;">
+    <mat-card class="filter-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>battery_charging_full</mat-icon>
+          預算剩餘電量
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content style="display: flex; align-items: center; justify-content: center;">
         <svg class="battery-svg" viewBox="0 0 150 200">
           <defs>
             <linearGradient id="batteryGradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
@@ -97,28 +103,30 @@
           <rect #batteryFill x="27" y="12" width="96" height="176" rx="15" ry="15" fill="url(#batteryGradient)" style="transition: height 0.5s, y 0.5s;" />
           <text #batteryPercentText x="75" y="100" text-anchor="middle" alignment-baseline="middle" font-size="36px" fill="var(--battery-percent-text)" font-weight="bold">100%</text>
         </svg>
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
     <!-- 預算/收支卡片 -->
-    <div class="filter-card">
-      <div class="card-header">
-        <span class="material-icons">savings</span>
-        <span>預算/收支</span>
-      </div>
-      <div class="card-content budget-info-list">
+    <mat-card class="filter-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>savings</mat-icon>
+          預算/收支
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content budget-info-list>
         <div class="budget-info-row">
-          <span class="material-icons budget-info-icon">savings</span><h5 style="font-size: 20px; margin: 0;">儲蓄：</h5>
+          <mat-icon class="budget-info-icon">savings</mat-icon><h5 style="font-size: 20px; margin: 0;">儲蓄：</h5>
           <span class="budget-info-right">
             @if(!isEditingBudget){
               <span class="budget-info-value">{{ isSavingsSet ? (savings + '元') : '尚未設定' }}</span>
               <button class="custom-btn-edit" (click)="startEditBudget()" [disabled]="!isCurrentMonthSelected()" title="僅能修改本月份儲蓄">
-                <span class="material-icons">edit</span>
+                <mat-icon>edit</mat-icon>
               </button>
             }
             @else {
               <span class="budget-info-value" style="visibility:hidden;">{{ isSavingsSet ? (savings + '元') : '尚未設定' }}</span>
               <button class="custom-btn-edit" style="visibility:hidden;">
-                <span class="material-icons">edit</span>
+                <mat-icon>edit</mat-icon>
               </button>
             }
           </span>
@@ -126,41 +134,44 @@
         @if(isEditingBudget){
           <div class="budget-edit-row">
             <input type="number" [(ngModel)]="savings" placeholder="請輸入餘額" min="0" step="1" class="custom-input-budget"/>
-            <button class="custom-btn-save" (click)="saveBudget()"><span class="material-icons">check</span></button>
-            <button class="custom-btn-cancel" (click)="cancelEditBudget()"><span class="material-icons">close</span></button>
+            <button class="custom-btn-save" (click)="saveBudget()"><mat-icon>check</mat-icon></button>
+            <button class="custom-btn-cancel" (click)="cancelEditBudget()"><mat-icon>close</mat-icon></button>
           </div>
         }
         <hr class="budget-divider" />
-        <div class="budget-info-row"><span class="material-icons budget-info-icon">trending_up</span><h5 style="font-size: 20px; margin: 0;">固定收入：</h5><span class="budget-info-value">{{ fixedIncome }}</span></div>
-        <div class="budget-info-row"><span class="material-icons budget-info-icon">trending_down</span><h5 style="font-size: 20px; margin: 0;">固定支出：</h5><span class="budget-info-value">{{ fixedExpenses }}</span></div>
-        <div class="budget-info-row"><span class="material-icons budget-info-icon">arrow_downward</span><h5 style="font-size: 20px; margin: 0;">收入：</h5><span class="budget-info-value">{{ income }}</span></div>
-        <div class="budget-info-row"><span class="material-icons budget-info-icon">arrow_upward</span><h5 style="font-size: 20px; margin: 0;">支出：</h5><span class="budget-info-value">{{ expenses }}</span></div>
+        <div class="budget-info-row"><mat-icon class="budget-info-icon">trending_up</mat-icon><h5 style="font-size: 20px; margin: 0;">固定收入：</h5><span class="budget-info-value">{{ fixedIncome }}</span></div>
+        <div class="budget-info-row"><mat-icon class="budget-info-icon">trending_down</mat-icon><h5 style="font-size: 20px; margin: 0;">固定支出：</h5><span class="budget-info-value">{{ fixedExpenses }}</span></div>
+        <div class="budget-info-row"><mat-icon class="budget-info-icon">arrow_downward</mat-icon><h5 style="font-size: 20px; margin: 0;">收入：</h5><span class="budget-info-value">{{ income }}</span></div>
+        <div class="budget-info-row"><mat-icon class="budget-info-icon">arrow_upward</mat-icon><h5 style="font-size: 20px; margin: 0;">支出：</h5><span class="budget-info-value">{{ expenses }}</span></div>
         <hr class="budget-divider" />
         <div class="budget-info-row"
           matTooltip="基礎可支配金額 = 固定收入 - 固定支出 - 儲蓄"
           matTooltipPosition="above">
-          <span class="material-icons budget-info-icon">savings</span>
+          <mat-icon class="budget-info-icon">savings</mat-icon>
           <h5 style="font-size: 20px; margin: 0;">基礎可支配金額：</h5>
           <span class="budget-info-value">{{ budget }}</span>
         </div>
         <div class="budget-info-row"
           matTooltip="實際可支配金額 = 基礎可支配金額 + 收入 -支出"
           matTooltipPosition="above">
-          <span class="material-icons budget-info-icon">account_balance_wallet</span>
+          <mat-icon class="budget-info-icon">account_balance_wallet</mat-icon>
           <h5 style="font-size: 20px; margin: 0;">實際可支配金額：</h5>
           <span class="budget-info-value">{{ balance }}</span>
         </div>
-      </div>
-    </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
   <!-- 表格區塊 -->
   <div class="content-container" #tableContainer>
     <div class="transactions-card">
       <div class="card-header">
-        <span class="material-icons">list_alt</span>
+        <mat-icon>list_alt</mat-icon>
         <h3>款項列表</h3>
-        <span class="transaction-count pill-green">共 {{ totalFilteredItems }} 筆</span>
+        <div class="action-buttons">
+          <button class="custom-btn" style="visibility:hidden; width:0; padding:0; margin:0;"></button>
+          <span class="transaction-count pill-green">共 {{ totalFilteredItems }} 筆</span>
+        </div>
       </div>
       <div class="card-content table-content">
         <table mat-table [dataSource]="dataSource" matSort #sort="matSort" class="mat-elevation-z8 payment-table transactions-table">
@@ -182,7 +193,7 @@
           <!-- 金額 -->
           <ng-container matColumnDef="amount">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>金額</th>
-            <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+            <td mat-cell *matCellDef="let element">NT$ {{ element.amount | number:'1.0-0' }}</td>
           </ng-container>
           <!-- 是否循環 -->
           <ng-container matColumnDef="isRecurring">

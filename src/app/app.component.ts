@@ -9,7 +9,7 @@ import { AuthService } from './@services/auth.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
@@ -25,7 +25,6 @@ export class AppComponent implements OnInit{
   currentYear = new Date().getFullYear() // 當前年份（用於頁尾版權）
   gifSrc = `/notebook-change1.gif?${Date.now()}`; // 動態載入GIF圖片，避免快取問題
   isDarkMode = false;
-  isFamilyMenuOpen = false;
   userName: string = '';
 
   ngOnInit(): void {
@@ -114,11 +113,6 @@ export class AppComponent implements OnInit{
     }
   }
 
-  // 切換家庭管理選單（行動裝置用）
-  toggleFamilyMenu() {
-    this.isFamilyMenuOpen = !this.isFamilyMenuOpen;
-  }
-
   goCreateFamily(){
     this.router.navigate(['/createFamily']);
   }
@@ -145,6 +139,14 @@ export class AppComponent implements OnInit{
 
   goFixedIncomeExpenseForm(){
     this.router.navigate(['/fixedIncomeExpenseForm']);
+  }
+
+  // 判斷家庭管理選單是否應該 active
+  isFamilyMenuActive() {
+    return this.router.url.startsWith('/myFamily')
+        || this.router.url.startsWith('/createFamily')
+        || this.router.url.startsWith('/unacceptedFamilyInvitation')
+        || this.router.url.startsWith('/transfers');
   }
 
 }

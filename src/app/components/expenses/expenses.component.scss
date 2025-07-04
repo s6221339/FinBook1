@@ -8,6 +8,7 @@
       0 8px 32px color-mix(in srgb, var(--theme-main) 12%, #000 12%),
       0 0 24px 4px color-mix(in srgb, var(--theme-main) 12%, transparent 88%);
   }
+  border-radius: 24px;
 }
 
 // 表單標題
@@ -46,7 +47,7 @@
     p {
       color: var(--input-hint);
       margin: 0;
-      font-size: 1rem;
+      font-size: 20px;
     }
   }
 }
@@ -64,6 +65,11 @@
     .material-icons {
       color: var(--theme-main);
       font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      height: 32px;
+      position: relative;
+      padding-top: 2px;
     }
 
     h3 {
@@ -71,6 +77,10 @@
       font-weight: 600;
       color: var(--theme-main);
       margin: 0;
+      line-height: 32px;
+      display: flex;
+      align-items: center;
+      height: 32px;
     }
   }
 }
@@ -140,6 +150,7 @@
     font-size: 1.2rem;
     color: var(--input-icon);
     transition: color 0.2s;
+    padding-top: 3px;
   }
   &:hover, &:focus {
     border-color: var(--input-focus);
@@ -186,9 +197,11 @@
   transition: all 0.2s ease;
   border: none;
   flex: 1;
+  cursor: pointer !important;
 
   .material-icons {
     font-size: 1.2rem;
+    padding-top: 2px;
   }
 }
 

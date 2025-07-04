@@ -1,0 +1,258 @@
+.filter-card {
+  background: var(--elevation-1) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
+  margin: 40px auto 0 auto;
+}
+
+.mat-card-header {
+  padding: 1rem 1.5rem;
+  background: var(--primary);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  margin-bottom: 1rem;
+}
+
+.mat-card-title {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  cursor: default;
+  line-height: 1;
+  min-height: 2.5rem;
+}
+
+.mat-card-title .material-icons {
+  font-size: 1.6rem;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.mat-card-content {
+  background: var(--elevation-1);
+  color: var(--text-primary);
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  border-radius: 18px;
+}
+
+.custom-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.custom-form-group label {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+  gap: 0.2rem;
+}
+.custom-form-group label .material-icons {
+  font-size: 1.5rem;
+  margin-right: 8px;
+  color: var(--primary);
+  vertical-align: middle;
+}
+
+.custom-select {
+  cursor: pointer;
+}
+
+select.custom-select,
+input[type='date'].custom-select {
+  cursor: pointer;
+}
+
+input[type='text'].custom-select,
+input[type='number'].custom-select,
+textarea.custom-select {
+  cursor: text;
+}
+
+.custom-btn {
+  cursor: pointer;
+}
+
+.custom-select, input[type='date'] {
+  font-size: 1.18rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--primary);
+  background: var(--elevation-1);
+  color: var(--text-primary);
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  position: relative;
+  padding-right: 2.5rem;
+}
+
+.custom-select:focus, input[type='date']:focus {
+  border-color: var(--primary);
+  box-shadow:
+    0 0 12px 2px #ff80ab33,
+    0 0 28px 4px #ff80ab22;
+}
+
+.custom-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  padding: 0.7rem 2rem;
+  border-radius: 24px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: 2px solid transparent;
+  background: var(--elevation-1);
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+  margin-right: 1rem;
+  outline: none;
+  position: relative;
+  user-select: none;
+}
+.custom-btn:last-child {
+  margin-right: 0;
+  gap: 0.6rem;
+}
+
+.custom-btn-accent {
+  color: var(--primary);
+  border-color: var(--primary);
+  gap: 0.6rem;
+}
+.custom-btn-accent:hover {
+  background: var(--secondary-bg);
+  color: var(--primary);
+  box-shadow: 0 4px 16px rgba(66, 165, 245, 0.15);
+}
+.custom-btn-warn {
+  color: #e53935;
+  border-color: #e53935;
+}
+.custom-btn-warn:hover {
+  background: #ffebee;
+  color: #b71c1c;
+  box-shadow: 0 4px 16px rgba(229, 57, 53, 0.12);
+}
+
+.modify-payment-page {
+  background: var(--elevation-0);
+  padding-bottom: 80px;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.recurring-row {
+  display: flex;
+  gap: 5px;
+}
+.recurring-input {
+  display: flex;
+  align-items: center;
+  max-width: 220px; // 或 160px，依卡片寬度調整
+  flex: 1 1 0;
+}
+.recurring-input input {
+  width: 100%;
+  min-width: 0;
+}
+.recurring-label {
+  color: var(--input-hint);
+  font-size: 1.2rem;
+  margin-left: 2px;
+}
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.char-count {
+  position: absolute;
+  right: 18px;
+  bottom: 12px;
+  font-size: 1rem;
+  color: var(--input-hint);
+  pointer-events: none;
+}
+
+.amount-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--elevation-1);
+  border-radius: 8px;
+  border: 1.5px solid var(--primary);
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  height: 48px;
+  margin-bottom: 0.5rem;
+}
+.currency-symbol {
+  position: absolute;
+  left: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--input-placeholder);
+  font-weight: 600;
+  font-size: 1.1rem;
+  pointer-events: none;
+  z-index: 2;
+}
+.form-input[type='number'] {
+  width: 100%;
+  padding-left: 3.5rem;
+  color: var(--input-text);
+  padding-top: 1.3rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1.18rem;
+  height: 100%;
+  box-shadow: none;
+}
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.amount-input-wrapper:focus-within {
+  border-color: var(--primary);
+  box-shadow:
+    0 0 12px 2px #ff80ab33,
+    0 0 28px 4px #ff80ab22;
+}
+
+/* 隱藏 input[type='date'] 的日曆 icon，讓整個框都能點擊 */
+.custom-form-group input[type='date']::-webkit-calendar-picker-indicator,
+input[type='date'].custom-select::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+

@@ -300,4 +300,18 @@ export class ApiService {
     });
   }
 
+  //  獲得統計資料
+  getStatistics(data: any) {
+    return axios.post('http://localhost:8080/finbook/payment/statistics', data, {
+      withCredentials: true
+    });
+  }
+
+  //  編輯會員資料
+  updateMemberInformation(data: any) {
+    return axios.post('http://localhost:8080/finbook/user/update', data, {
+      withCredentials: true
+    });
+  }
+
 }

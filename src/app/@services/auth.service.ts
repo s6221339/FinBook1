@@ -72,23 +72,42 @@ export class AuthService {
     return new Observable<boolean>(observer => {
       this.apiService.logout()
         .then(res => {
-          if(res.data.code == 200) {
-            this.currentUserSubject.next(null);
-            //  清除 localStorage
-            localStorage.removeItem(STORAGE_KEY);
-            observer.next(true);
-          }
-          else{
-            observer.next(false);
-          }
+          //  不論是否 code 200，都照樣清除前端狀態
+          this.currentUserSubject.next(null);
+          localStorage.removeItem(STORAGE_KEY);
+          observer.next(true);  //  總是視為登出成功
           observer.complete();
         })
         .catch(err => {
-          console.error('登出失敗', err);
-          observer.next(false);
+          console.warn('登出失敗，可能是後端 session 遺失', err);
+          //  仍然清除前端狀態
+          this.currentUserSubject.next(null);
+          localStorage.removeItem(STORAGE_KEY);
+          observer.next(true);  //  一樣視為登出成功
           observer.complete();
         });
     });
+  }
+
+  updateMemberInfo(user: UserVO): Promise<boolean> {
+    return this.apiService.updateMemberInformation(user)
+      .then(res => {
+        if(res.data.code == 200) {
+          this.currentUserSubject.next(user);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+          return true;
+        }
+        return false;
+      })
+      .catch(err => {
+        console.error('更新會員資料失敗', err);
+        return false;
+      });
+  }
+
+  updateLocalUser(user: UserVO) {
+    this.currentUserSubject.next(user);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
   }
 
   //  判斷是否登入

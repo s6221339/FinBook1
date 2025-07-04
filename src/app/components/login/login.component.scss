@@ -168,3 +168,43 @@ br {
     -webkit-text-fill-color: transparent;
     color: $gradient-blue; // Fallback color
 }
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .passwordInput {
+    flex: 1;
+    padding-right: 42px;  //  預留空間給眼睛圖示
+  }
+
+  .eye-button {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #000;
+    }
+  }
+}
+
+.forget-link {
+  display: block;
+  text-align: right;
+  margin-top: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: $primary-blue;
+  text-decoration: underline;
+
+  &:hover {
+    color: $primary-blue;
+  }
+}

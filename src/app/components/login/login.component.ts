@@ -21,6 +21,11 @@ export class LoginComponent {
 
   account: string = '';
   password: string = '';
+  showPassword: boolean = false;
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   RegisterClick() {
     console.log('註冊按鈕被點擊了！');

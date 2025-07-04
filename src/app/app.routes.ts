@@ -35,6 +35,7 @@ import { UnauthorizedComponent } from './components/unauthorized/unauthorized.co
 import { AuthGuard } from './@guards/auth.guard';
 import { AdminGuard } from './@guards/admin.guard';
 import { FixedIncomeExpenseFormComponent } from './components/fixed-income-expense-form/fixed-income-expense-form.component';
+import { AntiAuthGuard } from './@guards/anti-auth.guard';
 
 export const routes: Routes = [
   { path:'bookKeeping', component: BookKeepingComponent, canActivate: [AuthGuard],
@@ -47,8 +48,8 @@ export const routes: Routes = [
   { path: 'transfersHistory', component: TransferHistoryComponent },
   { path: 'test', component: TestComponent, canActivate: [AdminGuard] },
   { path: 'createItem', component: CreateItemComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent, canActivate: [AntiAuthGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [AntiAuthGuard] },
   { path: 'ledger', component: LedgerComponent, canActivate: [AuthGuard] },
   { path: 'modifyPayment', component: ModifyPaymentComponent, canActivate: [AuthGuard] },
   { path: 'editPayment', component: EditPaymentComponent, canActivate: [AuthGuard] },
@@ -61,7 +62,7 @@ export const routes: Routes = [
       { path: 'memberConfirm', component: MemberConfirmComponent },
       { path: 'changePasswords', component:ChangePasswordsComponent },
       { path: '', redirectTo: 'memberConfirm', pathMatch: 'full' }]},
-  { path:'forget',component: ForgetPasswordsComponent },
+  { path:'forget',component: ForgetPasswordsComponent, canActivate: [AntiAuthGuard] },
   { path:'createFamily',component: CreateFamilyComponent },
   { path:'familyManagement',component: FamilyManagementComponent },
   { path:'statistics',component: StatisticsComponent,
@@ -71,6 +72,7 @@ export const routes: Routes = [
       { path: 'expenseByAccount', component: ExpenseByAccountComponent },
       { path: 'incomeByCategory', component: IncomeByCategoryComponent },
       { path: 'incomeByAccount', component: IncomeByAccountComponent },
+      { path: '', redirectTo: 'incomeExpenseTrendChart', pathMatch: 'full' }
     ]
   },
   { path:'unacceptedFamilyInvitation',component: UnacceptedFamilyInvitationComponent },

@@ -82,7 +82,7 @@
     <div class="filter-card">
       <div class="card-header">
         <span class="material-icons">battery_charging_full</span>
-        <span>預算剩餘電量</span>
+        <span>月度資金健康度</span>
       </div>
       <div class="card-content" style="display: flex; align-items: center; justify-content: center;">
         <svg class="battery-svg" viewBox="0 0 150 200">
@@ -137,17 +137,17 @@
         <div class="budget-info-row"><span class="material-icons budget-info-icon">arrow_upward</span><h5 style="font-size: 20px; margin: 0;">支出：</h5><span class="budget-info-value">{{ expenses }}</span></div>
         <hr class="budget-divider" />
         <div class="budget-info-row"
-          matTooltip="基礎可支配金額 = 固定收入 - 固定支出 - 儲蓄"
+          matTooltip="本月可用金額 = 固定收入 - 固定支出 - 儲蓄，意義是本月可以自由支配的金額，也可以理解為「安全可花」的預算。"
           matTooltipPosition="above">
           <span class="material-icons budget-info-icon">savings</span>
-          <h5 style="font-size: 20px; margin: 0;">基礎可支配金額：</h5>
+          <h5 style="font-size: 20px; margin: 0;">本月可用金額：</h5>
           <span class="budget-info-value">{{ budget }}</span>
         </div>
         <div class="budget-info-row"
-          matTooltip="實際可支配金額 = 基礎可支配金額 + 收入 -支出"
+          matTooltip="實際餘額 = 基礎可支配金額 + 收入 -支出，意義是在你設定的目標下，考慮本月實際記帳的收入與支出後，目前實際還剩下多少可花。"
           matTooltipPosition="above">
           <span class="material-icons budget-info-icon">account_balance_wallet</span>
-          <h5 style="font-size: 20px; margin: 0;">實際可支配金額：</h5>
+          <h5 style="font-size: 20px; margin: 0;">實際餘額：</h5>
           <span class="budget-info-value">{{ balance }}</span>
         </div>
       </div>

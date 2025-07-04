@@ -3,7 +3,7 @@
     <div class="member-profile-card">
       <h2 class="card-title">會員基本資料</h2>
 
-      <form [formGroup]="memberInfoForm" (ngSubmit)="onSaveClick()">
+      <form [formGroup]="memberInfoForm">
         <div class="section-group">
           <h3 class="section-title">個人基本資料 <span class="required-star">*必填</span></h3>
 
@@ -19,7 +19,7 @@
             <label for="dob-year" class="input-label">*您的生日-</label>
             <div class="date-select-group">
               <select id="dob-year" class="form-control select-field"
-                      [(ngModel)]="selectedYear" (change)="onDateChange()" [ngModelOptions]="{standalone: true}">
+                      [(ngModel)]="selectedYear" [ngModelOptions]="{standalone: true}">
                 @for (year of years; track year) {
                   <option [value]="year">{{ year }}</option>
                 }
@@ -28,7 +28,7 @@
                 }
               </select>
               <select id="dob-month" class="form-control select-field"
-                      [(ngModel)]="selectedMonth" (change)="onDateChange()" [ngModelOptions]="{standalone: true}">
+                      [(ngModel)]="selectedMonth" [ngModelOptions]="{standalone: true}">
                 @for (month of months; track month) {
                   <option [value]="month">{{ month }}</option>
                 }

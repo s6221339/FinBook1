@@ -147,4 +147,12 @@ export class AppComponent implements OnInit{
     this.router.navigate(['/fixedIncomeExpenseForm']);
   }
 
+  goStatistics(){
+    this.router.navigate(['/statistics']);
+  }
+
+  goMemberCenter(){
+    this.router.navigate(['/memberCenter']);
+  }
+
 }

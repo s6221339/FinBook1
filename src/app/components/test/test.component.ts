@@ -139,6 +139,18 @@ data18 = {
     "account": "littlelambmero@gmail.com",
     "familyId": 5
   };
+  data21 = {
+    "account": "a6221339@yahoo.com.tw",
+    "year": 2025,
+    "month": 6
+  };
+  data22 = {
+    "account": "s6221339@yahoo.com.tw",
+    "name": "郭旻諺",
+    "phone": "0905779972",
+    "birthday": "1993-01-21",
+    "avatar": null
+  };
 
   getTypeByAccount(){
     this.apiService.getTypeByAccount(this.account)
@@ -560,6 +572,30 @@ data18 = {
         console.error('送出失敗：', err);
         alert('獲得會員資料失敗，請稍後再試');
     });
+  }
+
+  getStatistics(){
+    this.apiService.getStatistics(this.data21)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('取得統計資料成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('取得統計資料失敗，請稍後再試');
+    });
+  }
+
+  updateMemberInformation(){
+    this.apiService.updateMemberInformation(this.data22)
+      .then(res => {
+          console.log('成功送出：', res.data);
+          alert('編輯會員資料成功');
+        })
+        .catch(err => {
+          console.error('送出失敗：', err);
+          alert('編輯會員資料失敗，請稍後再試');
+      });
   }
 
 }

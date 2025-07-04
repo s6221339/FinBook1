@@ -36,7 +36,7 @@ export class CreateFamilyComponent implements OnInit{
     }
     else{
       //  安全防呆：如果沒登入或抓不到帳號，導回首頁
-      this.router.navigate(['/home']);
+      // this.router.navigate(['/home']);
     }
   }
 

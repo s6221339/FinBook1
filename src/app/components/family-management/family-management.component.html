@@ -17,7 +17,11 @@
   @if(familyData){
     <div>
       <h3>家庭名稱：{{ displayFamilyName }}</h3>
-      <h3>擁有者：{{ familyData.owner.name }}（{{ familyData.owner.account }}）</h3>
+      <h3>
+        擁有者：
+        <img [src]="familyData.owner.avatar" alt="擁有者頭像" width="32" height="32" style="border-radius: 50%; vertical-align: middle; margin-right: 8px;" onerror="this.onerror=null;this.src='/defaultavatar.jpg';"/>
+        {{ familyData.owner.name }}
+      </h3>
       <h3 style="display: inline-block;">家庭成員：</h3>
       @if(isOwner){
         <button
@@ -34,10 +38,11 @@
           >
             <h4>邀請中成員：</h4>
             @if(invitingMembers.length > 0){
-              <ul>
+              <ul style="list-style: none; padding-left: 0;">
                 @for(member of invitingMembers; track $index){
-                  <li>
-                    {{ member.name }}（{{ member.account }}）
+                  <li style="display: flex; align-items: center; margin-bottom: 8px;">
+                    <img [src]="member.avatar" alt="邀請中頭像" width="32" height="32" style="border-radius: 50%; margin-right: 8px;" onerror="this.onerror=null;this.src='/defaultavatar.jpg';"/>
+                    <span>{{ member.name }}</span>
                     <button (click)="cancelInvite(member.account)" style="margin-left: 12px;">❌取消邀請</button>
                   </li>
                 }
@@ -69,11 +74,13 @@
                     [checked]="selectedAccounts.has(member.account)"
                     (change)="onToggleMember(member.account, $event)"
                   />
-                  {{ member.name }}（{{ member.account }}）
+                  <img [src]="member.avatar" alt="成員頭像" width="32" height="32" style="border-radius: 50%; margin-right: 8px;" onerror="this.onerror=null;this.src='/defaultavatar.jpg';"/>
+                  {{ member.name }}
                 </label>
               }
               @else {
-                {{ member.name }}（{{ member.account }}）
+                <img [src]="member.avatar" alt="成員頭像" width="32" height="32" style="border-radius: 50%; margin-right: 8px;" onerror="this.onerror=null;this.src='/defaultavatar.jpg';"/>
+                {{ member.name }}
               }
             </li>
           }

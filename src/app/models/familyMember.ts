@@ -2,4 +2,5 @@
 export interface FamilyMember {
   account: string;
   name: string;
+  avatar: string | null;
 }

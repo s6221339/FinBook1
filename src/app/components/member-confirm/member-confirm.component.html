@@ -6,15 +6,14 @@
         <h3 class="section-title">個人基本資料</h3>
           <!-- 大頭貼 -->
           <div class="avatar-section">
-            <h3 class="section-title">大頭貼</h3>
 
-            <!-- 預覽圖（使用 @if 判斷是否顯示） -->
-            @if(previewUrl || userData?.avatar) {
+
               <img [src]="previewUrl || userData?.avatar"
                 alt="大頭貼"
                 class="avatar-img"
+                onerror="this.onerror=null;this.src='/defaultavatar.jpg';"
               />
-            }
+
 
             <!-- 隱藏 input -->
             <input type="file" accept="image/*" #fileInput hidden (change)="onFileSelected($event)"/><br>

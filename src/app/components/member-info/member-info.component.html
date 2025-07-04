@@ -3,7 +3,7 @@
     <div class="member-profile-card">
       <h2 class="card-title">會員基本資料</h2>
 
-      <form [formGroup]="memberInfoForm">
+      <form [formGroup]="memberInfoForm" (ngSubmit)="onSubmit()">
         <div class="section-group">
           <h3 class="section-title">個人基本資料 <span class="required-star">*必填</span></h3>
 
@@ -19,30 +19,23 @@
             <label for="dob-year" class="input-label">*您的生日-</label>
             <div class="date-select-group">
               <select id="dob-year" class="form-control select-field"
-                      [(ngModel)]="selectedYear" [ngModelOptions]="{standalone: true}">
+                      [(ngModel)]="selectedYear" (change)="updateDaysInMonth()" [ngModelOptions]="{standalone: true}">
                 @for (year of years; track year) {
                   <option [value]="year">{{ year }}</option>
                 }
-                @empty {
-                  <option value="">無年份可選</option>
-                }
               </select>
+
               <select id="dob-month" class="form-control select-field"
-                      [(ngModel)]="selectedMonth" [ngModelOptions]="{standalone: true}">
+                      [(ngModel)]="selectedMonth" (change)="updateDaysInMonth()" [ngModelOptions]="{standalone: true}">
                 @for (month of months; track month) {
                   <option [value]="month">{{ month }}</option>
                 }
-                @empty {
-                  <option value="">無月份可選</option>
-                }
               </select>
+
               <select id="dob-day" class="form-control select-field"
                       [(ngModel)]="selectedDay" [ngModelOptions]="{standalone: true}">
                 @for (day of days; track day) {
                   <option [value]="day">{{ day }}</option>
-                }
-                @empty {
-                  <option value="">無日期可選</option>
                 }
               </select>
             </div>

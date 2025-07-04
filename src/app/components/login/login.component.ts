@@ -35,7 +35,7 @@ export class LoginComponent {
   LoginClick(): void {
     this.authService.login(this.account, this.password).subscribe(success => {
       if(success) {
-        this.router.navigate(['/memberCenter']);
+        this.router.navigate(['/home']);
       }
       else{
         Swal.fire({

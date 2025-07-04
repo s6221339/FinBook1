@@ -187,6 +187,11 @@ export class FamilyManagementComponent implements OnInit{
           .then(res => {
             if(res.data.code == 200){
               Swal.fire('✅ 成功', '邀請已送出', 'success');
+
+              //  若有訂閱邀請中清單就立即刷新
+              if(this.showInviteList) {
+                this.refreshInvitingList();
+              }
             }
             else if (res.data.message?.includes("重複邀請")){
               Swal.fire('重複邀請', res.data.message || '邀請失敗', 'info');
@@ -358,14 +363,7 @@ export class FamilyManagementComponent implements OnInit{
 
     //  如果是展開，才載入資料
     if(this.showInviteList && this.familyId !== null) {
-      this.apiService.getUnacceptedFamilyInvitation(this.familyId)
-      .then(res => {
-        this.invitingMembers = res.data.inviteeList || [];
-      })
-      .catch(err => {
-        console.error('取得邀請中成員失敗', err);
-        Swal.fire('錯誤', '無法取得邀請名單', 'error');
-      });
+      this.refreshInvitingList();
     }
   }
 
@@ -403,6 +401,17 @@ export class FamilyManagementComponent implements OnInit{
         });
       }
     });
+  }
+
+  private refreshInvitingList(): void {
+    if(this.familyId == null) return;
+    this.apiService.getUnacceptedFamilyInvitation(this.familyId)
+      .then(res => {
+        this.invitingMembers = res.data.inviteeList || [];
+      })
+      .catch(err => {
+        console.error('取得邀請中成員失敗', err);
+      });
   }
 
   cancelInvite(inviteeAccount: string): void {

@@ -7,7 +7,14 @@
     <input [(ngModel)]="familyName"/><br>
 
     <h3>創建者：</h3>
-    <p>{{ creatorName }} （{{ ownerAccount }}）</p>
+    <div class="creator-info">
+      <img
+        [src]="creatorAvatar || 'assets/default-avatar.png'"
+        alt="創建者頭像"
+        class="avatar"
+      />
+      <span>{{ creatorName }}</span>
+    </div>
   </div>
   <div>
     <h3>成員：（目前邀請人數 {{ invitedMenbers.length }}）</h3><br>
@@ -31,7 +38,15 @@
                 [checked]="selectedAccounts.has(member.account)"
                 (change)="onToggleMember(member.account, $event)"
               />
-              {{ member.name }}（{{ member.account }}）
+              <img
+                [src]="member.avatar || 'assets/default-avatar.png'"
+                alt="成員頭像"
+                class="avatar"
+                width="32" height="32"
+                style="border-radius: 50%; margin-right: 8px;"
+                onerror="this.onerror=null;this.src='/defaultavatar.jpg';"
+              />
+              {{ member.name }}
             </label>
           </li>
         }

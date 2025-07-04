@@ -22,10 +22,11 @@ export class CreateFamilyComponent implements OnInit{
 
   creatorName: string = "載入中...";
   familyName: string = '';
-  invitedMenbers: { name: string; account: string }[] = [];
+  invitedMenbers: { name: string; account: string; avatar: string }[] = [];
   ownerAccount: string = '';
   selectedAccounts: Set<string> = new Set();
   isAllSelected: boolean = false;
+  creatorAvatar: string | null = null;
 
   ngOnInit(): void {
     const user = this.authService.getCurrentUser();
@@ -33,10 +34,11 @@ export class CreateFamilyComponent implements OnInit{
     if(user) {
       this.creatorName = user.name;
       this.ownerAccount = user.account;
+      this.creatorAvatar = user.avatar;
     }
     else{
       //  安全防呆：如果沒登入或抓不到帳號，導回首頁
-      // this.router.navigate(['/home']);
+      this.router.navigate(['/home']);
     }
   }
 
@@ -70,7 +72,7 @@ export class CreateFamilyComponent implements OnInit{
               return;
             }
 
-            this.invitedMenbers.push({ name: member.name, account: member.account});
+            this.invitedMenbers.push({ name: member.name, account: member.account, avatar: member.avatar });
             Swal.fire('成功', `已新增：${member.name}`, 'success');
           }
           else{

@@ -1,7 +1,7 @@
 import { AuthService } from './../../@services/auth.service';
 import { PaymentModifiedService } from './../../@services/payment-modified.service';
 import { ApiService } from './../../@services/api.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentIdFormData } from '../../models/paymentIdFormData';
 import { Category } from '../../models/categories';
@@ -21,7 +21,7 @@ import Swal from 'sweetalert2';
   styleUrl: './edit-payment.component.scss',
   standalone: true
 })
-export class EditPaymentComponent implements OnInit{
+export class EditPaymentComponent implements OnInit, AfterViewInit{
 
   constructor(
     private route: ActivatedRoute,
@@ -41,6 +41,7 @@ export class EditPaymentComponent implements OnInit{
   description: string = '';
   amount: number | null = null;
   recordDate: Date = new Date();
+  recordDateStr: string = '';
   distinctTypes: string[] = []; //  篩選不重複 type
   today = new Date();
   currentYear = this.today.getFullYear(); //  現在年分
@@ -114,6 +115,7 @@ export class EditPaymentComponent implements OnInit{
     this.recurringMonth = data.recurringPeriodMonth;
     this.recurringDay = data.recurringPeriodDay;
     this.recordDate = new Date(data.recordDate);
+    this.recordDateStr = this.formatDataToLocalString(this.recordDate);
 
     //  ?? 是空值合併運算子，表示如果左邊是 null 或 undefined，就用右邊的值。
     //  是否是非循環週期，判斷表單可否編輯
@@ -170,6 +172,19 @@ export class EditPaymentComponent implements OnInit{
     });
   }
 
+  ngAfterViewInit(): void {
+    // 金額 input 防滾輪/上下鍵
+    const input = document.querySelector('.amount-input[type="number"]') as HTMLInputElement;
+    if (input) {
+      input.addEventListener('wheel', () => input.blur());
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault();
+        }
+      });
+    }
+  }
+
   //  根據選擇的 type 更新下拉式選單的 item
   updateItemOptions(): void {
     this.filteredItems = this.categories
@@ -195,6 +210,11 @@ export class EditPaymentComponent implements OnInit{
   goBackModifyPayment(){
     this.paymentModifiedService.cleanPaymentFormData();
     this.router.navigate([this.fromPage]);  //  導回來源頁
+  }
+
+  onRecordDateChange(dateStr: string) {
+    this.recordDateStr = dateStr;
+    this.recordDate = new Date(dateStr);
   }
 
   //  儲存並返回
@@ -264,7 +284,7 @@ export class EditPaymentComponent implements OnInit{
         month,
         day
       },
-      recordDate: this.formatDataToLocalString(this.recordDate)
+      recordDate: this.recordDateStr
     };
 
     this.apiService.updatePayment(updatePayload)

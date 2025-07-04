@@ -38,17 +38,27 @@
     background: var(--primary);
     border-top-left-radius: 18px;
     border-top-right-radius: 18px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   mat-card-title {
     color: #fff; /* 標題文字顏色 */
-    font-size: 1.2rem;
+    font-size: 24px;
     font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.7rem;
     cursor: default;
+    line-height: 1;
+    min-height: 2.5rem;
+  }
+
+  mat-card-title mat-icon {
+    font-size: 1.6rem;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
   }
 }
 
@@ -159,6 +169,7 @@
   line-height: 1.8;
   border-bottom: 1px solid var(--secondary-bg);
   color: var(--text-primary) !important;
+  cursor: default !important;
 }
 
 .transactions-table tr:nth-child(odd),
@@ -357,20 +368,32 @@
 }
 
 /*  描述欄允許換行 */
+.payment-table th.mat-column-description,
 .payment-table td.mat-column-description,
+.transactions-table th.mat-column-description,
 .transactions-table td.mat-column-description {
+  width: 240px;
+  min-width: 240px;
+  max-width: 240px;
+  text-align: center;
   white-space: normal;
   word-break: break-word;
-  text-align: center;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 /*  金額欄靠右 */
+.payment-table th.mat-column-amount,
 .payment-table td.mat-column-amount,
+.transactions-table th.mat-column-amount,
 .transactions-table td.mat-column-amount {
+  width: 110px;
+  min-width: 110px;
+  max-width: 110px;
   text-align: right;
-  min-width: 80px;
-  max-width: 120px;
   white-space: nowrap;
+  padding-left: 0;
+  padding-right: 8px;
   font-weight: 600;
 }
 
@@ -404,6 +427,85 @@
 }
 
 /*  不針對紀錄日期設寬度，讓其自動分配 */
+
+/* ====== 其他表格欄位寬度設定 ====== */
+.payment-table th.mat-column-select,
+.payment-table td.mat-column-select,
+.transactions-table th.mat-column-select,
+.transactions-table td.mat-column-select {
+  width: 60px;
+  min-width: 60px;
+  max-width: 60px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.payment-table th.mat-column-type,
+.payment-table td.mat-column-type,
+.transactions-table th.mat-column-type,
+.transactions-table td.mat-column-type {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.payment-table th.mat-column-item,
+.payment-table td.mat-column-item,
+.transactions-table th.mat-column-item,
+.transactions-table td.mat-column-item {
+  width: 140px;
+  min-width: 140px;
+  max-width: 140px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.payment-table th.mat-column-isRecurring,
+.payment-table td.mat-column-isRecurring,
+.transactions-table th.mat-column-isRecurring,
+.transactions-table td.mat-column-isRecurring {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.payment-table th.mat-column-recordDate,
+.payment-table td.mat-column-recordDate,
+.transactions-table th.mat-column-recordDate,
+.transactions-table td.mat-column-recordDate {
+  width: 110px;
+  min-width: 110px;
+  max-width: 110px;
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* 強制表格表身游標為預設 */
+.payment-table tr.mat-row td,
+.transactions-table tr.mat-row td {
+  cursor: auto !important;
+}
+
+/* 金額欄位表身加粗體 */
+.payment-table td.mat-column-amount,
+.transactions-table td.mat-column-amount {
+  font-weight: bold;
+}
+
+.filter-card .custom-select,
+.filter-card select,
+.filter-card input[type='date'] {
+  cursor: pointer !important;
+}
 
 /* ====== 表單欄位/自訂表單 ====== */
 /* 自訂表單欄位外層，仿 Material 外觀 */
@@ -479,6 +581,7 @@
   display: inline-block;
   margin-top: 1rem;
   font-size: 1.08rem;
+  cursor: default;
 }
 
 /* 無資料時的空狀態顯示 */
@@ -656,4 +759,24 @@
   cursor: help;
   text-decoration: underline dotted #666;
   text-underline-offset: 2px;
+}
+
+.filter-card .custom-select,
+.filter-card select,
+.filter-card input[type='date'] {
+  cursor: pointer !important;
+}
+
+.payment-table th.mat-column-recurringDescription,
+.payment-table td.mat-column-recurringDescription,
+.transactions-table th.mat-column-recurringDescription,
+.transactions-table td.mat-column-recurringDescription {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  padding-left: 8px;
+  padding-right: 8px;
 }

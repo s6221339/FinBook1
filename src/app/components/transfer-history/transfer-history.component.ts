@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Transfer, Account } from '../../models/transfers';
 import Swal from 'sweetalert2';
 import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-transfer-history', // 元件的選擇器名稱，用於在 HTML 模板中使用 <app-transfer-history>
@@ -25,6 +26,7 @@ import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.c
     MatIconModule,
     ReactiveFormsModule,
     CustomPaginatorComponent, // 補充：自訂分頁器
+    MatCardModule
   ],
   templateUrl: './transfer-history.component.html',
   styleUrl: './transfer-history.component.scss'

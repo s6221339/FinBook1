@@ -38,17 +38,27 @@
     background: var(--primary);
     border-top-left-radius: 18px;
     border-top-right-radius: 18px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   mat-card-title {
     color: #fff; /* 標題文字顏色 */
-    font-size: 1.2rem;
+    font-size: 24px;
     font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.7rem;
     cursor: default;
+    line-height: 1;
+    min-height: 2.5rem;
+  }
+
+  mat-card-title mat-icon {
+    font-size: 1.6rem;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
   }
 }
 
@@ -75,6 +85,7 @@
   background: var(--primary);
   border-bottom: 2px solid var(--primary);
   color: #fff;
+
 
   .material-icons {
     color: #fff;
@@ -159,6 +170,7 @@
   line-height: 1.8;
   border-bottom: 1px solid var(--secondary-bg);
   color: var(--text-primary) !important;
+  cursor: default !important;
 }
 
 .transactions-table tr:nth-child(odd),
@@ -364,7 +376,7 @@
   width: 240px;
   min-width: 240px;
   max-width: 240px;
-  text-align: left;
+  text-align: center;
   white-space: normal;
   word-break: break-word;
   padding-left: 8px;
@@ -490,6 +502,7 @@
   display: inline-block;
   margin-top: 1rem;
   font-size: 1.08rem;
+  cursor: default;
 }
 
 /* 無資料時的空狀態顯示 */
@@ -728,3 +741,23 @@
   padding-left: 0;
   padding-right: 0;
 }
+
+/* 強制表格表身游標為預設 */
+.payment-table tr.mat-row td,
+.transactions-table tr.mat-row td {
+  cursor: auto !important;
+}
+
+/* 金額欄位表身加粗體 */
+.payment-table td.mat-column-amount,
+.transactions-table td.mat-column-amount {
+  font-weight: bold;
+}
+
+.filter-card .custom-select,
+.filter-card select,
+.filter-card input[type='date'] {
+  cursor: pointer !important;
+}
+
+

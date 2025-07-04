@@ -4,7 +4,10 @@
   --primary-bg: #f5f6fa;         /* 主背景（header/footer/主內容） */
   --secondary-bg: #f0f6ff;    /* 區塊/卡片/hover/分隔 */
   --primary: #2563eb;         /* 品牌藍，icon/active/底線 */
+  --cta-bg: #2563eb;         /* 行動按鈕背景 */
+  --steps-bg: #ffffff;         /* 步驟區塊背景 */
 
+  --cta-text: #f0f6ff;         /* 行動按鈕文字 */
   /* 背景與卡片 */
   --elevation-0: #f5f6fa;     /* 主背景 */
   --elevation-1: #fff;        /* 卡片/表單 */
@@ -83,6 +86,7 @@
   --table-total-bg: #04950c; /* 表格總計背景 */
 
   --btn-primary-text: #2563eb; /* 按鈕主色 */
+
   --theme-toggle-yellow: #2563eb; /* 亮黃色，給主題切換icon用 */
 
   --nav-link-active: #2563eb; /* 導航連結active */
@@ -114,7 +118,7 @@
   --form-icon: var(--primary);
   --form-desc: #64748b;
   --btn-primary-bg: var(--expense);
-  --btn-primary-text: #fff;
+  // --btn-primary-text: #fff;
   --btn-primary-hover: #e76f51cc;
   --btn-secondary-bg: #fff;
   --btn-secondary-text: #6b7280;
@@ -161,6 +165,14 @@
   --items-grid-bg: #f5f8fd;
   --item-chip-bg: #fff;
   --item-chip-text: #374151;
+
+  --cta-btn-bg: var(--primary);           /* CTA按鈕背景（藍色） */
+  --cta-btn-hover-bg: #1746a2;            /* CTA按鈕hover背景（深藍） */
+  --cta-btn-text: #fff;                   /* CTA按鈕文字 */
+  --cta-btn-icon: #fff;                   /* CTA按鈕icon顏色 */
+
+  --theme-toggle-icon: var(--primary); /* 主題切換icon顏色（亮色模式主題藍） */
+  --theme-toggle-bg: var(--primary);   /* 主題切換toggle背景（亮色模式主題藍） */
 }
 
 /* 暗黑模式 */
@@ -168,6 +180,8 @@
   --primary-bg: #181c24;
   --secondary-bg: #3a4a7c; /* 分隔/邊框，亮一點的藍灰 */
   --primary: #7bb0ff;         /* 主色亮藍 */
+  --cta-bg: var(--secondary-bg);  /* 行動按鈕背景 */
+  --steps-bg: #181c24;         /* 步驟區塊背景 */
 
   --elevation-0: #181c24;
   --elevation-1: #313a5c; /* 卡片底色，比原本亮一點 */
@@ -221,7 +235,7 @@
 
   --table-total-bg: #04950c; /* 表格總計背景 */
 
-  --btn-primary-text: #fff; /* 按鈕主色 */
+  --btn-primary-text: #f0f6ff; /* 按鈕主色 */
   --theme-toggle-yellow: #ffd600; /* 亮黃色，給主題切換icon用 */
 
   --nav-link-active: #ffd600; /* 導航連結active */
@@ -294,6 +308,14 @@
   --items-grid-bg: #232a36;
   --item-chip-bg: #313a5c;
   --item-chip-text: #f6faff;
+
+  --cta-btn-bg: #313a5c;                  /* 暗黑模式下CTA按鈕背景 */
+  --cta-btn-hover-bg: #3f5091;            /* 暗黑模式下hover背景 */
+  --cta-btn-text: #fff;                   /* 暗黑模式下文字 */
+  --cta-btn-icon: var(--primary);         /* 暗黑模式下icon顏色（與highlight-item一致） */
+
+  --theme-toggle-icon: #ffd600; /* 主題切換icon顏色（暗色模式亮黃）#ffe066 */
+  --theme-toggle-bg: #ffd600;   /* 主題切換toggle背景（暗色模式亮黃）#ffe066 */
 }
 
 /* 英雄區塊動畫 - 滑入效果 */
@@ -526,7 +548,7 @@
 .glass-card-theme {
   backdrop-filter: blur(var(--glass-blur));
   border-radius: var(--card-radius);
-  box-shadow: 0 8px 32px color-mix(in srgb, var(--theme-main) 20%, #000 20%);
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--theme-main) 10%, #000 20%);
   transition: box-shadow 0.4s, background 0.4s, border-color 0.4s;
   &:hover {
     box-shadow: 0 12px 40px color-mix(in srgb, var(--theme-main) 30%, #000 30%);
@@ -535,6 +557,6 @@
   }
 }
 :root .glass-card-theme {
-  background: color-mix(in srgb, var(--theme-main) 20%, var(--glass-bg-light));
+  background: color-mix(in srgb, var(--theme-main) 30%, var(--glass-bg-light));
   border: 1.5px solid color-mix(in srgb, var(--theme-main) 18%, var(--glass-border-light));
 }

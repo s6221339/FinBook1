@@ -14,65 +14,70 @@
     <!-- 導航選單 -->
     <nav class="nav-links">
       <!-- 首頁連結 -->
-      <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <button routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <span class="material-icons">home</span>
         首頁
-      </a>
+      </button>
 
       <!-- 記帳功能連結 -->
-      <a routerLink="/bookKeeping" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }" (click)="goBookKeeping()">
+      <button routerLink="/bookKeeping" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }" (click)="goBookKeeping()">
         <span class="material-icons">add_circle</span>
         記帳
-      </a>
-
-      <!-- 修改帳款功能 -->
-       <a routerLink="/modifyPayment" class="nav-link" routerLinkActive="active" (click)="goModifyPayment()">
-        <span class="material-icons">edit_note</span>
-        修改帳款
-       </a>
-
-      <!-- 固定收支連結 -->
-      <a routerLink="/ledger" class="nav-link" routerLinkActive="active" (click)="goFixedIncomeExpenseForm()">
-        <span class="material-icons">book</span>
-        固定收支
-      </a>
+      </button>
 
       <!-- 帳本功能連結 -->
-      <a routerLink="/ledger" class="nav-link" routerLinkActive="active" (click)="goLedger()">
+      <button routerLink="/ledger" class="nav-link" routerLinkActive="active" (click)="goLedger()">
         <span class="material-icons">book</span>
         帳本
-      </a>
+      </button>
+
+      <!-- 修改帳款功能 -->
+       <button routerLink="/modifyPayment" class="nav-link" routerLinkActive="active" (click)="goModifyPayment()">
+        <span class="material-icons">edit_note</span>
+        修改帳款
+       </button>
+
+      <!-- 固定收支連結 -->
+      <button routerLink="/fixedIncomeExpenseForm" class="nav-link" routerLinkActive="active" (click)="goFixedIncomeExpenseForm()">
+        <span class="material-icons">repeat</span>
+        固定收支
+      </button>
 
       <!-- 統計報表連結 -->
-      <a routerLink="/reports" class="nav-link" routerLinkActive="active" (click)="goStatistics()">
+
+      <button routerLink="/reports" class="nav-link" routerLinkActive="active" (click)="goStatistics()">
         <span class="material-icons">pie_chart</span>
         統計報表
-      </a>
+      </button>
 
-      <!-- 家庭管理下拉選單（登入後才顯示） -->
+      <!-- 家庭管理下拉選單 -->
         <div class="user-menu family-menu">
           <div class="user-menu-trigger family-menu-trigger">
-            <a class="nav-link family-link">
+            <button
+              class="nav-link family-link"
+              [class.active]="isFamilyMenuActive()"
+              type="button"
+            >
               <span class="material-icons">group</span>
               家庭管理
               <span class="material-icons arrow">expand_more</span>
-            </a>
+            </button>
             <div class="dropdown-menu">
               <div class="dropdown-bridge"></div>
               <div class="dropdown-content">
-                <a  class="menu-item" (click)="goMyFamily()">
+                <a class="menu-item" routerLink="/myFamily" (click)="goMyFamily()">
                   <span class="material-icons">groups</span>
                   我的家庭
                 </a>
-                <a (click)="goCreateFamily()" class="menu-item">
+                <a class="menu-item" routerLink="/createFamily" (click)="goCreateFamily()">
                   <span class="material-icons">group_add</span>
                   創建家庭
                 </a>
-                <a (click)="goUnacceptedFamilyInvitation()" class="menu-item">
+                <a class="menu-item" routerLink="/unacceptedFamilyInvitation" (click)="goUnacceptedFamilyInvitation()">
                   <span class="material-icons">mail</span>
                   家庭邀請
                 </a>
-                <a (click)="goTransfers()" class="menu-item">
+                <a class="menu-item" routerLink="/transfers" (click)="goTransfers()">
                   <span class="material-icons">swap_horiz</span>
                   額度轉移
                 </a>
@@ -83,12 +88,13 @@
     </nav>
 
     <!-- user-actions 區塊，主題切換與登入/用戶按鈕固定排列 -->
-    <div class="user-actions">
-      <button class="theme-toggle-btn" (click)="toggleDarkMode()" [attr.aria-label]="isDarkMode ? '切換為亮色模式' : '切換為深色模式'">
-        <span class="material-icons">
-          {{ isDarkMode ? 'light_mode' : 'dark_mode' }}
-        </span>
-      </button>
+    <div class="user-actions theme-toggle-group">
+      <span class="material-icons theme-icon">light_mode</span>
+      <label class="theme-switch">
+        <input type="checkbox" [checked]="isDarkMode" (change)="toggleDarkMode()">
+        <span class="slider"></span>
+      </label>
+      <span class="material-icons theme-icon">dark_mode</span>
       <div class="user-menu">
         <div class="user-menu-trigger">
           @if (!isLoggedIn) {
@@ -120,7 +126,7 @@
                   <span class="material-icons">delete_sweep</span>
                   最近刪除
                 </a>
-                <a (click)="logout()" class="menu-item">
+                <a class="menu-item" (click)="logout()" >
                   <span class="material-icons">logout</span>
                   登出
                 </a>
@@ -231,7 +237,7 @@
       </div>
 
       <!-- 幫助中心連結區塊 -->
-      <div class="footer-section">
+      <!-- <div class="footer-section">
         <h3 class="footer-title">幫助中心</h3>
         <ul class="footer-links">
           <li><a routerLink="/faq">常見問題</a></li>
@@ -239,7 +245,7 @@
           <li><a routerLink="/support">客戶支援</a></li>
           <li><a routerLink="/feedback">意見反饋</a></li>
         </ul>
-      </div>
+      </div> -->
 
       <!-- 聯絡資訊和社群連結區塊 -->
       <div class="footer-section">
@@ -290,11 +296,11 @@
       </div>
 
       <!-- 法律連結 -->
-      <div class="footer-bottom-links">
+      <!-- <div class="footer-bottom-links">
         <a routerLink="/privacy">隱私政策</a>
         <a routerLink="/terms">使用條款</a>
         <a routerLink="/cookies">Cookie 政策</a>
-      </div>
+      </div> -->
     </div>
   </div>
 

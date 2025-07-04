@@ -71,6 +71,12 @@ export class HomeComponent {
 
   currentImageIndex = 0
   carouselInterval: any
+  autoPlayPaused = false
+  autoPlayTimeout: any
+
+  getCarouselTransform() {
+    return `translateX(-${this.currentImageIndex * 100}%)`;
+  }
 
   ngOnInit() {
     // 啟動打字效果
@@ -87,6 +93,9 @@ export class HomeComponent {
     }
     if (this.carouselInterval) {
       clearInterval(this.carouselInterval)
+    }
+    if (this.autoPlayTimeout) {
+      clearTimeout(this.autoPlayTimeout)
     }
   }
 
@@ -112,19 +121,34 @@ export class HomeComponent {
   // 輪播功能
   startCarousel() {
     this.carouselInterval = setInterval(() => {
-      this.nextImage()
+      if (!this.autoPlayPaused) {
+        this.nextImage()
+      }
     }, 4000) // 每4秒切換
+  }
+
+  pauseAutoPlay() {
+    this.autoPlayPaused = true
+    if (this.autoPlayTimeout) {
+      clearTimeout(this.autoPlayTimeout)
+    }
+    this.autoPlayTimeout = setTimeout(() => {
+      this.autoPlayPaused = false
+    }, 5000)
   }
 
   nextImage() {
     this.currentImageIndex = (this.currentImageIndex + 1) % this.carouselImages.length
+    this.pauseAutoPlay()
   }
 
   prevImage() {
     this.currentImageIndex = this.currentImageIndex === 0 ? this.carouselImages.length - 1 : this.currentImageIndex - 1
+    this.pauseAutoPlay()
   }
 
   goToImage(index: number) {
     this.currentImageIndex = index
+    this.pauseAutoPlay()
   }
 }

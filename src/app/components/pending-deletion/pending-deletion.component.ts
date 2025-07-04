@@ -3,17 +3,28 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Balance } from '../../models/balance';
 import { PendingDeletionPayment } from '../../models/PendingDeletionPayment';
 import { ApiService } from './../../@services/api.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import Swal from 'sweetalert2';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-pending-deletion',
-  imports: [MatFormFieldModule, MatSelectModule, FormsModule, MatOptionModule, MatInputModule, MatDatepickerModule],
+  imports: [CommonModule, MatFormFieldModule, MatSelectModule, FormsModule, MatOptionModule, MatInputModule, MatDatepickerModule, MatCardModule, MatIconModule, CustomPaginatorComponent, MatCheckboxModule, MatTableModule, MatSortModule, MatButtonModule],
   templateUrl: './pending-deletion.component.html',
   styleUrl: './pending-deletion.component.scss'
 })
@@ -28,7 +39,23 @@ export class PendingDeletionComponent implements OnInit{
   selectedBalanceId: number | null = null;  //  使用者選擇的 balanceId
   pendingList: PendingDeletionPayment[] = []; //  待刪區款項
   filteredPayments: any[] = []; //  經過篩選的要呈現的待刪除帳款
-  isAllSelected: boolean = false; //  是否全選
+  // 分頁相關
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalFilteredItems: number = 0;
+  allFilteredPayments: any[] = [];
+  dataSource = new MatTableDataSource<any>([]);
+  selection = new SelectionModel<any>(true, []);
+  displayedColumns: string[] = [
+    'select',
+    'type',
+    'item',
+    'description',
+    'amount',
+    'recordDate',
+    'lifeTime'
+  ];
+  @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
     //  取得帳戶
@@ -81,19 +108,48 @@ export class PendingDeletionComponent implements OnInit{
   //  根據使用者選擇帳戶篩選待刪區帳款（只包含生命週期大於 0 天的）
   filterByBalanceId(): void {
     const matched = this.pendingList.find(p => p.balanceId == this.selectedBalanceId);
-    this.filteredPayments = matched?.paymentInfoList.filter(p => p.lifeTime >= 0) || [];
+    this.allFilteredPayments = matched?.paymentInfoList.filter(p => p.lifeTime >= 0) || [];
+    this.totalFilteredItems = this.allFilteredPayments.length;
+    this.updatePagedData();
+  }
+
+  // 分頁切片
+  updatePagedData(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    const pagedData = this.allFilteredPayments.slice(startIndex, endIndex);
+    this.dataSource.data = pagedData;
+    this.selection.clear();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+
+  // 分頁事件處理
+  onPageChange(newPage: number): void {
+    this.currentPage = newPage;
+    this.updatePagedData();
+  }
+
+  // 每頁筆數變更事件處理
+  onPageSizeChange(newPageSize: number): void {
+    this.itemsPerPage = newPageSize;
+    this.currentPage = 1; // 重置到第一頁
+    this.updatePagedData();
   }
 
   //  使用者選擇帳戶時觸發
   onBalanceChange(){
     this.filterByBalanceId();
+    this.currentPage = 1;
+    this.updatePagedData();
   }
 
   //  切換全選/取消全選
   //  添加 selected 屬性
   toggleSelectAll(): void {
-    this.isAllSelected = !this.isAllSelected;
-    this.filteredPayments.forEach(p => p.selected = this.isAllSelected);
+    this.selection.clear();
   }
 
   //  復原勾選項目
@@ -131,9 +187,26 @@ export class PendingDeletionComponent implements OnInit{
     });
   }
 
-  //  同步 isAllSelected 狀態
-  updateSelectAllState(): void {
-    this.isAllSelected = this.filteredPayments.every(p => p.selected);
+  // 多選/全選邏輯
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows && numRows > 0;
+  }
+
+  masterToggle() {
+    this.isAllSelected()
+      ? this.selection.clear()
+      : this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  toggleSelection(row: any) {
+    this.selection.toggle(row);
+  }
+
+  selectedBalanceName(): string {
+    const found = this.balances.find(b => b.balanceId == this.selectedBalanceId);
+    return found ? found.name : '未選擇';
   }
 
 }

@@ -9,6 +9,7 @@
       0 8px 32px color-mix(in srgb, var(--theme-main) 12%, #000 12%),
       0 0 24px 4px color-mix(in srgb, var(--theme-main) 12%, transparent 88%);
   }
+  border-radius: 24px;
 }
 
 // 表單標題
@@ -47,7 +48,7 @@
     p {
       color: var(--input-hint);
       margin: 0;
-      font-size: 1rem;
+      font-size: 20px;
     }
   }
 }
@@ -65,6 +66,7 @@
     .material-icons {
       color: var(--theme-main);
       font-size: 1.6rem;
+      padding-top: 2px;
     }
 
     h3 {
@@ -204,6 +206,7 @@
     font-size: 1.2rem;
     color: var(--input-icon);
     transition: color 0.2s;
+    padding-top: 2px;
   }
   &:hover, &:focus {
     border-color: var(--input-focus);
@@ -253,6 +256,7 @@
   flex: 1;
   .material-icons {
     font-size: 1.2rem;
+    padding-top: 2px;
   }
 }
 
@@ -467,3 +471,8 @@ hr {
 .fixed-expense-theme { --theme-main-rgb: 251,191,36; }
 .fixed-income-theme { --theme-main-rgb: 167,139,250; }
 .transfer-theme { --theme-main-rgb: 56,189,248; }
+
+.btn-primary,
+.btn-secondary {
+  cursor: pointer !important;
+}

@@ -1,8 +1,6 @@
 /* 轉帳表單容器的整體樣式 */
 .form-container {
-  background: rgba(56, 189, 248, 0.4);
   border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(56, 189, 248, 0.10), 0 1.5px 8px rgba(44, 62, 80, 0.08);
   margin: 0 auto;
   padding: 2rem;
   max-width: 900px;
@@ -55,7 +53,7 @@
     p {
       color: var(--input-hint);
       margin: 0;
-      font-size: 1rem;
+      font-size: 20px;
     }
   }
 }
@@ -75,6 +73,7 @@
     .material-icons {
       color: var(--theme-main);
       font-size: 1.6rem;
+      padding-top: 2px;
     }
 
     /* 區塊標題 h3 的樣式 */
@@ -189,7 +188,7 @@
 /* 提示文字 */
 .input-hint {
   color: var(--input-hint);
-  font-size: 0.875rem;
+  font-size: 1rem;
   margin-top: 0.5rem;
   margin-bottom: 0.2rem;
   letter-spacing: 0.5px;
@@ -227,10 +226,12 @@
   transition: all 0.2s ease;
   border: none;
   flex: 1;
+  cursor: pointer !important;
 
   /* 按鈕內 Material Icon 的樣式 */
   .material-icons {
     font-size: 1.2rem;
+    padding-top: 2px;
   }
 }
 
@@ -442,4 +443,14 @@ hr {
   background: var(--elevation-0);
   padding-top: 35px;
   color: var(--text-primary);
+  padding-bottom: 5rem;
+}
+
+.add-item-btn {
+  .material-icons {
+    font-size: 1.2rem;
+    color: var(--input-icon);
+    transition: color 0.2s;
+    padding-top: 2px;
+  }
 }

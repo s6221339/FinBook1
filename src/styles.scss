@@ -27,7 +27,7 @@ textarea::placeholder {
   border-radius: var(--card-radius);
   background: var(--input-bg);
   color: var(--input-text);
-  font-size: 1rem;
+  font-size: 1.3rem;
   transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
   box-sizing: border-box;
@@ -86,4 +86,14 @@ textarea::placeholder {
   text-align: right;
   margin-top: 0.25rem;
 }
-
+.mat-mdc-tooltip-surface  {
+  cursor: default ;
+  font-size: 1rem !important;
+}
+// 限制無法拉動 textarea
+textarea,
+textarea.custom-select,
+textarea.form-textarea,
+textarea.full-width {
+  resize: none;
+}

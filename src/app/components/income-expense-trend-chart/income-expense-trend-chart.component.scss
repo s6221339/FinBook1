@@ -1,0 +1,97 @@
+:host {
+  display: block;
+  padding: 2rem;
+  background: #f7f9fc;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
+  color: #333;
+}
+
+//  上方選單區
+.filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  label {
+    font-weight: 600;
+    margin-right: 0.25rem;
+  }
+
+  select {
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: white;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+
+    &:focus {
+      border-color: #4a90e2;
+      outline: none;
+    }
+  }
+}
+
+//  📊 圖表區塊
+.chart-area {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 400px;
+  }
+}
+
+//  月份收支摘要區塊
+.month-summary {
+  background: #fff;
+  border-left: 5px solid #4a90e2;
+  border-radius: 0.5rem;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+
+  h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #4a4a4a;
+  }
+
+  p {
+    margin: 0.3rem 0;
+    font-size: 1rem;
+
+    &:nth-child(2) {
+      color: green;
+    }
+    &:nth-child(3) {
+      color: red;
+    }
+    &:nth-child(4) {
+      color: #333;
+      font-weight: bold;
+    }
+  }
+}
+
+// ✅ 響應式
+@media (max-width: 768px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+
+    select {
+      width: 100%;
+    }
+  }
+
+  .month-summary {
+    font-size: 0.95rem;
+  }
+}

@@ -166,6 +166,11 @@ data18 = {
     "newPassword": "ss941228"
   };
   account3: string ="d6221339@yahoo.com.tw";
+  data26 = {
+    "account": "s6221339@yahoo.com.tw",
+    "year": 2025,
+    "month": 0
+  };
 
 
   getTypeByAccount(){
@@ -672,6 +677,18 @@ data18 = {
           console.error('送出失敗：', err);
           alert('刪除帳號失敗，請稍後再試');
       });
+  }
+
+  getMonthlyIncomeExpenseSummary() {
+    this.apiService.getMonthlyIncomeExpenseSummary(this.data26)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得總收支成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得總收支失敗，請稍後再試');
+    });
   }
 
 }

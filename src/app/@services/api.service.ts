@@ -352,4 +352,11 @@ export class ApiService {
     });
   }
 
+  //  獲得所有帳戶每個月總收支
+  getMonthlyIncomeExpenseSummary(data: any) {
+    return axios.post('http://localhost:8080/finbook/payment/statistics/summaryIncomeAndOutlay', data, {
+      withCredentials: true
+    });
+  }
+
 }

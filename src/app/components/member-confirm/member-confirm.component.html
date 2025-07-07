@@ -40,11 +40,12 @@
             <label class="input-label">手機號碼</label>
             <p class="display-value">{{ userData?.phone || '未填寫' }}</p>
           </div>
-
+          <div class="button-group">
+            <button class="btn btn-primary" (click)="goToEdit()">編輯</button>
+          </div>
       </div>
-
       <div class="button-group">
-        <button class="btn btn-primary" (click)="goToEdit()">編輯</button>
+        <button class="btn btn-primary-deleteAccount" (click)="confirmDeleteAccount()">註銷帳號</button>
       </div>
     </div>
   </div>

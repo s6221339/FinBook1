@@ -314,4 +314,42 @@ export class ApiService {
     });
   }
 
+  //  修改會員密碼
+  updateUserPassword(data: any) {
+    return axios.post('http://localhost:8080/finbook/user/updatePasswordUser', data, {
+      withCredentials: true
+    });
+  }
+
+  //  發送驗證碼
+  sendVerificationCode(account: string) {
+    return axios.post('http://localhost:8080/finbook/userVerifyCode/sendVerifyCode', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
+  //  認證驗證碼
+  checkVerificationCode(code: string, account: string) {
+    return axios.post('http://localhost:8080/finbook/userVerifyCode/checkVerifyCode', null, {
+      params: { code, account },
+      withCredentials: true
+    });
+  }
+
+  //  忘記密碼-修改密碼
+  updatePasswordByEmail(data: any) {
+    return axios.post('http://localhost:8080/finbook/userVerifyCode/updatePwdByEmail', data, {
+      withCredentials: true
+    });
+  }
+
+  //  刪除帳號
+  deleteAccount(account: string) {
+    return axios.post('http://localhost:8080/finbook/user/cancel', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
 }

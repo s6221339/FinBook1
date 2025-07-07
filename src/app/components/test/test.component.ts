@@ -151,6 +151,22 @@ data18 = {
     "birthday": "1993-01-21",
     "avatar": null
   };
+  data23 = {
+    "account": "a6221339@yahoo.com.tw",
+    "oldPassword": "123456789",
+    "newPassword": "12345678"
+  };
+  account2: string ="s6221339@yahoo.com.tw";
+  data24: { code: string, account: string} = {
+    code: "SaGYGKyE",
+    account: "s6221339@yahoo.com.tw"
+  };
+  data25 = {
+    "account": "s6221339@yahoo.com.tw",
+    "newPassword": "ss941228"
+  };
+  account3: string ="d6221339@yahoo.com.tw";
+
 
   getTypeByAccount(){
     this.apiService.getTypeByAccount(this.account)
@@ -595,6 +611,66 @@ data18 = {
         .catch(err => {
           console.error('送出失敗：', err);
           alert('編輯會員資料失敗，請稍後再試');
+      });
+  }
+
+  updateUserPassword() {
+    this.apiService.updateUserPassword(this.data23)
+      .then(res => {
+          console.log('成功送出：', res.data);
+          alert('修改會員密碼成功');
+        })
+        .catch(err => {
+          console.error('送出失敗：', err);
+          alert('修改會員密碼失敗，請稍後再試');
+      });
+  }
+
+  sendVerificationCode() {
+    this.apiService.sendVerificationCode(this.account2)
+      .then(res => {
+          console.log('成功送出：', res.data);
+          alert('傳送驗證信成功');
+        })
+        .catch(err => {
+          console.error('送出失敗：', err);
+          alert('傳送驗證信失敗，請稍後再試');
+      });
+  }
+
+  checkVerificationCode(){
+    this.apiService.checkVerificationCode(this.data24.code, this.data24.account)
+      .then(res => {
+          console.log('成功送出：', res.data);
+          alert('認證驗證信成功');
+        })
+        .catch(err => {
+          console.error('送出失敗：', err);
+          alert('傳送驗證信失敗，請稍後再試');
+      });
+  }
+
+  updatePasswordByEmail() {
+    this.apiService.updatePasswordByEmail(this.data25)
+      .then(res => {
+          console.log('成功送出：', res.data);
+          alert('修改密碼成功');
+        })
+        .catch(err => {
+          console.error('送出失敗：', err);
+          alert('修改密碼失敗，請稍後再試');
+      });
+  }
+
+  deleteAccount() {
+    this.apiService.deleteAccount(this.account3)
+      .then(res => {
+          console.log('成功送出：', res.data);
+          alert('刪除帳號成功');
+        })
+        .catch(err => {
+          console.error('送出失敗：', err);
+          alert('刪除帳號失敗，請稍後再試');
       });
   }
 

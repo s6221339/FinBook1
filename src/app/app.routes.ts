@@ -36,6 +36,7 @@ import { AuthGuard } from './@guards/auth.guard';
 import { AdminGuard } from './@guards/admin.guard';
 import { FixedIncomeExpenseFormComponent } from './components/fixed-income-expense-form/fixed-income-expense-form.component';
 import { AntiAuthGuard } from './@guards/anti-auth.guard';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export const routes: Routes = [
   { path:'bookKeeping', component: BookKeepingComponent, canActivate: [AuthGuard],
@@ -62,7 +63,7 @@ export const routes: Routes = [
       { path: 'memberConfirm', component: MemberConfirmComponent },
       { path: 'changePasswords', component:ChangePasswordsComponent },
       { path: '', redirectTo: 'memberConfirm', pathMatch: 'full' }]},
-  { path:'forget',component: ForgetPasswordsComponent, canActivate: [AntiAuthGuard] },
+  { path:'forgetPasswords',component: ForgetPasswordsComponent, canActivate: [AntiAuthGuard] },
   { path:'createFamily',component: CreateFamilyComponent },
   { path:'familyManagement',component: FamilyManagementComponent },
   { path:'statistics',component: StatisticsComponent,
@@ -79,6 +80,7 @@ export const routes: Routes = [
   { path:'unauthorized',component: UnauthorizedComponent },
   { path: 'transfers', component: TransfersComponent },
   { path: 'fixedIncomeExpenseForm', component: FixedIncomeExpenseFormComponent, canActivate: [AuthGuard] },
+  { path:'resetPassword',component: ResetPasswordComponent, canActivate: [AntiAuthGuard] },
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent }

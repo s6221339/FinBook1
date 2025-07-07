@@ -1,9 +1,11 @@
+
 import { AuthService } from './../../@services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { MemberdataService } from '../../@services/memberdata.service';
 import { Router } from '@angular/router';
 import { UserVO } from '../../models/userVO';
 import Swal from 'sweetalert2';
+import { ApiService } from '../../@services/api.service';
 
 @Component({
   selector: 'app-member-confirm',
@@ -15,9 +17,9 @@ import Swal from 'sweetalert2';
 export class MemberConfirmComponent implements OnInit{
 
   constructor(
-    private memberdataService: MemberdataService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private apiService: ApiService
   ) { }
 
   userData?: UserVO;  //  用來存放目前登入的會員資料
@@ -90,6 +92,68 @@ export class MemberConfirmComponent implements OnInit{
         console.error('更新失敗', err);
         Swal.fire('❌ 錯誤', '請檢察網路連線或聯絡管理員', 'error');
       });
+  }
+
+  confirmDeleteAccount(): void {
+    const user = this.authService.getCurrentUser();
+    if(!user) return;
+
+    //  生成六位數亂碼
+    const verificationCode = this.generateRandomCode(6);
+
+    Swal.fire({
+      title: '⚠️ 註銷帳號確認',
+      html: `此操作無法復原。<br><br>請輸入下列驗證碼：<br><strong>${verificationCode}</strong>`,
+      input: 'text',
+      inputLabel: '請輸入上方驗證碼以繼續',
+      inputPlaceholder: '輸入驗證碼',
+      showCancelButton: true,
+      confirmButtonText: '下一步',
+      cancelButtonText: '取消',
+      preConfirm: (input) => {
+        if(!input || input !== verificationCode) {
+          Swal.showValidationMessage('驗證碼錯誤，請重新輸入');
+          return false;
+        }
+        return true;
+      }
+    }).then(result => {
+      if(result.isConfirmed) {
+        //  再次確認
+        Swal.fire({
+          title: '⚠️ 最終確認',
+          text: '確定要永久刪除帳號嗎？此操作無法復原！',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: '是的，我要刪除',
+          cancelButtonText: '取消'
+        }).then(finalResult => {
+          if(finalResult.isConfirmed) {
+            this.apiService.deleteAccount(user.account)
+              .then(() => {
+                //  執行登出
+                this.authService.logout().subscribe(() => {
+                  Swal.fire('✅ 已註銷', '您的帳號已成功刪除', 'success');
+                  this.router.navigate(['/login']);
+                });
+              })
+              .catch(err => {
+                console.error('註銷帳號失敗', err);
+                Swal.fire('❌ 錯誤', '無法刪除帳號，請稍後再試', 'error');
+              });
+          }
+        });
+      }
+    });
+  }
+
+  private generateRandomCode(length: number): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for(let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
   }
 
   goToEdit(){

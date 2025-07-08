@@ -127,6 +127,7 @@
   --btn-secondary-hover-border: #d1d5db;
   --divider: #e0e0e0;
 
+
   /* 主題色 RGB（全站共用，給分隔線等用） */
   --expense-rgb: 248,113,113;
   --income-rgb: 52,211,153;
@@ -173,6 +174,22 @@
 
   --theme-toggle-icon: var(--primary); /* 主題切換icon顏色（亮色模式主題藍） */
   --theme-toggle-bg: var(--primary);   /* 主題切換toggle背景（亮色模式主題藍） */
+
+  --warn: #e53935;
+  --warn-hover-bg: #ffeaea;
+  --warn-text: #e53935;
+  --edit: var(--primary);
+  --edit-hover-bg: #e3f0ff;
+  --edit-text: var(--primary);
+
+  // familyManagement 按鈕
+  --btn-primary-soft: #0969da;
+  --btn-primary-soft-hover: #0550ae;
+  --btn-success-soft: #1a7f37;
+  --btn-success-soft-hover: #116329;
+  --btn-secondary-soft: #656d76;
+  --btn-secondary-soft-hover: #4c535b;
+  --btn-icon:var(--fixed-expense);
 }
 
 /* 暗黑模式 */
@@ -316,6 +333,22 @@
 
   --theme-toggle-icon: #ffd600; /* 主題切換icon顏色（暗色模式亮黃）#ffe066 */
   --theme-toggle-bg: #ffd600;   /* 主題切換toggle背景（暗色模式亮黃）#ffe066 */
+
+  --warn: #ff8a80;
+  --warn-hover-bg: #4a2323;
+  --warn-text: #ff8a80;
+  --edit: var(--primary);
+  --edit-hover-bg: #23325c;
+  --edit-text: var(--primary);
+
+  // familyManagement 按鈕
+  --btn-primary-soft: #4493f8;
+  --btn-primary-soft-hover: #318df8;
+  --btn-success-soft: #3fb950;
+  --btn-success-soft-hover: #2ea043;
+  --btn-secondary-soft: #6e7681;
+  --btn-secondary-soft-hover: #5d646d;
+  --btn-icon:#ffd600;
 }
 
 /* 英雄區塊動畫 - 滑入效果 */

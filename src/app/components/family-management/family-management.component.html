@@ -1,100 +1,215 @@
-<div>
-  <div>
-    <h2>家庭管理</h2>
-  </div>
-  <div>
-    <h3>功能列表：</h3><br>
+<div class="family-management-page">
+  @if(familyData) {
+    <div class="top-cards-row">
+      <!-- 家庭資訊卡片 -->
+      <div class="family-info-card">
+        <div class="card-header">
+          <mat-icon>home</mat-icon>
+          <h3>家庭資訊</h3>
+        </div>
+        <div class="card-content">
+          <div class="family-info-section">
+            <div class="info-item">
+              <mat-icon class="info-icon">label</mat-icon>
+              <div class="info-content">
+                <span class="info-label">家庭名稱</span>
+                <span class="info-value">{{ displayFamilyName }}</span>
+              </div>
+            </div>
 
-    @if(isOwner){
-      <button (click)="renameFamilyName()">更改家庭名稱</button>
-      <button (click)="inviteMember()">邀請</button>
-      <button (click)="removeSelectedMembers()">踢除</button>
-      <button (click)="transferFamilyOwner()">轉讓族長</button>
-      <button (click)="disbandFamily()">解散</button>
-    }
-    <button (click)="leaveFamily()">退出</button>
-  </div>
-  @if(familyData){
-    <div>
-      <h3>家庭名稱：{{ displayFamilyName }}</h3>
-      <h3>
-        擁有者：
-        <img [src]="familyData.owner.avatar" alt="擁有者頭像" width="32" height="32" style="border-radius: 50%; vertical-align: middle; margin-right: 8px;" onerror="this.onerror=null;this.src='/defaultavatar.jpg';"/>
-        {{ familyData.owner.name }}
-      </h3>
-      <h3 style="display: inline-block;">家庭成員：</h3>
-      @if(isOwner){
-        <button
-          (click)="toggleInviteList()"
-          style="display: inline-block; margin-left: 8px;"
-          >
-            {{ showInviteList ? '隱藏邀請中清單' : '顯示邀請中清單' }}
-        </button>
-        <!-- 收合區域 -->
-        @if(showInviteList){
-          <div
-            class="inviting-list"
-            style="margin-top: 12px; padding: 10px; border: 1px solid #ccc; border-radius: 8px;"
-          >
-            <h4>邀請中成員：</h4>
-            @if(invitingMembers.length > 0){
-              <ul style="list-style: none; padding-left: 0;">
-                @for(member of invitingMembers; track $index){
-                  <li style="display: flex; align-items: center; margin-bottom: 8px;">
-                    <img [src]="member.avatar" alt="邀請中頭像" width="32" height="32" style="border-radius: 50%; margin-right: 8px;" onerror="this.onerror=null;this.src='/defaultavatar.jpg';"/>
-                    <span>{{ member.name }}</span>
-                    <button (click)="cancelInvite(member.account)" style="margin-left: 12px;">❌取消邀請</button>
-                  </li>
-                }
-              </ul>
-            }
-            @else {
-              <p style="color: gray">目前無邀請中成員</p>
-            }
+            <div class="info-item">
+              <mat-icon class="owner-icon">emoji_events</mat-icon>
+              <div class="info-content">
+                <span class="info-label">擁有者</span>
+                <div class="owner-info">
+                  <img
+                    [src]="familyData.owner.avatar"
+                    alt="擁有者頭像"
+                    class="avatar"
+                    onerror="this.onerror=null;this.src='/defaultavatar.jpg';"
+                  />
+                  <span class="info-value">{{ familyData.owner.name }}</span>
+                </div>
+              </div>
+            </div>
           </div>
-        }
-      }
+        </div>
+      </div>
 
-      @if(familyData.memberList.length > 0){
-        @if(isOwner){
-          <div>
-            <label>
-              <input type="checkbox" [checked]="isAllSelected" (change)="toggleSelectAll(($event))"/>
+      <!-- 功能操作卡片 -->
+      <div class="actions-card">
+        <div class="card-header">
+          <mat-icon>build</mat-icon>
+          <h3>功能操作</h3>
+          <button class="back-btn" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+            返回列表
+          </button>
+        </div>
+        <div class="card-content">
+          <div class="actions-grid">
+            @if(isOwner) {
+              <button class="action-btn secondary" (click)="renameFamilyName()">
+                <mat-icon>edit</mat-icon>
+                <span>更改家庭名稱</span>
+              </button>
+
+              <button class="action-btn success" (click)="inviteMember()">
+                <mat-icon>person_add</mat-icon>
+                <span>邀請成員</span>
+              </button>
+
+              <button class="action-btn warning" (click)="removeSelectedMembers()">
+                <mat-icon>person_remove</mat-icon>
+                <span>踢除成員</span>
+              </button>
+
+              <button class="action-btn info" (click)="transferFamilyOwner()">
+                <mat-icon>swap_horiz</mat-icon>
+                <span>轉讓族長</span>
+              </button>
+
+              <button class="action-btn danger" (click)="disbandFamily()">
+                <mat-icon>delete_forever</mat-icon>
+                <span>解散家庭</span>
+              </button>
+            }
+
+            <button class="action-btn outline" (click)="leaveFamily()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>退出家庭</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 家庭成員卡片 -->
+    <div class="members-card">
+      <div class="card-header">
+        <mat-icon>group</mat-icon>
+        <h3>家庭成員</h3>
+        @if(isOwner && familyData.memberList.length > 0) {
+          <div class="header-actions">
+            <label class="select-all-checkbox">
+              <input
+                type="checkbox"
+                [checked]="isAllSelected"
+                (change)="toggleSelectAll($event)"
+              />
+              <span class="checkmark"></span>
               全選
             </label>
           </div>
         }
-        <ul>
-          @for(member of familyData.memberList; track $index){
-            <li>
-              @if(isOwner){
-                <label>
-                  <input
-                    type="checkbox"
-                    [checked]="selectedAccounts.has(member.account)"
-                    (change)="onToggleMember(member.account, $event)"
-                  />
-                  <img [src]="member.avatar" alt="成員頭像" width="32" height="32" style="border-radius: 50%; margin-right: 8px;" onerror="this.onerror=null;this.src='/defaultavatar.jpg';"/>
-                  {{ member.name }}
-                </label>
-              }
-              @else {
-                <img [src]="member.avatar" alt="成員頭像" width="32" height="32" style="border-radius: 50%; margin-right: 8px;" onerror="this.onerror=null;this.src='/defaultavatar.jpg';"/>
-                {{ member.name }}
-              }
-            </li>
-          }
-        </ul>
-      }
-      @else {
-        <p style="color: gray;">尚無家庭成員</p>
-      }
-    </div>
-  }
-  @else {
-    <div>
-      <p>找不到指定的家庭資料</p>
-    </div>
-  }
+        @if(isOwner) {
+          <button
+            class="toggle-invite-btn"
+            (click)="toggleInviteList()"
+          >
+            <mat-icon>{{ showInviteList ? 'expand_less' : 'expand_more' }}</mat-icon>
+            {{ showInviteList ? '隱藏邀請中清單' : '顯示邀請中清單' }}
+          </button>
+        }
+      </div>
 
+      <div class="card-content">
+        <!-- 邀請中清單 -->
+        @if(isOwner && showInviteList) {
+          <div class="inviting-section">
+            <div class="section-title">
+              <mat-icon>schedule</mat-icon>
+              <h4>邀請中成員</h4>
+            </div>
+            @if(invitingMembers.length > 0) {
+              <div class="inviting-list">
+                @for(member of invitingMembers; track $index) {
+                  <div class="inviting-item">
+                    <img
+                      [src]="member.avatar"
+                      alt="邀請中頭像"
+                      class="avatar small"
+                      onerror="this.onerror=null;this.src='/defaultavatar.jpg';"
+                    />
+                    <span class="member-name">{{ member.name }}</span>
+                    <button
+                      class="cancel-invite-btn"
+                      (click)="cancelInvite(member.account)"
+                    >
+                      <mat-icon>close</mat-icon>
+                      取消邀請
+                    </button>
+                  </div>
+                }
+              </div>
+            } @else {
+              <div class="empty-inviting">
+                <mat-icon>schedule</mat-icon>
+                <span>目前無邀請中成員</span>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- 正式成員列表 -->
+        <div class="members-section">
+          @if(familyData.memberList.length > 0) {
+            <div class="members-list">
+              @for(member of familyData.memberList; track $index) {
+                <div class="member-item">
+                  @if(isOwner) {
+                    <label class="member-checkbox">
+                      <input
+                        type="checkbox"
+                        [checked]="selectedAccounts.has(member.account)"
+                        (change)="onToggleMember(member.account, $event)"
+                      />
+                      <span class="checkmark"></span>
+                    </label>
+                  }
+
+                  <img
+                    [src]="member.avatar"
+                    alt="成員頭像"
+                    class="avatar"
+                    onerror="this.onerror=null;this.src='/defaultavatar.jpg';"
+                  />
+
+                  <div class="member-info">
+                    <span class="member-name">{{ member.name }}</span>
+                    <span class="member-account">{{ member.account }}</span>
+                  </div>
+
+                  <div class="member-status">
+                    <span class="status-badge active">活躍成員</span>
+                  </div>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="empty-members">
+              <mat-icon>group_off</mat-icon>
+              <h4>尚無家庭成員</h4>
+              <p>邀請其他人加入您的家庭吧！</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  } @else {
+    <!-- 錯誤狀態 -->
+    <div class="error-card">
+      <div class="card-content">
+        <div class="error-state">
+          <mat-icon>error_outline</mat-icon>
+          <h3>找不到指定的家庭資料</h3>
+          <p>請檢查連結是否正確，或返回家庭列表重新選擇</p>
+          <button class="action-btn primary" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+            返回家庭列表
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

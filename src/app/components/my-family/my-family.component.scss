@@ -1,20 +1,328 @@
-.family-table {
+.my-family-page {
+  padding-top: 35px;
+  background: var(--elevation-0);
+  min-height: 100vh;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.family-list-card {
+  max-width: 1200px;
+  margin: 0 auto 2.5rem auto;
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 1.5rem;
+  background: var(--primary);
+  color: #fff;
+  cursor: default;
+
+  mat-icon {
+    font-size: 1.7rem;
+    width: 1.7rem;
+    height: 1.7rem;
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    flex: 1;
+  }
+
+  .family-count {
+    margin-left: auto;
+  }
+}
+
+.card-content {
+  padding: 0;
+  color: var(--text-primary);
+}
+
+.table-container {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
+}
 
-  th, td {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
+// Angular Material 表格樣式覆蓋
+.family-mat-table {
+  width: 100%;
+  background: var(--elevation-1);
+
+  // 表頭樣式
+  .mat-mdc-header-cell {
+    background-color: var(--table-header-bg) !important;
+    color: var(--table-header-text) !important;
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    border-bottom: 2px solid var(--primary) !important;
+    padding: 1rem 1.5rem !important;
+    text-align: center;
+  }
+
+  // 表格內容樣式
+  .mat-mdc-cell {
+    padding: 1rem 1.5rem !important;
+    border-bottom: 1px solid var(--secondary-bg) !important;
+    color: var(--text-primary) !important;
+    font-size: 1.1rem !important;
+    text-align: center;
+  }
+
+  // 表格行樣式
+  .mat-mdc-row {
+    &:nth-child(odd) {
+      background: var(--table-row-odd-bg) !important;
+    }
+
+    &:nth-child(even) {
+      background: var(--table-row-even-bg) !important;
+    }
+
+    &:hover {
+      background: var(--table-hover-bg) !important;
+
+      .mat-mdc-cell {
+        color: var(--table-hover-text) !important;
+      }
+    }
+  }
+}
+
+.family-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: flex-start;
+
+  .family-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    mat-icon {
+      color: #fff;
+      font-size: 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  }
+
+  .family-name-link {
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
     text-align: left;
-  }
-
-  th {
-    background-color: #f5f5f5;
-  }
-
-  a:hover {
-    color: darkblue;
+    padding: 0;
     text-decoration: none;
+    transition: all 0.2s;
+
+    &:hover {
+      text-decoration: underline;
+      color: var(--primary);
+    }
   }
+}
+
+.owner-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+
+  .owner-icon {
+    color: var(--btn-icon);
+    font-size: 1.2rem;
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  span {
+    font-weight: 500;
+  }
+}
+
+.members-cell {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.action-cell {
+  text-align: center;
+
+  .manage-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1.5px solid var(--primary);
+    color: var(--primary);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    mat-icon {
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+    }
+
+    &:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+  }
+}
+
+.pill-green {
+  background: var(--table-total-bg);
+  color: #fff;
+  padding: 0.4rem 1.1rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+// 表格內的空狀態
+.no-data-row {
+  background: var(--elevation-0) !important;
+
+  .mat-mdc-cell {
+    text-align: center;
+    padding: 0 !important;
+    border: none !important;
+  }
+}
+
+// 主要空狀態（當沒有資料時）
+.empty-state,
+.empty-state-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: #fff;
+    background: var(--primary);
+    border-radius: 50%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 16px rgba(66, 86, 165, 0.2);
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+}
+
+// 響應式設計
+@media (max-width: 1200px) {
+  .family-list-card {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .my-family-page {
+    padding-top: 20px;
+  }
+
+  .card-header {
+    padding: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    h3 {
+      font-size: 1.3rem;
+    }
+  }
+
+  .family-mat-table {
+    .mat-mdc-header-cell,
+    .mat-mdc-cell {
+      padding: 0.75rem 0.5rem !important;
+      font-size: 1rem !important;
+    }
+  }
+
+  .family-name-cell {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    .family-icon {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  .action-cell .manage-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  // 隱藏成員欄位在極小螢幕
+  .family-mat-table {
+    .mat-column-members {
+      display: none;
+    }
+  }
+}
+.family-mat-table .mat-mdc-cell,
+.family-mat-table .mat-mdc-header-cell {
+  cursor: default;
+}
+
+.family-name-link,
+.manage-btn {
+  cursor: pointer;
+}
+.family-mat-table th {
+  border-right: none !important;
+}
+.family-mat-table td {
+  border-right: 1.5px solid var(--table-border);
+}
+.family-mat-table td:last-child {
+  border-right: none;
 }

@@ -1,68 +1,140 @@
-<div>
-  <div>
-    <h2>設定家庭群組</h2>
-  </div>
-  <div>
-    <h3>家庭名稱：</h3>
-    <input [(ngModel)]="familyName"/><br>
+<div class="create-family-page">
+  <!-- 基本設定卡片 -->
+  <div class="basic-settings-card">
+    <div class="card-header">
+      <mat-icon>family_restroom</mat-icon>
+      <h3>創立家庭</h3>
+    </div>
+    <div class="card-content">
+      <!-- 家庭名稱 -->
+      <div class="form-group">
+        <label class="form-label">
+          <mat-icon>label</mat-icon>
+          家庭名稱
+        </label>
+        <input
+          [(ngModel)]="familyName"
+          class="form-input"
+          placeholder="請輸入家庭名稱"
+          maxlength="50"
+        />
+      </div>
 
-    <h3>創建者：</h3>
-    <div class="creator-info">
-      <img
-        [src]="creatorAvatar || 'assets/default-avatar.png'"
-        alt="創建者頭像"
-        class="avatar"
-      />
-      <span>{{ creatorName }}</span>
+      <!-- 創建者資訊 -->
+      <div class="form-group">
+        <label class="form-label">
+          <mat-icon class="owner-icon">emoji_events</mat-icon>
+          創建者
+        </label>
+        <div class="creator-info">
+          <img
+            [src]="creatorAvatar || '/defaultavatar.jpg'"
+            alt="創建者頭像"
+            class="avatar"
+            onerror="this.onerror=null;this.src='/defaultavatar.jpg';"
+          />
+          <span class="creator-name">{{ creatorName }}</span>
+        </div>
+      </div>
     </div>
   </div>
-  <div>
-    <h3>成員：（目前邀請人數 {{ invitedMenbers.length }}）</h3><br>
 
-    @if(invitedMenbers.length > 0){
-      <!-- 全選勾選框 -->
-       <div>
-        <label>
-          <input type="checkbox" [checked]="isAllSelected" (change)="toggleSelectAll($event)"/>
-          全選
-        </label>
-       </div>
+  <!-- 成員管理卡片 -->
+  <div class="members-card">
+    <div class="card-header">
+      <mat-icon>group</mat-icon>
+      <h3>成員管理</h3>
+      <span class="member-count">目前邀請人數 {{ invitedMenbers.length }}</span>
+      <button class="add-member-btn" (click)="addMember()">
+        <mat-icon>person_add</mat-icon>
+        新增成員
+      </button>
+    </div>
 
-      <!-- 成員列表 -->
-      <ul>
-        @for(member of invitedMenbers; track $index){
-          <li>
-            <label>
-              <input
-                type="checkbox"
-                [checked]="selectedAccounts.has(member.account)"
-                (change)="onToggleMember(member.account, $event)"
-              />
+    <div class="card-content">
+      @if(invitedMenbers.length > 0) {
+        <!-- 全選控制 -->
+        <div class="select-all-section">
+          <label class="select-all-checkbox">
+            <input
+              type="checkbox"
+              [checked]="isAllSelected"
+              (change)="toggleSelectAll($event)"
+            />
+            <span class="checkmark"></span>
+            全選成員
+          </label>
+          <button
+            class="batch-remove-btn"
+            (click)="removeSelectedMembers()"
+            [disabled]="selectedAccounts.size === 0"
+          >
+            <mat-icon>person_remove</mat-icon>
+            取消勾選成員
+          </button>
+        </div>
+
+        <!-- 成員列表 -->
+        <div class="members-list">
+          @for(member of invitedMenbers; track $index) {
+            <div class="member-item">
+              <label class="member-checkbox">
+                <input
+                  type="checkbox"
+                  [checked]="selectedAccounts.has(member.account)"
+                  (change)="onToggleMember(member.account, $event)"
+                />
+                <span class="checkmark"></span>
+              </label>
+
               <img
-                [src]="member.avatar || 'assets/default-avatar.png'"
+                [src]="member.avatar || '/defaultavatar.jpg'"
                 alt="成員頭像"
                 class="avatar"
-                width="32" height="32"
-                style="border-radius: 50%; margin-right: 8px;"
                 onerror="this.onerror=null;this.src='/defaultavatar.jpg';"
               />
-              {{ member.name }}
-            </label>
-          </li>
-        }
-      </ul>
 
-      <!-- 批次取消按鈕 -->
-      <button (click)="removeSelectedMembers()">❌取消勾選成員</button>
-    }
+              <div class="member-info">
+                <span class="member-name">{{ member.name }}</span>
+                <span class="member-account">{{ member.account }}</span>
+              </div>
 
-    <!-- 新增成員按鈕 -->
-    <button (click)="addMember()">➕新增成員</button>
+              <div class="member-status">
+                <span class="status-badge pending">待邀請</span>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <!-- 空狀態 -->
+        <div class="empty-members">
+          <mat-icon>group_off</mat-icon>
+          <h4>尚未邀請任何成員</h4>
+          <p>點擊右上方「新增成員」按鈕開始邀請家庭成員</p>
+          <!-- <button class="action-btn primary" (click)="addMember()">
+            <mat-icon>person_add</mat-icon>
+            立即新增成員
+          </button> -->
+        </div>
+      }
+
+      <!-- 操作按鈕 -->
+      <div class="actions-section">
+        <div class="actions-row">
+          <button class="action-btn secondary" (click)="cancel()">
+            <mat-icon>close</mat-icon>
+            取消
+          </button>
+          <button
+            class="action-btn primary"
+            (click)="submit()"
+            [disabled]="!familyName.trim()"
+          >
+            <mat-icon>check</mat-icon>
+            建立家庭
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div>
-    <button (click)="cancel()">取消</button>
-    <button (click)="submit()">建立</button>
-  </div>
-
 </div>

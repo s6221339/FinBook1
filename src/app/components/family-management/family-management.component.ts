@@ -5,10 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Family } from '../../models/family';
 import Swal from 'sweetalert2';
 import { FamilyMember } from '../../models/familyMember';
+import { MatIconModule } from "@angular/material/icon"
+import { CommonModule } from "@angular/common"
 
 @Component({
   selector: 'app-family-management',
-  imports: [],
+  imports: [MatIconModule, CommonModule],
   templateUrl: './family-management.component.html',
   styleUrl: './family-management.component.scss',
   standalone: true
@@ -50,6 +52,10 @@ export class FamilyManagementComponent implements OnInit{
       throw new Error('尚未登入');
     }
     return user.account;
+  }
+
+  goBack(): void {
+    this.router.navigate(["/myFamily"])
   }
 
   loadFamilyData(): void {
@@ -114,7 +120,7 @@ export class FamilyManagementComponent implements OnInit{
       title: '請更改家庭名稱',
       input: 'text',
       inputLabel: '請輸入新的家庭名稱',
-      inputPlaceholder: '輸入名稱...',
+      inputPlaceholder: '輸入名稱',
       showCancelButton: true,
       confirmButtonText: '確定',
       cancelButtonText: '取消',

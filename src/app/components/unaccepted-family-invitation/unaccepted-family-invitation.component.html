@@ -1,34 +1,79 @@
 <div class="invitation-page">
-  <h2 class="title">你還有 {{ invitationList.length }} 筆家庭邀請未確認</h2>
+  <!-- 單一主卡片 -->
+  <div class="main-card">
+    <div class="card-header">
+      <mat-icon>mail</mat-icon>
+      <h3>家庭邀請確認</h3>
+      @if(invitationList.length > 0) {
+        <span class="invitation-count">{{ invitationList.length }} 筆待確認</span>
+      }
+    </div>
 
-  @if(invitationList.length > 0){
-    <table class="invitation-table">
-      <thead>
-        <tr style="border-bottom: 1px solid #ccc;">
-          <th style="padding: 8px;">家庭名稱</th>
-          <th style="padding: 8px;">狀態</th>
-          <th style="padding: 8px;">採取動作</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(invite of invitationList; track $index){
-          <tr>
-            <td>{{ invite.familyName }}</td>
-            <td>{{ invite.statusText }}</td>
-            <td>
-              <button class="accept-btn" (click)="acceptInvite(invite.familyId)">✅ 接受</button>
-              <button class="reject-btn" (click)="rejectInvite(invite.familyId)">❌ 拒絕</button>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  }
-  @else {
-    <p style="color: gray;">目前沒有家庭邀請</p>
-  }
+    <div class="card-content">
+      <!-- 邀請列表或空狀態 -->
+      @if(invitationList.length > 0) {
+        <div class="table-container">
+          <table class="invitation-table">
+            <thead>
+              <tr>
+                <th>家庭名稱</th>
+                <th>邀請狀態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(invite of invitationList; track $index) {
+                <tr>
+                  <td>
+                    <div class="family-name-cell">
+                      <div class="family-icon">
+                        <mat-icon>home</mat-icon>
+                      </div>
+                      <span class="family-name">{{ invite.familyName }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="status-badge pending">{{ invite.statusText }}</span>
+                  </td>
+                  <td class="action-cell">
+                    <div class="action-buttons">
+                      <button
+                        class="action-btn accept"
+                        (click)="acceptInvite(invite.familyId)"
+                      >
+                        <mat-icon>check</mat-icon>
+                        接受
+                      </button>
+                      <button
+                        class="action-btn reject"
+                        (click)="rejectInvite(invite.familyId)"
+                      >
+                        <mat-icon>close</mat-icon>
+                        拒絕
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <!-- 空狀態 -->
+        <div class="empty-state">
+          <mat-icon>mail_outline</mat-icon>
+          <h4>目前沒有家庭邀請</h4>
+          <p>當有人邀請您加入家庭時，邀請訊息會顯示在這裡</p>
+        </div>
+      }
 
-  <div class="footer">
-    <button class="back-btn" (click)="goHome()">回首頁</button>
+      <!-- 底部按鈕 -->
+      <div class="footer-actions">
+        <button class="back-btn" (click)="goHome()">
+          <mat-icon>home</mat-icon>
+          回首頁
+        </button>
+      </div>
+    </div>
   </div>
 </div>

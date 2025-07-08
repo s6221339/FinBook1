@@ -3,10 +3,12 @@ import { ApiService } from './../../@services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { MatIconModule } from "@angular/material/icon"
+import { CommonModule } from "@angular/common"
 
 @Component({
   selector: 'app-unaccepted-family-invitation',
-  imports: [],
+  imports: [MatIconModule, CommonModule],
   templateUrl: './unaccepted-family-invitation.component.html',
   styleUrl: './unaccepted-family-invitation.component.scss'
 })

@@ -314,34 +314,32 @@
 
 /* 主要操作按鈕（藍色） */
 .custom-btn-accent {
-  color: var(--primary);
-  border-color: var(--primary);
-}
-.custom-btn-accent:hover {
-  background: var(--secondary-bg);
-  color: var(--primary);
-  box-shadow: 0 4px 16px rgba(66, 165, 245, 0.15);
-}
-.custom-btn-accent:active {
-  background: var(--secondary-bg);
-  color: var(--primary);
-  box-shadow: 0 1px 4px rgba(66, 165, 245, 0.10);
+  color: var(--edit-text);
+  border-color: var(--edit);
+  mat-icon {
+    color: var(--edit) !important;
+    transition: color 0.2s;
+  }
+  &:hover, &:active {
+    background: var(--edit-hover-bg);
+    color: var(--edit);
+    border-color: var(--edit);
+  }
 }
 
 /* 危險操作按鈕（紅色） */
 .custom-btn-warn {
-  color: #e53935;
-  border-color: #e53935;
-}
-.custom-btn-warn:hover {
-  background: #ffebee;
-  color: #b71c1c;
-  box-shadow: 0 4px 16px rgba(229, 57, 53, 0.12);
-}
-.custom-btn-warn:active {
-  background: #ffcdd2;
-  color: #b71c1c;
-  box-shadow: 0 1px 4px rgba(229, 57, 53, 0.08);
+  color: var(--warn-text);
+  border-color: var(--warn);
+  mat-icon {
+    color: var(--warn) !important;
+    transition: color 0.2s;
+  }
+  &:hover, &:active {
+    background: var(--warn-hover-bg);
+    color: var(--warn);
+    border-color: var(--warn);
+  }
 }
 
 .custom-disabled,
@@ -760,4 +758,16 @@
   cursor: pointer !important;
 }
 
+.custom-btn mat-icon {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  font-size: 1.6rem !important;
+  vertical-align: middle !important;
+  margin-right: 0.5em !important;
+}
+.custom-btn.custom-disabled mat-icon,
+.custom-btn:disabled mat-icon {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
 

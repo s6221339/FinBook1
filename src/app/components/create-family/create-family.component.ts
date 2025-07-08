@@ -4,10 +4,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { MatIconModule } from "@angular/material/icon"
+import { CommonModule } from "@angular/common"
 
 @Component({
   selector: 'app-create-family',
-  imports: [FormsModule],
+  imports: [FormsModule, MatIconModule, CommonModule],
   templateUrl: './create-family.component.html',
   styleUrl: './create-family.component.scss',
   standalone: true

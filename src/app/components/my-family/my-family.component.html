@@ -1,34 +1,103 @@
-<div>
-  <div>
-    <h2>我的家庭列表</h2>
-  </div>
-  <div>
-    @if(familyList.length > 0){
-      <table class="family-table">
-        <thead>
-          <tr>
-            <th>家庭名稱</th>
-            <th>擁有者</th>
-            <th>家庭成員</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for(family of familyList; track $index){
-            <tr>
-              <td>
-                <a (click)="goFamilyManagement(family.id)" style="cursor: pointer; color: blue; text-decoration: underline;">
-                  {{ family.name.trim() !== '' ? family.name : '🆔 ' + family.id }}
-                </a>
+<div class="my-family-page">
+  <!-- 單一家庭列表卡片 -->
+  <div class="family-list-card">
+    <div class="card-header">
+      <mat-icon>groups</mat-icon>
+      <h3>我的家庭列表</h3>
+      @if(familyList.length > 0) {
+        <span class="family-count pill-green">共 {{ familyList.length }} 筆</span>
+      }
+    </div>
+
+    <div class="card-content">
+      @if(familyList.length > 0) {
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource" class="family-mat-table">
+            <!-- 家庭名稱欄位 -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>家庭名稱</th>
+              <td mat-cell *matCellDef="let family">
+                <div class="family-name-cell">
+                  <div class="family-icon">
+                    <mat-icon>home</mat-icon>
+                  </div>
+                  <button
+                    class="family-name-link"
+                    (click)="goFamilyManagement(family.id)"
+                  >
+                    {{ family.name.trim() !== '' ? family.name : '🆔 ' + family.id }}
+                  </button>
+                </div>
               </td>
-              <td>{{ family.owner.name }}</td>
-              <td>{{ getMemberNames(family.memberList) }}</td>
+            </ng-container>
+
+            <!-- 擁有者欄位 -->
+            <ng-container matColumnDef="owner">
+              <th mat-header-cell *matHeaderCellDef>擁有者</th>
+              <td mat-cell *matCellDef="let family">
+                <div class="owner-cell">
+                  <mat-icon class="owner-icon">emoji_events</mat-icon>
+                  <span>{{ family.owner.name }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- 家庭成員欄位 -->
+            <ng-container matColumnDef="members">
+              <th mat-header-cell *matHeaderCellDef>家庭成員</th>
+              <td mat-cell *matCellDef="let family" class="members-cell">
+                {{ getMemberNames(family.memberList) }}
+              </td>
+            </ng-container>
+
+            <!-- 操作欄位 -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>操作</th>
+              <td mat-cell *matCellDef="let family" class="action-cell">
+                <button
+                  class="manage-btn"
+                  (click)="goFamilyManagement(family.id)"
+                >
+                  <mat-icon>settings</mat-icon>
+                  管理
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- 無資料狀態 -->
+            <tr class="mat-row no-data-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                <div class="empty-state">
+                  <mat-icon>groups_off</mat-icon>
+                  <h3>目前尚未加入任何家庭</h3>
+                  <p>您可以創建新家庭或接受他人邀請加入家庭</p>
+                </div>
+              </td>
             </tr>
+          </table>
+
+          <!-- 使用您的自定義分頁器 -->
+          @if(familyList.length > 0) {
+            <app-custom-paginator
+              [totalItems]="totalItems"
+              [currentPage]="currentPage"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="pageSizeOptions"
+              (pageChange)="onPageChange($event)"
+              (pageSizeChange)="onPageSizeChange($event)">
+            </app-custom-paginator>
           }
-        </tbody>
-      </table>
-    }
-    @else {
-      <p>目前尚未加入任何家庭</p>
-    }
+        </div>
+      } @else {
+        <div class="empty-state-main">
+          <mat-icon>groups_off</mat-icon>
+          <h3>目前尚未加入任何家庭</h3>
+          <p>您可以創建新家庭或接受他人邀請加入家庭</p>
+        </div>
+      }
+    </div>
   </div>
 </div>

@@ -691,4 +691,15 @@ data18 = {
     });
   }
 
+  getAccountTypeMonthlySummary() {
+    this.apiService.getAccountTypeMonthlySummary(this.data26)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得帳戶每月所有類型收支成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得帳戶每月所有類型收支失敗，請稍後再試');
+    });
+  }
 }

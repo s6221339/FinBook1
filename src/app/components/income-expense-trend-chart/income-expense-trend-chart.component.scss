@@ -9,10 +9,17 @@
 //  上方選單區
 .filter-bar {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column; //  垂直排列
+  align-items: flex-start;  //  左對齊
   gap: 1rem;
   margin-bottom: 2rem;
+
+  .select-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
 
   label {
     font-weight: 600;
@@ -83,8 +90,10 @@
 // ✅ 響應式
 @media (max-width: 768px) {
   .filter-bar {
-    flex-direction: column;
-    align-items: flex-start;
+    .select-group {
+      flex-direction: column;
+      align-items: stretch;
+    }
 
     select {
       width: 100%;
@@ -94,4 +103,10 @@
   .month-summary {
     font-size: 0.95rem;
   }
+}
+
+.info-text {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
 }

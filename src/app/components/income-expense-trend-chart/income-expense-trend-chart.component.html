@@ -1,18 +1,24 @@
 <div>
   <div class="filter-bar">
-    <label>年份：</label>
-    <select [(ngModel)]="selectedYear" (change)="onYearChange()">
-      @for(y of years; track $index) {
-        <option [value]="y">{{ y }} 年</option>
-      }
-    </select>
+    <p class="info-text">
+      ※ 所有圖表與數值統計皆為「<strong>所有帳戶</strong>」的總收入、總支出與總收支結果
+    </p>
 
-    <label>月份：</label>
-    <select [(ngModel)]="selectedMonth" (change)="onMonthChange()">
-      @for(m of monthList; track $index) {
-        <option [value]="m">{{ m }} 月</option>
-      }
-    </select>
+    <div class="select-group">
+      <label>年份：</label>
+      <select [(ngModel)]="selectedYear" (change)="onYearChange()">
+        @for(y of years; track $index) {
+          <option [value]="y">{{ y }} 年</option>
+        }
+      </select>
+
+      <label>月份：</label>
+      <select [(ngModel)]="selectedMonth" (change)="onMonthChange()">
+        @for(m of monthList; track $index) {
+          <option [value]="m">{{ m }} 月</option>
+        }
+      </select>
+    </div>
   </div>
 
   <div class="chart-area">

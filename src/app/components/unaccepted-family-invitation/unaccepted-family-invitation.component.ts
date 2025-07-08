@@ -35,8 +35,8 @@ export class UnacceptedFamilyInvitationComponent implements OnInit{
 
     this.apiService.getFamilyInvitationByAccount(account)
       .then(res => {
-        if(Array.isArray(res.data)) {
-          this.invitationList = res.data;
+        if(Array.isArray(res.data.list)) {
+          this.invitationList = res.data.list;
         }
       })
       .catch(err => {

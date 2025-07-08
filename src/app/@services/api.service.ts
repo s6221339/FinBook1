@@ -359,4 +359,11 @@ export class ApiService {
     });
   }
 
+  //  獲得所有帳戶每個月所有類型收支
+  getAccountTypeMonthlySummary(data: any) {
+    return axios.post('http://localhost:8080/finbook/payment/statistics/personalBalanceWithPaymentType', data, {
+      withCredentials: true
+    });
+  }
+
 }

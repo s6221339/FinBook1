@@ -1,0 +1,133 @@
+/* --- 顏色變數定義 (與 login/register 頁面保持一致) --- */
+$primary-blue: #1976D2;
+$primary-dark-blue: #1565C0;
+$accent-green: #4CAF50;
+$accent-dark-green: #388E3C;
+
+$light-blue-gradient-start: #BBDEFB;
+$light-blue-gradient-end: #E3F2FD;
+
+$card-background: #FFFFFF;
+$text-color: #333333;
+$label-color: #555555;
+$input-border-color: #CCCCCC;
+$input-focus-border-color: $primary-blue;
+$button-hover-transition: 0.3s ease;
+
+// 漸變色的起始和結束顏色變數 (用於標題和標籤文字)
+$gradient-blue: #2563eb;
+$gradient-pink-purple: #ec4899;
+
+.background {
+  width: 100vw;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(to bottom right, $light-blue-gradient-start, $light-blue-gradient-end);
+  overflow: auto; /* 如果內容很長，允許滾動 */
+  padding: 20px 0; /* 增加上下 padding，防止內容太貼邊 */
+  box-sizing: border-box;
+}
+
+
+.area {
+  width: 90%;
+  max-width: 715px; /* 增加卡片最大寬度以容納更多內容 */
+  height: auto;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* 這裡不需要額外 padding，由卡片自己控制 */
+  box-sizing: border-box;
+}
+
+.member-password-card {
+  width: 100%;
+  background-color: $card-background;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  text-align: left; /* 表單內容左對齊 */
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+
+  // min-height: 400px; /* 根據實際需要設置最小高度 */
+}
+
+.card-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 32px;
+  font-weight: 700;
+  width: 20.9%;
+  margin-left: 39%;
+  // 添加漸變文字效果
+  background: linear-gradient(45deg, $gradient-blue, $gradient-pink-purple);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: $gradient-blue; // Fallback color
+}
+
+.subscription-card {
+  background-color: #fff;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+
+  .card-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    background: linear-gradient(45deg, $gradient-blue, $gradient-pink-purple);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .price-info {
+    font-size: 18px;
+    color: #2e7d32;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .subscription-status {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+
+    .subscribed {
+      color: $accent-green;
+      font-weight: bold;
+    }
+
+    .not-subscribed {
+      color: red;
+      font-weight: bold;
+    }
+  }
+
+  .subscribe-btn {
+    background-color: $primary-blue;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $primary-dark-blue;
+    }
+  }
+
+  .loading-text {
+    font-size: 16px;
+    color: #888;
+  }
+}

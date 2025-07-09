@@ -1,1 +1,59 @@
-<p>income-by-category works!</p>
+<div class="filter-bar">
+  <label>年份：</label>
+  <select [(ngModel)]="selectedYear" (change)="onYearChange()">
+    @for(y of years; track $index) {
+      <option [value]="y">{{ y }} 年</option>
+    }
+  </select>
+
+  <label>月份：</label>
+  <select [(ngModel)]="selectedMonth" (change)="onMonthChange()">
+    @for(m of months; track $index) {
+      <option [value]="m">{{ m }} 月</option>
+    }
+  </select>
+</div>
+
+<div class="chart-section">
+  @if(pieChartData.length > 0){
+    <canvas baseChart
+    [data]="pieChartDataSet"
+    [type]="'pie'"
+    [options]="pieChartOptions">
+  </canvas>
+  }
+  @else {
+    <p class="no-data-text">📭 本月尚無支出資料</p>
+  }
+</div>
+
+<div class="summary">
+  <p>💰 本月總收入：{{ totalExpense | number:'1.0-0' }} 元</p>
+  <p>📅 每日平均收入：約 {{ getAveragePerDay() | number:'1.0-0' }} 元</p>
+</div>
+
+@if(filteredPaymentInfo.length > 0) {
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>類別</th>
+        <th>金額</th>
+        <th>比例</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(p of filteredPaymentInfo; track $index) {
+        <tr>
+          <td>{{ p.type }}</td>
+          <td [ngStyle]="{ color: pieChartColors[$index % pieChartColors.length], 'font-weight': 'bold' }">
+            {{ p.totalAmount | number:'1.0-0' }}
+          </td>
+          <td [ngStyle]="{ color: pieChartColors[$index % pieChartColors.length], 'font-weight': 'bold' }">
+            {{ ((p.totalAmount / totalExpense) * 100) | number:'1.1-1' }}％
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+<div style="margin-bottom: 20px;"></div>

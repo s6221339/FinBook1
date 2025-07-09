@@ -3,38 +3,66 @@
         <div class="register-card">
             <h2 class="register-title">會員註冊</h2>
 
+            <!-- 姓名 -->
             <div class="form-group">
                 <label for="reg-name" class="input-label">姓名</label>
-                <input id="reg-name" class="form-control" type="text" placeholder="請輸入姓名">
+                <input id="reg-name" class="form-control" type="text" placeholder="請輸入姓名" [(ngModel)]="name">
             </div>
 
+            <!-- 信箱 -->
             <div class="form-group email-group">
                 <label for="reg-email" class="input-label">信箱</label>
                 <div class="email-input-btn-group">
-                    <input id="reg-email" class="form-control email-input" type="text" placeholder="請輸入信箱">
-                    <button class="btn btn-send-verification">寄出驗證信</button>
+                    <input id="reg-email" class="form-control email-input" type="text" placeholder="請輸入信箱" [(ngModel)]="account">
+                    <button class="btn btn-send-verification" [disabled]="countdown > 0 || isSending" (click)="sendVerificationCode()">
+                      {{ countdown > 0 ? '請稍後（' + countdown + '秒）' : '寄出驗證信' }}
+                    </button>
                 </div>
             </div>
 
+            <!-- 密碼 -->
             <div class="form-group">
                 <label for="reg-password" class="input-label">密碼</label>
-                <input id="reg-password" class="form-control" type="password" placeholder="請輸入密碼">
+                <div class="password-wrapper">
+                  <input id="reg-password" class="form-control"
+                    [type]="showPassword ? 'text' : 'password'"
+                    placeholder="請輸入密碼" [(ngModel)]="password"/>
+                  <button type="button" class="eye-button" (click)="toggleVisibility('password')">
+                    {{ showPassword ? '🙈' : '👁️' }}
+                  </button>
+                </div>
+                <div class="strength-bar">
+                  <div class="strength-bar-fill" [ngClass]="strengthClass"></div>
+                </div>
+                <small class="strength-text">密碼強度：{{ passwordStrength }}</small>
             </div>
 
+            <!-- 確認密碼 -->
             <div class="form-group">
                 <label for="reg-confirm-password" class="input-label">確認密碼</label>
-                <input id="reg-confirm-password" class="form-control" type="password" placeholder="請再次輸入密碼">
+                <div class="password-wrapper">
+                  <input id="reg-confirm-password" class="form-control"
+                    [type]="showConfirm ? 'text' : 'password'"
+                    placeholder="請再次輸入密碼"
+                    [(ngModel)]="confirmPassword"/>
+                  <button type="button" class="eye-button" (click)="toggleVisibility('confirm')">
+                    {{ showConfirm ? '🙈' : '👁️' }}
+                  </button>
+                </div>
             </div>
 
+            <!-- 驗證碼 -->
             <div class="form-group">
                 <label for="reg-verification-code" class="input-label">驗證碼</label>
-                <input id="reg-verification-code" class="form-control" type="text" placeholder="請輸入驗證碼">
+                <input id="reg-verification-code" class="form-control" type="text" placeholder="請輸入驗證碼" [(ngModel)]="verificationCode">
             </div>
 
+            <!-- 按鈕 -->
             <div class="button-group">
-                <button class="btn btn-primary">確定</button>
+                <button class="btn btn-primary" (click)="register()">確定</button>
                 <button class="btn btn-secondary" (click)="CancelClick()">取消</button>
             </div>
         </div>
     </div>
+
 </div>

@@ -5,5 +5,6 @@ export interface UserVO {
   phone: string;
   birthday: string;
   avatar: string | null;
-  role: 'admin' | 'user'
+  role: 'admin' | 'user';
+  subscription: 'subscription' | 'unSubscription';
 }

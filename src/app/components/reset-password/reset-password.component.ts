@@ -37,7 +37,7 @@ export class ResetPasswordComponent implements OnInit{
 
   get passwordStrength(): string {
     if(this.newPassword.length < 8 || this.newPassword.length > 16) return '不符長度';
-    const strong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
+    const strong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{10,16}$/;
     const medium = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
     if(strong.test(this.newPassword)) return '強';
     if(medium.test(this.newPassword)) return '中';
@@ -60,6 +60,11 @@ export class ResetPasswordComponent implements OnInit{
 
     if(/\s/.test(this.newPassword)) {
       Swal.fire('格式錯誤', '密碼不得包含空白字元', 'warning');
+      return;
+    }
+
+    if(/[^a-zA-Z0-9]/.test(this.newPassword)) {
+      Swal.fire('格式錯誤', '密碼不得包含特殊符號', 'warning');
       return;
     }
 

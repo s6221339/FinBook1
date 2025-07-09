@@ -1,0 +1,29 @@
+<div class="background">
+  <div class="area">
+    <div class="subscription-card">
+      <h2 class="card-title">我的訂閱</h2>
+
+      @if(loading) {
+        <p class="loading-text">載入中...</p>
+      }
+      @else {
+        <div class="price-info">
+          <p>💰 訂閱一個月僅需 <strong>60 元</strong></p>
+        </div>
+
+        <div class="subscription-status">
+          <p>狀態：
+            <strong [ngClass]="subscriptionStatus ? 'subscribed' : 'not-subscribed'">
+              📶 {{ subscriptionStatus ? '訂閱中' : '未訂閱' }}
+            </strong>
+          </p>
+
+          @if(subscriptionStatus) {
+            <p>📅 到期日：{{ expirationDate }}</p>
+          }
+        </div>
+        <button class="subscribe-btn" (click)="subscribe()">📥 訂閱</button>
+      }
+    </div>
+  </div>
+</div>

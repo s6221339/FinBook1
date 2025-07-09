@@ -94,7 +94,8 @@ export class MemberInfoComponent implements OnInit {
       phone: this.memberInfoForm.value.phoneNumber,
       birthday: `${this.selectedYear}-${String(this.selectedMonth).padStart(2, '0')}-${String(this.selectedDay).padStart(2, '0')}`,
       avatar: this.currentUser!.avatar,
-      role: this.currentUser!.role
+      role: this.currentUser!.role,
+      subscription: this.currentUser!.subscription
     };
 
     this.authService.updateMemberInfo(updatedUser)

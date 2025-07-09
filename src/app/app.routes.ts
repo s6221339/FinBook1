@@ -37,6 +37,8 @@ import { AdminGuard } from './@guards/admin.guard';
 import { FixedIncomeExpenseFormComponent } from './components/fixed-income-expense-form/fixed-income-expense-form.component';
 import { AntiAuthGuard } from './@guards/anti-auth.guard';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { PublishSubscriptionComponent } from './components/publish-subscription/publish-subscription.component';
+import { SubscriptionGuard } from './@guards/subscription.guard';
 
 export const routes: Routes = [
   { path:'bookKeeping', component: BookKeepingComponent, canActivate: [AuthGuard],
@@ -46,7 +48,7 @@ export const routes: Routes = [
       { path: 'income', component: IncomeComponent },
       { path: 'expenses', component: ExpensesComponent },
       { path: '', component: ExpensesComponent }]},
-  { path: 'transfersHistory', component: TransferHistoryComponent },
+  { path: 'transfersHistory', component: TransferHistoryComponent, canActivate: [SubscriptionGuard] },
   { path: 'test', component: TestComponent, canActivate: [AdminGuard] },
   { path: 'createItem', component: CreateItemComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [AntiAuthGuard] },
@@ -56,17 +58,18 @@ export const routes: Routes = [
   { path: 'editPayment', component: EditPaymentComponent, canActivate: [AuthGuard] },
   { path: 'pendingDeletion', component: PendingDeletionComponent, canActivate: [AuthGuard] },
   { path: 'myBalance', component: MyBalanceComponent, canActivate: [AuthGuard] },
-  { path: 'myFamily', component: MyFamilyComponent },
+  { path: 'myFamily', component: MyFamilyComponent, canActivate: [SubscriptionGuard] },
   { path:'memberCenter', component: MemberCenterComponent, canActivate: [AuthGuard],
     children: [
       { path: 'memberInfo', component: MemberInfoComponent },
       { path: 'memberConfirm', component: MemberConfirmComponent },
       { path: 'changePasswords', component:ChangePasswordsComponent },
+      { path: 'publishSubscription', component:PublishSubscriptionComponent },
       { path: '', redirectTo: 'memberConfirm', pathMatch: 'full' }]},
   { path:'forgetPasswords',component: ForgetPasswordsComponent, canActivate: [AntiAuthGuard] },
-  { path:'createFamily',component: CreateFamilyComponent },
-  { path:'familyManagement',component: FamilyManagementComponent },
-  { path:'statistics',component: StatisticsComponent,
+  { path:'createFamily',component: CreateFamilyComponent, canActivate: [SubscriptionGuard] },
+  { path:'familyManagement',component: FamilyManagementComponent, canActivate: [SubscriptionGuard] },
+  { path:'statistics',component: StatisticsComponent, canActivate: [SubscriptionGuard],
     children: [
       { path: 'incomeExpenseTrendChart', component: IncomeExpenseTrendChartComponent },
       { path: 'expenseByCategory', component: ExpenseByCategoryComponent },
@@ -76,9 +79,9 @@ export const routes: Routes = [
       { path: '', redirectTo: 'incomeExpenseTrendChart', pathMatch: 'full' }
     ]
   },
-  { path:'unacceptedFamilyInvitation',component: UnacceptedFamilyInvitationComponent },
+  { path:'unacceptedFamilyInvitation',component: UnacceptedFamilyInvitationComponent, canActivate: [SubscriptionGuard] },
   { path:'unauthorized',component: UnauthorizedComponent },
-  { path: 'transfers', component: TransfersComponent },
+  { path: 'transfers', component: TransfersComponent, canActivate: [SubscriptionGuard] },
   { path: 'fixedIncomeExpenseForm', component: FixedIncomeExpenseFormComponent, canActivate: [AuthGuard] },
   { path:'resetPassword',component: ResetPasswordComponent, canActivate: [AntiAuthGuard] },
   { path: 'home', component: HomeComponent },

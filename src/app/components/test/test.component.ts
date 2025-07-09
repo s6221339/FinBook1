@@ -171,7 +171,21 @@ data18 = {
     "year": 2025,
     "month": 0
   };
-
+  account4: string ="s6221339@gmail.com";
+  data27: { code: string, account: string } = {
+    code: "UHn6O4GU",
+    account: "s6221339@gmail.com"
+  };
+  data28 = {
+    "account": "s6221339@gmail.com.tw",
+    "name": "郭一峰",
+    "password": "12345678",
+    "phone": "0922222222"
+  };
+  data29: { account: string, subscription: boolean } = {
+    account: "s6221339@yahoo.com.tw",
+    subscription: true
+  };
 
   getTypeByAccount(){
     this.apiService.getTypeByAccount(this.account)
@@ -702,4 +716,65 @@ data18 = {
         alert('獲得帳戶每月所有類型收支失敗，請稍後再試');
     });
   }
+
+  sendRegistrationVerificationCode() {
+    this.apiService.sendRegistrationVerificationCode(this.account4)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('發送註冊驗證碼成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('發送註冊驗證碼失敗，請稍後再試');
+    });
+  }
+
+  verifyRegistrationVerificationCode() {
+    this.apiService.verifyRegistrationVerificationCode(this.data27.code, this.data27.account)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('驗證註冊驗證碼成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('驗證註冊驗證碼失敗，請稍後再試');
+    });
+  }
+
+  register() {
+    this.apiService.register(this.data28)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('會員註冊成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('會員註冊失敗，請稍後再試');
+    });
+  }
+
+  renewal() {
+    this.apiService.renewal(this.data29.account, this.data29.subscription)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('續訂成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('續訂失敗，請稍後再試');
+    });
+  }
+
+  getSubscription() {
+    this.apiService.getSubscription(this.account2)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('查詢訂閱資訊成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('查詢訂閱資訊失敗，請稍後再試');
+    });
+  }
+
 }

@@ -31,7 +31,7 @@ export class ChangePasswordsComponent {
 
   get passwordStrength(): string {
     if(this.newPassword.length < 8 || this.newPassword.length > 16) return '不符長度';
-    const strong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
+    const strong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{10,16}$/;
     const medium = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/;
 
     if(strong.test(this.newPassword)) return '強';
@@ -77,6 +77,10 @@ export class ChangePasswordsComponent {
 
     if(this.newPassword !== this.confirmNewPassword) {
       Swal.fire('錯誤', '新密碼與確認密碼不一致', 'error');
+      return;
+    }
+    if(!/^[a-zA-Z0-9]+$/.test(this.newPassword)) {
+      Swal.fire('格式錯誤', '新密碼僅可包含英文字母與數字，不能有特殊符號', 'warning');
       return;
     }
 

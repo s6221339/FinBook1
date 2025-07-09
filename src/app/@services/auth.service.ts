@@ -16,11 +16,20 @@ export class AuthService {
   //  提供外部訂閱用 observable
   currentUser$!: Observable<UserVO | null>;
 
-  constructor(
-    private apiService: ApiService
-  ) {
+  constructor(private apiService: ApiService) {
     const savedUser = localStorage.getItem(STORAGE_KEY);
-    const parsedUser = savedUser ? JSON.parse(savedUser) as UserVO : null;
+
+    let parsedUser: UserVO | null = null;
+
+    try {
+      parsedUser = savedUser && savedUser !== 'undefined'
+        ? JSON.parse(savedUser) as UserVO
+        : null;
+    } catch (e) {
+      console.warn('⚠️ localStorage currentUser 格式錯誤，已清除');
+      localStorage.removeItem(STORAGE_KEY);
+    }
+
     this.currentUserSubject = new BehaviorSubject<UserVO | null>(parsedUser);
     this.currentUser$ = this.currentUserSubject.asObservable();
   }
@@ -123,6 +132,27 @@ export class AuthService {
   //  不訂閱能拿到即時的值
   getCurrentUser(): UserVO | null {
     return this.currentUserSubject.value;
+  }
+
+  refreshUser(account: string): Promise<void> {
+    return this.apiService.getUserByAccount(account)
+      .then(res => {
+        if(res.data.code == 200) {
+          const rawUser = res.data.userVO;
+
+          const user: UserVO = {
+            ...rawUser,
+            avatar: rawUser.avatar || null,
+            // ✅ 強制轉換為預期格式
+            role: rawUser.role === 'admin' ? 'admin' : 'user',
+            subscription: rawUser.subscription === 'subscription' ? 'subscription' : 'unSubscription',
+            expirationDate: rawUser.expirationDate || null
+          };
+
+          this.currentUserSubject.next(user);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+        }
+      });
   }
 
 }

@@ -1,30 +1,29 @@
 <div class="member-center-container">
-
-    <div class="member-center-header">
-        <div class="member-center-title">
-            <h1 class="member-center-title">會員中心</h1>
-        </div>
+  <div class="member-center-header">
+    <div class="member-center-title">
+      <h1 class="member-center-title">會員中心</h1>
     </div>
+  </div>
 
-    <div class="member-center-content-area">
+  <div class="member-center-content-area">
 
-        <!-- 將按鈕移入 content-area 裡，靠近白色卡片 -->
-        <nav class="member-center-nav">
-        <a [routerLink]="['memberConfirm']"
-   [class.active]="currentUrl.match('^/memberCenter/member(?:Info|Confirm)')">
-   會員基本資料
-</a>
-
-<a [routerLink]="['changePasswords']"
-   [class.active]="currentUrl.match('^/memberCenter/changePasswords')">
-   更改密碼
-</a>
-
-        </nav>
-
-        <router-outlet></router-outlet>
-    </div>
-
+    <!-- 將按鈕移入 content-area 裡，靠近白色卡片 -->
+    <nav class="member-center-nav">
+      <a [routerLink]="['memberConfirm']"
+        [class.active]="currentUrl.match('^/memberCenter/member(?:Info|Confirm)')">
+        會員基本資料
+      </a>
+      <a [routerLink]="['changePasswords']"
+        [class.active]="currentUrl.match('^/memberCenter/changePasswords')">
+        更改密碼
+      </a>
+      <a [routerLink]="['publishSubscription']"
+        [class.active]="currentUrl.match('^/memberCenter/publishSubscription')">
+        我的訂閱
+      </a>
+    </nav>
+    <router-outlet></router-outlet>
+  </div>
 </div>
 
 

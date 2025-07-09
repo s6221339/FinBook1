@@ -321,7 +321,7 @@ export class ApiService {
     });
   }
 
-  //  發送驗證碼
+  //  發送忘記密碼驗證碼
   sendVerificationCode(account: string) {
     return axios.post('http://localhost:8080/finbook/userVerifyCode/sendVerifyCode', null, {
       params: { account },
@@ -329,7 +329,7 @@ export class ApiService {
     });
   }
 
-  //  認證驗證碼
+  //  認證忘記密碼驗證碼
   checkVerificationCode(code: string, account: string) {
     return axios.post('http://localhost:8080/finbook/userVerifyCode/checkVerifyCode', null, {
       params: { code, account },
@@ -362,6 +362,45 @@ export class ApiService {
   //  獲得所有帳戶每個月所有類型收支
   getAccountTypeMonthlySummary(data: any) {
     return axios.post('http://localhost:8080/finbook/payment/statistics/personalBalanceWithPaymentType', data, {
+      withCredentials: true
+    });
+  }
+
+  //  發送註冊會員驗證碼
+  sendRegistrationVerificationCode(account: string) {
+    return axios.post('http://localhost:8080/finbook/userVerifyCode/sendRegisterVerifyCode', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
+  //  驗證註冊會員驗證碼
+  verifyRegistrationVerificationCode(code: string, account: string) {
+    return axios.post('http://localhost:8080/finbook/userVerifyCode/checkRegisterVerifyCode', null, {
+      params: { code, account },
+      withCredentials: true
+    });
+  }
+
+  //  會員註冊
+  register(data: any) {
+    return axios.post('http://localhost:8080/finbook/user/register', data, {
+      withCredentials: true
+    });
+  }
+
+  //  續訂
+  renewal(account: string, subscription: boolean) {
+    return axios.post('http://localhost:8080/finbook/user/updateSubscription', null, {
+      params: { account, subscription },
+      withCredentials: true
+    });
+  }
+
+  //  查詢訂閱資訊
+  getSubscription(account: string) {
+    return axios.post('http://localhost:8080/finbook/user/getSubscription', null, {
+      params: { account },
       withCredentials: true
     });
   }

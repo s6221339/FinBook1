@@ -50,7 +50,7 @@ export class CreateFamilyComponent implements OnInit{
       input: 'text',
       inputPlaceholder: '請輸入帳號',
       showCancelButton: true,
-      confirmButtonText: '查詢',
+      confirmButtonText: '確定',
       cancelButtonText: '取消'
     })
     .then(result => {

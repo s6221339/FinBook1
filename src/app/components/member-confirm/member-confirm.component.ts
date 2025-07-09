@@ -6,10 +6,12 @@ import { Router } from '@angular/router';
 import { UserVO } from '../../models/userVO';
 import Swal from 'sweetalert2';
 import { ApiService } from '../../@services/api.service';
+import { MatIconModule } from "@angular/material/icon"
+import { CommonModule } from "@angular/common"
 
 @Component({
   selector: 'app-member-confirm',
-  imports: [],
+  imports: [MatIconModule, CommonModule],
   standalone:true,
   templateUrl: './member-confirm.component.html',
   styleUrl: './member-confirm.component.scss'

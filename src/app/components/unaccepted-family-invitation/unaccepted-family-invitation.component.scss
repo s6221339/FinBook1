@@ -27,6 +27,7 @@
     font-size: 1.7rem;
     width: 1.7rem;
     height: 1.7rem;
+    padding-top: 4px;
   }
 
   h3 {
@@ -44,11 +45,11 @@
     border-radius: 20px;
     font-size: 0.9rem;
     font-weight: 600;
+    cursor: default;
   }
 }
 
 .card-content {
-  padding: 1.5rem;
   color: var(--text-primary);
 }
 
@@ -66,7 +67,8 @@
 
 // 表格容器
 .table-container {
-  margin-bottom: 2rem;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 // 表格樣式保持不變...
@@ -84,6 +86,7 @@
     text-align: left;
     padding: 1rem 1.5rem;
     border-bottom: 2px solid var(--primary);
+    cursor: default;
 
     &:last-child {
       text-align: center;
@@ -139,6 +142,7 @@
     font-size: 1.1rem;
     font-weight: 600;
     color: var(--text-primary);
+    cursor: default;
   }
 }
 
@@ -152,6 +156,7 @@
   &.pending {
     background: var(--fixed-expense);
     color: #fff;
+    cursor: default;
   }
 }
 
@@ -183,20 +188,20 @@
     }
 
     &.accept {
-      background: var(--income);
+      background: var(--table-total-bg);
       color: #fff;
 
       &:hover {
-        background: #16a34a;
+        background:var(--btn-create-family);
       }
     }
 
     &.reject {
-      background: var(--expense);
+      background: var(--btn-delete);
       color: #fff;
 
       &:hover {
-        background: #dc2626;
+        background:var(--btn-delete-hover);
       }
     }
   }
@@ -246,7 +251,6 @@
   display: flex;
   justify-content: center;
   padding-top: 1rem;
-  border-top: 1px solid var(--secondary-bg);
 }
 
 .back-btn {

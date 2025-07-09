@@ -1,10 +1,328 @@
+.my-balance-page {
+  padding-top: 35px;
+  background: var(--elevation-0);
+  min-height: 100vh;
+  font-size: 16px;
+  color: var(--text-primary);
+  padding-bottom: 3rem;
+}
+
+.main-card {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 1.5rem;
+  background: var(--primary);
+  color: #fff;
+
+  mat-icon {
+    font-size: 1.7rem;
+    width: 1.7rem;
+    height: 1.7rem;
+    padding-top: 4px;
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    flex: 1;
+    cursor: default;
+  }
+
+  .account-count {
+    background: var(--table-total-bg);
+    color: #fff;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: default;
+  }
+}
+
+.card-content {
+  padding: 1.5rem;
+  color: var(--text-primary);
+}
+
+.page-description {
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
+  text-align: center;
+  cursor: default;
+}
+
+// 操作按鈕區域
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  mat-icon {
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    padding-top: 4px;
+  }
+
+  &.create {
+    background: var(--table-total-bg);
+    color: #fff;
+
+    &:hover {
+      background:var(--btn-create-family);
+    }
+
+    &.large {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+    }
+  }
+
+  &.delete {
+    background: var(--btn-delete);
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      background: var(--btn-delete-hover);
+    }
+
+    &:disabled {
+      background: var(--btn-delete-hover);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+}
+
+// 表格容器
+.table-container {
+  margin-top: 1rem;
+}
+
+// 表格樣式
 .balance-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 1.1rem;
+
+  th {
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 2px solid var(--primary);
+    cursor: default;
+  }
+
+  td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--secondary-bg);
+    color: var(--text-primary);
+    vertical-align: middle;
+    text-align: center;
+    cursor: default;
+    border-right: 1px solid var(--table-border);
+  }
+
+  td:last-child {
+    border-right: none;
+  }
+
+  tr:nth-child(odd) {
+    background: var(--table-row-odd-bg);
+  }
+
+  tr:nth-child(even) {
+    background: var(--table-row-even-bg);
+  }
+
+  tbody tr:hover {
+    background: var(--table-hover-bg) !important;
+    color: var(--table-hover-text);
+  }
 }
 
-.balance-table th, .balance-table td {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  text-align: left;
+.balance-id-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .id-badge {
+    background: var(--primary);
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    min-width: 2rem;
+    text-align: center;
+  }
+}
+
+.balance-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
+
+  .account-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--income);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    mat-icon {
+      color: #fff;
+      font-size: 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  }
+
+  .account-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+}
+
+.create-date {
+  font-size: 1.1rem;
+  color: var(var(--text-primary));
+  font-weight: 500;
+}
+
+// 空狀態
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: #fff;
+    background: var(--primary);
+    border-radius: 50%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 16px rgba(66, 86, 165, 0.2);
+  }
+
+  h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 0.5rem 0;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin: 0 0 1.5rem 0;
+    line-height: 1.5;
+  }
+}
+
+// 響應式設計
+@media (max-width: 1200px) {
+  .main-card {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .my-balance-page {
+    padding-top: 20px;
+  }
+
+  .card-header {
+    padding: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    h3 {
+      font-size: 1.3rem;
+    }
+  }
+
+  .card-content {
+    padding: 1rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .balance-table {
+    font-size: 1rem;
+
+    th, td {
+      padding: 0.75rem 0.5rem;
+    }
+
+    th {
+      font-size: 1rem;
+    }
+  }
+
+  .balance-name-cell {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    .account-icon {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .balance-table {
+    th:nth-child(1),
+    td:nth-child(1) {
+      display: none; // 隱藏ID欄位在極小螢幕
+    }
+  }
 }

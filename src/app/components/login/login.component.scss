@@ -1,210 +1,272 @@
-/* --- 顏色變數定義 (與之前智能記帳本頁面保持一致) --- */
-$primary-blue: #1976D2; // 藍色，來自智能記帳本的頂部導航欄
-$primary-dark-blue: #1565C0; // 藍色hover或深色變體
-$accent-green: #4CAF50; // 綠色，來自智能記帳本的登入按鈕
-$accent-dark-green: #388E3C; // 綠色hover或深色變體
-
-// 背景漸變色，與智能記帳本頁面風格統一
-$light-blue-gradient-start: #BBDEFB; // 淺藍色
-$light-blue-gradient-end: #E3F2FD; // 更淺的藍色
-
-$card-background: #FFFFFF; // 卡片背景色
-$text-color: #333333; // 主要文字顏色
-$label-color: #555555; // 標籤文字顏色
-$input-border-color: #CCCCCC; // 輸入框邊框顏色
-$input-focus-border-color: $primary-blue; // 輸入框聚焦時邊框顏色
-$button-hover-transition: 0.3s ease; // 按鈕hover過渡效果
-
-// 調整漸變色的起始和結束顏色變數
-$gradient-blue: #2563eb; // 藍色
-
-// 將紫色替換為鮮豔的紫紅色
-$gradient-pink-purple: #ec4899;
-
-/* --- 全局樣式和背景 --- */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; // 更好的字體選擇
-    -webkit-font-smoothing: antialiased; // 字體抗鋸齒
-    -moz-osx-font-smoothing: grayscale; // 字體抗鋸齒
-}
-
-.background {
-    width: 100vw; // 確保全視窗寬度
-    height: 100vh; // 確保全視窗高度
-    display: grid;
-    place-items: center; /* 水平和垂直居中 */
-    // 漸變背景使用智能記帳本的藍色漸變，讓整體風格統一
-    background: linear-gradient(to bottom right, $light-blue-gradient-start, $light-blue-gradient-end);
-    overflow: hidden; // 防止內容超出後出現滾動條
-}
-
-.area { // 用來裝放內容用的div 方便我調textArea的位置
-    width: 90%; // 適度調整寬度，讓內容更集中
-    max-width: 500px; // 設定最大寬度，避免在大螢幕上過寬
-    height: auto; // 高度自適應內容
-    background-color: transparent; // 移除背景色，讓漸變背景透出
-    display: flex; // 使用 flexbox 佈局
-    justify-content: center; // 水平居中
-    align-items: center; // 垂直居中
-    padding: 20px; // 內部留白
-    box-sizing: border-box; // 包含 padding 在寬高內
-}
-
-.textArea { // 放輸入格跟按鈕的那個div
-    width: 100%; // 佔滿 .area 的寬度
-    background-color: $card-background; // 使用白色作為卡片背景
-    padding: 40px; // 增加內邊距
-    border-radius: 12px; // 更大的圓角
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); // 柔和且明顯的陰影效果
-    text-align: center; // 預設文字居中
-    box-sizing: border-box; // 包含 padding 在寬高內
-    border: 1px solid rgba(0, 0, 0, 0.05); // 輕微的邊框
-}
-
-/* --- 輸入框部分 --- */
-.account, .password { // 帳號和密碼輸入區的共同樣式
-    margin-top: 25px; // 調整上方間距
-    margin-left: 0; // 移除固定左邊距，讓內容居中或自動對齊
-    text-align: left; // 讓標籤和輸入框左對齊
-}
-
-.account:first-child, .password:first-child { // 第一個表單組件上方不需要太大間距
-    margin-top: 0;
-}
-
-.accountLabel, .passwordLabel {
-    font-size: 20px; // 調整字體大小，更協調
-    font-weight: 600; // 適度加粗
-
-    // 添加漸變文字效果
-    background: linear-gradient(45deg, $gradient-blue, $gradient-pink-purple);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: $gradient-blue; // Fallback color for browsers that don't support text fill
-    text-align: left;
-    display: block; // 讓標籤獨佔一行
-    margin-bottom: 8px; // 標籤與輸入框的間距
-}
-
-.accountInput, .passwordInput {
-    width: 100%; // 佔滿父容器的寬度
-    padding: 12px 15px; // 調整內邊距，更舒適
-    border: 1px solid $input-border-color; // 輕微的邊框
-    border-radius: 6px; // 輸入框圓角
+  .login-page {
+    background: var(--elevation-0);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 16px;
-    color: $text-color;
-    box-sizing: border-box; // 確保 padding 不會增加總寬度
-    transition: border-color $button-hover-transition, box-shadow $button-hover-transition; // 添加過渡效果
-}
-
-.accountInput:focus, .passwordInput:focus {
-    border-color: $input-focus-border-color; // 聚焦時邊框變藍
-    box-shadow: 0 0 0 3px rgba($primary-blue, 0.2); // 聚焦時柔和的藍色陰影
-    outline: none; // 移除瀏覽器預設的外框
-}
-
-/* 移除 <br> 標籤，用 margin-bottom 來控制間距，更現代且易於管理 */
-br {
-    display: none; // 隱藏原有的 <br>
-}
-
-/* --- 按鈕部分 --- */
-.BtnLogin, .BtnRegister { // 登入和註冊按鈕的共同樣式
-    border-radius: 8px; // 調整圓角，與卡片和輸入框保持一致
-    font-size: 18px; // 調整字體大小
-    font-weight: bold;
-    height: 50px;
-    width: 120px; // 固定按鈕寬度
-    margin: 15px 10px 0; // 調整間距，上方間距更多
-    border: none; // 移除邊框
-    cursor: pointer;
-    color: white; // 按鈕文字顏色
-    transition: background $button-hover-transition, transform 0.2s ease, box-shadow 0.2s ease; // 添加過渡效果
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); // 柔和的陰影
-}
-
-// 根據您的需求，將 BtnLogin 設為主色，BtnRegister 設為輔助色
-.BtnLogin { // 登入按鈕
-    background: $primary-blue; // 使用主要藍色
-    // 移除線性漸變，統一使用單色
-}
-
-.BtnLogin:hover {
-    background: $primary-dark-blue; // hover 時變深藍
-    transform: translateY(-2px); // 輕微上浮效果
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); // hover 時陰影更明顯
-}
-
-.BtnRegister { // 註冊按鈕
-    background: $accent-green; // 使用輔助綠色
-    // 移除線性漸變，統一使用單色
-}
-
-.BtnRegister:hover {
-    background: $accent-dark-green; // hover 時變深綠
-    transform: translateY(-2px); // 輕微上浮效果
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); // hover 時陰影更明顯
-}
-
-// 考慮到按鈕順序問題，通常主要按鈕（登入）會放在右邊或顏色最醒目。
-// 如果你的HTML是 <button class="BtnLogin">註冊</button><button class="BtnRegister">登入</button>
-// 則BtnLogin是左邊的“註冊”，BtnRegister是右邊的“登入”。
-// 我會基於您HTML的class名來定義，讓“登入”按鈕是主色，而“註冊”按鈕是輔助色。
-// 如果你想要”註冊”是主色，則把 $primary-blue 和 $accent-green 的顏色互換即可。
-
-// 你可能還想在 .textArea 內部增加一個標題，例如：
-// <h2 class="login-form-title">歡迎登入</h2>
-.login-title { // 或者 .login-form-title
-    margin-bottom: 30px;
-    font-size: 28px;
-    font-weight: 600;
-    margin-left: 28.5%;
-    width: 45%;
-    // 將漸變的結束顏色替換為新的紫紅色變數
-    background: linear-gradient(45deg, $gradient-blue, $gradient-pink-purple);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: $gradient-blue; // Fallback color
-}
-
-.password-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  .passwordInput {
-    flex: 1;
-    padding-right: 42px;  //  預留空間給眼睛圖示
+    color: var(--text-primary);
   }
 
-  .eye-button {
-    position: absolute;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    color: #888;
-    transition: color 0.3s;
+  .login-card {
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto;
+    background: var(--elevation-1);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+    overflow: hidden;
+  }
 
-    &:hover {
-      color: #000;
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1rem 1.5rem;
+    background: var(--primary);
+    color: #fff;
+
+    mat-icon {
+      font-size: 1.7rem;
+      width: 1.7rem;
+      height: 1.7rem;
+      padding-top: 4px;
+    }
+
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0;
+      flex: 1;
+      cursor: default;
     }
   }
-}
 
-.forget-link {
-  display: block;
-  text-align: right;
-  margin-top: 8px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  color: $primary-blue;
-  text-decoration: underline;
-
-  &:hover {
-    color: $primary-blue;
+  .card-content {
+    padding: 2rem 1.5rem;
+    color: var(--text-primary);
   }
-}
+
+  // 表單樣式
+  .login-form {
+    .form-group {
+      margin-bottom: 1.5rem;
+
+      .form-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.75rem;
+
+        mat-icon {
+          font-size: 1.5rem;
+          width: 1.3rem;
+          height: 1.3rem;
+          color: var(--primary);
+        }
+      }
+
+      .form-input {
+
+        border-radius: 12px;
+        font-size: 1.2rem;
+        transition: all 0.2s;
+
+        &:focus {
+          outline: none;
+          border-color: var(--primary);
+          box-shadow:
+            0 0 12px 2px #ff80ab33,
+        }
+
+        &::placeholder {
+          color: var(--text-secondary);
+        }
+      }
+
+      .password-wrapper {
+        position: relative;
+
+        .form-input {
+          padding-right: 3.5rem;
+        }
+
+        .password-toggle {
+          position: absolute;
+          right: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: none;
+          color: var(--theme-toggle-bg);
+          cursor: pointer;
+          padding: 0.25rem;
+          border-radius: 6px;
+          transition: all 0.2s;
+
+          mat-icon {
+            font-size: 1.2rem;
+            width: 1.2rem;
+            height: 1.2rem;
+          }
+        }
+      }
+    }
+
+    .forgot-section {
+      text-align: right;
+      margin-bottom: 2rem;
+
+      .forgot-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        color: var(--primary);
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 500;
+        transition: all 0.2s;
+
+        &:hover {
+          text-decoration: underline;
+          opacity: 0.8;
+        }
+
+        mat-icon {
+          font-size: 1rem;
+          width: 1rem;
+          height: 1rem;
+          padding-top: 4px;
+        }
+      }
+    }
+
+    .login-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 1.5rem;
+      background: var(--btn-login);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid var(--primary);
+
+      mat-icon {
+        font-size: 1.5rem;
+        width: 1.3rem;
+        height: 1.3rem;
+      }
+
+      &:hover:not(:disabled) {
+        background: #1746a2;
+      }
+
+      &:disabled {
+        background: var(--btn-login-register);
+        cursor: not-allowed;
+        opacity: 0.7;
+        border: 2px solid var(--primary);
+      }
+    }
+  }
+
+  // 分隔線
+  .divider {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0 1.5rem 0;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--primary);;
+    }
+
+    span {
+      padding: 0 1rem;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: default;
+    }
+  }
+
+  // 註冊按鈕
+  .register-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    mat-icon {
+      font-size: 1.4rem;
+      width: 1.3rem;
+      height: 1.3rem;
+    }
+
+    &:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+  }
+
+  // 響應式設計
+  @media (max-width: 1200px) {
+    .login-card {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .login-page {
+      padding-top: 20px;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .card-header {
+      padding: 1rem;
+
+      h3 {
+        font-size: 1.3rem;
+      }
+    }
+
+    .card-content {
+      padding: 1.5rem 1rem;
+    }
+
+  }
+
+  @media (max-width: 480px) {
+    .login-card {
+      max-width: 100%;
+    }
+
+    .card-content {
+      padding: 1rem;
+    }
+  }

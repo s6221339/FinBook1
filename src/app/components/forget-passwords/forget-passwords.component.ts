@@ -1,12 +1,14 @@
 import { ApiService } from './../../@services/api.service';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
+import { MatIconModule } from "@angular/material/icon"
+import { CommonModule } from "@angular/common"
 
 @Component({
   selector: 'app-forget-passwords',
-  imports: [FormsModule],
+  imports: [FormsModule, MatIconModule, CommonModule, RouterLink],
   templateUrl: './forget-passwords.component.html',
   styleUrl: './forget-passwords.component.scss',
   standalone: true,

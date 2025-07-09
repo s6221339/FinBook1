@@ -500,3 +500,8 @@
 mat-card-title mat-icon {
   padding-top: 2px;
 }
+
+input:focus, select:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 12px 2px #ff80ab33 !important;
+}

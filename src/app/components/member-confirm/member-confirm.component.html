@@ -1,51 +1,106 @@
-<div class="background">
-  <div class="area">
-    <div class="member-profile-card">
-      <h2 class="card-title">會員基本資料</h2>
-      <div class="section-group">
-        <h3 class="section-title">個人基本資料</h3>
-          <!-- 大頭貼 -->
-          <div class="avatar-section">
+<div class="page-container">
+  <!-- 會員資料卡片內容 -->
+  <div class="member-profile-card">
+    <div class="card-content">
+      <!-- 個人基本資料區塊 -->
+      <div class="profile-section">
+        <div class="section-header">
+          <div class="header-row">
+            <mat-icon>badge</mat-icon>
+            <h4>個人基本資料</h4>
+          </div>
+          <div class="section-desc">管理您的個人基本資料和偏好設定</div>
+        </div>
 
+        <!-- 大頭貼區域 -->
+        <div class="avatar-section">
+          <div class="avatar-container">
+            <img
+              [src]="previewUrl || userData?.avatar"
+              alt="大頭貼"
+              class="avatar-img"
+              onerror="this.onerror=null;this.src='/defaultavatar.jpg';"
+            />
+            <div class="avatar-overlay">
+              <mat-icon>camera_alt</mat-icon>
+            </div>
+          </div>
+          <input
+            type="file"
+            accept="image/*"
+            #fileInput
+            hidden
+            (change)="onFileSelected($event)"
+          />
+          <button
+            class="avatar-edit-btn"
+            (click)="fileInput.click()"
+          >
+            <mat-icon>edit</mat-icon>
+            編輯大頭貼
+          </button>
+        </div>
 
-              <img [src]="previewUrl || userData?.avatar"
-                alt="大頭貼"
-                class="avatar-img"
-                onerror="this.onerror=null;this.src='/defaultavatar.jpg';"
-              />
-
-
-            <!-- 隱藏 input -->
-            <input type="file" accept="image/*" #fileInput hidden (change)="onFileSelected($event)"/><br>
-
-            <!-- 點擊觸發 input -->
-            <button class="btn btn-secondary" (click)="fileInput.click()">
-              編輯大頭貼
-            </button>
+        <!-- 資料顯示區域 -->
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">
+              <mat-icon>person</mat-icon>
+              <span>姓名</span>
+            </div>
+            <div class="info-value">{{ userData?.name || '未填寫' }}</div>
           </div>
 
-          <div class="form-group">
-            <label class="input-label">姓名</label>
-            <p class="display-value">{{ userData?.name || '未填寫' }}</p>
-          </div>
-
-          <div class="form-group">
-            <label class="input-label">您的生日</label>
-            <p class="display-value">
+          <div class="info-item">
+            <div class="info-label">
+              <mat-icon>cake</mat-icon>
+              <span>生日</span>
+            </div>
+            <div class="info-value">
               {{ birthdayYear }} 年 {{ birthdayMonth }} 月 {{ birthdayDay }} 日
-            </p>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label class="input-label">手機號碼</label>
-            <p class="display-value">{{ userData?.phone || '未填寫' }}</p>
+          <div class="info-item">
+            <div class="info-label">
+              <mat-icon>phone</mat-icon>
+              <span>手機號碼</span>
+            </div>
+            <div class="info-value">{{ userData?.phone || '未填寫' }}</div>
           </div>
-          <div class="button-group">
-            <button class="btn btn-primary" (click)="goToEdit()">編輯</button>
-          </div>
+        </div>
+
+        <!-- 操作按鈕 -->
+        <div class="action-buttons">
+          <button class="action-btn edit" (click)="goToEdit()">
+            <mat-icon>edit</mat-icon>
+            編輯資料
+          </button>
+        </div>
       </div>
-      <div class="button-group">
-        <button class="btn btn-primary-deleteAccount" (click)="confirmDeleteAccount()">註銷帳號</button>
+
+      <!-- 帳戶管理區塊 -->
+      <div class="account-section">
+        <div class="section-header danger">
+          <div class="header-row">
+            <mat-icon>warning</mat-icon>
+            <h4>帳戶管理</h4>
+          </div>
+        </div>
+
+        <div class="danger-zone">
+          <div class="danger-info">
+            <mat-icon>info</mat-icon>
+            <div>
+              <h5>註銷帳號</h5>
+              <p>此操作將永久刪除您的帳戶及所有相關資料，且無法復原</p>
+            </div>
+          </div>
+          <button class="action-btn danger" (click)="confirmDeleteAccount()">
+            <mat-icon>delete_forever</mat-icon>
+            註銷帳號
+          </button>
+        </div>
       </div>
     </div>
   </div>

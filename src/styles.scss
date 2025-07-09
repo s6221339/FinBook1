@@ -23,7 +23,7 @@ textarea::placeholder {
 .form-textarea {
   width: 100%;
   padding: 1rem;
-  border: 2px solid var(--input-border);
+  border: 2px solid var(--primary);
   border-radius: var(--card-radius);
   background: var(--input-bg);
   color: var(--input-text);
@@ -34,7 +34,7 @@ textarea::placeholder {
 
   &:focus {
     border-color: var(--input-focus);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--input-focus) 20%, transparent);
+    box-shadow: 0 0 12px 2px #ff80ab33;
   }
 
   &:hover {
@@ -85,6 +85,7 @@ textarea::placeholder {
   color: var(--input-hint);
   text-align: right;
   margin-top: 0.25rem;
+  cursor: default;
 }
 .mat-mdc-tooltip-surface  {
   cursor: default ;

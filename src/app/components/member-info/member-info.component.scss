@@ -1,211 +1,273 @@
-/* --- 顏色變數定義 (與 login/register 頁面保持一致) --- */
-$primary-blue: #1976D2;
-$primary-dark-blue: #1565C0;
-$accent-green: #4CAF50;
-$accent-dark-green: #388E3C;
-
-$light-blue-gradient-start: #BBDEFB;
-$light-blue-gradient-end: #E3F2FD;
-
-$card-background: #FFFFFF;
-$text-color: #333333;
-$label-color: #555555;
-$input-border-color: #CCCCCC;
-$input-focus-border-color: $primary-blue;
-$button-hover-transition: 0.3s ease;
-
-// 漸變色的起始和結束顏色變數 (用於標題和標籤文字)
-$gradient-blue: #2563eb;
-$gradient-pink-purple: #ec4899;
-
-/* --- 全局樣式和背景 (這些通常放在 styles.scss 中，但這裡為示範重複一次) --- */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+// 統一的頁面容器樣式
+.page-container {
+  width: 100%;
+  max-width: none;
 }
 
-.background {
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(to bottom right, $light-blue-gradient-start, $light-blue-gradient-end);
-  overflow: auto; /* 如果內容很長，允許滾動 */
-  padding: 20px 0; /* 增加上下 padding，防止內容太貼邊 */
-  box-sizing: border-box;
+// 頁面標題區域
+.page-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--secondary-bg);
 }
 
-.area {
-  width: 90%;
-  max-width: 700px; /* 增加卡片最大寬度以容納更多內容 */
-  height: auto;
-  background-color: transparent;
+.page-title {
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 0; /* 這裡不需要額外 padding，由卡片自己控制 */
-  box-sizing: border-box;
-}
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
 
-/* --- 會員資料卡片樣式 --- */
-.member-profile-card {
-  width: 100%;
-  background-color: $card-background;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  text-align: left; /* 表單內容左對齊 */
-  box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  // min-height: 400px; /* 根據實際需要設置最小高度 */
-}
+  mat-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+    color: var(--primary);
+  }
 
-.card-title {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 32px;
-  font-weight: 700;
-  width: 35%;
-  margin-left: 32.5%;
-  // 添加漸變文字效果
-  background: linear-gradient(45deg, $gradient-blue, $gradient-pink-purple);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: $gradient-blue; // Fallback color
-}
-
-.section-group {
-  border: 1px solid #E0E0E0; /* 區塊邊框 */
-  border-radius: 8px;
-  padding: 25px;
-  margin-bottom: 30px;
-  position: relative; /* 為了 section-title 的定位 */
-  background-color: #FAFAFA; /* 區塊內部稍淺的背景色 */
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* 輕微內陰影 */
-
-  &:last-child {
-    margin-bottom: 0; /* 最後一個區塊下方不需要間距 */
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
   }
 }
 
-.section-title {
-  background-color: $primary-blue; /* 圖片中標題背景是深藍色 */
-  color: white;
-  padding: 8px 20px;
-  border-radius: 5px;
-  font-size: 20px;
-  font-weight: 600;
-  position: absolute;
-  top: -15px; /* 向上浮動一點 */
-  left: 206px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 標題陰影 */
-  z-index: 1; /* 確保標題在上方 */
+.page-description {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
 
-  .required-star {
-    font-size: 14px;
-    color: #FFEB3B; /* 亮黃色 */
-    margin-left: 8px;
+// 原有的編輯卡片樣式
+.member-edit-card {
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  overflow: hidden;
+  border: 1px solid var(--secondary-bg);
+}
+
+// 移除原有的 card-header 樣式
+
+.card-content {
+  padding: 2rem 1.5rem;
+  color: var(--text-primary);
+}
+
+.form-section {
+  margin-bottom: 2rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--secondary-bg);
+
+  mat-icon {
+    font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--primary);
+  }
+
+  h4 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary);
+    flex: 1;
+  }
+
+  .required-note {
+    font-size: 0.9rem;
+    color: var(--expense);
+    font-weight: 500;
   }
 }
 
-/* --- 表單組件樣式 (通用) --- */
 .form-group {
-  margin-top: 25px; /* 統一表單組件上方間距 */
+  margin-bottom: 1.5rem;
 
-  &:first-child {
-    margin-top: 0; /* 每個區塊的第一個 form-group 不需要頂部間距 */
+  .form-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+
+    mat-icon {
+      font-size: 1.3rem;
+      width: 1.3rem;
+      height: 1.3rem;
+      color: var(--primary);
+    }
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: var(--elevation-1);
+    color: var(--text-primary);
+    transition: all 0.2s;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(66, 86, 165, 0.1);
+    }
+
+    &::placeholder {
+      color: var(--text-secondary);
+    }
+
+    &.ng-invalid.ng-touched {
+      border-color: var(--expense);
+    }
   }
 }
 
-.input-label {
-  font-size: 19px;
-  font-weight: bolder;
-  color: $gradient-pink-purple;
-  display: block;
-  margin-bottom: 8px;
-
-  .required-star {
-    color: red; /* 必填星號用紅色 */
-    margin-left: 4px;
-  }
+// 日期選擇器
+.date-select-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.75rem;
 }
 
-.form-control {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid $input-border-color;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 900;
-  color: $text-color;
-  box-sizing: border-box;
-  margin-top: 8px;
-  transition: border-color $button-hover-transition, box-shadow $button-hover-transition;
-  background-color: #F8F8F8; /* 輸入框輕微灰色背景 */
-}
-
-.form-control:focus {
-  border-color: $input-focus-border-color;
-  box-shadow: 0 0 0 3px rgba($primary-blue, 0.2);
-  outline: none;
-  background-color: $card-background; /* 聚焦時背景變白 */
-}
-
-.form-control::placeholder {
-  color: #999999;
-}
-
-
-
-
-/* --- 下拉選單樣式 (保持不變) --- */
-.date-select-group {
-  display: flex;
-  gap: 10px; /* 選單之間的間距 */
-}
-
-.select-field {
-  // 繼承 .form-control 的大部分樣式
-  flex: 1; /* 讓每個選單平均分配空間 */
-  -webkit-appearance: none; /* 移除瀏覽器預設樣式 */
-  -moz-appearance: none;
-  appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="rgba(0,0,0,0.54)" d="M7 10l5 5 5-5z"/></svg>');
-  /* 自定義下拉箭頭 */
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 30px; /* 為箭頭留出空間 */
-}
-
-/* --- 儲存按鈕 (保持不變) --- */
-.button-group {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
-}
-
-.btn {
-  padding: 14px 40px; /* 儲存按鈕可以寬一點 */
-  border: none;
-  border-radius: 6px;
+.date-select {
+  padding: 1rem;
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  font-size: 1rem;
+  background: var(--elevation-1);
+  color: var(--text-primary);
+  transition: all 0.2s;
   cursor: pointer;
-  font-size: 18px;
+
+  &:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(66, 86, 165, 0.1);
+  }
+
+  option {
+    background: var(--elevation-1);
+    color: var(--text-primary);
+  }
+}
+
+// 錯誤訊息
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  color: var(--expense);
+  font-size: 0.9rem;
+
+  mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+// 操作按鈕
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--secondary-bg);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
   font-weight: 600;
-  transition: background-color $button-hover-transition, transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 140px;
+
+  mat-icon {
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  &.primary {
+    background: var(--primary);
+    color: #fff;
+
+    &:hover:not(:disabled) {
+      background: #1746a2;
+    }
+
+    &:disabled {
+      background: var(--text-secondary);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  &.secondary {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+
+    &:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+  }
 }
 
-.btn-primary {
-  /* 儲存按鈕使用主藍色 */
-  background-color: $primary-blue;
-}
+// 響應式設計
+@media (max-width: 768px) {
+  .page-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+  }
 
-.btn-primary:hover {
-  background-color: $primary-dark-blue;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  .page-title {
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .card-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .date-select-wrapper {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }

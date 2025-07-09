@@ -1,7 +1,7 @@
 // 固定收入表單容器
 .form-container {
   padding: 2rem;
-  max-width: 900px;
+  max-width: 800px;
   margin: 0 auto;
   color: var(--text-primary);
   &:hover {
@@ -67,6 +67,7 @@
       color: var(--theme-main);
       font-size: 1.6rem;
       padding-top: 2px;
+      cursor: default;
     }
 
     h3 {
@@ -74,6 +75,7 @@
       font-weight: 600;
       color: var(--theme-main);
       margin: 0;
+      cursor: default;
     }
   }
 }
@@ -94,9 +96,50 @@
   align-items: center;
 }
 .period-unit {
-  margin-left: 0.3rem;
-  font-size: 1.1rem;
-  color: var(--input-hint);
+  margin-left: 15px;
+  margin-right: 5px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--theme-main);
+}
+
+// =====================
+// 統一表單欄位樣式
+// =====================
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--input-text);
+  font-size: 1.2rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-sizing: border-box;
+
+  &:hover,
+  &:focus {
+    border-color: var(--input-focus);
+    box-shadow: 0 0 12px 2px #ff80ab33 !important;
+  }
+}
+
+// 日期欄位特殊處理
+.form-input[type='date'],
+.form-group input[type='date'] {
+  padding: 0.7rem 1.2rem;
+  height: 48px;
+  min-height: 48px;
+  line-height: 48px;
+  padding-right: 2.5rem;
+}
+
+// 數字欄位特殊處理
+.form-input[type='number'] {
+  padding-left: 3.5rem;
 }
 
 // Material UI 樣式覆蓋
@@ -125,6 +168,7 @@
   padding-left: 3.5rem;
   color: var(--input-text);
   padding-top: 1.2rem;
+  text-align: right;
 }
 .form-input[type='number']::placeholder {
   color: var(--input-placeholder);
@@ -133,6 +177,7 @@
 .input-hint {
   margin-bottom: 0.2rem;
   letter-spacing: 0.5px;
+  cursor: default;
 }
 
 // 備註輸入樣式
@@ -186,7 +231,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  border: 1.5px dashed var(--input-border);
+  border: 1.5px dashed var(--primary);
   border-radius: 8px;
   background: var(--input-bg);
   color: var(--input-text);
@@ -204,7 +249,7 @@
   &:hover, &:focus {
     border-color: var(--input-focus);
     color: var(--input-focus);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--input-focus) 40%, transparent 60%);
+    box-shadow: 0 0 12px 2px #ff80ab33 !important;
     .material-icons { color: var(--input-focus); }
     background: var(--input-bg);
   }
@@ -218,7 +263,7 @@
   &:hover, &:focus {
     border-color: var(--input-focus);
     color: var(--input-focus);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--input-focus) 40%, transparent 60%);
+    box-shadow: 0 0 12px 2px #ff80ab33 !important;
     .material-icons { color: var(--input-focus); }
     background: var(--input-bg);
   }
@@ -230,7 +275,7 @@
   gap: 1rem;
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--theme-main);
 }
 
 .btn-primary,
@@ -329,7 +374,7 @@
 }
 
 hr {
-  border-top: 3px solid var(--theme-main);
+  border-top: 1px solid var(--theme-main);
 }
 
 .type-form-divider {
@@ -410,7 +455,7 @@ hr {
   font-size: 1.18rem;
   padding: 0.7rem 1.2rem;
   border-radius: 8px;
-  border: 1.5px solid var(--input-border);
+  border: 1px solid var(--primary);
   background: var(--elevation-1);
   color: var(--text-primary);
   outline: none;
@@ -429,7 +474,7 @@ hr {
 .form-input[type='date']:hover,
 .form-input[type='date']:focus {
   border-color: var(--input-focus) !important;
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--input-focus) 40%, transparent 60%) !important;
+  box-shadow: 0 0 12px 2px #ff80ab33 !important;
 }
 
 .form-input[type='date']::-webkit-calendar-picker-indicator {
@@ -440,11 +485,6 @@ hr {
   position: absolute;
   left: 0;
   top: 0;
-}
-
-.form-content,
-.form-content *:not(input):not(textarea):not(select) {
-  cursor: default;
 }
 
 .form-header, .form-header * {

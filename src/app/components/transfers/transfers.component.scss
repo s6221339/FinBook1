@@ -3,7 +3,7 @@
   border-radius: 24px;
   margin: 0 auto;
   padding: 2rem;
-  max-width: 900px;
+  max-width: 800px;
   color: var(--text-primary);
   &:hover {
     box-shadow:
@@ -74,6 +74,7 @@
       color: var(--theme-main);
       font-size: 1.6rem;
       padding-top: 2px;
+      cursor: default;
     }
 
     /* 區塊標題 h3 的樣式 */
@@ -82,6 +83,7 @@
       font-weight: 600;
       color: var(--theme-main);
       margin: 0;
+      cursor: default;
     }
   }
 }
@@ -102,7 +104,7 @@
 .form-textarea {
   width: 100%;
   padding: 1rem;
-  border: 1.5px solid var(--input-border);
+  border: 2px solid var(--primary);
   border-radius: 8px;
   background: var(--elevation-1);
   color: var(--text-primary);
@@ -117,7 +119,7 @@
 
   &:focus {
     border-color: var(--input-focus);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--input-focus) 40%, transparent 60%);
+    box-shadow: 0 0 12px 2px #ff80ab33 !important;
   }
 
   &::placeholder {
@@ -198,7 +200,7 @@
 .char-count {
   text-align: right;
   color: var(--input-hint);
-  font-size: 0.75rem;
+  font-size: 1rem;
   margin-top: 0.25rem;
 }
 
@@ -208,7 +210,7 @@
   gap: 1rem;
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--theme-main);
 }
 
 /* 主要按鈕和次要按鈕的共同樣式 */
@@ -348,12 +350,7 @@
 }
 
 hr {
-  border-top: 3px solid var(--theme-main);
-}
-
-.form-content,
-.form-content *:not(input):not(textarea):not(select) {
-  cursor: default;
+  border-top: 1px solid var(--theme-main);
 }
 
 .form-header, .form-header * {
@@ -366,10 +363,6 @@ hr {
 
 .section-header h3 {
   font-size: 1.1rem;
-}
-
-.section-header .material-icons {
-  font-size: 1.3rem;
 }
 
 .type-form-divider {

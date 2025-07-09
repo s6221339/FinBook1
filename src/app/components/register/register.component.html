@@ -1,40 +1,185 @@
-<div class="background">
-    <div class="area">
-        <div class="register-card">
-            <h2 class="register-title">會員註冊</h2>
-
-            <div class="form-group">
-                <label for="reg-name" class="input-label">姓名</label>
-                <input id="reg-name" class="form-control" type="text" placeholder="請輸入姓名">
-            </div>
-
-            <div class="form-group email-group">
-                <label for="reg-email" class="input-label">信箱</label>
-                <div class="email-input-btn-group">
-                    <input id="reg-email" class="form-control email-input" type="text" placeholder="請輸入信箱">
-                    <button class="btn btn-send-verification">寄出驗證信</button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="reg-password" class="input-label">密碼</label>
-                <input id="reg-password" class="form-control" type="password" placeholder="請輸入密碼">
-            </div>
-
-            <div class="form-group">
-                <label for="reg-confirm-password" class="input-label">確認密碼</label>
-                <input id="reg-confirm-password" class="form-control" type="password" placeholder="請再次輸入密碼">
-            </div>
-
-            <div class="form-group">
-                <label for="reg-verification-code" class="input-label">驗證碼</label>
-                <input id="reg-verification-code" class="form-control" type="text" placeholder="請輸入驗證碼">
-            </div>
-
-            <div class="button-group">
-                <button class="btn btn-primary">確定</button>
-                <button class="btn btn-secondary" (click)="CancelClick()">取消</button>
-            </div>
-        </div>
+<div class="register-page">
+  <!-- 註冊卡片 -->
+  <div class="register-card">
+    <div class="card-header">
+      <mat-icon>person_add</mat-icon>
+      <h3>會員註冊</h3>
     </div>
+
+    <div class="card-content">
+      <!-- 註冊表單 -->
+      <form class="register-form">
+        <!-- 姓名輸入 -->
+        <div class="form-group">
+          <label class="form-label">
+            <mat-icon>person</mat-icon>
+            姓名
+          </label>
+          <input
+            class="form-input"
+            type="text"
+            placeholder="請輸入您的姓名"
+            [(ngModel)]="name"
+            name="name"
+            required
+          />
+        </div>
+
+        <!-- 信箱輸入 -->
+        <div class="form-group">
+          <label class="form-label">
+            <mat-icon>email</mat-icon>
+            信箱
+          </label>
+          <div class="input-button-wrapper">
+            <input
+              class="form-input"
+              type="email"
+              placeholder="請輸入信箱帳號"
+              [(ngModel)]="account"
+              name="account"
+              required
+            />
+            <button
+              type="button"
+              class="send-code-btn"
+              [disabled]="countdown > 0 || isSending || !account"
+              (click)="sendVerificationCode()"
+            >
+              <mat-icon>{{ isSending ? 'hourglass_empty' : 'send' }}</mat-icon>
+              {{ countdown > 0 ? '請稍後（' + countdown + '秒）' : (isSending ? '發送中...' : '寄出驗證信') }}
+            </button>
+          </div>
+        </div>
+
+        <!-- 密碼輸入 -->
+        <div class="form-group">
+          <label class="form-label">
+            <mat-icon>lock</mat-icon>
+            密碼
+          </label>
+          <div class="password-wrapper">
+            <input
+              class="form-input"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="請輸入密碼（8-16字元）"
+              [(ngModel)]="password"
+              name="password"
+              minlength="8"
+              maxlength="16"
+              required
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="toggleVisibility('password')"
+              aria-label="切換密碼顯示"
+            >
+              <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </div>
+
+          <!-- 密碼強度指示器 -->
+          <div class="password-strength">
+            <div class="strength-bar">
+              <div class="strength-bar-fill" [ngClass]="strengthClass"></div>
+            </div>
+            <span class="strength-text">密碼強度：{{ passwordStrength }}</span>
+          </div>
+        </div>
+
+        <!-- 確認密碼輸入 -->
+        <div class="form-group">
+          <label class="form-label">
+            <mat-icon>lock_outline</mat-icon>
+            確認密碼
+          </label>
+          <div class="password-wrapper">
+            <input
+              class="form-input"
+              [type]="showConfirm ? 'text' : 'password'"
+              placeholder="請再次輸入密碼"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              minlength="8"
+              maxlength="16"
+              required
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="toggleVisibility('confirm')"
+              aria-label="切換密碼顯示"
+            >
+              <mat-icon>{{ showConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </div>
+
+          <!-- 密碼一致性提示 -->
+          @if(confirmPassword && password !== confirmPassword) {
+            <div class="password-mismatch">
+              <mat-icon>error</mat-icon>
+              <span>兩次輸入的密碼不一致</span>
+            </div>
+          }
+          @if(confirmPassword && password === confirmPassword && password.length >= 8) {
+            <div class="password-match">
+              <mat-icon>check_circle</mat-icon>
+              <span>密碼確認一致</span>
+            </div>
+          }
+        </div>
+
+        <!-- 驗證碼輸入 -->
+        <div class="form-group">
+          <label class="form-label">
+            <mat-icon>verified_user</mat-icon>
+            驗證碼
+          </label>
+          <input
+            class="form-input"
+            type="text"
+            placeholder="請輸入驗證碼"
+            [(ngModel)]="verificationCode"
+            name="verificationCode"
+            required
+          />
+
+          <!-- 驗證碼提示 -->
+          @if(countdown > 0) {
+            <div class="verification-hint">
+              <mat-icon>info</mat-icon>
+              <span>請檢查您的信箱並輸入收到的6位數驗證碼</span>
+            </div>
+          }
+        </div>
+
+        <!-- 註冊按鈕 -->
+        <button
+          type="button"
+          class="register-btn"
+          [disabled]="!name || !account || !password || !confirmPassword || !verificationCode || password !== confirmPassword"
+          (click)="register()"
+        >
+          <mat-icon>check</mat-icon>
+          註冊帳戶
+        </button>
+      </form>
+
+      <!-- 分隔線 -->
+      <div class="divider">
+        <span>已經有帳戶了？</span>
+      </div>
+
+      <!-- 返回登入按鈕 -->
+      <button
+        type="button"
+        class="login-btn"
+        (click)="CancelClick()"
+      >
+        <mat-icon>login</mat-icon>
+        返回登入
+      </button>
+    </div>
+  </div>
 </div>

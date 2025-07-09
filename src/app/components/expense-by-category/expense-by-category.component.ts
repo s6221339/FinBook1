@@ -11,7 +11,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import Swal from 'sweetalert2';
-import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 import { MonthlyStatistics } from '../../models/monthlyStatistics';
 import { ChartOptions, ChartType } from 'chart.js';
 
@@ -28,7 +27,6 @@ import { ChartOptions, ChartType } from 'chart.js';
     MatTooltipModule,
     MatButtonModule,
     MatCardModule,
-    CustomPaginatorComponent,
   ],
   templateUrl: './expense-by-category.component.html',
   styleUrl: './expense-by-category.component.scss',

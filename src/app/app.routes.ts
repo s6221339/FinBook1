@@ -57,16 +57,16 @@ export const routes: Routes = [
   { path: 'pendingDeletion', component: PendingDeletionComponent, canActivate: [AuthGuard] },
   { path: 'myBalance', component: MyBalanceComponent, canActivate: [AuthGuard] },
   { path: 'myFamily', component: MyFamilyComponent },
-  { path:'memberCenter', component: MemberCenterComponent, canActivate: [AuthGuard],
+  { path: 'memberCenter', component: MemberCenterComponent, canActivate: [AuthGuard],
     children: [
       { path: 'memberInfo', component: MemberInfoComponent },
       { path: 'memberConfirm', component: MemberConfirmComponent },
       { path: 'changePasswords', component:ChangePasswordsComponent },
       { path: '', redirectTo: 'memberConfirm', pathMatch: 'full' }]},
-  { path:'forgetPasswords',component: ForgetPasswordsComponent, canActivate: [AntiAuthGuard] },
-  { path:'createFamily',component: CreateFamilyComponent },
-  { path:'familyManagement',component: FamilyManagementComponent },
-  { path:'statistics',component: StatisticsComponent,
+  { path: 'forgetPasswords',component: ForgetPasswordsComponent, canActivate: [AntiAuthGuard] },
+  { path: 'createFamily',component: CreateFamilyComponent },
+  { path: 'familyManagement',component: FamilyManagementComponent },
+  { path: 'statistics',component: StatisticsComponent,
     children: [
       { path: 'incomeExpenseTrendChart', component: IncomeExpenseTrendChartComponent },
       { path: 'expenseByCategory', component: ExpenseByCategoryComponent },
@@ -76,11 +76,11 @@ export const routes: Routes = [
       { path: '', redirectTo: 'incomeExpenseTrendChart', pathMatch: 'full' }
     ]
   },
-  { path:'unacceptedFamilyInvitation',component: UnacceptedFamilyInvitationComponent },
-  { path:'unauthorized',component: UnauthorizedComponent },
+  { path: 'unacceptedFamilyInvitation',component: UnacceptedFamilyInvitationComponent },
+  { path: 'unauthorized',component: UnauthorizedComponent },
   { path: 'transfers', component: TransfersComponent },
   { path: 'fixedIncomeExpenseForm', component: FixedIncomeExpenseFormComponent, canActivate: [AuthGuard] },
-  { path:'resetPassword',component: ResetPasswordComponent, canActivate: [AntiAuthGuard] },
+  { path: 'resetPassword',component: ResetPasswordComponent, canActivate: [AntiAuthGuard] },
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent }

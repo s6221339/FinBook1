@@ -1,31 +1,66 @@
-<div class="member-center-container">
-  <div class="member-center-header">
-    <div class="member-center-title">
-      <h1 class="member-center-title">會員中心</h1>
-    </div>
-  </div>
+<div class="member-center-layout">
+  <div class="sidebar-provider">
+    <!-- 側邊欄 -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="user-profile">
+          <img
+            [src]="currentUser?.avatar || '/defaultavatar.jpg'"
+            alt="用戶頭像"
+            class="user-avatar"
+            onerror="this.onerror=null;this.src='/defaultavatar.jpg';"
+          />
+          <div class="user-info">
+            <h4 class="user-name">{{ currentUser?.name || '用戶' }}</h4>
+            <p class="user-email">{{ currentUser?.account }}</p>
+          </div>
+        </div>
+      </div>
 
-  <div class="member-center-content-area">
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <h5 class="nav-section-title">個人設定</h5>
+          <ul class="nav-list">
+            <li class="nav-item">
+              <a
+                [routerLink]="['memberConfirm']"
+                [class.active]="currentUrl.match('^/memberCenter/member(?:Info|Confirm)')"
+                class="nav-link"
+              >
+                <mat-icon>person</mat-icon>
+                <span>個人資料</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['changePasswords']"
+                [class.active]="currentUrl.match('^/memberCenter/changePasswords')"
+                class="nav-link"
+              >
+                <mat-icon>lock</mat-icon>
+                <span>更改密碼</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                [routerLink]="['publishSubscription']"
+                [class.active]="currentUrl.match('^/memberCenter/publishSubscription')"
+                class="nav-link"
+              >
+                <mat-icon>subscriptions</mat-icon>
+                <span>我的訂閱</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
 
-    <!-- 將按鈕移入 content-area 裡，靠近白色卡片 -->
-    <nav class="member-center-nav">
-      <a [routerLink]="['memberConfirm']"
-        [class.active]="currentUrl.match('^/memberCenter/member(?:Info|Confirm)')">
-        會員基本資料
-      </a>
-      <a [routerLink]="['changePasswords']"
-        [class.active]="currentUrl.match('^/memberCenter/changePasswords')">
-        更改密碼
-      </a>
-      <a [routerLink]="['publishSubscription']"
-        [class.active]="currentUrl.match('^/memberCenter/publishSubscription')">
-        我的訂閱
-      </a>
-    </nav>
-    <router-outlet></router-outlet>
+    <!-- 主要內容區域 -->
+    <main class="main-content">
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
   </div>
 </div>
-
-
-
-

@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ApiService } from '../../@services/api.service';
+import { MatIconModule } from "@angular/material/icon"
 
 @Component({
   selector: 'app-reset-password',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIconModule],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss',
   standalone: true,

@@ -5,10 +5,11 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from "@angular/material/icon"
 
 @Component({
   selector: 'app-change-passwords',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIconModule],
   templateUrl: './change-passwords.component.html',
   styleUrl: './change-passwords.component.scss',
   standalone: true
@@ -108,6 +109,10 @@ export class ChangePasswordsComponent {
         console.error('密碼更新失敗', err);
         Swal.fire('錯誤', '請稍後再試', 'error');
       });
+  }
+
+  goBack(): void {
+    this.router.navigate(["/memberCenter/memberConfirm"])
   }
 
 }

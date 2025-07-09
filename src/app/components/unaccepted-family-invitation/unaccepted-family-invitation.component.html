@@ -13,50 +13,75 @@
       <!-- 邀請列表或空狀態 -->
       @if(invitationList.length > 0) {
         <div class="table-container">
-          <table class="invitation-table">
-            <thead>
-              <tr>
-                <th>家庭名稱</th>
-                <th>邀請狀態</th>
-                <th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for(invite of invitationList; track $index) {
-                <tr>
-                  <td>
-                    <div class="family-name-cell">
-                      <div class="family-icon">
-                        <mat-icon>home</mat-icon>
-                      </div>
-                      <span class="family-name">{{ invite.familyName }}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="status-badge pending">{{ invite.statusText }}</span>
-                  </td>
-                  <td class="action-cell">
-                    <div class="action-buttons">
-                      <button
-                        class="action-btn accept"
-                        (click)="acceptInvite(invite.familyId)"
-                      >
-                        <mat-icon>check</mat-icon>
-                        接受
-                      </button>
-                      <button
-                        class="action-btn reject"
-                        (click)="rejectInvite(invite.familyId)"
-                      >
-                        <mat-icon>close</mat-icon>
-                        拒絕
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              }
-            </tbody>
+          <table mat-table [dataSource]="dataSource" class="invitation-table">
+            <!-- 家庭名稱 -->
+            <ng-container matColumnDef="familyName">
+              <th mat-header-cell *matHeaderCellDef>家庭名稱</th>
+              <td mat-cell *matCellDef="let invite">
+                <div class="family-name-cell">
+                  <div class="family-icon">
+                    <mat-icon>home</mat-icon>
+                  </div>
+                  <span class="family-name">{{ invite.familyName }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- 邀請狀態 -->
+            <ng-container matColumnDef="statusText">
+              <th mat-header-cell *matHeaderCellDef>邀請狀態</th>
+              <td mat-cell *matCellDef="let invite">
+                <span class="status-badge pending">{{ invite.statusText }}</span>
+              </td>
+            </ng-container>
+
+            <!-- 操作 -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>操作</th>
+              <td mat-cell *matCellDef="let invite" class="action-cell">
+                <div class="action-buttons">
+                  <button
+                    class="action-btn accept"
+                    (click)="acceptInvite(invite.familyId)"
+                  >
+                    <mat-icon>check</mat-icon>
+                    接受
+                  </button>
+                  <button
+                    class="action-btn reject"
+                    (click)="rejectInvite(invite.familyId)"
+                  >
+                    <mat-icon>close</mat-icon>
+                    拒絕
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- 無資料狀態 -->
+            <tr class="mat-row no-data-row" *matNoDataRow>
+              <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+                <div class="empty-state">
+                  <mat-icon>mail_outline</mat-icon>
+                  <h4>目前沒有家庭邀請</h4>
+                  <p>當有人邀請您加入家庭時，邀請訊息會顯示在這裡</p>
+                </div>
+              </td>
+            </tr>
           </table>
+
+          <!-- 分頁器 -->
+          <app-custom-paginator
+            [totalItems]="totalItems"
+            [currentPage]="currentPage"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (pageChange)="onPageChange($event)"
+            (pageSizeChange)="onPageSizeChange($event)">
+          </app-custom-paginator>
         </div>
       } @else {
         <!-- 空狀態 -->
@@ -68,12 +93,12 @@
       }
 
       <!-- 底部按鈕 -->
-      <div class="footer-actions">
+      <!-- <div class="footer-actions">
         <button class="back-btn" (click)="goHome()">
           <mat-icon>home</mat-icon>
           回首頁
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

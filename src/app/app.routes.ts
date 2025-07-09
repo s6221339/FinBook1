@@ -59,17 +59,17 @@ export const routes: Routes = [
   { path: 'pendingDeletion', component: PendingDeletionComponent, canActivate: [AuthGuard] },
   { path: 'myBalance', component: MyBalanceComponent, canActivate: [AuthGuard] },
   { path: 'myFamily', component: MyFamilyComponent, canActivate: [SubscriptionGuard] },
-  { path:'memberCenter', component: MemberCenterComponent, canActivate: [AuthGuard],
+  { path: 'memberCenter', component: MemberCenterComponent, canActivate: [AuthGuard],
     children: [
       { path: 'memberInfo', component: MemberInfoComponent },
       { path: 'memberConfirm', component: MemberConfirmComponent },
       { path: 'changePasswords', component:ChangePasswordsComponent },
       { path: 'publishSubscription', component:PublishSubscriptionComponent },
       { path: '', redirectTo: 'memberConfirm', pathMatch: 'full' }]},
-  { path:'forgetPasswords',component: ForgetPasswordsComponent, canActivate: [AntiAuthGuard] },
-  { path:'createFamily',component: CreateFamilyComponent, canActivate: [SubscriptionGuard] },
-  { path:'familyManagement',component: FamilyManagementComponent, canActivate: [SubscriptionGuard] },
-  { path:'statistics',component: StatisticsComponent, canActivate: [SubscriptionGuard],
+  { path: 'forgetPasswords',component: ForgetPasswordsComponent, canActivate: [AntiAuthGuard] },
+  { path: 'createFamily',component: CreateFamilyComponent, canActivate: [SubscriptionGuard] },
+  { path: 'familyManagement',component: FamilyManagementComponent, canActivate: [SubscriptionGuard] },
+  { path: 'statistics',component: StatisticsComponent, canActivate: [SubscriptionGuard],
     children: [
       { path: 'incomeExpenseTrendChart', component: IncomeExpenseTrendChartComponent },
       { path: 'expenseByCategory', component: ExpenseByCategoryComponent },
@@ -79,11 +79,11 @@ export const routes: Routes = [
       { path: '', redirectTo: 'incomeExpenseTrendChart', pathMatch: 'full' }
     ]
   },
-  { path:'unacceptedFamilyInvitation',component: UnacceptedFamilyInvitationComponent, canActivate: [SubscriptionGuard] },
-  { path:'unauthorized',component: UnauthorizedComponent },
+  { path: 'unacceptedFamilyInvitation',component: UnacceptedFamilyInvitationComponent, canActivate: [SubscriptionGuard] },
+  { path: 'unauthorized',component: UnauthorizedComponent },
   { path: 'transfers', component: TransfersComponent, canActivate: [SubscriptionGuard] },
   { path: 'fixedIncomeExpenseForm', component: FixedIncomeExpenseFormComponent, canActivate: [AuthGuard] },
-  { path:'resetPassword',component: ResetPasswordComponent, canActivate: [AntiAuthGuard] },
+  { path: 'resetPassword',component: ResetPasswordComponent, canActivate: [AntiAuthGuard] },
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent }

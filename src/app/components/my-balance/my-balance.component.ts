@@ -3,12 +3,16 @@ import { Balance } from '../../models/balance';
 import { ApiService } from './../../@services/api.service';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { MatIconModule } from "@angular/material/icon"
+import { CommonModule } from "@angular/common"
+import { MatTableDataSource } from '@angular/material/table';
+import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-my-balance',
   standalone: true,
-  imports: [],
+  imports: [MatIconModule, CommonModule, CustomPaginatorComponent, MatTableModule],
   templateUrl: './my-balance.component.html',
   styleUrl: './my-balance.component.scss'
 })
@@ -21,11 +25,19 @@ export class MyBalanceComponent implements OnInit{
 
   balanceList: Balance[] = [];  //  帳戶清單
   familyId: number = 0; //  帳號創建帳戶區，使用無家庭預設 familyId
+  dataSource = new MatTableDataSource<Balance>();
+  displayedColumns: string[] = ['balanceId', 'name', 'createDate'];
+  currentPage = 1;
+  pageSize = 5;
+  pageSizeOptions: number[] = [5, 10, 20, 50];
+  totalItems = 0;
 
   ngOnInit(): void {
     this.apiService.getBalanceByAccount(this.currentAccount)
     .then(res => {
       this.balanceList = res.data.balanceList || [];
+      this.totalItems = this.balanceList.length;
+      this.updateDataSource();
     })
     .catch(err => {
       console.error('取得帳戶失敗', err);
@@ -36,6 +48,23 @@ export class MyBalanceComponent implements OnInit{
         confirmButtonText: '確定'
       });
     });
+  }
+
+  updateDataSource(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.dataSource.data = this.balanceList.slice(startIndex, endIndex);
+  }
+
+  onPageChange(newPage: number): void {
+    this.currentPage = newPage;
+    this.updateDataSource();
+  }
+
+  onPageSizeChange(newPageSize: number): void {
+    this.pageSize = newPageSize;
+    this.currentPage = 1;
+    this.updateDataSource();
   }
 
   get currentAccount(): string {
@@ -87,6 +116,8 @@ export class MyBalanceComponent implements OnInit{
         })
         .then(res => {
           this.balanceList = res.data.balanceList || [];
+          this.totalItems = this.balanceList.length;
+          this.updateDataSource();
         })
         .catch(err => {
           console.error('帳戶創建失敗', err);
@@ -172,6 +203,8 @@ export class MyBalanceComponent implements OnInit{
             })
             .then(res => {
               this.balanceList = res.data.balanceList || [];
+              this.totalItems = this.balanceList.length;
+              this.updateDataSource();
             })
             .catch(err => {
               console.error('刪除失敗', err);

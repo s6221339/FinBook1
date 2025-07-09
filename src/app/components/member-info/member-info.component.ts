@@ -5,10 +5,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserVO } from '../../models/userVO';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { MatIconModule } from "@angular/material/icon"
+import { CommonModule } from "@angular/common"
 
 @Component({
   selector: 'app-member-info',
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, MatIconModule, CommonModule],
   standalone: true,
   templateUrl: './member-info.component.html',
   styleUrl: './member-info.component.scss'
@@ -114,4 +116,7 @@ export class MemberInfoComponent implements OnInit {
       });
   }
 
+  goBack(): void {
+    this.router.navigate(["/memberCenter/memberConfirm"])
+  }
 }

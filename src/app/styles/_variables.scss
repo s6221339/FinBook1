@@ -190,6 +190,13 @@
   --btn-secondary-soft: #656d76;
   --btn-secondary-soft-hover: #4c535b;
   --btn-icon:var(--fixed-expense);
+  --btn-create-family:#017807;
+  --btn-delete:#f32c2c;
+  --btn-delete-hover:#dc2626;
+
+  // 登入
+  --btn-login-register:var(--cta-btn-bg);
+  --btn-login:var(--primary);
 }
 
 /* 暗黑模式 */
@@ -209,7 +216,7 @@
 
   --income: #38c1b1;          /* 亮綠 */
   --expense: #f08a70;         /* 亮橘 */
-  --fixed-expense: #fab57f;   /* 橘黃 */
+  --fixed-expense: #fd984b;   /* 橘黃 */
   --fixed-income: #a38ad1;    /* 亮紫 */
   --transfer: #2ac5e3;        /* 輔助藍綠 */
   --transfer-out: #ff5252;
@@ -273,8 +280,8 @@
   --input-border: #7bb0ff;
   --input-text: #fff;
   --input-placeholder: #cccccc;
-  --input-focus: #ffd600;
-  --input-hover: #ffd600;
+  --input-focus: var(--primary);
+  --input-hover: var(--primary);
   --input-hint: #e0e0e0;
   --input-error: var(--expense);
   --input-icon: var(--primary);
@@ -343,12 +350,19 @@
 
   // familyManagement 按鈕
   --btn-primary-soft: #4493f8;
-  --btn-primary-soft-hover: #318df8;
+  --btn-primary-soft-hover: #2972c5;
   --btn-success-soft: #3fb950;
   --btn-success-soft-hover: #2ea043;
   --btn-secondary-soft: #6e7681;
   --btn-secondary-soft-hover: #5d646d;
   --btn-icon:#ffd600;
+  --btn-create-family:#028709;
+  --btn-delete:#f21d1d;
+  --btn-delete-hover:#da0202;
+
+  // 登入
+  --btn-login-register:var(--primary-bg);
+  --btn-login:var(--elevation-0);
 }
 
 /* 英雄區塊動畫 - 滑入效果 */

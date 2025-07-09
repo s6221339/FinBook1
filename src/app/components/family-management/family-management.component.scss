@@ -2,8 +2,9 @@
   padding-top: 35px;
   background: var(--elevation-0);
   min-height: 100vh;
-  font-size: 16px;
+  font-size: 17.6px;
   color: var(--text-primary);
+  padding-bottom: 2rem;
 }
 
 // 上方兩張卡片並排
@@ -43,6 +44,7 @@
     font-size: 1.7rem;
     width: 1.7rem;
     height: 1.7rem;
+    padding-top: 4px;
   }
 
   h3 {
@@ -68,7 +70,7 @@
     transition: all 0.2s;
 
     &:hover {
-      background: var(--income);
+      background: var(--btn-create-family);
     }
 
     mat-icon {
@@ -99,7 +101,7 @@
     transition: all 0.2s;
 
     &:hover {
-      background: var(--income);
+      background: var(--btn-create-family);
     }
 
     mat-icon {
@@ -129,6 +131,7 @@
   padding: 1rem;
   background: var(--table-header-bg);
   border-radius: 12px;
+  border: 2px solid var(--primary);
 
   .info-icon {
     font-size: 1.5rem;
@@ -211,7 +214,7 @@
   &.success {
     background: var(--btn-success-soft);
     color: #fff;
-    &:hover { background: --btn-success-soft-hover; }
+    &:hover { background: var(--btn-success-soft-hover); }
   }
 
   &.warning {
@@ -227,7 +230,7 @@
   }
 
   &.danger {
-    background: var(--expense);
+    background: var(--btn-delete);
     color: #fff;
     &:hover { background: #dc2626; }
   }
@@ -282,10 +285,10 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.75rem;
+  padding: 1.5rem;
   background: var(--elevation-1);
   border-radius: 8px;
-  border: 1px solid var(--secondary-bg);
+  border: 2px solid var(--primary);
 
   .member-name {
     flex: 1;
@@ -298,16 +301,16 @@
     align-items: center;
     gap: 0.3rem;
     padding: 0.4rem 0.8rem;
-    background: var(--expense);
+    background:  var(--btn-delete);
     color: #fff;
     border: none;
     border-radius: 6px;
-    font-size: 0.85rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
-      background: #dc2626;
+      background: var(--btn-delete-hover);
     }
 
     mat-icon {
@@ -398,8 +401,8 @@
   border: 2px solid var(--secondary-bg);
 
   &.small {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
   }
 }
 

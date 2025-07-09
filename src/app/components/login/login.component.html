@@ -1,41 +1,100 @@
-<div class="background">
-  <div class="area">
-      <div class="textArea">
-        <h2 class="login-title">智能記帳登入</h2> <div class="form-group">
-        <span class="accountLabel">帳號</span>
-        <input class="accountInput" type="text" placeholder="請輸入帳號" [(ngModel)]="account">
-      </div>
-      <div class="form-group">
-        <span class="passwordLabel">密碼</span>
-        <div class="password-wrapper">
-          <input
-            class="passwordInput"
-            [type]="showPassword ? 'text' : 'password'"
-            placeholder="請輸入密碼"
-            [(ngModel)]="password"
-          />
-          <button
-            type="button"
-            class="eye-button"
-            (click)="togglePasswordVisibility()"
-            aria-label="切換密碼顯示"
-            >
-            {{ showPassword ? '🙈' : '👁️' }}
-          </button>
-        </div>
-      </div>
-
-      <a class="forget-link"
-        routerLink="/forgetPasswords"
-        routerLinkActive="active"
-        >
-        忘記密碼
-      </a>
-
-      <div class="button-container">
-        <button class="BtnRegister" (click)="RegisterClick()">註冊</button>
-        <button class="BtnLogin"  (click)="LoginClick()">登入</button>
-      </div>
+<div class="login-page">
+  <!-- 背景裝飾 -->
+  <div class="background-decoration">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
   </div>
 
+  <!-- 登入卡片 -->
+  <div class="login-card">
+    <div class="card-header">
+      <mat-icon>login</mat-icon>
+      <h3>會員登入</h3>
+    </div>
+
+    <div class="card-content">
+      <!-- 登入表單 -->
+      <form class="login-form" (ngSubmit)="LoginClick()">
+        <!-- 帳號輸入 -->
+        <div class="form-group">
+          <label class="form-label">
+            <mat-icon>person</mat-icon>
+            帳號
+          </label>
+          <input
+            class="form-input"
+            type="text"
+            placeholder="請輸入您的帳號"
+            [(ngModel)]="account"
+            name="account"
+            required
+          />
+        </div>
+
+        <!-- 密碼輸入 -->
+        <div class="form-group">
+          <label class="form-label">
+            <mat-icon>lock</mat-icon>
+            密碼
+          </label>
+          <div class="password-wrapper">
+            <input
+              class="form-input"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="請輸入您的密碼"
+              [(ngModel)]="password"
+              name="password"
+              required
+            />
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility()"
+              aria-label="切換密碼顯示"
+            >
+              <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- 忘記密碼 -->
+        <div class="forgot-section">
+          <a
+            class="forgot-link"
+            routerLink="/forgetPasswords"
+            routerLinkActive="active"
+          >
+            <mat-icon>help_outline</mat-icon>
+            忘記密碼？
+          </a>
+        </div>
+
+        <!-- 登入按鈕 -->
+        <button
+          type="submit"
+          class="login-btn"
+          [disabled]="!account || !password"
+        >
+          <mat-icon>login</mat-icon>
+          登入
+        </button>
+      </form>
+
+      <!-- 分隔線 -->
+      <div class="divider">
+        <span>還沒有帳戶？</span>
+      </div>
+
+      <!-- 註冊按鈕 -->
+      <button
+        type="button"
+        class="register-btn"
+        (click)="RegisterClick()"
+      >
+        <mat-icon>person_add</mat-icon>
+        註冊
+      </button>
+    </div>
+  </div>
 </div>

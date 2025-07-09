@@ -97,7 +97,7 @@
     box-sizing: border-box;
     padding: 0.7rem 1.2rem;
     border-radius: 8px;
-    border: 1.5px solid var(--input-border);
+    border: 2px solid var(--primary);
     background: var(--input-bg);
     color: var(--input-text);
     outline: none;
@@ -115,7 +115,7 @@
     width: 100%;
     padding: 0.7rem 1.2rem;
     border-radius: 8px;
-    border: 1.5px solid var(--input-border);
+    border: 2px solid var(--primary);
     background: var(--input-bg);
     color: var(--input-text);
     outline: none;
@@ -142,7 +142,7 @@
 .select-wrapper select:focus,
 .select-wrapper select:hover {
   border-color: var(--input-focus);
-  box-shadow: 0 0 0 2px var(--input-focus), 0 0 12px 2px var(--input-focus)33;
+  box-shadow: 0 0 12px 2px #ff80ab33 !important;
 }
 
 // 按鈕群組

@@ -145,7 +145,7 @@ export class AuthService {
             avatar: rawUser.avatar || null,
             // ✅ 強制轉換為預期格式
             role: rawUser.role === 'admin' ? 'admin' : 'user',
-            subscription: rawUser.subscription === 'subscription' ? 'subscription' : 'unSubscription',
+            subscription: !!rawUser.subscription ? 'subscribed' : 'unsubscribed',
             expirationDate: rawUser.expirationDate || null
           };
 

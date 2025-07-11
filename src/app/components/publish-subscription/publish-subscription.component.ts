@@ -34,15 +34,35 @@ export class PublishSubscriptionComponent implements OnInit, OnDestroy{
     //  ✅ 訂閱使用者資料變化，畫面自動刷新
     this.userSub = this.authService.currentUser$.subscribe(user => {
       if(user) {
-        this.subscriptionStatus = user.subscription == 'subscription';
-        this.expirationDate = (user as any).expirationDate?.split('T')[0] || '';
+        const account = user.account;
+
+        this.apiService.getSubscription(account)
+          .then(res => {
+            const result = res.data;
+
+            if(result.code == 200 && result.data) {
+              this.subscriptionStatus = result.data.subscription;
+              this.expirationDate = result.data.expirationDate?.split('T')[0] || '';
+            }
+            else {
+              this.subscriptionStatus = false;
+              this.expirationDate = '';
+            }
+          })
+          .catch(err => {
+            console.error('取得訂閱資訊失敗', err);
+            this.subscriptionStatus = false;
+            this.expirationDate = '';
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       }
       else{
         this.subscriptionStatus = false;
         this.expirationDate = '';
+        this.loading = false;
       }
-
-      this.loading = false;
     });
   }
 

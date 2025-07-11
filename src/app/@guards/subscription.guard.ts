@@ -16,7 +16,7 @@ export class SubscriptionGuard implements CanActivate {
   canActivate(): boolean {
     const user = this.authService.getCurrentUser();
 
-    if(user && user.subscription == 'subscription') {
+    if(user && user.subscription == 'subscribed') {
       return true;  //  已訂閱可通行
     }
     else{

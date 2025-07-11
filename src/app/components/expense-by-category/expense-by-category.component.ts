@@ -8,14 +8,12 @@ import { BaseChartDirective } from 'ng2-charts';
 import { Chart, PieController, ArcElement, Tooltip, Legend } from 'chart.js';
 Chart.register(PieController, ArcElement, Tooltip, Legend);
 import { ChartOptions, ChartType } from 'chart.js';
-
+import { MatIconModule } from "@angular/material/icon"
 
 @Component({
   selector: 'app-expense-by-category',
   imports: [
-    FormsModule,
-    BaseChartDirective,
-    CommonModule
+    FormsModule, BaseChartDirective, CommonModule, MatIconModule
   ],
   templateUrl: './expense-by-category.component.html',
   styleUrl: './expense-by-category.component.scss',
@@ -41,34 +39,65 @@ export class ExpenseByCategoryComponent implements OnInit{
   pieChartType: ChartType = 'pie';
   pieChartOptions: ChartOptions<'pie'> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       tooltip: {
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        titleFont: { size: 16 },
+        bodyFont: { size: 14 },
+        titleColor: "#fff",
+        bodyColor: "#fff",
+        borderColor: "rgba(66, 86, 165, 0.3)",
+        borderWidth: 1,
+        cornerRadius: 8,
         callbacks: {
           label: (ctx: any) => {
-            const label = ctx.label || '';
-            const total = this.totalExpense || 1;
-            const percent = ((ctx.raw / total) * 100).toFixed(1);
-            return `${label}：${percent}％`;
-          }
-        }
+            const label = ctx.label || ""
+            const total = this.totalExpense || 1
+            const percent = ((ctx.raw / total) * 100).toFixed(1)
+            const amount = ctx.raw.toLocaleString()
+            return [`${label}：${percent}％`, `金額：${amount} 元`]
+          },
+        },
       },
       legend: {
-        position: 'bottom'
-      }
-    }
-  };
+        position: "bottom",
+        labels: {
+          usePointStyle: true,
+          padding: 20,
+          font: {
+            size: 14,
+            weight: 500,
+          },
+        },
+      },
+    },
+  }
+
   pieChartColors: string[] = [
-    '#fbf8cc', '#fde4cf', '#ffcfd2', '#f1c0e8',
-    '#cfbaf0', '#a3c4f3', '#90dbf4', '#8eecf5', '#98f5e1'
-  ];
-  totalExpense: number = 0;
+    "#E74C3C", // 鮮紅色
+    "#F39C12", // 橙色
+    "#27AE60", // 綠色
+    "#8E44AD", // 紫色
+    "#E67E22", // 深橙色
+    "#2ECC71", // 亮綠色
+    "#9B59B6", // 淺紫色
+    "#F1C40F", // 黃色
+    "#E91E63", // 粉紅色
+    "#FF5722", // 深橙紅色
+    "#4CAF50", // 標準綠色
+    "#673AB7", // 深紫色
+  ]
+  totalExpense = 0
   pieChartDataSet: any = {
     labels: [],
-    datasets: [{
-      data: [],
-      backgroundColor: []
-    }]
-  };
+    datasets: [
+      {
+        data: [],
+        backgroundColor: [],
+      },
+    ],
+  }
 
   ngOnInit(): void {
     this.generateYearList();

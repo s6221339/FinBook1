@@ -1,112 +1,382 @@
-:host {
-  display: block;
+.trend-chart-page {
   padding: 2rem;
-  background: #f7f9fc;
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, Helvetica, sans-serif;
-  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-//  上方選單區
-.filter-bar {
-  display: flex;
-  flex-direction: column; //  垂直排列
-  align-items: flex-start;  //  左對齊
-  gap: 1rem;
-  margin-bottom: 2rem;
+// 通用卡片樣式
+.info-card,
+.filter-card,
+.chart-card,
+.summary-card {
+  background: var(--input-bg);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(66, 86, 165, 0.1);
+  border: 1px solid var(--secondary-bg);
+  overflow: hidden;
+}
 
-  .select-group {
+// 資訊說明區域
+.info-section {
+  .info-card {
+    padding: 1.5rem;
+    background: var(--input-bg);
+    border: 1px solid rgba(59, 130, 246, 0.2);
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    mat-icon {
+      font-size: 3rem;
+      width: 3rem;
+      height: 3rem;
+      color: var(--primary);
+    }
+
+    .info-content {
+      h4 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0 0 0.5rem 0;
+        cursor: default;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin: 0;
+        line-height: 1.5;
+        cursor: default;
+
+        strong {
+          color: var(--primary);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+// 篩選器區域
+.filter-section {
+  .filter-card {
+    padding: 1.5rem;
+  }
+
+  .filter-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    mat-icon {
+      font-size: 1.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--primary);
+    }
+
+    h4 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+      cursor: default;
+    }
+  }
+
+  .filter-controls {
+    display: flex;
+    gap: 2rem;
     flex-wrap: wrap;
   }
 
-  label {
-    font-weight: 600;
-    margin-right: 0.25rem;
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 150px;
   }
 
-  select {
-    padding: 0.4rem 0.8rem;
+  .filter-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-primary);
+
+    mat-icon {
+      font-size: 1.3rem;
+      width: 1.3rem;
+      height: 1.3rem;
+      color: var(--primary);
+      padding-top: 1px;
+    }
+  }
+
+  .filter-select {
+    padding: 0.75rem;
+    border: 2px solid var(--primary);
     border-radius: 8px;
-    border: 1px solid #ccc;
-    background-color: white;
+    background: var(--input-bg);
+    color: var(--text-primary);
     font-size: 1rem;
-    transition: border-color 0.3s;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
 
     &:focus {
-      border-color: #4a90e2;
       outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(66, 86, 165, 0.1);
+    }
+
+    option {
+      background: var(--elevation-1);
+      color: var(--text-primary);
     }
   }
 }
 
-//  📊 圖表區塊
-.chart-area {
-  background: #fff;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  margin-bottom: 2rem;
+// 圖表區域
+.chart-section {
+  .chart-card {
+    padding: 1.5rem;
+  }
 
-  canvas {
-    width: 100% !important;
-    height: auto !important;
-    max-height: 400px;
+  .chart-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    mat-icon {
+      font-size: 1.4rem;
+      width: 1.4rem;
+      height: 1.4rem;
+      color: var(--primary);
+      padding-top: 4px;
+    }
+
+    h4 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+      cursor: default;
+    }
+  }
+
+  .chart-container {
+    height: 400px;
+    position: relative;
+    background: var(--input-bg);
+    border-radius: 8px;
+    padding: 1rem;
   }
 }
 
-//  月份收支摘要區塊
-.month-summary {
-  background: #fff;
-  border-left: 5px solid #4a90e2;
-  border-radius: 0.5rem;
-  padding: 1.2rem 1.5rem;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
-
-  h3 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    color: #4a4a4a;
+// 摘要區域
+.summary-section {
+  .summary-card {
+    padding: 1.5rem;
   }
 
-  p {
-    margin: 0.3rem 0;
-    font-size: 1rem;
+  .summary-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
 
-    &:nth-child(2) {
-      color: green;
+    mat-icon {
+      font-size: 1.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--primary);
+      padding-top: 2px;
     }
-    &:nth-child(3) {
-      color: red;
-    }
-    &:nth-child(4) {
-      color: #333;
-      font-weight: bold;
+
+    h4 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+      cursor: default;
     }
   }
-}
 
-// ✅ 響應式
-@media (max-width: 768px) {
-  .filter-bar {
-    .select-group {
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .summary-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid;
+    transition: all 0.2s ease;
+
+    &.income {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: rgba(34, 197, 94, 0.3);
+
+      .summary-icon {
+        background: rgba(34, 197, 94, 0.2);
+        color: rgb(34, 197, 94);
+      }
+
+      .summary-value {
+        color: rgb(34, 197, 94);
+      }
+    }
+
+    &.expense {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.3);
+
+      .summary-icon {
+        background: rgba(239, 68, 68, 0.2);
+        color: rgb(239, 68, 68);
+      }
+
+      .summary-value {
+        color: rgb(239, 68, 68);
+      }
+    }
+
+    &.net {
+      &.positive {
+        background: rgba(34, 197, 94, 0.1);
+        border-color: rgba(34, 197, 94, 0.3);
+
+        .summary-icon {
+          background: rgba(34, 197, 94, 0.2);
+          color: rgb(34, 197, 94);
+        }
+
+        .summary-value {
+          color: rgb(34, 197, 94);
+        }
+      }
+
+      &.negative {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: rgba(239, 68, 68, 0.3);
+
+        .summary-icon {
+          background: rgba(239, 68, 68, 0.2);
+          color: rgb(239, 68, 68);
+        }
+
+        .summary-value {
+          color: rgb(239, 68, 68);
+        }
+      }
+    }
+
+    .summary-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      mat-icon {
+        font-size: 1.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    .summary-content {
+      flex: 1;
+      display: flex;
       flex-direction: column;
-      align-items: stretch;
+      gap: 0.25rem;
+
+      .summary-label {
+        font-size: 1.3rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        cursor: default;
+      }
+
+      .summary-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        cursor: default;
+      }
     }
 
-    select {
-      width: 100%;
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-  }
-
-  .month-summary {
-    font-size: 0.95rem;
   }
 }
 
-.info-text {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 10px;
+// 響應式設計
+@media (max-width: 1024px) {
+  .trend-chart-page {
+    padding: 1rem;
+  }
+
+  .filter-controls {
+    gap: 1rem;
+  }
+
+  .chart-container {
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-controls {
+    flex-direction: column;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-container {
+    height: 300px;
+    padding: 0.5rem;
+  }
+
+  .info-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .trend-chart-page {
+    padding: 0.5rem;
+    gap: 1rem;
+  }
+
+  .info-card,
+  .filter-card,
+  .chart-card,
+  .summary-card {
+    padding: 1rem;
+  }
+
+  .chart-container {
+    height: 250px;
+  }
 }

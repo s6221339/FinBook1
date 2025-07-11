@@ -1,59 +1,144 @@
-<div class="filter-bar">
-  <label>年份：</label>
-  <select [(ngModel)]="selectedYear" (change)="onYearChange()">
-    @for(y of years; track $index) {
-      <option [value]="y">{{ y }} 年</option>
-    }
-  </select>
+<div class="expense-category-page">
+  <!-- 頁面說明區域 -->
+  <div class="info-section">
+    <div class="info-card">
+      <mat-icon>info</mat-icon>
+      <div class="info-content">
+        <h4>數據說明</h4>
+        <p>顯示「<strong>所有帳戶</strong>」的支出類別分布與比例分析</p>
+      </div>
+    </div>
+  </div>
 
-  <label>月份：</label>
-  <select [(ngModel)]="selectedMonth" (change)="onMonthChange()">
-    @for(m of months; track $index) {
-      <option [value]="m">{{ m }} 月</option>
-    }
-  </select>
-</div>
+  <!-- 篩選器區域 -->
+  <div class="filter-section">
+    <div class="filter-card">
+      <div class="filter-header">
+        <mat-icon>filter_list</mat-icon>
+        <h4>篩選條件</h4>
+      </div>
+      <div class="filter-controls">
+        <div class="filter-group">
+          <label class="filter-label">
+            <mat-icon>calendar_today</mat-icon>
+            年份
+          </label>
+          <select class="filter-select" [(ngModel)]="selectedYear" (change)="onYearChange()">
+            @for(y of years; track $index) {
+              <option [value]="y">{{ y }} 年</option>
+            }
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">
+            <mat-icon>event</mat-icon>
+            月份
+          </label>
+          <select class="filter-select" [(ngModel)]="selectedMonth" (change)="onMonthChange()">
+            @for(m of months; track $index) {
+              <option [value]="m">{{ m }} 月</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div class="chart-section">
-  @if(pieChartData.length > 0){
-    <canvas baseChart
-    [data]="pieChartDataSet"
-    [type]="'pie'"
-    [options]="pieChartOptions">
-  </canvas>
+  <!-- 圖表區域 -->
+  <div class="chart-section">
+    <div class="chart-card">
+      <div class="chart-header">
+        <mat-icon>pie_chart</mat-icon>
+        <h4>{{ selectedYear }} 年 {{ selectedMonth }} 月 支出類別分布</h4>
+      </div>
+      <div class="chart-container">
+        @if(pieChartData.length > 0) {
+          <canvas baseChart
+            [data]="pieChartDataSet"
+            [type]="'pie'"
+            [options]="pieChartOptions">
+          </canvas>
+        } @else {
+          <div class="no-data-container">
+            <mat-icon class="no-data-icon">inbox</mat-icon>
+            <p class="no-data-text">本月尚無支出資料</p>
+            <p class="no-data-desc">請選擇其他月份或開始記錄支出</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- 統計摘要區域 -->
+  <div class="summary-section">
+    <div class="summary-card">
+      <div class="summary-header">
+        <mat-icon>assessment</mat-icon>
+        <h4>{{ selectedYear }} 年 {{ selectedMonth }} 月 支出摘要</h4>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-item total">
+          <div class="summary-icon">
+            <mat-icon>account_balance_wallet</mat-icon>
+          </div>
+          <div class="summary-content">
+            <span class="summary-label">本月總支出</span>
+            <span class="summary-value">{{ totalExpense | number:'1.0-0' }} 元</span>
+          </div>
+        </div>
+        <div class="summary-item average">
+          <div class="summary-icon">
+            <mat-icon>calendar_today</mat-icon>
+          </div>
+          <div class="summary-content">
+            <span class="summary-label">每日平均支出</span>
+            <span class="summary-value">{{ getAveragePerDay() | number:'1.0-0' }} 元</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 詳細表格區域 -->
+  @if(filteredPaymentInfo.length > 0) {
+    <div class="table-section">
+      <div class="table-card">
+        <div class="table-header">
+          <mat-icon>table_chart</mat-icon>
+          <h4>類別詳細分析</h4>
+        </div>
+        <div class="table-container">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th>類別</th>
+                <th>金額</th>
+                <th>比例</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(p of filteredPaymentInfo; track $index) {
+                <tr>
+                  <td class="category-cell">
+                    <div class="category-indicator"
+                         [style.background-color]="pieChartColors[$index % pieChartColors.length]">
+                    </div>
+                    <span>{{ p.type }}</span>
+                  </td>
+                  <td class="amount-cell"
+                      [style.color]="pieChartColors[$index % pieChartColors.length]">
+                    {{ p.totalAmount | number:'1.0-0' }} 元
+                  </td>
+                  <td class="percentage-cell"
+                      [style.color]="pieChartColors[$index % pieChartColors.length]">
+                    {{ ((p.totalAmount / totalExpense) * 100) | number:'1.1-1' }}％
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   }
-  @else {
-    <p class="no-data-text">📭 本月尚無支出資料</p>
-  }
 </div>
-
-<div class="summary">
-  <p>💰 本月總支出：{{ totalExpense | number:'1.0-0' }} 元</p>
-  <p>📅 每日平均支出：約 {{ getAveragePerDay() | number:'1.0-0' }} 元</p>
-</div>
-
-@if(filteredPaymentInfo.length > 0) {
-  <table class="summary-table">
-    <thead>
-      <tr>
-        <th>類別</th>
-        <th>金額</th>
-        <th>比例</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for(p of filteredPaymentInfo; track $index) {
-        <tr>
-          <td>{{ p.type }}</td>
-          <td [ngStyle]="{ color: pieChartColors[$index % pieChartColors.length], 'font-weight': 'bold' }">
-            {{ p.totalAmount | number:'1.0-0' }}
-          </td>
-          <td [ngStyle]="{ color: pieChartColors[$index % pieChartColors.length], 'font-weight': 'bold' }">
-            {{ ((p.totalAmount / totalExpense) * 100) | number:'1.1-1' }}％
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
-}
-<div style="margin-bottom: 20px;"></div>

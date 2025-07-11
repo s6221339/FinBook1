@@ -1,12 +1,57 @@
-<div>
-  <div>
-    <button (click)="goIncomeExpenseTrendChart()">收支趨勢圖</button>
-    <button (click)="goExpenseByCategory()">支出類別比</button>
-    <button (click)="goExpenseByAccount()">支出帳戶比</button>
-    <button (click)="goIncomeByCategory()">收入類別比</button>
-    <button (click)="goIncomeByAccount()">收入帳戶比</button>
+<div class="statistics-page">
+  <!-- 導航選項卡 -->
+  <div class="nav-tabs-container">
+    <div class="nav-tabs">
+      <a
+        class="nav-tab"
+        [routerLink]="['/statistics/incomeExpenseTrendChart']"
+        routerLinkActive="active"
+        (click)="goIncomeExpenseTrendChart()"
+      >
+        <mat-icon>trending_up</mat-icon>
+        <span>收支趨勢圖</span>
+      </a>
+      <a
+        class="nav-tab"
+        [routerLink]="['/statistics/expenseByCategory']"
+        routerLinkActive="active"
+        (click)="goExpenseByCategory()"
+      >
+        <mat-icon>pie_chart</mat-icon>
+        <span>支出類別比</span>
+      </a>
+      <!-- <a
+        class="nav-tab"
+        [routerLink]="['/statistics/expenseByAccount']"
+        routerLinkActive="active"
+        (click)="goExpenseByAccount()"
+      >
+        <mat-icon>account_balance</mat-icon>
+        <span>支出帳戶比</span>
+      </a>
+      <a
+        class="nav-tab"
+        [routerLink]="['/statistics/incomeByCategory']"
+        routerLinkActive="active"
+        (click)="goIncomeByCategory()"
+      >
+        <mat-icon>donut_small</mat-icon>
+        <span>收入類別比</span>
+      </a>
+      <a
+        class="nav-tab"
+        [routerLink]="['/statistics/incomeByAccount']"
+        routerLinkActive="active"
+        (click)="goIncomeByAccount()"
+      >
+        <mat-icon>account_balance_wallet</mat-icon>
+        <span>收入帳戶比</span>
+      </a> -->
+    </div>
   </div>
-  <div>
+
+  <!-- 內容區域 -->
+  <div class="content-area">
     <router-outlet></router-outlet>
   </div>
 </div>

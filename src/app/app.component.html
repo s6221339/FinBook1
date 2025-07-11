@@ -45,7 +45,7 @@
 
       <!-- 統計報表連結 -->
 
-      <button routerLink="/reports" class="nav-link" routerLinkActive="active" (click)="goStatistics()">
+      <button routerLink="/statistics" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" (click)="goStatistics()">
         <span class="material-icons">pie_chart</span>
         統計報表
       </button>

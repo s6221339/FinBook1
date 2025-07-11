@@ -5,11 +5,12 @@ import { MatIconModule } from "@angular/material/icon"
 import { CommonModule } from "@angular/common"
 import { AuthService } from "../../@services/auth.service"
 import { UserVO } from "../../models/userVO"
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-member-center',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, MatIconModule, CommonModule],
+  imports: [RouterOutlet, RouterLink, MatIconModule, CommonModule, MatTooltipModule],
   templateUrl: './member-center.component.html',
   styleUrl: './member-center.component.scss'
 })

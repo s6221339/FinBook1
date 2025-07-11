@@ -1,176 +1,535 @@
+// ===== 會員中心外框與排版 =====
 .member-center-layout {
   min-height: 100vh;
-  background: var(--elevation-0);
+  background: #f7f9fc;
 }
 
 .sidebar-provider {
   display: flex;
-  min-height: 100vh;
 }
 
-// 側邊欄樣式
+.main-content {
+  flex: 1;
+  min-width: 0;
+  background: var(--primary-bg);
+  padding: 2rem 8rem;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+// ===== 側邊欄樣式 =====
 .sidebar {
-  width: 280px;
-  background: var(--elevation-1);
+  width: 300px;
+  background: var(--input-bg);
   border-right: 1px solid var(--secondary-bg);
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 12px rgba(66, 86, 165, 0.15);
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(66, 86, 165, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(66, 86, 165, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+  }
 }
-
-// 用戶資料區域
 .sidebar-header {
   padding: 2rem 1.5rem 1.5rem;
-  border-bottom: 1px solid var(--secondary-bg);
+  border-bottom: 1px solid var(--primary);
+  background: var(--primary);
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
 }
-
 .user-profile {
   display: flex;
   align-items: center;
   gap: 1rem;
+  position: relative;
 }
-
 .user-avatar {
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--primary);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  &:hover {
+    transform: scale(1.05);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
 }
-
 .user-info {
   flex: 1;
   min-width: 0;
 }
-
 .user-name {
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #fff;
   margin: 0 0 0.25rem 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: default;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
-
 .user-email {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: default;
 }
-
+.sidebar-nav {
+  padding: 2rem 0;
+  flex: 1;
+  position: relative;
+}
 .nav-section {
   margin-bottom: 2rem;
-
+  position: relative;
   &:last-child {
     margin-bottom: 0;
   }
+  &:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--secondary-bg) 50%, transparent 100%);
+  }
 }
-
 .nav-section-title {
-  font-size: 0.75rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin: 0 0 0.75rem 0;
+  margin: 0 0 1rem 0;
   padding: 0 1.5rem;
+  cursor: default;
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 12px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
 }
-
 .nav-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-
 .nav-item {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
-
 .nav-link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 1.5rem;
   color: var(--text-primary);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 500;
-  transition: all 0.2s ease;
-  border-radius: 0;
+  transition: all 0.3s ease;
+  border-radius: 0 25px 25px 0;
+  margin-right: 1rem;
   position: relative;
-
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: var(--primary);
+    transition: width 0.3s ease;
+    border-radius: 0 25px 25px 0;
+  }
   mat-icon {
     font-size: 1.25rem;
     width: 1.25rem;
     height: 1.25rem;
     color: var(--text-secondary);
-    transition: color 0.2s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
   }
-
-  &:hover {
-    background: var(--secondary-bg);
-    color: var(--primary);
-
-    mat-icon {
-      color: var(--primary);
-    }
+  span {
+    position: relative;
+    z-index: 1;
   }
-
+  &:hover,
   &.active {
-    background: var(--primary);
     color: #fff;
-
+    transform: translateX(8px);
+    &::before {
+      width: 100%;
+    }
     mat-icon {
       color: #fff;
+      transform: scale(1.1);
     }
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: #fff;
+    box-shadow: 0 4px 12px rgba(66, 86, 165, 0.3);
+  }
+}
+.sidebar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary) 0%, #1746a2 50%, var(--primary) 100%);
+}
+// ===== 內容卡片、標題、按鈕等細節樣式 =====
+.page-container {
+  width: 100%;
+  max-width: none;
+}
+.subscription-card {
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  overflow: hidden;
+  border: 1px solid var(--secondary-bg);
+}
+.subscription-card.glass-card-theme {
+  --glass-bg-light: rgba(255,255,255,0.38);
+  --glass-blur: 18px;
+  box-shadow: 0 8px 32px rgba(37,99,235,0.10), 0 2px 24px 4px rgba(37,99,235,0.08);
+  border: 1.5px solid rgba(37,99,235,0.18);
+}
+.card-content {
+  padding: 2rem 1.5rem;
+  color: var(--text-primary);
+}
+.section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--primary);
+  .header-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  mat-icon {
+    font-size: 1.4rem;
+    width: 1.3rem;
+    height: 1.3rem;
+    color: var(--primary);
+  }
+  h4 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary);
+    cursor: default;
+  }
+  .section-desc {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    margin: 1rem 1rem 0.5rem 2.1rem;
+    cursor: default;
+  }
+}
+.loading-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem 0;
+  .loading-spinner mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    color: var(--primary);
+    animation: spin 2s linear infinite;
+  }
+  .loading-text {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin: 0;
+    cursor: default;
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.status-section {
+  margin-bottom: 2rem;
+}
+.status-card {
+  padding: 1.5rem;
+  background: var(--input-bg);
+  border-radius: 12px;
+  border: 1px solid var(--primary);
+}
+.status-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  mat-icon {
+    font-size: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    &.status-active {
+      color: var(--income);
+    }
+    &.status-inactive {
+      color: var(--expense);
+    }
+  }
+  .status-info {
+    flex: 1;
+  }
+  .status-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 0 0 0.25rem 0;
+    cursor: default;
+  }
+  .status-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0;
+    cursor: default;
+    &.subscribed {
+      color: var(--income);
+    }
+    &.not-subscribed {
+      color: var(--expense);
     }
   }
 }
-
-// 主要內容區域
-.main-content {
-  flex: 1;
-  min-height: 100vh;
-  background: var(--elevation-0);
+.expiration-info {
+  border-top: 1px solid var(--secondary-bg);
+  padding-top: 1rem;
 }
-
-.content-wrapper {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-  min-height: 100vh;
+.expiration-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  mat-icon {
+    font-size: 1.4rem;
+    width: 1.3rem;
+    height: 1.3rem;
+    color: var(--primary);
+  }
+  .expiration-label {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-right: 0.5rem;
+    cursor: default;
+  }
+  .expiration-date {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: default;
+  }
 }
-
-// 響應式設計
+.pricing-section {
+  margin-bottom: 2rem;
+}
+.pricing-card {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--primary) 0%, #1746a2 100%);
+  border-radius: 12px;
+  color: #fff;
+}
+.pricing-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  mat-icon {
+    font-size: 1.4rem;
+    width: 1.3rem;
+    height: 1.3rem;
+    color: #fff;
+  }
+  h5 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+    cursor: default;
+  }
+}
+.pricing-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.price-highlight {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  justify-content: center;
+  .currency {
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: default;
+  }
+  .amount {
+    font-size: 3rem;
+    font-weight: 700;
+    cursor: default;
+  }
+  .period {
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: default;
+  }
+}
+.price-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  mat-icon {
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    color: #4ade80;
+  }
+  span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: default;
+  }
+}
+.action-section {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.2rem 3rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 180px;
+  justify-content: center;
+  mat-icon {
+    font-size: 1.3rem;
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+  &.primary {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(66, 86, 165, 0.3);
+    &:hover {
+      background: #1746a2;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(66, 86, 165, 0.4);
+    }
+  }
+  &.secondary {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    &:hover {
+      background: var(--primary);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+  }
+}
+// ===== 響應式設計 =====
 @media (max-width: 1024px) {
   .sidebar {
+    width: 100vw;
+    max-width: 350px;
+    position: absolute;
+    z-index: 1000;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
-
     &.mobile-open {
       transform: translateX(0);
     }
   }
-
-  .main-content {
-    margin-left: 0;
+}
+@media (max-width: 768px) {
+  .card-content {
+    padding: 1.5rem 1rem;
   }
-
-  .content-wrapper {
+  .status-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  .pricing-content {
+    text-align: center;
+  }
+  .action-btn {
+    width: 100%;
+    padding: 1rem 2rem;
+  }
+  .price-highlight .amount {
+    font-size: 2.5rem;
+  }
+}
+@media (max-width: 480px) {
+  .section-header .section-desc {
+    margin-left: 0;
+    text-align: center;
+  }
+  .status-card,
+  .pricing-card {
     padding: 1rem;
   }
 }
-

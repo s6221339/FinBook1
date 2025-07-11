@@ -106,7 +106,7 @@
   padding: 1rem;
   border: 2px solid var(--primary);
   border-radius: 8px;
-  background: var(--elevation-1);
+  background: var(--input-bg);
   color: var(--text-primary);
   font-size: 1rem;
   outline: none;
@@ -309,7 +309,7 @@
   margin-top: 0.5rem;
   border: 1px solid var(--input-border);
   border-radius: 8px;
-  background: var(--elevation-1);
+  background: var(--input-bg);
   overflow: hidden;
 }
 
@@ -433,7 +433,7 @@ hr {
 /* 針對主題色自動切換，補充 rgb 變數（轉帳藍） */
 .transfer-theme {
   min-height: 100vh;
-  background: var(--elevation-0);
+  background: var(--input-bg);
   padding-top: 35px;
   color: var(--text-primary);
   padding-bottom: 5rem;

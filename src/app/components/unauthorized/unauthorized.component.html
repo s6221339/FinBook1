@@ -1,5 +1,38 @@
 <div class="unauthorized-page">
-  <h2>🚫 無權限</h2>
-  <p>您沒有權限存取此頁面</p>
-  <button (click)="goHome()">回首頁</button>
+  <div class="unauthorized-container">
+    <div class="unauthorized-card glass-card-theme">
+      <div class="card-content">
+        <!-- 錯誤信息區域 -->
+        <div class="error-info-section">
+          <h2 class="error-title">🚫 無權限訪問</h2>
+          <p class="error-message">
+            很抱歉，您沒有權限存取此頁面
+          </p>
+          <p class="error-description">
+            請確認您已登入並具有相應的訪問權限，或聯繫管理員獲取協助
+          </p>
+        </div>
+
+        <!-- 操作按鈕區域 -->
+        <div class="action-section">
+          <button class="action-btn primary" (click)="goHome()">
+            <mat-icon>home</mat-icon>
+            回到首頁
+          </button>
+          <button class="action-btn secondary" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+            返回上頁
+          </button>
+        </div>
+
+        <!-- 額外幫助區域 -->
+        <div class="help-section">
+          <div class="help-item">
+            <mat-icon>info</mat-icon>
+            <span>如需協助，請聯繫客服人員</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -154,8 +154,8 @@ export class PendingDeletionComponent implements OnInit{
 
   //  復原勾選項目
   recoverSelectedPayments(): void {
-    const selected = this.filteredPayments.filter(p => p.selected);
-    if(selected.length == 0) {
+    const selected = this.selection.selected;
+    if (selected.length === 0) {
       Swal.fire({
         icon: 'warning',
         title: '提醒',
@@ -167,24 +167,24 @@ export class PendingDeletionComponent implements OnInit{
 
     const ids = selected.map(p => p.paymentId);
     this.apiService.recoveryPayments(ids)
-    .then(res => {
-      Swal.fire({
-        icon: 'success',
-        title: '成功',
-        text: '復原成功',
-        confirmButtonText: '確定'
+      .then(res => {
+        Swal.fire({
+          icon: 'success',
+          title: '成功',
+          text: '復原成功',
+          confirmButtonText: '確定'
+        });
+        this.loadPayments();
+      })
+      .catch(err => {
+        console.error('復原失敗', err);
+        Swal.fire({
+          icon: 'error',
+          title: '復原失敗',
+          text: '請稍後再試',
+          confirmButtonText: '確定'
+        });
       });
-      this.loadPayments();
-    })
-    .catch(err => {
-      console.error('復原失敗', err);
-      Swal.fire({
-        icon: 'error',
-        title: '復原失敗',
-        text: '請稍後再試',
-        confirmButtonText: '確定'
-      });
-    });
   }
 
   // 多選/全選邏輯

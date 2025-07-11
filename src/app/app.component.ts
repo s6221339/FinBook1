@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
   logout() {
     this.authService.logout().subscribe(success => {
       if(success) {
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       }
     });
   }

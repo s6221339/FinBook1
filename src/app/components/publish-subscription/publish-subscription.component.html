@@ -1,28 +1,100 @@
-<div class="background">
-  <div class="area">
-    <div class="subscription-card">
-      <h2 class="card-title">我的訂閱</h2>
+<div class="page-container">
+  <!-- 訂閱管理卡片 -->
+  <div class="subscription-card glass-card-theme">
+    <div class="card-content">
+      <!-- 標題與說明 -->
+      <div class="section-header">
+        <div class="header-row">
+          <mat-icon>subscriptions</mat-icon>
+          <h4>我的訂閱</h4>
+        </div>
+        <div class="section-desc">管理您的訂閱服務和查看訂閱狀態</div>
+      </div>
 
       @if(loading) {
-        <p class="loading-text">載入中...</p>
-      }
-      @else {
-        <div class="price-info">
-          <p>💰 訂閱一個月僅需 <strong>60 元</strong></p>
+        <!-- 載入狀態 -->
+        <div class="loading-section">
+          <div class="loading-spinner">
+            <mat-icon>hourglass_empty</mat-icon>
+          </div>
+          <p class="loading-text">載入中...</p>
+        </div>
+      } @else {
+        <!-- 訂閱狀態區塊 -->
+        <div class="status-section">
+          <div class="status-card">
+            <div class="status-header">
+              <div class="status-left">
+                <mat-icon [ngClass]="subscriptionStatus ? 'status-active' : 'status-inactive'">
+                  {{ subscriptionStatus ? 'check_circle' : 'cancel' }}
+                </mat-icon>
+                <div class="status-info">
+                  <h5 class="status-title">訂閱狀態</h5>
+                  <p class="status-value" [ngClass]="subscriptionStatus ? 'subscribed' : 'not-subscribed'">
+                    {{ subscriptionStatus ? '訂閱中' : '未訂閱' }}
+                  </p>
+                </div>
+              </div>
+
+              @if(subscriptionStatus && expirationDate) {
+                <div class="status-right">
+                  <div class="expiration-info">
+                    <mat-icon>event</mat-icon>
+                    <div class="expiration-content">
+                      <span class="expiration-label">到期日</span>
+                      <span class="expiration-date">{{ expirationDate }}</span>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
         </div>
 
-        <div class="subscription-status">
-          <p>狀態：
-            <strong [ngClass]="subscriptionStatus ? 'subscribed' : 'not-subscribed'">
-              📶 {{ subscriptionStatus ? '訂閱中' : '未訂閱' }}
-            </strong>
-          </p>
+        <!-- 訂閱方案區塊 -->
+        <div class="pricing-section">
+          <div class="pricing-card">
+            <div class="pricing-header">
+              <div class="pricing-left">
+                <mat-icon>monetization_on</mat-icon>
+                <div class="pricing-info">
+                  <h5 class="pricing-title">訂閱方案</h5>
+                  <p class="pricing-desc">月付方案</p>
+                </div>
+              </div>
 
-          @if(subscriptionStatus) {
-            <p>📅 到期日：{{ expirationDate }}</p>
+              <div class="pricing-right">
+                <div class="price-highlight">
+                  <span class="currency">NT$</span>
+                  <span class="amount">60</span>
+                  <span class="period">/月</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="pricing-features">
+              <div class="feature-item">
+                <mat-icon>check</mat-icon>
+                <span>完整功能使用權限</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 操作按鈕區塊 -->
+        <div class="action-section">
+          @if(!subscriptionStatus) {
+            <button class="action-btn primary subscribe-btn" (click)="subscribe()">
+              <mat-icon>shopping_cart</mat-icon>
+              立即訂閱
+            </button>
+          } @else {
+            <button class="action-btn secondary renew-btn" (click)="subscribe()">
+              <mat-icon>refresh</mat-icon>
+              續訂服務
+            </button>
           }
         </div>
-        <button class="subscribe-btn" (click)="subscribe()">📥 訂閱</button>
       }
     </div>
   </div>

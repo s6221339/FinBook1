@@ -314,16 +314,16 @@ hr {
   padding: 0.7rem 1.2rem;
   border-radius: 8px;
   border: 1px solid var(--primary);
-  background: var(--elevation-1);
+  background: var(--input-bg);
   color: var(--text-primary);
   outline: none;
   transition: border 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
   position: relative;
   padding-right: 2.5rem;
-  height: 48px;
-  min-height: 48px;
-  line-height: 48px;
+  height: 60px;
+  min-height: 60px;
+  line-height: 60px;
   box-sizing: border-box;
 }
 .form-group input[type='date']::-webkit-calendar-picker-indicator,

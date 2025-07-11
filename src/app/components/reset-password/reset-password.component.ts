@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ApiService } from '../../@services/api.service';
 import { MatIconModule } from "@angular/material/icon"
 
 @Component({
   selector: 'app-reset-password',
-  imports: [CommonModule, FormsModule, MatIconModule],
+  imports: [CommonModule, FormsModule, MatIconModule,RouterModule],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss',
   standalone: true,

@@ -102,7 +102,7 @@
   --user-button-pink:  #eb6ab1; /* 登入後 user-button 專用粉紅色 */
 
   /* 表單專用變數 */
-  --input-bg: #f9fafb;
+  --input-bg: #f2f8fd;
   --input-border: #e0e0e0;
   --input-text: #263159;
   --input-placeholder: #7b7b7b;
@@ -197,6 +197,9 @@
   // 登入
   --btn-login-register:var(--cta-btn-bg);
   --btn-login:var(--primary);
+
+  //會員中心
+  --member-br:var(--primary);
 }
 
 /* 暗黑模式 */
@@ -363,6 +366,9 @@
   // 登入
   --btn-login-register:var(--primary-bg);
   --btn-login:var(--elevation-0);
+
+  //會員中心
+  --member-br:var(--elevation-0);
 }
 
 /* 英雄區塊動畫 - 滑入效果 */

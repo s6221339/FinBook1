@@ -6,10 +6,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MatIconModule } from "@angular/material/icon"
 
 @Component({
   selector: 'app-publish-subscription',
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './publish-subscription.component.html',
   styleUrl: './publish-subscription.component.scss',
   standalone: true

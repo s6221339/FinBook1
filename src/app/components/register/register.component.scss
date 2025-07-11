@@ -1,253 +1,411 @@
-@use "sass:color";
-/* --- 顏色變數定義 (保持不變) --- */
-$primary-blue: #1976D2;
-$primary-dark-blue: #1565C0;
-$accent-green: #4CAF50;
-$accent-dark-green: #388E3C;
-
-$light-blue-gradient-start: #BBDEFB;
-$light-blue-gradient-end: #E3F2FD;
-
-$card-background: #FFFFFF;
-$text-color: #333333;
-$label-color: #555555;
-$input-border-color: #CCCCCC;
-$input-focus-border-color: $primary-blue;
-$button-hover-transition: 0.3s ease;
-
-$gradient-blue: #2563eb;
-$gradient-pink-purple: #ec4899;
-
-/* --- 全局樣式和背景 (保持不變) --- */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.background {
-    display: grid;
-    place-items: center;
-    background: linear-gradient(to bottom right, $light-blue-gradient-start, $light-blue-gradient-end);
-    overflow: hidden;
-}
-
-.area {
-    width: 90%;
-    // *** 這裡調整卡片的最大寬度 ***
-    max-width: 600px; // 從 500px 增加到 600px，讓卡片更寬
-    height: auto;
-    background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-/* --- 註冊卡片樣式 (只修改了寬度) --- */
-.register-card {
-    width: 100%;
-    background-color: $card-background;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    box-sizing: border-box;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.register-title {
-    margin-bottom: 30px;
-    font-size: 28px;
-    font-weight: 600;
-    margin-left: 38.5%;
-    width: 24%;
-    background: linear-gradient(to right, $gradient-blue, $gradient-pink-purple);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: $gradient-blue; // Fallback color
-}
-
-/* --- 表單組件樣式 (保持不變) --- */
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.input-label {
-    font-size: 20px;
-    font-weight: 600;
-    background: linear-gradient(to right, $gradient-blue, $gradient-pink-purple);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: $gradient-blue; // Fallback color
-    display: block;
-    margin-bottom: 8px;
-}
-
-.form-control {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid $input-border-color;
-    border-radius: 6px;
-    font-size: 16px;
-    color: $text-color;
-    box-sizing: border-box;
-    transition: border-color $button-hover-transition, box-shadow $button-hover-transition;
-}
-
-.form-control:focus {
-    border-color: $input-focus-border-color;
-    box-shadow: 0 0 0 3px rgba($primary-blue, 0.2);
-    outline: none;
-}
-
-.form-control::placeholder {
-    color: #999999;
-}
-
-/* --- 信箱輸入和按鈕組合 --- */
-.email-input-btn-group {
-    display: flex; // 保持 flexbox 佈局
-    gap: 10px; // 輸入框和按鈕之間的間距
-    align-items: center; // 垂直居中對齊
-    // *** 新增 flex-wrap: nowrap; 確保不換行 ***
-    flex-wrap: nowrap;
-}
-
-.email-input {
-    flex-grow: 1; // 讓輸入框佔據剩餘空間
-    min-width: 0; /* 允許輸入框在必要時縮小 */
-}
-
-/* --- 按鈕樣式 (通用和特定) --- */
-.button-group {
-    display: flex;
-    gap: 15px;
-    margin-top: 30px;
-    justify-content: center;
-}
-
-.btn {
-    padding: 14px 28px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 17px;
-    font-weight: 600;
-    transition: background-color $button-hover-transition, transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    color: white;
-}
-
-.btn-primary {
-    background-color: $primary-blue;
-}
-
-.btn-primary:hover {
-    background-color: $primary-dark-blue;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-
-.btn-secondary {
-    background-color: $accent-green;
-}
-
-.btn-secondary:hover {
-    background-color: $accent-dark-green;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-
-.btn-send-verification {
-    background-color: color.adjust($primary-blue, $lightness: -10%);
-    // *** 調整 padding，讓按鈕看起來更寬一點，並確保文字能在一行顯示 ***
-    padding: 10px 20px; // 適度增加左右 padding
-    font-size: 15px;
-    box-shadow: none;
-    border-radius: 6px;
-    // *** 新增 flex-shrink: 0; 防止按鈕縮小，確保其完整顯示 ***
-    flex-shrink: 0;
-    // *** 可以固定寬度，但用 flex-shrink: 0 配合 padding 更靈活 ***
-    // width: auto; // 讓寬度根據內容自適應，但受 padding 影響
-    min-width: 100px; /* 確保按鈕在內容少的時候也有一定寬度 */
-
-    &:hover {
-      background-color: color.adjust($primary-blue, $lightness: -20%);
-      transform: none;
-      box-shadow: none;
-    }
-
-    //  當按鈕被禁用時反灰
-    &:disabled {
-      background-color: #ccc;
-      color: #666;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-}
-
-.password-wrapper {
-  position: relative;
+.register-page {
+  background: var(--elevation-0);
+  min-height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--text-primary);
+}
 
-  input.form-control {
-    width: 100%;
-    padding-right: 40px;
+.register-card {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+  background: var(--elevation-1);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 1.5rem;
+  background: var(--primary);
+  color: #fff;
+
+  mat-icon {
+    font-size: 1.7rem;
+    width: 1.7rem;
+    height: 1.7rem;
+    padding-top: 4px;
   }
 
-  .eye-button {
-    position: absolute;
-    right: 10px;
-    background: transparent;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: #888;
-    transition: transform 0.2s ease;
+  h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    flex: 1;
+    cursor: default;
+  }
+}
 
-    &:hover {
-      transform: scale(1.2);
-      color: $gradient-pink-purple;
+.card-content {
+  padding: 2rem 1.5rem;
+  color: var(--text-primary);
+}
+
+// 表單樣式
+.register-form {
+  .form-group {
+    margin-bottom: 2rem;
+
+    .form-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+
+      mat-icon {
+        font-size: 1.5rem;
+        width: 1.3rem;
+        height: 1.5rem;
+        color: var(--primary);
+      }
+    }
+
+    .form-input {
+      border: 2px solid var(--primary);
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      transition: all 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow:
+            0 0 12px 2px #ff80ab33,
+      }
+
+      &::placeholder {
+        color: var(--text-secondary);
+      }
+    }
+
+    .input-button-wrapper {
+      display: flex;
+      gap: 0.75rem;
+      align-items: stretch;
+
+      .form-input {
+        flex: 1;
+      }
+
+      .send-code-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 1rem 1.5rem;
+        background: var(--btn-login);
+        color: #fff;
+        border: 2px solid var(--primary);
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+        min-width: 140px;
+
+        mat-icon {
+          font-size: 1.2rem;
+          width: 1.2rem;
+          height: 1.2rem;
+        }
+
+        &:hover:not(:disabled) {
+          background: #1746a2;
+        }
+
+        &:disabled {
+          background: var(--btn-login-register);
+          cursor: not-allowed;
+          opacity: 0.7;
+          border: 2px solid var(--primary);
+        }
+      }
+    }
+
+    .password-wrapper {
+      position: relative;
+
+      .form-input {
+        padding-right: 3.5rem;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--theme-toggle-bg);
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+
+        mat-icon {
+          font-size: 1.2rem;
+          width: 1.2rem;
+          height: 1.2rem;
+          padding-top: 7px;
+        }
+      }
     }
   }
 }
 
-.strength-bar {
-  height: 8px;
-  background-color: #eee;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: 4px;
-  margin-bottom: 4px;
+// 密碼強度指示器
+.password-strength {
+  margin-top: 0.75rem;
+
+  .strength-bar {
+    width: 100%;
+    height: 6px;
+    background: #c5dcff;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+
+    .strength-bar-fill {
+      height: 100%;
+      transition: all 0.3s ease;
+      border-radius: 3px;
+
+      &.strength-weak {
+        width: 33%;
+        background: var(--expense);
+      }
+
+      &.strength-medium {
+        width: 66%;
+        background: var(--fixed-expense);
+      }
+
+      &.strength-strong {
+        width: 100%;
+        background: var(--income);
+      }
+    }
+  }
+
+  .strength-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: default;
+  }
 }
 
-.strength-bar-fill {
-  height: 100%;
-  transition: width 0.3s ease;
+// 密碼確認提示
+.password-mismatch,
+.password-match {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+
+  mat-icon {
+    font-size: 1.2rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    padding-top: 2px;
+  }
 }
 
-.strength-weak {
-  width: 30%;
-  background-color: #e53935;
+.password-mismatch {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--expense);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  cursor: default;
+
+  mat-icon {
+    color: var(--expense);
+  }
 }
 
-.strength-medium {
-  width: 60%;
-  background-color: #fb8c00;
+.password-match {
+  background: var(--input-bg);
+  color: #02a267;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  cursor: default;
+  font-weight: 500;
+
+  mat-icon {
+    color: #02a267;
+  }
 }
 
-.strength-strong {
+// 驗證碼提示
+.verification-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: var(--input-bg);
+  border-radius: 8px;
+  font-size: 1.1rem;
+  color: #02a267;
+  cursor: default;
+
+  mat-icon {
+    font-size: 1.2rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    color: #02a267;
+    padding-top: 2px;
+  }
+}
+
+// 註冊按鈕
+.register-btn {
   width: 100%;
-  background-color: #43a047;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: var(--btn-login);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid var(--primary);
+
+  mat-icon {
+    font-size: 1.5rem;
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  &:hover:not(:disabled) {
+    background: #1746a2;
+  }
+
+  &:disabled {
+    background: var(--btn-login-register);
+    cursor: not-allowed;
+    opacity: 0.7;
+    border: 2px solid var(--primary);
+  }
 }
 
-.strength-text {
-  font-size: 0.85rem;
-  color: #555;
+// 分隔線
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0 1.5rem 0;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--primary);
+  }
+
+  span {
+    padding: 0 1rem;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: default;
+  }
+}
+
+// 返回登入按鈕
+.login-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  mat-icon {
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  &:hover {
+    background: var(--primary);
+    color: #fff;
+  }
+}
+
+// 響應式設計
+@media (max-width: 1200px) {
+  .register-card {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .register-page {
+    padding-top: 20px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .card-header {
+    padding: 1rem;
+
+    h3 {
+      font-size: 1.3rem;
+    }
+  }
+
+  .card-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .register-form {
+    .form-group {
+      .input-button-wrapper {
+        flex-direction: column;
+        gap: 1rem;
+
+        .send-code-btn {
+          width: 100%;
+          min-width: auto;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    max-width: 100%;
+  }
+
+  .card-content {
+    padding: 1rem;
+  }
 }

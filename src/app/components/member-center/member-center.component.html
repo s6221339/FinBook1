@@ -12,7 +12,7 @@
           />
           <div class="user-info">
             <h4 class="user-name">{{ currentUser?.name || '用戶' }}</h4>
-            <p class="user-email">{{ currentUser?.account }}</p>
+            <p class="user-email" [matTooltip]="currentUser?.account">{{ currentUser?.account }}</p>
           </div>
         </div>
       </div>

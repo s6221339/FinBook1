@@ -1,115 +1,107 @@
 <div class="page-container">
-  <!-- 頁面標題區域 -->
-  <div class="page-header">
-    <div class="page-title">
-      <mat-icon>edit</mat-icon>
-      <h1>編輯個人資料</h1>
-    </div>
-    <p class="page-description">修改您的個人基本資料</p>
-  </div>
-
   <!-- 原有的編輯表單卡片 -->
   <div class="member-edit-card">
     <div class="card-content">
+      <!-- 標題與說明 -->
+      <div class="section-header">
+        <div class="header-row">
+          <mat-icon>edit</mat-icon>
+          <h4>編輯個人資料</h4>
+          <span class="required-note">* 必填欄位</span>
+        </div>
+        <div class="section-desc">修改您的個人基本資料</div>
+      </div>
       <form [formGroup]="memberInfoForm" (ngSubmit)="onSubmit()" class="edit-form">
-        <!-- 基本資料區塊 -->
-        <div class="form-section">
-          <div class="section-header">
-            <mat-icon>person</mat-icon>
-            <h4>個人基本資料</h4>
-            <span class="required-note">* 必填欄位</span>
-          </div>
-
-          <!-- 姓名 -->
-          <div class="form-group">
-            <label class="form-label">
-              <mat-icon>badge</mat-icon>
-              姓名 *
-            </label>
-            <input
-              class="form-input"
-              type="text"
-              placeholder="請輸入您的姓名"
-              formControlName="name"
-              required
-            />
-            @if (memberInfoForm.get('name')?.invalid && memberInfoForm.get('name')?.touched) {
-              <div class="error-message">
-                <mat-icon>error</mat-icon>
-                <span>姓名為必填欄位</span>
-              </div>
-            }
-          </div>
-
-          <!-- 生日 -->
-          <div class="form-group">
-            <label class="form-label">
-              <mat-icon>cake</mat-icon>
-              生日 *
-            </label>
-            <div class="date-select-wrapper">
-              <select
-                class="date-select"
-                [(ngModel)]="selectedYear"
-                (change)="updateDaysInMonth()"
-                [ngModelOptions]="{standalone: true}"
-              >
-                <option value="">年</option>
-                @for (year of years; track year) {
-                  <option [value]="year">{{ year }}</option>
-                }
-              </select>
-              <select
-                class="date-select"
-                [(ngModel)]="selectedMonth"
-                (change)="updateDaysInMonth()"
-                [ngModelOptions]="{standalone: true}"
-              >
-                <option value="">月</option>
-                @for (month of months; track month) {
-                  <option [value]="month">{{ month }}</option>
-                }
-              </select>
-              <select
-                class="date-select"
-                [(ngModel)]="selectedDay"
-                [ngModelOptions]="{standalone: true}"
-              >
-                <option value="">日</option>
-                @for (day of days; track day) {
-                  <option [value]="day">{{ day }}</option>
-                }
-              </select>
+        <!-- 基本資料區塊已移除，直接開始表單欄位 -->
+        <!-- 姓名 -->
+        <div class="form-group">
+          <label class="form-label">
+            <mat-icon>badge</mat-icon>
+            姓名 <span class="required-star">*</span>
+          </label>
+          <input
+            class="form-input"
+            type="text"
+            placeholder="請輸入您的姓名"
+            formControlName="name"
+            required
+          />
+          @if (memberInfoForm.get('name')?.invalid && memberInfoForm.get('name')?.touched) {
+            <div class="error-message">
+              <mat-icon>error</mat-icon>
+              <span>姓名為必填欄位</span>
             </div>
-          </div>
-
-          <!-- 手機號碼 -->
-          <div class="form-group">
-            <label class="form-label">
-              <mat-icon>phone</mat-icon>
-              手機號碼
-            </label>
-            <input
-              class="form-input"
-              type="tel"
-              placeholder="請輸入手機號碼，格式: 09xxxxxxxx"
-              formControlName="phoneNumber"
-            />
-            @if (memberInfoForm.get('phoneNumber')?.invalid && memberInfoForm.get('phoneNumber')?.touched) {
-              <div class="error-message">
-                <mat-icon>error</mat-icon>
-                <span>
-                  @if (memberInfoForm.get('phoneNumber')?.errors?.['required']) {
-                    手機號碼為必填欄位
-                  } @else if (memberInfoForm.get('phoneNumber')?.errors?.['pattern']) {
-                    手機號碼格式錯誤，請輸入 09xxxxxxxx（純數字，不含 -）
-                  }
-                </span>
-              </div>
-            }
+          }
+        </div>
+        <!-- 生日 -->
+        <div class="form-group">
+          <label class="form-label">
+            <mat-icon>cake</mat-icon>
+            生日 <span class="required-star">*</span>
+          </label>
+          <div class="date-select-wrapper">
+            <select
+              class="date-select"
+              [(ngModel)]="selectedYear"
+              (change)="updateDaysInMonth()"
+              [ngModelOptions]="{standalone: true}"
+            >
+              <option value="">年</option>
+              @for (year of years; track year) {
+                <option [value]="year">{{ year }}</option>
+              }
+            </select>
+            <span class="date-label">年</span>
+            <select
+              class="date-select"
+              [(ngModel)]="selectedMonth"
+              (change)="updateDaysInMonth()"
+              [ngModelOptions]="{standalone: true}"
+            >
+              <option value="">月</option>
+              @for (month of months; track month) {
+                <option [value]="month">{{ month }}</option>
+              }
+            </select>
+            <span class="date-label">月</span>
+            <select
+              class="date-select"
+              [(ngModel)]="selectedDay"
+              [ngModelOptions]="{standalone: true}"
+            >
+              <option value="">日</option>
+              @for (day of days; track day) {
+                <option [value]="day">{{ day }}</option>
+              }
+            </select>
+            <span class="date-label">日</span>
           </div>
         </div>
-
+        <!-- 手機號碼 -->
+        <div class="form-group">
+          <label class="form-label">
+            <mat-icon>phone</mat-icon>
+            手機號碼
+          </label>
+          <input
+            class="form-input"
+            type="tel"
+            placeholder="請輸入手機號碼，格式: 09xxxxxxxx"
+            formControlName="phoneNumber"
+          />
+          @if (memberInfoForm.get('phoneNumber')?.invalid && memberInfoForm.get('phoneNumber')?.touched) {
+            <div class="error-message">
+              <mat-icon>error</mat-icon>
+              <span>
+                @if (memberInfoForm.get('phoneNumber')?.errors?.['required']) {
+                  手機號碼為必填欄位
+                } @else if (memberInfoForm.get('phoneNumber')?.errors?.['pattern']) {
+                  手機號碼格式錯誤，請輸入 09xxxxxxxx（純數字，不含 -）
+                }
+              </span>
+            </div>
+          }
+        </div>
         <!-- 操作按鈕 -->
         <div class="form-actions">
           <button

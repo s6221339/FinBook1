@@ -87,17 +87,16 @@ textarea.custom-select {
 }
 
 .custom-select, input[type='date'] {
-  font-size: 1.18rem;
+  font-size: 1.2rem;
   padding: 0.7rem 1.2rem;
   border-radius: 8px;
   border: 1.5px solid var(--primary);
-  background: var(--elevation-1);
+  background: var(--input-bg);
   color: var(--text-primary);
   outline: none;
   transition: border 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
   position: relative;
-  padding-right: 2.5rem;
 }
 
 .custom-select:focus, input[type='date']:focus {
@@ -169,7 +168,7 @@ textarea.custom-select {
 .recurring-input input {
   width: 100%;
   min-width: 0;
-  text-align: right;
+  text-align: center;
 }
 .recurring-label {
   margin-left: 15px;
@@ -222,8 +221,8 @@ textarea.custom-select {
   padding-top: 1.3rem;
   border: none;
   outline: none;
-  background: transparent;
-  font-size: 1.18rem;
+  background: var(--input-bg);
+  font-size: 1.2rem;
   height: 100%;
   box-shadow: none;
 }

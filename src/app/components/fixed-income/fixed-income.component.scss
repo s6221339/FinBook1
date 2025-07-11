@@ -91,10 +91,12 @@
   gap: 1rem;
   align-items: center;
 }
+
 .period-input {
   display: flex;
   align-items: center;
 }
+
 .period-unit {
   margin-left: 15px;
   margin-right: 5px;
@@ -137,10 +139,7 @@
   padding-right: 2.5rem;
 }
 
-// 數字欄位特殊處理
-.form-input[type='number'] {
-  padding-left: 3.5rem;
-}
+
 
 // Material UI 樣式覆蓋
 .full-width {
@@ -165,10 +164,9 @@
 }
 .form-input[type='number'] {
   width: 100%;
-  padding-left: 3.5rem;
   color: var(--input-text);
   padding-top: 1.2rem;
-  text-align: right;
+
 }
 .form-input[type='number']::placeholder {
   color: var(--input-placeholder);
@@ -456,16 +454,16 @@ hr {
   padding: 0.7rem 1.2rem;
   border-radius: 8px;
   border: 1px solid var(--primary);
-  background: var(--elevation-1);
+  background: var(--input-bg);
   color: var(--text-primary);
   outline: none;
   transition: border 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
   position: relative;
   padding-right: 2.5rem;
-  height: 48px;
-  min-height: 48px;
-  line-height: 48px;
+  height: 60px;
+  min-height: 60px;
+  line-height: 60px;
   box-sizing: border-box;
 }
 
@@ -492,3 +490,18 @@ hr {
 }
 
 .fixed-income-theme { --theme-main-rgb: 167,139,250; }
+
+
+.form-input.period-number {
+  text-align: left;
+  padding-left: 3.5rem;
+}
+
+.period-number-input {
+  width: 215px;
+  min-width: 215px;
+  max-width: 215px;
+  text-align: center !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}

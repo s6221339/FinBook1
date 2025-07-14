@@ -204,11 +204,9 @@ input[type='date']::-ms-input-placeholder {
 .payment-table th, .payment-table td,
 .transactions-table th, .transactions-table td {
   border-width: 1px 0;
-  border-style: solid;
-  border-color: var(--secondary-bg);
+  border-color: #b0b8d1;
   padding: 8px;
   text-align: center;
-  border-bottom: 1px solid var(--secondary-bg);
   border-right: 1.5px solid var(--table-border);
 }
 .payment-table th, .transactions-table th {
@@ -237,8 +235,6 @@ input[type='date']::-ms-input-placeholder {
   white-space: normal;
   font-size: 1.12rem;
   line-height: 1.8;
-  border-bottom: 1px solid var(--secondary-bg);
-  color: var(--text-primary) !important;
 }
 
 .transactions-table tr:nth-child(odd),
@@ -554,3 +550,12 @@ input[type='date']::-ms-input-placeholder {
   cursor: pointer !important;
 }
 
+// 轉出：整行淺紅
+.transfer-out-row {
+  background: #fad4d4 !important;
+}
+
+// 轉入：整行淺綠
+.transfer-in-row {
+  background: #c1fac1 !important;
+}

@@ -375,7 +375,7 @@
 .transactions-table th, .transactions-table td {
   border-width: 1px 0;
   border-style: solid;
-  border-color: var(--secondary-bg);
+  border-color:#b0b8d1;
   padding: 8px;
   text-align: center;
   border-bottom: 1px solid var(--secondary-bg);
@@ -408,8 +408,7 @@
   white-space: normal;
   font-size: 1.12rem;
   line-height: 1.8;
-  border-bottom: 1px solid var(--secondary-bg);
-  color: var(--text-primary) !important;
+  border-bottom: none !important;
 }
 
 .transactions-table tr:nth-child(odd),
@@ -764,4 +763,31 @@
   text-align: center;
   padding-left: 0;
   padding-right: 0;
+}
+
+.income-row td {
+  background: #eaffea !important;
+}
+.expense-row td {
+  background: #ffeaea !important;
+}
+
+.amount-income {
+  color: var(--transfer-in) !important;
+  font-weight: 700;
+}
+.amount-expense {
+  color: var(--transfer-out) !important;
+  font-weight: 700;
+}
+
+.payment-table td.mat-column-amount.amount-income,
+.transactions-table td.mat-column-amount.amount-income {
+  color: var(--transfer-in) !important;
+  font-weight: 700;
+}
+.payment-table td.mat-column-amount.amount-expense,
+.transactions-table td.mat-column-amount.amount-expense {
+  color: var(--transfer-out) !important;
+  font-weight: 700;
 }

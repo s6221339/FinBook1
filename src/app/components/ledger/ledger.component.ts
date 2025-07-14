@@ -716,4 +716,8 @@ export class LedgerComponent implements OnInit, AfterViewInit{
     this.dataSource.data = this.allFilteredData.slice(startIndex, endIndex);
   }
 
+  // 判斷該筆是否為收入
+  isIncome(row: any): boolean {
+    return row.type === '收入';
+  }
 }

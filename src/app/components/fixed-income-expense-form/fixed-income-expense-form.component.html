@@ -143,7 +143,13 @@
             <!-- 金額 -->
             <ng-container matColumnDef="amount">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>金額</th>
-              <td mat-cell *matCellDef="let element">NT$ {{ element.amount | number:'1.0-0' }}</td>
+              <td mat-cell *matCellDef="let element"
+                  [ngClass]="{
+                    'amount-income': element.type === '收入',
+                    'amount-expense': element.type !== '收入'
+                  }">
+                NT$ {{ element.amount | number:'1.0-0' }}
+              </td>
             </ng-container>
             <!-- 循環週期 -->
             <ng-container matColumnDef="recurringDescription">
@@ -163,7 +169,12 @@
             </ng-container>
             <!-- 表頭與表身 -->
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                [ngClass]="{
+                  'income-row': row.type === '收入',
+                  'expense-row': row.type !== '收入'
+                }">
+            </tr>
             <!-- 無資料顯示 -->
             <tr class="mat-row" *matNoDataRow>
               <td class="mat-cell" colspan="10" style="text-align: center; color: #999;">

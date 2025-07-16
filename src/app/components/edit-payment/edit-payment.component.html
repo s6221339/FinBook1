@@ -63,26 +63,28 @@
         </div>
         <!-- 循環週期（同排） -->
         @if (showRecurringFields) {
-          <div class="custom-form-group">
-            <label>
+          @if(canEditRecurring) {
+            <div class="custom-form-group">
+              <label>
               <span class="material-icons">calendar_today</span>
-              循環週期
-            </label>
-            <div class="recurring-row">
-              <div class="recurring-input">
-                <input class="custom-select" type="number" [(ngModel)]="recurringYear" name="recurringYear" [readonly]="!canEditRecurring" min="0" step="1" placeholder="年" />
-                <span class="recurring-label">年</span>
-              </div>
-              <div class="recurring-input">
-                <input class="custom-select" type="number" [(ngModel)]="recurringMonth" name="recurringMonth" [readonly]="!canEditRecurring" min="0" step="1" placeholder="月" />
-                <span class="recurring-label">月</span>
-              </div>
-              <div class="recurring-input">
-                <input class="custom-select" type="number" [(ngModel)]="recurringDay" name="recurringDay" [readonly]="!canEditRecurring" min="0" step="1" placeholder="日" />
-                <span class="recurring-label">日</span>
+                循環週期
+              </label>
+              <div class="recurring-row">
+                <div class="recurring-input">
+                  <input class="custom-select" type="number" [(ngModel)]="recurringYear" name="recurringYear" [readonly]="!canEditRecurring" min="0" step="1" placeholder="年" />
+                  <span class="recurring-label">年</span>
+                </div>
+                <div class="recurring-input">
+                  <input class="custom-select" type="number" [(ngModel)]="recurringMonth" name="recurringMonth" [readonly]="!canEditRecurring" min="0" step="1" placeholder="月" />
+                  <span class="recurring-label">月</span>
+                </div>
+                <div class="recurring-input">
+                  <input class="custom-select" type="number" [(ngModel)]="recurringDay" name="recurringDay" [readonly]="!canEditRecurring" min="0" step="1" placeholder="日" />
+                  <span class="recurring-label">日</span>
+                </div>
               </div>
             </div>
-          </div>
+          }
         }
         <!-- 記帳日期 -->
         <div class="custom-form-group">
@@ -90,7 +92,17 @@
             <span class="material-icons">date_range</span>
             記帳日期
           </label>
-          <input id="recordDate" class="custom-select" type="date" [(ngModel)]="recordDateStr" (ngModelChange)="onRecordDateChange($event)" name="recordDate" [disabled]="!canEditAll" />
+          <input
+            id="recordDate"
+            class="custom-select"
+            type="date"
+            [(ngModel)]="recordDateStr"
+            (ngModelChange)="onRecordDateChange($event)"
+            name="recordDate"
+            [disabled]="!canEditAll"
+            [min]="datePickerMin"
+            [max]="datePickerMax"
+          />
         </div>
         <!-- 按鈕區 -->
         <div class="form-actions">

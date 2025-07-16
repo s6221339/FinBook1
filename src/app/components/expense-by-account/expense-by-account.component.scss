@@ -1,0 +1,114 @@
+.expense-by-account-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+
+  .filter-section {
+    display: flex;
+    gap: 2rem;
+    justify-content: flex-start;
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      select {
+        padding: 0.5rem;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .chart-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1rem;
+    background: #fafafa;
+
+    .no-data {
+      font-size: 1.2rem;
+      color: #888;
+    }
+  }
+
+  .summary-section {
+    display: flex;
+    gap: 3rem;
+    justify-content: flex-start;
+
+    .summary-item {
+      font-size: 1.2rem;
+      font-weight: 600;
+      .summary-label {
+        margin-right: 0.5rem;
+        color: #666;
+      }
+      .summary-value {
+        color: #333;
+      }
+    }
+  }
+
+  .table-section {
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+      thead {
+        background: #3f51b5;
+        color: white;
+
+        th {
+          padding: 1rem;
+          text-align: left;
+          font-size: 1.1rem;
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid #eee;
+
+          &:hover {
+            background-color: #f9f9f9;
+          }
+
+          td {
+            padding: 1rem;
+            font-size: 1.05rem;
+          }
+
+          .label-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            .color-dot {
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              display: inline-block;
+            }
+          }
+        }
+      }
+    }
+  }
+}

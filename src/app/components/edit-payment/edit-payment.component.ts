@@ -53,6 +53,10 @@ export class EditPaymentComponent implements OnInit, AfterViewInit{
   canEditAll: boolean = true; //  控制是否可編輯
   canEditRecurring: boolean = true; //  控制「循環週期」欄位是否可編輯
   fromPage: string = '/modifyPayment';  //  預設返回頁
+  originalIsRecurring: boolean = false;
+  isFutureRecordDate: boolean = false;
+  datePickerMin: string = '';
+  datePickerMax: string = '';
 
   ngOnInit(): void {
     //  從 AuthService 取得登入使用者帳號
@@ -132,27 +136,28 @@ export class EditPaymentComponent implements OnInit, AfterViewInit{
     //  判斷紀錄時間是否是未來，判斷循環是否可開決定可否編輯
     const isFuture = recordDate > today;
 
-    //  編輯情況設計
-    if(isRecurringZero) {
+    //  記憶原始狀態
+    this.originalIsRecurring = !isRecurringZero;
+    this.isFutureRecordDate = isFuture;
+
+    //  循環 + 日期條件邏輯整合
+    if(!this.originalIsRecurring) {
+      //  非循環帳款
       this.canEditAll = true;
-      this.canEditRecurring = false;  //  不能改週期
-    }
-    else if(!isFuture) {
-      this.canEditAll = false;
       this.canEditRecurring = false;
-      Swal.fire({
-        icon: 'warning',
-        title: '無法編輯',
-        text: '此循環帳款已開始，無法再編輯',
-        cancelButtonText: '返回'
-      }).then(() => {
-        this.router.navigate([this.fromPage]);  //  返回來源頁
-      });
-      return;
+      this.setDatePickerRange('pastOnly');
+    }
+    else if (this.originalIsRecurring && !this.isFutureRecordDate) {
+      //  循環帳款 + 今天或過去
+      this.canEditAll = true;
+      this.canEditRecurring = false;
+      this.setDatePickerRange('pastOnly');
     }
     else{
+      //  循環帳款 + 未來
       this.canEditAll = true;
       this.canEditRecurring = true;
+      this.setDatePickerRange('futureOnly');
     }
 
     //  取得所有分類資料供下拉式選單使用
@@ -185,6 +190,29 @@ export class EditPaymentComponent implements OnInit, AfterViewInit{
     }
   }
 
+  setDatePickerRange(mode: 'pastOnly' | 'futureOnly') {
+    const today = new Date();
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    const yyyy = today.getFullYear();
+    const mm = pad(today.getMonth() + 1);
+    const dd = pad(today.getDate());
+    const todayStr = `${yyyy}-${mm}-${dd}`;
+
+    if(mode == 'pastOnly') {
+      this.datePickerMin = '2001-01-01';
+      this.datePickerMax = todayStr;
+    }
+    else if(mode == 'futureOnly') {
+      const tomorrow = new Date();
+      tomorrow.setDate(today.getDate() + 1);
+      const y = tomorrow.getFullYear();
+      const m = pad(tomorrow.getMonth() + 1);
+      const d = pad(tomorrow.getDate());
+      this.datePickerMin = `${y}-${m}-${d}`;
+      this.datePickerMax = '';
+    }
+  }
+
   //  根據選擇的 type 更新下拉式選單的 item
   updateItemOptions(): void {
     this.filteredItems = this.categories
@@ -203,7 +231,8 @@ export class EditPaymentComponent implements OnInit, AfterViewInit{
   }
 
   get showRecurringFields(): boolean {
-    return (this.recurringYear ?? 0) !== 0 || (this.recurringMonth ?? 0) !== 0 || (this.recurringDay ?? 0) !== 0;
+    //  不再即時根據 recurringXXX 判斷，而是記憶初始是否為循環帳款
+    return this.originalIsRecurring;
   }
 
   //  取消回修改帳款頁面

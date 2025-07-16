@@ -352,7 +352,7 @@ export class ApiService {
     });
   }
 
-  //  獲得所有帳戶每個月總收支
+  //  獲得存在帳戶每個月總收支
   getMonthlyIncomeExpenseSummary(data: any) {
     return axios.post('http://localhost:8080/finbook/payment/statistics/summaryIncomeAndOutlay', data, {
       withCredentials: true
@@ -401,6 +401,13 @@ export class ApiService {
   getSubscription(account: string) {
     return axios.post('http://localhost:8080/finbook/user/getSubscription', null, {
       params: { account },
+      withCredentials: true
+    });
+  }
+
+  //  獲得所有帳戶的收入與支出
+  getIncomeAndExpenseByMonthAndYear(data: any) {
+    return axios.post('http://localhost:8080/finbook/payment/statistics/incomeAndOutlayWithAllBalance', data, {
       withCredentials: true
     });
   }

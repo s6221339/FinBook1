@@ -777,4 +777,16 @@ data18 = {
     });
   }
 
+  getIncomeAndExpenseByMonthAndYear() {
+    this.apiService.getIncomeAndExpenseByMonthAndYear(this.data26)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得所有帳戶收支成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得所有帳戶收支失敗，請稍後再試');
+    });
+  }
+
 }

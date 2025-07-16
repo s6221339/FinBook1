@@ -212,7 +212,7 @@
           </ng-container>
           <!-- 紀錄日期 -->
           <ng-container matColumnDef="recordDate">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>紀錄日期</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>記帳日期</th>
             <td mat-cell *matCellDef="let element">{{ element.recordDate | date: 'yyyy-MM-dd' }}</td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="['type','item','description','amount','isRecurring','recordDate']"></tr>

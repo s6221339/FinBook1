@@ -1,1 +1,94 @@
-<p>income-by-account works!</p>
+<div class="income-by-account-page">
+  <!-- 頁面說明區域 -->
+  <div class="info-section">
+    <div class="info-card">
+      <mat-icon>info</mat-icon>
+      <div class="info-content">
+        <h4>數據說明</h4>
+        <p>顯示「<strong>各個帳戶</strong>」當月的支出比例與分析</p>
+      </div>
+    </div>
+  </div>
+  <!-- 年月篩選器 -->
+  <div class="filter-section">
+    <div class="filter-group">
+      <label for="year">年份：</label>
+      <select id="year" [(ngModel)]="selectedYear" (change)="onYearChange()">
+        @for(y of years; track $index) {
+          <option [value]="y">{{ y }} 年</option>
+        }
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="month">月份：</label>
+      <select id="month" [(ngModel)]="selectedMonth" (change)="onMonthChange()">
+        @for(m of months; track $index) {
+          <option [value]="m">{{ m }}月</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <!-- 圓餅圖 -->
+  <div class="chart-section">
+    @if(filteredBalances.length > 0) {
+      <canvas baseChart
+        [data]="pieChartDataSet"
+        [type]="'pie'"
+        [options]="pieChartOptions">
+      </canvas>
+    }
+    @else {
+      <div class="no-data">
+        <p>📭 本月尚無收入資料</p>
+      </div>
+    }
+  </div>
+
+  <!-- 支出摘要 -->
+  <div class="summary-section">
+    <div class="summary-item">
+      <span class="summary-label">合計：</span>
+      <span class="summary-value">{{ totalIncome | number:'1.0-0' }} 元</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">平均每天：</span>
+      <span class="summary-value">{{ getAveragePerDay() | number:'1.0-0' }} 元</span>
+    </div>
+  </div>
+  <!-- 支出明細表格 -->
+   @if(filteredBalances.length > 0) {
+    <div class="table-section">
+      <table>
+        <thead>
+          <tr>
+            <th>帳戶</th>
+            <th>金額</th>
+            <th>比例</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(b of filteredBalances; track $index) {
+            <tr>
+              <td class="label-cell">
+                <span class="color-dot" [style.background]="pieChartColors[$index % pieChartColors.length]"></span>
+                {{ b.name }}
+              </td>
+              <td [style.color]="pieChartColors[$index % pieChartColors.length]">
+                {{ b.income | number:'1.0-0' }} 元
+              </td>
+              <td [style.color]="pieChartColors[$index % pieChartColors.length]">
+                {{ totalIncome == 0 ? '0.0' : ((b.income / totalIncome) * 100) | number:'1.1-1' }} ％
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      @if(totalIncome == 0) {
+        <div class="zero-income-note">
+          ⚠️ 所有帳戶本月收入皆為 0 元，無實際帳款紀錄。
+        </div>
+      }
+    </div>
+   }
+</div>

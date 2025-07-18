@@ -412,4 +412,19 @@ export class ApiService {
     });
   }
 
+  //  獲得每月所有帳戶收入細項佔比
+  getAccountIncomeItemByMonthAndYear(data: any) {
+    return axios.post('http://localhost:8080/finbook/payment/statistics/incomeDetailsSummarize', data, {
+      withCredentials: true
+    });
+  }
+
+  //  取得綠界金流付款表單欄位
+  getECPayForm(account: string) {
+    return axios.post('http://localhost:8080/finbook/user/getECPayForm', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
 }

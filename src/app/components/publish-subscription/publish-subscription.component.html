@@ -6,9 +6,9 @@
       <div class="section-header">
         <div class="header-row">
           <mat-icon>subscriptions</mat-icon>
-          <h4>我的訂閱</h4>
+          <h4>月付方案</h4>
         </div>
-        <div class="section-desc">管理您的訂閱服務和查看訂閱狀態</div>
+        <div class="section-desc">查看目前的使用方案與有效期限</div>
       </div>
 
       @if(loading) {
@@ -29,9 +29,9 @@
                   {{ subscriptionStatus ? 'check_circle' : 'cancel' }}
                 </mat-icon>
                 <div class="status-info">
-                  <h5 class="status-title">訂閱狀態</h5>
+                  <h5 class="status-title">權限狀態</h5>
                   <p class="status-value" [ngClass]="subscriptionStatus ? 'subscribed' : 'not-subscribed'">
-                    {{ subscriptionStatus ? '訂閱中' : '未訂閱' }}
+                    {{ subscriptionStatus ? '已開通' : '未開通' }}
                   </p>
                 </div>
               </div>
@@ -58,7 +58,7 @@
               <div class="pricing-left">
                 <mat-icon>monetization_on</mat-icon>
                 <div class="pricing-info">
-                  <h5 class="pricing-title">訂閱方案</h5>
+                  <h5 class="pricing-title">升級方案</h5>
                   <p class="pricing-desc">月付方案</p>
                 </div>
               </div>
@@ -86,12 +86,12 @@
           @if(!subscriptionStatus) {
             <button class="action-btn primary subscribe-btn" (click)="subscribe()">
               <mat-icon>shopping_cart</mat-icon>
-              立即訂閱
+              立即購買
             </button>
           } @else {
             <button class="action-btn secondary renew-btn" (click)="subscribe()">
               <mat-icon>refresh</mat-icon>
-              續訂服務
+              再次購買
             </button>
           }
         </div>

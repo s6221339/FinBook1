@@ -789,4 +789,28 @@ data18 = {
     });
   }
 
+  getAccountIncomeItemByMonthAndYear() {
+    this.apiService.getAccountIncomeItemByMonthAndYear(this.data26)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得每月帳號收入細項佔比成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得每月帳號收入細項佔比失敗，請稍後再試');
+    });
+  }
+
+  getECPayForm() {
+    this.apiService.getECPayForm(this.account2)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('取得綠界金流付款表單欄位成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('取得綠界金流付款表單欄位失敗，請稍後再試');
+    });
+  }
+
 }

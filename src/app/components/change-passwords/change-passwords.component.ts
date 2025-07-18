@@ -25,6 +25,7 @@ export class ChangePasswordsComponent {
   currentPassword: string = '';
   newPassword: string = '';
   confirmNewPassword: string = '';
+  isSaving: boolean = false;
 
   showCurrent: boolean = false;
   showNew: boolean = false;
@@ -54,34 +55,44 @@ export class ChangePasswordsComponent {
   }
 
   savePassword(): void {
+    //  防止重複點擊
+    if(this.isSaving) return;
+    this.isSaving = true;
+
     const user = this.authService.getCurrentUser();
     if(!user) {
       Swal.fire('錯誤', '尚未登入，請重新登入', 'error');
       this.router.navigate(['/login']);
+      this.isSaving = false;
       return;
     }
 
     if(!this.currentPassword || !this.newPassword || !this.confirmNewPassword) {
       Swal.fire('錯誤', '請完整填寫所有欄位', 'error');
+      this.isSaving = false;
       return;
     }
 
     if(this.newPassword.length < 8 || this.newPassword.length > 16) {
       Swal.fire('格式錯誤', '新密碼長度須介於 8 到 16 碼之間', 'warning');
+      this.isSaving = false;
       return;
     }
 
     if(/\s/.test(this.newPassword)) {
       Swal.fire('格式錯誤', '新密碼不得包含空白字元', 'warning');
+      this.isSaving = false;
     return;
     }
 
     if(this.newPassword !== this.confirmNewPassword) {
       Swal.fire('錯誤', '新密碼與確認密碼不一致', 'error');
+      this.isSaving = false;
       return;
     }
     if(!/^[a-zA-Z0-9]+$/.test(this.newPassword)) {
       Swal.fire('格式錯誤', '新密碼僅可包含英文字母與數字，不能有特殊符號', 'warning');
+      this.isSaving = false;
       return;
     }
 
@@ -108,6 +119,9 @@ export class ChangePasswordsComponent {
       .catch(err => {
         console.error('密碼更新失敗', err);
         Swal.fire('錯誤', '請稍後再試', 'error');
+      })
+      .finally(() => {
+        this.isSaving = false;
       });
   }
 

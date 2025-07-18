@@ -1,4 +1,3 @@
-import { UserVO } from './../../models/userVO';
 import { AuthService } from './../../@services/auth.service';
 import { ApiService } from './../../@services/api.service';
 import { CommonModule } from '@angular/common';
@@ -71,24 +70,30 @@ export class PublishSubscriptionComponent implements OnInit, OnDestroy{
     const account = this.authService.getCurrentUser()?.account;
     if(!account) return;
 
-    this.apiService.renewal(account, true)
+    this.apiService.getECPayForm(account)
       .then(res => {
-        if(res.data.code == 200) {
-          window.open('https://payment.ecpay.com.tw', '_blank');
+        const formData = res.data;
 
-          this.authService.refreshUser(account)
-            .then(() => {
-              Swal.fire('✅ 訂閱成功', '畫面已同步刷新', 'success');
-                // .then(() => this.router.navigate(['/home']));
-            });
+        //  🔽 建立動態 <form> 送出至綠界
+        const form = document.createElement('form');
+        form.method = 'POST';
+        //  綠界測試網址
+        form.action = 'https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5';
+
+        for(const key in formData) {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = String(formData[key]);
+          form.appendChild(input);
         }
-        else{
-          Swal.fire('⚠️ 訂閱失敗', res.data.message || '請稍後再試', 'warning');
-        }
+
+        document.body.appendChild(form);
+        form.submit();
       })
       .catch(err => {
-        console.error('訂閱失敗', err);
-        Swal.fire('❌ 訂閱錯誤', '請檢查連線或稍後再試', 'error');
+        console.error('取得綠界表單失敗', err);
+        Swal.fire('❌ 金流初始化錯誤', '請檢察連線或稍後再試', 'error');
       });
   }
 

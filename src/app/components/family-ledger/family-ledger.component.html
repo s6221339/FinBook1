@@ -1,0 +1,67 @@
+<div class="family-ledger">
+  <h2>家庭小帳本</h2>
+
+  <!-- 家庭下拉式選單 -->
+  <label>選擇家庭帳戶：
+    <select [(ngModel)]="selectedBalanceId" (change)="onFilterChange()">
+      @for(b of familyBalances; track $index) {
+        <option [value]="b.balanceId">{{ b.name }}</option>
+      }
+    </select>
+  </label>
+
+  <!-- 年份選單 -->
+  <label>年份：
+    <select [(ngModel)]="selectedYear" (change)="onFilterChange()">
+      @for(year of availableYears; track $index) {
+        <option [value]="year">{{ year }}</option>
+      }
+    </select>
+  </label>
+
+  <!-- 月份選單 -->
+  <label>月份：
+    <select [(ngModel)]="selectedMonth" (change)="onFilterChange()">
+      @for(m of availableMonths; track $index) {
+        <option [value]="m">{{ m }}</option>
+      }
+    </select>
+  </label>
+
+  <div class="action-buttons">
+    <button (click)="onCreate()">新增</button>
+    <button (click)="onEdit()">編輯</button>
+    <button (click)="onDelete()">刪除</button>
+  </div>
+
+  <!-- 帳款表格 -->
+  @if(filteredPayments.length > 0) {
+    <table>
+      <thead>
+        <tr>
+          <th>✔</th>
+          <th>分類</th>
+          <th>項目</th>
+          <th>帳款描述</th>
+          <th>金額</th>
+          <th>記帳日期</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(p of filteredPayments; track $index) {
+          <tr>
+            <td><input type="checkbox" [value]="p.paymentId" [(ngModel)]="checkedMap[p.paymentId]" (change)="onCheckboxChange()"/></td>
+            <td>{{ p.type }}</td>
+            <td>{{ p.item }}</td>
+            <td>{{ p.description }}</td>
+            <td>{{ p.amount }}</td>
+            <td>{{ p.recordDate | date: 'yyyy-MM-dd' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+  @else {
+    <p>此家庭帳戶此月份無任何紀錄</p>
+  }
+</div>

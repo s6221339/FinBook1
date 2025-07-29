@@ -115,7 +115,6 @@ export class FixedIncomeComponent implements OnInit, AfterViewInit {
   get currentAccount(): string {
     const user = this.authService.getCurrentUser();
     if(!user) {
-      Swal.fire('錯誤', '尚未登入，請重新登入', 'error');
       this.router.navigate(['/login']);
       throw new Error('尚未登入');
     }

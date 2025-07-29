@@ -36,6 +36,7 @@ export class PublishSubscriptionComponent implements OnInit, OnDestroy{
       if(user) {
         const account = user.account;
 
+        this.authService.refreshUser(account);
         this.apiService.getSubscription(account)
           .then(res => {
             const result = res.data;

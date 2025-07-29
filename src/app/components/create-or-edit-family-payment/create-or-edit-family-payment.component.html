@@ -1,0 +1,44 @@
+<div class="form-container">
+  <h2>@if(isEditMode){ 編輯家庭帳款 } @else { 新增家庭帳款 }</h2>
+
+  <!-- 分類 -->
+  <label>分類：</label>
+  <select [(ngModel)]="selectedType">
+    @for(t of typeList; track $index) {
+      <option [value]="t">{{ t }}</option>
+    }
+  </select>
+
+  <!-- 項目 -->
+  <label>項目：</label>
+  <select [(ngModel)]="selectedItem">
+    @for(i of itemMap[selectedType]; track $index) {
+      <option [value]="i">{{ i }}</option>
+    }
+  </select>
+
+  <!-- 描述 -->
+  <label>帳款描述：</label>
+  <input type="text" [(ngModel)]="description" placeholder="請輸入描述"/>
+
+  <!-- 金額 -->
+  <label>金額：</label>
+  <input
+    type="number"
+    [(ngModel)]="amount"
+    placeholder="請輸入金額"
+    min="1"
+    step="1"
+  />
+
+  <!-- 記帳日期（僅編輯時顯示） -->
+  @if(isEditMode) {
+    <label>記帳日期：</label>
+    <input type="date" [(ngModel)]="recordDate" [max]="recordDate"/>
+  }
+
+  <!-- 送出按鈕 -->
+  <button (click)="onSubmit()">
+    @if(isEditMode) { 儲存修改 } @else { 儲存新增 }
+  </button>
+</div>

@@ -427,4 +427,19 @@ export class ApiService {
     });
   }
 
+  //  取得帳號的所有家庭帳戶
+  getFamilyBalanceByAccount(account: string) {
+    return axios.post('http://localhost:8080/finbook/balance/getAllByFamily', null, {
+      params: { account },
+      withCredentials: true
+    });
+  }
+
+  //  取得家庭帳戶特定月份帳款
+  getMonthlyPaymentByFamiltBalance(data: any) {
+    return axios.post('http://localhost:8080/finbook/payment/getInfoOfFamilyWithDateFilter', data, {
+      withCredentials: true
+    });
+  }
+
 }

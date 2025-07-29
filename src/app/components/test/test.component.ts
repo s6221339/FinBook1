@@ -186,6 +186,11 @@ data18 = {
     account: "s6221339@yahoo.com.tw",
     subscription: true
   };
+  data30 = {
+    "account": "a6221339@yahoo.com.tw",
+    "year": 2025,
+    "month": 7
+  };
 
   getTypeByAccount(){
     this.apiService.getTypeByAccount(this.account)
@@ -810,6 +815,30 @@ data18 = {
       .catch(err => {
         console.error('送出失敗：', err);
         alert('取得綠界金流付款表單欄位失敗，請稍後再試');
+    });
+  }
+
+  getFamilyBalanceByAccount() {
+    this.apiService.getFamilyBalanceByAccount(this.account)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('取得帳號的所有家庭帳戶成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('取得帳號的所有家庭帳戶失敗，請稍後再試');
+    });
+  }
+
+  getMonthlyPaymentByFamiltBalance() {
+    this.apiService.getMonthlyPaymentByFamiltBalance(this.data30)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('取得家庭帳戶特定月份帳款成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('取得家庭帳戶特定月份帳款失敗，請稍後再試');
     });
   }
 

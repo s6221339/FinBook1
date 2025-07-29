@@ -154,4 +154,8 @@ export class AppComponent implements OnInit {
         || this.router.url.startsWith('/transfers');
   }
 
+  goFamilyLedger(){
+    this.router.navigate(['/familyLedger']);
+  }
+
 }

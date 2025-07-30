@@ -60,21 +60,22 @@
 
         <!-- 忘記密碼 -->
         <div class="forgot-section">
-          <a
-            class="forgot-link"
-            routerLink="/forgetPasswords"
-            routerLinkActive="active"
-          >
+          <div class="forgot-link-wrapper">
             <mat-icon>help_outline</mat-icon>
-            忘記密碼？
-          </a>
+            <a
+              class="forgot-link"
+              routerLink="/forgetPasswords"
+              routerLinkActive="active"
+            >
+              忘記密碼？
+            </a>
+          </div>
         </div>
 
         <!-- 登入按鈕 -->
         <button
           type="submit"
           class="login-btn"
-          [disabled]="!account || !password"
         >
           <mat-icon>login</mat-icon>
           登入

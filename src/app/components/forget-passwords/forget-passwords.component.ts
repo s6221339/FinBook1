@@ -28,8 +28,26 @@ export class ForgetPasswordsComponent {
   isSendingCode = false;
 
   sendCode() {
-    if(!this.account || this.account.trim() == '') {
-      Swal.fire('錯誤', '請輸入帳號（信箱）', 'warning');
+    // 前端驗證
+    if (!this.account.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請輸入信箱',
+        text: '請在信箱欄位輸入您的電子郵件地址',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    // 驗證信箱格式
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.account)) {
+      Swal.fire({
+        icon: 'warning',
+        title: '信箱格式錯誤',
+        text: '請輸入正確的電子郵件地址格式',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
@@ -43,39 +61,85 @@ export class ForgetPasswordsComponent {
 
         if(res.data.code == 200) {
           this.codeSent = true;
-          Swal.fire('✅ 成功', '驗證碼已寄出，請查收您的信箱', 'success');
+          Swal.fire({
+            icon: 'success',
+            title: '驗證碼已寄出',
+            text: '請檢查您的信箱並輸入收到的驗證碼',
+            confirmButtonText: '確定'
+          });
           this.startCountdown();
         }
         else{
-          Swal.fire('錯誤', res.data.message || '發送失敗', 'error');
+          Swal.fire({
+            icon: 'error',
+            title: '發送失敗',
+            text: res.data.message || '無法寄送驗證碼，請稍後再試',
+            confirmButtonText: '確定'
+          });
         }
       })
       .catch(err => {
         this.isSendingCode = false;
-        Swal.fire('錯誤', '伺服器錯誤或帳號不存在', 'error');
+        Swal.fire({
+          icon: 'error',
+          title: '發送失敗',
+          text: '伺服器錯誤或帳號不存在，請稍後再試',
+          confirmButtonText: '確定'
+        });
         console.error(err);
       });
   }
 
   checkCode() {
-    if(!this.verifyCode || !this.account) {
-      Swal.fire('錯誤', '請輸入驗證碼', 'warning');
+    // 前端驗證
+    if (!this.verifyCode.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請輸入驗證碼',
+        text: '請在驗證碼欄位輸入收到的驗證碼',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    if (!this.account.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請輸入信箱',
+        text: '請在信箱欄位輸入您的電子郵件地址',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
     this.apiService.checkVerificationCode(this.verifyCode, this.account)
       .then(res => {
         if(res.data.code == 200) {
-          Swal.fire('✅ 驗證成功', '請重新設定新密碼', 'success').then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: '✅ 驗證成功',
+            text: '請重新設定新密碼',
+            confirmButtonText: '確定'
+          }).then(() => {
             this.router.navigate(['/resetPassword'], { queryParams: { account: this.account } });
           });
         }
         else{
-          Swal.fire('錯誤', res.data.message || '驗證碼錯誤', 'error');
+          Swal.fire({
+            icon: 'error',
+            title: '驗證碼錯誤',
+            text: res.data.message || '請確認驗證碼是否正確',
+            confirmButtonText: '確定'
+          });
         }
       })
       .catch(err => {
-        Swal.fire('錯誤', '伺服器錯誤', 'error');
+        Swal.fire({
+          icon: 'error',
+          title: '驗證失敗',
+          text: '伺服器錯誤，請稍後再試',
+          confirmButtonText: '確定'
+        });
         console.error(err);
       });
   }

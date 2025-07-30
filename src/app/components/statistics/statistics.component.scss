@@ -1,6 +1,5 @@
 .statistics-page {
   min-height: 100vh;
-  background: var(--elevation-0);
   padding: 2rem;
   max-width: 1000px;
   margin: 0 auto;
@@ -85,10 +84,7 @@
 
 // 內容區域
 .content-area {
-  background: var(--elevation-1);
   border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
-  border: 1px solid var(--secondary-bg);
   overflow: hidden;
 }
 

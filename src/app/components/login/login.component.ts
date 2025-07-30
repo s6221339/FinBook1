@@ -35,6 +35,28 @@ export class LoginComponent {
   }
 
   LoginClick(): void {
+    // 前端驗證
+    if (!this.account.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請輸入帳號',
+        text: '請在帳號欄位輸入您的帳號',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    if (!this.password.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請輸入密碼',
+        text: '請在密碼欄位輸入您的密碼',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    // 後端驗證
     this.authService.login(this.account, this.password).subscribe(success => {
       if(success) {
         this.router.navigate(['/home']);

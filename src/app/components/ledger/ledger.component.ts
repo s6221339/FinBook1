@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { PaymentIdFormData } from '../../models/paymentIdFormData';
 import { CommonModule } from '@angular/common';
-import { Category } from '../../models/categories';
+import { PaymentType } from '../../models/paymentType';
 import { Balance } from '../../models/balance';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
@@ -62,7 +62,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
   selectedType?: string | null;  //  下拉式選單(type)
   selectedItem?: string | null;  //  下拉式選單(item)
   categoriesFilteredItems: string[] = []; //  兩層下拉式選單第二層的對象
-  categories: Category[] = [];
+  categories: PaymentType[] = [];
   distinctTypes: string[] = []; //  不重複的類型
   selectedRecordDate?: Date | null; //  目前選擇的紀錄日期
   selectedRecordDateStr: string | null = null;
@@ -104,7 +104,7 @@ export class LedgerComponent implements OnInit, AfterViewInit{
         return this.apiService.getTypeByAccount(this.currentAccount);
       })
       .then(res => {
-        const list: Category[] = res.data.paymentTypeList || [];
+        const list: PaymentType[] = res.data.paymentTypeList || [];
         this.categories = list;
 
         //  去重複取得唯一的 type

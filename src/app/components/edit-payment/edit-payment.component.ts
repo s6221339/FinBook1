@@ -4,7 +4,7 @@ import { ApiService } from './../../@services/api.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentIdFormData } from '../../models/paymentIdFormData';
-import { Category } from '../../models/categories';
+import { PaymentType } from '../../models/paymentType';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
@@ -34,7 +34,7 @@ export class EditPaymentComponent implements OnInit, AfterViewInit{
   paymentId!: number;
   account: string= '';
   paymentData!: PaymentIdFormData;
-  categories: Category[] = [];
+  categories: PaymentType[] = [];
   filteredItems: string[] = []; //  根據 type 篩選過的 item
   selectedType: string | null = null;
   selectedItem: string | null = null;

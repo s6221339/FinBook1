@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
-
+import axios, { AxiosResponse } from 'axios';
+import { PaymentTypeCreateRequest } from '../models/request/PaymentTypeCreateRequest';
+import { BasicResponse } from '../models/response/basicResponse';
+import { GetPaymentTypeByAccountResponse } from '../models/response/getPaymentTypeByAccountResponse';
+import { PaymentCreateRequest } from '../models/request/paymentCreateRequest';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class ApiService {
 
-  constructor() {}
-
-  //  創建帳款類型
-  createType(data: any){
+  /**
+   * 建立帳款類型
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param data type、item、account 組成的資料
+   * @returns Axios 回傳 Promise<AxiosResponse<BasicResponse>> 基本回傳資料
+   */
+  createType(data: PaymentTypeCreateRequest): Promise<AxiosResponse<BasicResponse>>{
     return axios({
       url: 'http://localhost:8080/finbook/paymentType/create',
       method: 'POST',
@@ -22,16 +29,26 @@ export class ApiService {
     });
   }
 
-  //  帳款類型應用帳號
-  getTypeByAccount(account: string){
+  /**
+  * 根據帳號取得所有帳款類型及細項
+  * 需登入：系統需附帶 cookie，否則將回傳 401
+  * @param account 使用者帳號
+  * @returns Axios 回傳 Promise<AxiosResponse<GetPaymentTypeByAccountResponse>> 回傳類型清單
+  */
+  getTypeByAccount(account: string): Promise<AxiosResponse<GetPaymentTypeByAccountResponse>> {
     return axios.post('http://localhost:8080/finbook/paymentType/getByAccount', null, {
       params: { account },
       withCredentials: true
     });
   }
 
-  //  新增記帳款項
-  createPayment(data: any){
+  /**
+  * 新增記帳款項
+  * 需登入：系統需附帶 cookie，否則將回傳 401
+  * @param data 記帳款項請求資料（包含帳戶、描述、金額、分類等）
+  * @returns Axios 回傳 Promise<AxiosResponse<BasicResponse>> 基本回傳結果
+  */
+  createPayment(data: PaymentCreateRequest): Promise<AxiosResponse<BasicResponse>> {
     return axios({
       url: 'http://localhost:8080/finbook/payment/create',
       method: 'POST',

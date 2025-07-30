@@ -4,7 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../@services/api.service';
 import { PaymentService } from '../../@services/payment.service';
-import { Category } from '../../models/categories';
+import { PaymentType } from '../../models/paymentType';
 import { Balance } from '../../models/balance';
 import { filter } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -28,7 +28,7 @@ export class FixedIncomeComponent implements OnInit, AfterViewInit {
   todayString: string = this.formatDate(new Date());
   type?: string;
   item?: string;
-  categories: Category[] = [];
+  categories: PaymentType[] = [];
   selectedType?: string | null;  //  下拉式選單(type)
   selectedItem?: string | null;  //  下拉式選單(item)
   categoriesFiltedItems: string[] = []; //  兩層下拉式選單第二層的對象
@@ -51,7 +51,7 @@ export class FixedIncomeComponent implements OnInit, AfterViewInit {
     //  API取得帳號type
     this.apiService.getTypeByAccount(this.currentAccount)
       .then(res => {
-        const list: Category[] = res.data.paymentTypeList || [];
+        const list: PaymentType[] = res.data.paymentTypeList || [];
         this.categories = list;
 
         //  去重複取得唯一的 type
@@ -100,7 +100,7 @@ export class FixedIncomeComponent implements OnInit, AfterViewInit {
         //  每次返回頁面都重新抓分類資料
         this.apiService.getPaymentByAccount(this.currentAccount)
         .then(res => {
-          const list: Category[] = res.data.paymentTypeList || [];
+          const list: PaymentType[] = res.data.paymentTypeList || [];
           this.categories = list;
           this.distinctTypes = [...new Set(list.filter(c => c.type == '收入').map(c => c.type))];
 

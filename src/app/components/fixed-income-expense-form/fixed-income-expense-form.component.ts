@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Balance } from '../../models/balance';
-import { Category } from '../../models/categories';
+import { PaymentType } from '../../models/paymentType';
 import { PaymentIdFormData } from '../../models/paymentIdFormData';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
@@ -62,7 +62,7 @@ export class FixedIncomeExpenseFormComponent implements OnInit, AfterViewInit{
   account: string = ''; //  預設帳號
   rawPaymentList: any[] = []; //  原始 API 回傳的 balanceWithPaymentList
   selectedBalanceId?: number = 0; //  使用者選擇的 balanceId
-  categories: Category[] = [];
+  categories: PaymentType[] = [];
   distinctTypes: string[] = []; //  不重複的類型
   selectedType?: string | null;  //  下拉式選單(type)
   selectedItem?: string | null;  //  下拉式選單(item)
@@ -123,7 +123,7 @@ export class FixedIncomeExpenseFormComponent implements OnInit, AfterViewInit{
       return this.apiService.getTypeByAccount(this.account);
     })
     .then(res => {
-      const list: Category[] = res.data.paymentTypeList || [];
+      const list: PaymentType[] = res.data.paymentTypeList || [];
         this.categories = list;
 
         //  去重複取得唯一的 type

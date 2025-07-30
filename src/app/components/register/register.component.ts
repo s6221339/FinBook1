@@ -59,15 +59,38 @@ export class RegisterComponent {
   }
 
   sendVerificationCode() {
-    if(!this.account.trim()) {
-      Swal.fire('錯誤', '請輸入信箱', 'warning');
+    // 前端驗證
+    if (!this.account.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請輸入信箱',
+        text: '請在信箱欄位輸入您的電子郵件地址',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    // 驗證信箱格式
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.account)) {
+      Swal.fire({
+        icon: 'warning',
+        title: '信箱格式錯誤',
+        text: '請輸入正確的電子郵件地址格式',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
     this.isSending = true;
     this.apiService.sendRegistrationVerificationCode(this.account)
       .then(() => {
-        Swal.fire('✅ 成功', '驗證碼已寄出', 'success');
+        Swal.fire({
+          icon: 'success',
+          title: '驗證碼已寄出',
+          text: '請檢查您的信箱並輸入收到的驗證碼',
+          confirmButtonText: '確定'
+        });
         this.countdown = 60;
         this.countdownTimer = setInterval(() => {
           this.countdown--;
@@ -80,25 +103,100 @@ export class RegisterComponent {
       })
       .catch(err => {
         console.error(err);
-        Swal.fire('錯誤', err.response?.data?.message || '寄送失敗', 'error');
+        Swal.fire({
+          icon: 'error',
+          title: '寄送失敗',
+          text: err.response?.data?.message || '無法寄送驗證碼，請稍後再試',
+          confirmButtonText: '確定'
+        });
         this.isSending = false;
       });
   }
 
   async register() {
-    if(!this.name || !this.account || !this.password || !this.confirmPassword || !this.verificationCode) {
-      Swal.fire('錯誤', '請確認所有欄位皆有填寫', 'warning');
+    // 前端驗證 - 檢查必填欄位
+    if (!this.name.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請輸入姓名',
+        text: '請在姓名欄位輸入您的姓名',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
-    if(this.password !== this.confirmPassword) {
-      Swal.fire('錯誤', '密碼與確認密碼不一致', 'error');
+    if (!this.account.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請輸入信箱',
+        text: '請在信箱欄位輸入您的電子郵件地址',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
+    if (!this.password.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請輸入密碼',
+        text: '請在密碼欄位輸入您的密碼',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    if (!this.confirmPassword.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請確認密碼',
+        text: '請在確認密碼欄位再次輸入您的密碼',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    if (!this.verificationCode.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請輸入驗證碼',
+        text: '請在驗證碼欄位輸入收到的驗證碼',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    // 驗證信箱格式
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.account)) {
+      Swal.fire({
+        icon: 'warning',
+        title: '信箱格式錯誤',
+        text: '請輸入正確的電子郵件地址格式',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    // 驗證密碼一致性
+    if (this.password !== this.confirmPassword) {
+      Swal.fire({
+        icon: 'error',
+        title: '密碼不一致',
+        text: '兩次輸入的密碼不一致，請重新輸入',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    // 驗證密碼格式
     const passwordValid = /^[A-Za-z0-9]{8,16}$/.test(this.password);
-    if(!passwordValid) {
-      Swal.fire('錯誤', '密碼須為 8~16 位英數字，且不可有空白或特殊字元', 'error');
+    if (!passwordValid) {
+      Swal.fire({
+        icon: 'error',
+        title: '密碼格式錯誤',
+        text: '密碼須為 8~16 位英數字，且不可有空白或特殊字元',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
@@ -106,7 +204,12 @@ export class RegisterComponent {
       await this.apiService.verifyRegistrationVerificationCode(this.verificationCode, this.account);
     }
     catch (err: any) {
-      Swal.fire('錯誤', err.response?.data?.message || '驗證碼錯誤', 'error');
+      Swal.fire({
+        icon: 'error',
+        title: '驗證碼錯誤',
+        text: err.response?.data?.message || '請確認驗證碼是否正確',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
@@ -117,12 +220,22 @@ export class RegisterComponent {
       phone: ''
     })
     .then(() => {
-      Swal.fire('🎉 註冊成功', '請登入使用', 'success').then(() => {
+      Swal.fire({
+        icon: 'success',
+        title: '🎉 註冊成功',
+        text: '您的帳戶已成功建立，請登入使用',
+        confirmButtonText: '確定'
+      }).then(() => {
         this.router.navigate(['/login']);
       });
     })
     .catch(err => {
-      Swal.fire('錯誤', err.response?.data?.message || '註冊失敗', 'error');
+      Swal.fire({
+        icon: 'error',
+        title: '註冊失敗',
+        text: err.response?.data?.message || '註冊過程中發生錯誤，請稍後再試',
+        confirmButtonText: '確定'
+      });
     });
   }
 

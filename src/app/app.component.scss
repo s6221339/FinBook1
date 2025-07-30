@@ -29,8 +29,8 @@
   opacity: 0;
 
   /* 修正 header 高度 */
-  min-height: 72px;
-  height: 72px;
+  min-height: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
 }
@@ -60,12 +60,12 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 2vw; /* 響應式安全距離 */
+  padding: 0 16px; /* 響應式安全距離縮小 */
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
   gap: var(--space-md);
-  height: 72px;
+  height: 56px;
   position: relative;
   box-sizing: border-box;
   min-width: 0;
@@ -131,9 +131,16 @@
   /* 靠右對齊 */
   margin-left: auto;
   cursor: pointer;
-  height: 72px;
-  min-height: 72px;
+  height: 56px;
+  min-height: 56px;
   align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    gap: 10px;
+  }
 }
 
 /* 導航連結 */
@@ -144,7 +151,7 @@ button.nav-link {
   cursor: pointer;
   box-shadow: none;
   outline: none;
-  padding: 0 20px;
+  padding: 0 12px;
   margin: 0;
   font: inherit;
   display: flex;
@@ -152,12 +159,12 @@ button.nav-link {
   gap: var(--space-xs);
   text-decoration: none;
   font-weight: 700;
-  border-radius: 8px;
+  border-radius: 6px;
   transition: all 0.2s ease;
-  font-size: 1.15rem;
+  font-size: 1rem;
   white-space: nowrap;
-  height: 56px;
-  line-height: 56px;
+  height: 40px;
+  line-height: 40px;
 }
 
 button.nav-link:hover,
@@ -175,10 +182,14 @@ button.nav-link.active {
   font-weight: 800;
 }
 
+button.nav-link .material-icons,
+.header .material-icons,
+.header mat-icon {
+  font-size: 20px;
+}
 button.nav-link .material-icons {
   color: var(--primary) !important;
 }
-
 /* 用戶選單 */
 .user-menu {
   margin-left: auto;
@@ -209,7 +220,7 @@ button.nav-link .material-icons {
   gap: 10px;
 }
 .theme-icon {
-  font-size: 26px;
+  font-size: 20px;
   color: var(--theme-toggle-icon);
   transition: color 0.3s, filter 0.3s;
   filter: drop-shadow(0 1px 2px #fff8);
@@ -264,12 +275,12 @@ button.nav-link .material-icons {
 
 /* 統一按鈕基本樣式 */
 .action-button, .login-button, .user-button {
-  height: 56px;
+  height: 40px;
   min-width: 0;
-  max-width: 100%;
-  padding: 0 24px;
-  border-radius: 12px;
-  font-size: 1rem;
+  max-width: 160px;
+  padding: 0 20px;
+  border-radius: 20px;
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -277,12 +288,11 @@ button.nav-link .material-icons {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 100%;
   justify-content: center;
   font-weight: 700;
   color: #fff;
   border: none;
-  box-shadow: none;
+  box-shadow: 0 2px 8px rgba(224, 85, 161, 0.10);
   line-height: 1.2;
 }
 
@@ -292,36 +302,30 @@ button.nav-link .material-icons {
 }
 .login-button:hover, .login-button:focus {
   background: #1746a2;
-  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(37, 99, 235, 0.10);
+  transform: translateY(-2px) scale(1.04);
 }
 .login-button:active {
   background: #0d2e6a;
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 /* 用戶按鈕（粉紅色） */
 .user-button {
   background: var(--user-button-pink);
-  min-width: 0;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding: 0 16px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .user-button:hover, .user-button:focus {
   background: #e055a1;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(224, 85, 161, 0.10);
+  box-shadow: 0 4px 16px rgba(224, 85, 161, 0.18);
+  transform: translateY(-2px) scale(1.04);
 }
 .user-button:active {
   background: #c0448b;
-  transform: scale(0.98);
+  transform: scale(0.97);
+}
+.user-button .material-icons,
+.login-button .material-icons {
+  font-size: 20px;
 }
 
 /* icon 統一 */
@@ -497,9 +501,9 @@ button.nav-link .material-icons {
 
 /* 頁尾區塊標題 */
 .footer-title {
-  font-size:28px;
+  font-size: var(--font-size-h3);
   font-weight: 600;
-  margin-bottom: var(--space-md);
+  margin-bottom: 16px;
   /* 藍色標題 */
   color: var(--primary);
   position: relative;
@@ -523,9 +527,9 @@ button.nav-link .material-icons {
 .footer-description {
   color: var(--text-primary);
   line-height: 1.6;
-  margin-bottom: var(--space-lg);
-  font-size: 20px;
-  padding-top: var(--space-lg);
+  margin-bottom: 20px;
+  font-size: var(--font-size-body);
+  padding-top: 12px;
   cursor: default;
   max-width: 420px;
   margin-left: 0;
@@ -612,12 +616,12 @@ button.nav-link .material-icons {
   /* 移除邊距 */
   margin: 0;
 
-  padding-top: var(--space-lg);
+  padding-top: 16px;
 }
 
 /* 連結項目 */
 .footer-links li {
-  margin-bottom: var(--space-sm);
+  margin-bottom: 8px;
 }
 
 /* 連結樣式 */
@@ -626,7 +630,7 @@ button.nav-link .material-icons {
   text-decoration: none;
   transition: all 0.2s ease;
   display: inline-block;
-  font-size: 20px;
+  font-size: var(--font-size-body);
 }
 
 /* 連結hover效果 */
@@ -668,7 +672,7 @@ button.nav-link .material-icons {
   gap: var(--space-sm);
   margin-bottom: var(--space-sm);
   color: var(--text-primary);
-  font-size: 20px;
+  font-size: var(--font-size-body);
 }
 
 /* 聯絡資訊icon */
@@ -695,8 +699,7 @@ button.nav-link .material-icons {
 
 /* 版權文字 */
 .copyright {
-  color: var(--text-primary);
-  font-size: 16px;
+  font-size: var(--font-size-caption);
   order: 2; /* 排序：在下方 */
   cursor: default;
 }
@@ -916,7 +919,7 @@ button.nav-link .material-icons {
   font-size: 22px;
 }
 
-.family-menu .nav-link,
+
 .family-menu .action-button {
   font-size: 1.15rem;
   font-weight: 700;
@@ -939,4 +942,19 @@ button.nav-link .material-icons {
   background-color: rgba(42, 157, 143, 0.1) !important;
   transform: translateY(-2px);
   color: var(--primary) !important;
+}
+
+@media (max-width: 900px) {
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .footer-title {
+    font-size: var(--font-size-body);
+  }
+  .footer-description,
+  .footer-links a,
+  .contact-info li {
+    font-size: var(--font-size-caption);
+  }
 }

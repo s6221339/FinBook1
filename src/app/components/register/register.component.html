@@ -43,7 +43,6 @@
             <button
               type="button"
               class="send-code-btn"
-              [disabled]="countdown > 0 || isSending || !account"
               (click)="sendVerificationCode()"
             >
               <mat-icon>{{ isSending ? 'hourglass_empty' : 'send' }}</mat-icon>
@@ -158,7 +157,6 @@
         <button
           type="button"
           class="register-btn"
-          [disabled]="!name || !account || !password || !confirmPassword || !verificationCode || password !== confirmPassword"
           (click)="register()"
         >
           <mat-icon>check</mat-icon>

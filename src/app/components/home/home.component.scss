@@ -5,21 +5,21 @@
 
 // Hero Section -
 .hero-section {
-  display: flex;
-  align-items: stretch;
-  min-height: 80vh;
-  padding: 5rem 2.2em;
+  min-height: 100vh;
+  padding: 3.6rem 1.7em;
+  padding-top: 72px;
   background: var(--primary-bg);
   position: relative;
+  box-sizing: border-box;
 }
 
 .hero-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1080px;
   margin: 0 auto;
   display: flex;
   align-items: stretch;
-  gap: 5rem;
+  gap: 3.2rem;
   position: relative;
   z-index: 1;
   flex-wrap: nowrap;
@@ -58,7 +58,7 @@
 
 .hero-title {
   margin-top: auto;
-  font-size: 4.5rem;
+  font-size: 4.05rem;
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 0.5rem;
@@ -69,7 +69,7 @@
 }
 
 .hero-subtitle {
-  font-size: 1.6rem;
+  font-size: 1.44rem;
   font-weight: 400;
   margin-bottom: 1.5rem;
   background: var(--title-text-color);
@@ -80,7 +80,7 @@
 }
 
 .hero-description {
-  font-size: 1.3rem;
+  font-size: 1.17rem;
   line-height: 1.6;
   color: var(--text-secondary);
   margin-bottom: 2rem;
@@ -102,9 +102,9 @@
 .highlight-item {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.72rem;
   background: var(--elevation-1);
-  padding: 1rem 1.5rem;
+  padding: 0.9rem 1.35rem;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -123,6 +123,7 @@
   span:last-child {
     font-weight: 600;
     color: var(--text-primary);
+    font-size: unset;
   }
 }
 
@@ -141,9 +142,9 @@
 
 // === [調整開始] 立即開始使用按鈕寬高，與 highlight-item 對齊 ===
 .hero-buttons .btn-secondary {
-  min-width: 372px;
-  height: 56px;
-  font-size: 1.2rem;
+  min-width: 335px;
+  height: 50px;
+  font-size: 1.08rem;
   justify-content: center;
   background: var(--cta-btn-bg);
   color: var(--cta-btn-text);
@@ -210,9 +211,9 @@
 
 // 右側圖片區域
 .hero-image {
-  min-width: 520px;
-  max-width: 760px;
-  max-height: 460px;
+  min-width: 468px;
+  max-width: 684px;
+  max-height: 414px;
   aspect-ratio: 4/3;
   display: flex;
   align-items: stretch;
@@ -222,8 +223,8 @@
 // 輪播容器
 .carousel-container {
   width: 100%;
-  max-width: 580px;
-  height: 460px;
+  max-width: 468px;
+  height: 414px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
@@ -329,6 +330,7 @@
   border-radius: 20px;
   font-weight: 600;
   z-index: 2;
+  font-size: unset;
 }
 
 // 浮動裝飾（移到輪播外圍）
@@ -426,61 +428,59 @@
 
 // Features Section
 .features-section {
-  padding: 3rem 0;
+  padding: 11rem 0;
   background: var(--secondary-bg);
 }
-
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.1rem;
 }
-
 .feature-card {
   background: var(--elevation-1);
-  padding: 2.5rem;
-  border-radius: 16px;
+  padding: 1.2rem;
+  border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   text-align: center;
   border: 1px solid var(--secondary-bg);
 }
-
 .feature-icon {
-  width: 80px;
-  height: 80px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 1.5rem;
+  margin: 0 auto 0.7rem;
   color: #fff;
 }
-
 .feature-title {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
-
 .feature-description {
   color: var(--text-secondary);
   line-height: 1.6;
-  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  margin-bottom: 0.7rem;
 }
-
 .feature-link {
+  font-size: 0.95rem;
   display: inline-flex;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-end;
   gap: 0.5rem;
   color: var(--primary);
   text-decoration: none;
   font-weight: 600;
+
 }
 
 // Steps Section
 .steps-section {
-  padding: 6rem ;
+  padding: 8rem;
   background: var(--steps-bg);
 }
 
@@ -526,6 +526,7 @@
 .step-description {
   color: var(--text-secondary);
   line-height: 1.6;
+  font-size: unset;
 }
 
 .step-arrow {
@@ -540,7 +541,7 @@
 
 // CTA Section
 .cta-section {
-  padding: 8rem;
+  padding: 11rem;
   background: var(--cta-bg);
   color: #fff;
   text-align: center;
@@ -583,6 +584,7 @@
 
   .material-icons {
     color: #00ff0e;
+    font-size: unset;
   }
 }
 
@@ -608,9 +610,30 @@
 }
 
 // 響應式設計
+@media (max-width: 1200px) {
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 900px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  .feature-card {
+    padding: 1rem;
+  }
+}
+
 @media (max-width: 1100px) {
   .hero-container {
     flex-wrap: wrap;
+    gap: unset;
+    max-width: unset;
   }
   .hero-content, .hero-image {
     max-width: 100%;

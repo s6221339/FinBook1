@@ -1,0 +1,43 @@
+.transfer-form {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.member-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+
+  button {
+    flex: 1;
+  }
+}

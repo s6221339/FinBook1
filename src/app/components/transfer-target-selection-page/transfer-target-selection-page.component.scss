@@ -1,0 +1,119 @@
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 24px 0 16px;
+  text-align: center;
+  color: #333;
+}
+
+.no-data-message {
+  text-align: center;
+  font-size: 18px;
+  color: #999;
+  margin: 32px 0;
+}
+
+/* 表格本體 */
+.transfer-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 表頭樣式 */
+.transfer-table thead {
+  background-color: #f4f6f8;
+}
+
+.transfer-table th {
+  padding: 12px 16px;
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 表格列 */
+.transfer-table td {
+  padding: 12px 16px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+  color: #444;
+}
+
+/* 大頭貼與姓名 */
+.sender-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 下拉式選單 */
+select {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%;
+}
+
+/* 操作按鈕樣式 */
+.actions button {
+  margin: 0 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.accept-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.accept-btn:hover {
+  background-color: #43a047;
+}
+
+.reject-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.reject-btn:hover {
+  background-color: #e53935;
+}
+
+/* 響應式調整 */
+@media screen and (max-width: 768px) {
+  .transfer-table th,
+  .transfer-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .actions button {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}

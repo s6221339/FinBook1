@@ -41,6 +41,8 @@ import { PublishSubscriptionComponent } from './components/publish-subscription/
 import { SubscriptionGuard } from './@guards/subscription.guard';
 import { FamilyLedgerComponent } from './components/family-ledger/family-ledger.component';
 import { CreateOrEditFamilyPaymentComponent } from './components/create-or-edit-family-payment/create-or-edit-family-payment.component';
+import { TransfersRevisedComponent } from './components/transfers-revised/transfers-revised.component';
+import { TransferTargetSelectionPageComponent } from './components/transfer-target-selection-page/transfer-target-selection-page.component';
 
 export const routes: Routes = [
   { path:'bookKeeping', component: BookKeepingComponent, canActivate: [AuthGuard],
@@ -90,6 +92,8 @@ export const routes: Routes = [
   { path: 'createOrEditFamily/create/:balanceId',component: CreateOrEditFamilyPaymentComponent, canActivate: [SubscriptionGuard] },
   { path: 'createOrEditFamily/edit/:paymentId',component: CreateOrEditFamilyPaymentComponent, canActivate: [SubscriptionGuard] },
   { path: 'familyLedger',component: FamilyLedgerComponent, canActivate: [SubscriptionGuard] },
+  { path: 'transfersRevised', component: TransfersRevisedComponent, canActivate: [SubscriptionGuard] },
+  { path: 'transferTargetSelection', component: TransferTargetSelectionPageComponent, canActivate: [SubscriptionGuard] },
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent }

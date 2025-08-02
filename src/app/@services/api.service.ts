@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosResponse } from 'axios';
-import { PaymentTypeCreateRequest } from '../models/request/PaymentTypeCreateRequest';
 import { BasicResponse } from '../models/response/basicResponse';
 import { GetPaymentTypeByAccountResponse } from '../models/response/getPaymentTypeByAccountResponse';
 import { PaymentCreateRequest } from '../models/request/paymentCreateRequest';
+import { PaymentTypeCreateRequest } from '../models/request/paymentTypeCreateRequest';
+import { GetBalanceByAccountResponse } from '../models/response/getBalanceByAccountResponse';
+import { GetFamilyByAccountResponse } from '../models/response/getFamilyByAccountResponse';
+import { CreateTransferRequest } from '../models/request/createTransferRequest';
+import { GetUnconfirmedTransfersResponse } from '../models/response/getUnconfirmedTransfersResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -104,16 +108,26 @@ export class ApiService {
     });
   }
 
-  //  透過帳號取得個人帳號帳戶
-  getBalanceByAccount(account: string){
+  /**
+   * 根據帳號取得帳戶清單
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param account 使用者帳號（不可為空）
+   * @returns Axios 回傳 Promise<AxiosResponse<GetBalanceByAccountResponse>> 回傳帳戶清單
+   */
+  getBalanceByAccount(account: string): Promise<AxiosResponse<GetBalanceByAccountResponse>> {
     return axios.post('http://localhost:8080/finbook/balance/getAllByAccount', null, {
       params: { account },
       withCredentials: true
     });
   }
 
-  //  新增轉帳紀錄
-  createTransfers(data: any){
+  /**
+   * 建立一筆轉帳紀錄，會驗證來源與目的帳戶是否存在，並同時產生對應的帳款紀錄
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param data 建立轉帳紀錄所需資料（來源帳戶、接收者帳號、金額與備註）
+   * @returns Axios 回傳 Promise<AxiosResponse<BasicResponse>> 基本回傳資料
+   */
+  createTransfers(data: CreateTransferRequest): Promise<AxiosResponse<BasicResponse>> {
     return axios({
       url: 'http://localhost:8080/finbook/transfers/create',
       method: 'POST',
@@ -192,8 +206,13 @@ export class ApiService {
     });
   }
 
-  //  獲得已加入家庭列表
-  getFamilyByAccount(account: string){
+  /**
+   * 根據會員帳號查詢其所屬的所有家庭清單，包含各群組名稱、擁有者與成員資料。
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param account 會員帳號（必填）
+   * @returns Axios 回傳 Promise<AxiosResponse<GetFamilyByAccountResponse>> 家庭清單資料
+   */
+  getFamilyByAccount(account: string): Promise<AxiosResponse<GetFamilyByAccountResponse>> {
     return axios.post('http://localhost:8080/finbook/user/getFamilyByAccount', null, {
       params: { account },
       withCredentials: true
@@ -455,6 +474,46 @@ export class ApiService {
   //  取得家庭帳戶特定月份帳款
   getMonthlyPaymentByFamiltBalance(data: any) {
     return axios.post('http://localhost:8080/finbook/payment/getInfoOfFamilyWithDateFilter', data, {
+      withCredentials: true
+    });
+  }
+
+  /**
+   * 取得本帳號所有尚未確認之額度轉移資料
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * 無參數
+   * @returns Axios 回傳 Promise<AxiosResponse<GetUnconfirmedTransfersResponse>> 回傳未確認轉帳清單
+   */
+  getUnconfirmedTransfer(): Promise<AxiosResponse<GetUnconfirmedTransfersResponse>> {
+    return axios.post('http://localhost:8080/finbook/transfers/getNotConfirm', null, {
+      withCredentials: true
+    });
+  }
+
+  /**
+   * 接受額度轉移
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param tId 額度轉移紀錄 ID（transfers 表的主鍵）
+   * @param bId 目前帳戶 ID（即轉入帳戶對應的 balanceId）
+   * @returns Axios 回傳 Promise<AxiosResponse<BasicResponse>> 基本回傳結果
+   */
+  acceptTransfer(tId: number, bId: number): Promise<AxiosResponse<BasicResponse>> {
+    return axios.post('http://localhost:8080/finbook/transfers/confirm', null, {
+      params: { tId, bId },
+      withCredentials: true
+    });
+  }
+
+  /**
+   * 拒絕額度轉移
+   * 由「接收者」在尚未確認前取消該筆轉帳，將轉帳資料作廢
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param tId 指定的額度轉移紀錄 ID
+   * @returns Axios 回傳 Promise<AxiosResponse<BasicResponse>> 基本回傳結果
+   */
+  rejectTransfer(tId: number): Promise<AxiosResponse<BasicResponse>> {
+    return axios.post('http://localhost:8080/finbook/transfers/reject', null, {
+      params: { tId },
       withCredentials: true
     });
   }

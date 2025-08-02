@@ -2,9 +2,9 @@
 /** 前端要送給後端的轉帳資料 */
 export interface TransferRequest {
   fromBalance: number;
-  toBalance:   number;
+  toAccount:   string;
   amount:        number;
-  description?:  string;   // 可選
+  description?:  string | null;   // 可選
   // transferDate:  string;   // 格式 "YYYY-MM-DD"
 }
 

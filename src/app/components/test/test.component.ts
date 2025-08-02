@@ -64,7 +64,7 @@ data5 = {
 };
 data6 = {
   "fromBalance": 1 ,
-  "toBalance": 2,
+  "toAccount": "a6221339@yahoo.com.tw",
   "amount": 23000,
   "description": "零用錢"
 }
@@ -191,6 +191,11 @@ data18 = {
     "year": 2025,
     "month": 7
   };
+  data31: { tId: number, bId: number } = {
+    tId: 20,
+    bId: 2
+  };
+  tId: number = 20;
 
   getTypeByAccount(){
     this.apiService.getTypeByAccount(this.account)
@@ -839,6 +844,42 @@ data18 = {
       .catch(err => {
         console.error('送出失敗：', err);
         alert('取得家庭帳戶特定月份帳款失敗，請稍後再試');
+    });
+  }
+
+  getUnconfirmedTransfer() {
+    this.apiService.getUnconfirmedTransfer()
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('取得未確認額度轉移成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('取得未確認額度轉移失敗，請稍後再試');
+    });
+  }
+
+  acceptTransfer() {
+    this.apiService.acceptTransfer(this.data31.tId, this.data31.bId)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('接受額度轉移成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('接受額度轉移失敗，請稍後再試');
+    });
+  }
+
+  rejectTransfer() {
+    this.apiService.rejectTransfer(this.tId)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('拒絕額度轉移成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('拒絕額度轉移失敗，請稍後再試');
     });
   }
 

@@ -134,7 +134,7 @@ export class AppComponent implements OnInit {
   }
 
   goTransfers(){
-    this.router.navigate(['/transfers']);
+    this.router.navigate(['/transfersRevised']);
   }
 
   goFixedIncomeExpenseForm(){
@@ -151,11 +151,17 @@ export class AppComponent implements OnInit {
     return this.router.url.startsWith('/myFamily')
         || this.router.url.startsWith('/createFamily')
         || this.router.url.startsWith('/unacceptedFamilyInvitation')
-        || this.router.url.startsWith('/transfers');
+        || this.router.url.startsWith('/transfersRevised')
+        || this.router.url.startsWith('/transferTargetSelection')
+        || this.router.url.startsWith('/familyLedger');
   }
 
   goFamilyLedger(){
     this.router.navigate(['/familyLedger']);
+  }
+
+  goTransferTargetSelection(): void {
+    this.router.navigate(['/transferTargetSelection']);
   }
 
 }

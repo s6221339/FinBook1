@@ -5,6 +5,7 @@ import { Account, TransferRequest } from '../../models/transfers';
 import { ApiService } from '../../@services/api.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { CreateTransferRequest } from '../../models/request/createTransferRequest';
 
 @Component({
   selector: 'app-transfers',
@@ -171,11 +172,11 @@ export class TransfersComponent implements OnInit { // 實作 OnInit 介面，�
 
     // ****** 根據後端 Swagger 文件，組裝要發送給後端的 `payload` 物件 ******
     // payload 應只包含後端 DTO (CreateTransfersRequest) 所期望的欄位
-    const payload: TransferRequest = {
+    const payload: CreateTransferRequest = {
       fromBalance: this.fromBalance!, // `!` (非空斷言): 告訴 TypeScript，在此處 `fromBalance` 肯定有值 (因為前面已通過驗證)
-      toBalance: this.toBalance!,     // 同上
+      toAccount: String(this.toBalance),     // 同上
       amount: this.amount!,           // 同上
-      description: this.description   // 後端 Swagger 顯示有此欄位，所以包含
+      description: this.description?.trim() ?? null,  // 後端 Swagger 顯示有此欄位，所以包含
       // 注意：transferDate 和 fee 已從後端請求中移除，因此這裡不再包含
     };
 

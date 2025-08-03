@@ -196,6 +196,18 @@ data18 = {
     bId: 2
   };
   tId: number = 20;
+  data32 = {
+  "from": {
+    "year": 2025,
+    "month": 6,
+    "day": 1073741824
+  },
+  "to": {
+    "year": 2025,
+    "month": 6,
+    "day": 1073741824
+  }
+};
 
   getTypeByAccount(){
     this.apiService.getTypeByAccount(this.account)
@@ -880,6 +892,18 @@ data18 = {
       .catch(err => {
         console.error('送出失敗：', err);
         alert('拒絕額度轉移失敗，請稍後再試');
+    });
+  }
+
+  getAIAnalysis() {
+    this.apiService.getAIAnalysis(this.data32)
+      .then(res => {
+        console.log('成功送出：', res.data);
+        alert('獲得 AI 分析資料成功');
+      })
+      .catch(err => {
+        console.error('送出失敗：', err);
+        alert('獲得 AI 分析資料失敗，請稍後再試');
     });
   }
 

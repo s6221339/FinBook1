@@ -1,0 +1,31 @@
+<div class="ai-report-container">
+  <h2>AI 分析報告</h2>
+
+  <!-- 年月下拉選單 -->
+  <div class="selectors">
+    <label for="year">年份：</label>
+    <select id="year" [(ngModel)]="selectedYear" (change)="onDateChange()">
+      @for(year of yearList; track $index) {
+        <option [value]="year">{{ year }}</option>
+      }
+    </select>
+
+    <label for="month">月份：</label>
+    <select id="month" [(ngModel)]="selectedMonth" (change)="onDateChange()">
+      @for(month of monthList; track $index) {
+        <option [value]="month">{{ month }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- 顯示分析結果 -->
+  @if (reportText) {
+    <div class="report">
+      <p>{{ reportText }}</p>
+    </div>
+  }
+  @else {
+    <p class="no-data">本月無資料可生成報告</p>
+  }
+
+</div>

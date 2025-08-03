@@ -1,0 +1,91 @@
+.transfer-record-container {
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+label {
+  margin-right: 0.5rem;
+}
+
+select, input[type="date"] {
+  margin: 0.5rem 1rem 1rem 0;
+}
+
+.date-filter,
+.page-size {
+  margin-bottom: 1rem;
+}
+
+table.transfer-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+table.transfer-table th,
+table.transfer-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+table.transfer-table th {
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* 紅底表示為轉出者 */
+tr.outgoing {
+  background-color: #ffe5e5;
+}
+
+/* 綠底表示為轉入者 */
+tr.incoming {
+  background-color: #e5ffe5;
+}
+
+/* 深紅字體 for 金額 */
+td.amount-outgoing {
+  color: #b30000;
+  font-weight: bold;
+}
+
+/* 分頁按鈕樣式 */
+.pagination {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.pagination button {
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.no-data-message {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: italic;
+  color: #888;
+}

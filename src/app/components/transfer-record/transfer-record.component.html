@@ -1,0 +1,93 @@
+<div class="transfer-record-container">
+
+  <!-- 帳戶選單 -->
+  <label for="balanceSelect">選擇帳戶：</label>
+  <select id="balanceSelect" [(ngModel)]="selectedBalanceId" (change)="onBalanceChange()">
+    @for(balance of balanceList; track $index) {
+      <option [value]="balance.balanceId">
+        {{ balance.name || ('帳戶' + balance.balanceId) }}
+      </option>
+    }
+  </select>
+
+  <!-- 日期篩選 -->
+  <div class="date-filter">
+    <label>開始日期：</label>
+    <input type="date" [(ngModel)]="startDate" [max]="today" (change)="applyFilters()" />
+
+    <label>結束日期：</label>
+    <input type="date" [(ngModel)]="endDate" [max]="today" (change)="applyFilters()" />
+  </div>
+
+  <!-- 筆數選擇 -->
+  <div class="page-size">
+    <label>每頁顯示筆數：</label>
+    <select [(ngModel)]="pageSize" (change)="currentPage = 1">
+      <option [value]="5">5</option>
+      <option [value]="10">10</option>
+      <option [value]="20">20</option>
+      <option [value]="50">50</option>
+    </select>
+  </div>
+
+  <!-- 若無資料則顯示提示 -->
+  @if(pagedRecords.length == 0) {
+    <p class="no-data-message">目前無額度轉移紀錄</p>
+  }
+  @else{
+    <!-- 表格 -->
+    <table class="transfer-table">
+      <thead>
+        <tr>
+          <th>交易序號</th>
+          <th (click)="toggleSort('createDate')">日期</th>
+          <th>轉出者</th>
+          <th>轉入者</th>
+          <th (click)="toggleSort('amount')">金額</th>
+          <th>備註</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(record of pagedRecords; track $index) {
+          <tr [ngClass]="{
+            'outgoing': isOutgoingFromSelectedAccount(record),
+            'incoming': isIncomingToSelectedAccount(record)
+          }">
+            <td>{{ pagedRecords.indexOf(record) + 1 + (currentPage - 1) *pageSize }}</td>
+            <td> {{ record.createDate }}</td>
+
+            <td>
+              <div class="user-info">
+                <img [src]="getAvatar(record.fromAccount)" class="avatar" />
+                <span>{{ getDisplayName(record.fromAccount) }}</span>
+              </div>
+            </td>
+
+            <td>
+              <div class="user-info">
+                <img [src]="getAvatar(record.toAccount)" class="avatar" />
+                <span>{{ getDisplayName(record.toAccount) }}</span>
+              </div>
+            </td>
+
+            <td [ngClass]="{ 'amount-outgoing': isOutgoingFromSelectedAccount(record) }">
+              {{ record.amount }}
+            </td>
+
+            <td>
+              {{ record.description.trim() ? record.description : '（無）' }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <!-- 分頁 -->
+  <div class="pagination">
+    <button (click)="currentPage = currentPage - 1" [disabled]="currentPage == 1">上一頁</button>
+    <span>第 {{ currentPage }} 頁 / 共 {{ totalPages }} 頁</span>
+    <button (click)="currentPage = currentPage + 1" [disabled]="currentPage >= totalPages">下一頁</button>
+  </div>
+
+</div>

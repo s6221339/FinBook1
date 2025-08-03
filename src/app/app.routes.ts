@@ -43,6 +43,8 @@ import { FamilyLedgerComponent } from './components/family-ledger/family-ledger.
 import { CreateOrEditFamilyPaymentComponent } from './components/create-or-edit-family-payment/create-or-edit-family-payment.component';
 import { TransfersRevisedComponent } from './components/transfers-revised/transfers-revised.component';
 import { TransferTargetSelectionPageComponent } from './components/transfer-target-selection-page/transfer-target-selection-page.component';
+import { TransferRecordComponent } from './components/transfer-record/transfer-record.component';
+import { AIReportAnalysisComponent } from './components/aireport-analysis/aireport-analysis.component';
 
 export const routes: Routes = [
   { path:'bookKeeping', component: BookKeepingComponent, canActivate: [AuthGuard],
@@ -94,6 +96,8 @@ export const routes: Routes = [
   { path: 'familyLedger',component: FamilyLedgerComponent, canActivate: [SubscriptionGuard] },
   { path: 'transfersRevised', component: TransfersRevisedComponent, canActivate: [SubscriptionGuard] },
   { path: 'transferTargetSelection', component: TransferTargetSelectionPageComponent, canActivate: [SubscriptionGuard] },
+  { path: 'transferRecord', component: TransferRecordComponent, canActivate: [SubscriptionGuard] },
+  { path: 'AIReportAnalysis', component: AIReportAnalysisComponent, canActivate: [SubscriptionGuard] },
   { path: 'home', component: HomeComponent },
   { path: '', component: HomeComponent },
   { path: '**', component: HomeComponent }

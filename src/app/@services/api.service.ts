@@ -8,6 +8,10 @@ import { GetBalanceByAccountResponse } from '../models/response/getBalanceByAcco
 import { GetFamilyByAccountResponse } from '../models/response/getFamilyByAccountResponse';
 import { CreateTransferRequest } from '../models/request/createTransferRequest';
 import { GetUnconfirmedTransfersResponse } from '../models/response/getUnconfirmedTransfersResponse';
+import { getNameByAccountResponse } from '../models/response/getNameByAccountResponse';
+import { GetAllTransfersResponse } from '../models/response/getAllTransfersResponse';
+import { GetAIAnalysisRequest } from '../models/request/getAIAnalysisRequest';
+import { GetAIAnalysisResponse } from '../models/response/getAIAnalysisResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +21,7 @@ export class ApiService {
 
   /**
    * 建立帳款類型
+   *
    * 需登入：系統需附帶 cookie，否則將回傳 401
    * @param data type、item、account 組成的資料
    * @returns Axios 回傳 Promise<AxiosResponse<BasicResponse>> 基本回傳資料
@@ -35,6 +40,7 @@ export class ApiService {
 
   /**
   * 根據帳號取得所有帳款類型及細項
+  *
   * 需登入：系統需附帶 cookie，否則將回傳 401
   * @param account 使用者帳號
   * @returns Axios 回傳 Promise<AxiosResponse<GetPaymentTypeByAccountResponse>> 回傳類型清單
@@ -48,6 +54,7 @@ export class ApiService {
 
   /**
   * 新增記帳款項
+  *
   * 需登入：系統需附帶 cookie，否則將回傳 401
   * @param data 記帳款項請求資料（包含帳戶、描述、金額、分類等）
   * @returns Axios 回傳 Promise<AxiosResponse<BasicResponse>> 基本回傳結果
@@ -110,6 +117,7 @@ export class ApiService {
 
   /**
    * 根據帳號取得帳戶清單
+   *
    * 需登入：系統需附帶 cookie，否則將回傳 401
    * @param account 使用者帳號（不可為空）
    * @returns Axios 回傳 Promise<AxiosResponse<GetBalanceByAccountResponse>> 回傳帳戶清單
@@ -123,6 +131,7 @@ export class ApiService {
 
   /**
    * 建立一筆轉帳紀錄，會驗證來源與目的帳戶是否存在，並同時產生對應的帳款紀錄
+   *
    * 需登入：系統需附帶 cookie，否則將回傳 401
    * @param data 建立轉帳紀錄所需資料（來源帳戶、接收者帳號、金額與備註）
    * @returns Axios 回傳 Promise<AxiosResponse<BasicResponse>> 基本回傳資料
@@ -155,8 +164,14 @@ export class ApiService {
     });
   }
 
-  //  帳戶獲得所有轉帳紀錄
-  getAllTransfersByBalanceId(balanceId: number){
+  /**
+   * 根據帳戶編號取得所有轉帳紀錄
+   *
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param balanceId 帳戶編號
+   * @returns Axios 回傳 Promise<AxiosResponse<GetAllTransfersResponse>> 包含轉帳紀錄清單
+   */
+  getAllTransfersByBalanceId(balanceId: number): Promise<AxiosResponse<GetAllTransfersResponse>> {
     return axios.post('http://localhost:8080/finbook/transfers/getAll', null, {
       params: { balanceId },
       withCredentials: true
@@ -208,6 +223,7 @@ export class ApiService {
 
   /**
    * 根據會員帳號查詢其所屬的所有家庭清單，包含各群組名稱、擁有者與成員資料。
+   *
    * 需登入：系統需附帶 cookie，否則將回傳 401
    * @param account 會員帳號（必填）
    * @returns Axios 回傳 Promise<AxiosResponse<GetFamilyByAccountResponse>> 家庭清單資料
@@ -226,8 +242,14 @@ export class ApiService {
     });
   }
 
-  //  取得帳號名稱
-  getNameByAccount(account: string){
+  /**
+   * 根據會員帳號取得會員名稱與頭像
+   *
+   * 不須登入
+   * @param account 會員帳號（必選）
+   * @returns Axios 回傳 Promise<AxiosResponse<getNameByAccountResponse>> 包含會員名稱與頭像的資料
+   */
+  getNameByAccount(account: string): Promise<AxiosResponse<getNameByAccountResponse>> {
     return axios.post('http://localhost:8080/finbook/user/getNameByAccount', null, {
       params: { account },
       withCredentials: true
@@ -480,6 +502,7 @@ export class ApiService {
 
   /**
    * 取得本帳號所有尚未確認之額度轉移資料
+   *
    * 需登入：系統需附帶 cookie，否則將回傳 401
    * 無參數
    * @returns Axios 回傳 Promise<AxiosResponse<GetUnconfirmedTransfersResponse>> 回傳未確認轉帳清單
@@ -492,6 +515,7 @@ export class ApiService {
 
   /**
    * 接受額度轉移
+   *
    * 需登入：系統需附帶 cookie，否則將回傳 401
    * @param tId 額度轉移紀錄 ID（transfers 表的主鍵）
    * @param bId 目前帳戶 ID（即轉入帳戶對應的 balanceId）
@@ -506,7 +530,9 @@ export class ApiService {
 
   /**
    * 拒絕額度轉移
+   *
    * 由「接收者」在尚未確認前取消該筆轉帳，將轉帳資料作廢
+   *
    * 需登入：系統需附帶 cookie，否則將回傳 401
    * @param tId 指定的額度轉移紀錄 ID
    * @returns Axios 回傳 Promise<AxiosResponse<BasicResponse>> 基本回傳結果
@@ -514,6 +540,19 @@ export class ApiService {
   rejectTransfer(tId: number): Promise<AxiosResponse<BasicResponse>> {
     return axios.post('http://localhost:8080/finbook/transfers/reject', null, {
       params: { tId },
+      withCredentials: true
+    });
+  }
+
+  /**
+   * 根據指定起訖時間查詢 AI 分析資料
+   *
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param data 查詢起訖區間的年/月/日結構
+   * @returns Axios 回傳 Promise<AxiosResponse<GetAIAnalysisResponse>> 回傳分析內容
+   */
+  getAIAnalysis(data: GetAIAnalysisRequest): Promise<AxiosResponse<GetAIAnalysisResponse>> {
+    return axios.post('http://localhost:8080/finbook/aiQueryLogs/getAnalysis', data, {
       withCredentials: true
     });
   }

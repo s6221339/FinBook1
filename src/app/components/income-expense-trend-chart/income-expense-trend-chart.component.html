@@ -2,9 +2,11 @@
   <!-- 頁面說明區域 -->
   <div class="info-section">
     <div class="info-card">
-      <mat-icon>info</mat-icon>
-      <div class="info-content">
-        <h4>數據說明</h4>
+      <div class="card-header">
+        <mat-icon>info</mat-icon>
+        <span>數據說明</span>
+      </div>
+      <div class="card-content">
         <p>所有圖表與數值統計皆為「<strong>所有帳戶</strong>」的總收入、總支出與總收支結果</p>
       </div>
     </div>
@@ -13,32 +15,34 @@
   <!-- 篩選器區域 -->
   <div class="filter-section">
     <div class="filter-card">
-      <div class="filter-header">
+      <div class="card-header">
         <mat-icon>filter_list</mat-icon>
-        <h4>篩選條件</h4>
+        <span>篩選條件</span>
       </div>
-      <div class="filter-controls">
-        <div class="filter-group">
-          <label class="filter-label">
-            <mat-icon>calendar_today</mat-icon>
-            年份
-          </label>
-          <select class="filter-select" [(ngModel)]="selectedYear" (change)="onYearChange()">
-            @for(y of years; track $index) {
-              <option [value]="y">{{ y }} 年</option>
-            }
-          </select>
-        </div>
-        <div class="filter-group">
-          <label class="filter-label">
-            <mat-icon>event</mat-icon>
-            月份
-          </label>
-          <select class="filter-select" [(ngModel)]="selectedMonth" (change)="onMonthChange()">
-            @for(m of monthList; track $index) {
-              <option [value]="m">{{ m }} 月</option>
-            }
-          </select>
+      <div class="card-content">
+        <div class="filter-controls">
+          <div class="filter-group">
+            <label class="filter-label">
+              <mat-icon>calendar_today</mat-icon>
+              年份
+            </label>
+            <select class="filter-select" [(ngModel)]="selectedYear" (change)="onYearChange()">
+              @for(y of years; track $index) {
+                <option [value]="y">{{ y }} 年</option>
+              }
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">
+              <mat-icon>event</mat-icon>
+              月份
+            </label>
+            <select class="filter-select" [(ngModel)]="selectedMonth" (change)="onMonthChange()">
+              @for(m of monthList; track $index) {
+                <option [value]="m">{{ m }} 月</option>
+              }
+            </select>
+          </div>
         </div>
       </div>
     </div>
@@ -47,17 +51,19 @@
   <!-- 圖表區域 -->
   <div class="chart-section">
     <div class="chart-card">
-      <div class="chart-header">
+      <div class="card-header">
         <mat-icon>trending_up</mat-icon>
-        <h4>{{ selectedYear }} 年收支趨勢圖</h4>
+        <span>{{ selectedYear }} 年收支趨勢圖</span>
       </div>
-      <div class="chart-container">
-        <canvas baseChart
-          [datasets]="chartDatasets"
-          [labels]="chartLabels"
-          [options]="chartOptions"
-          chartType="bar">
-        </canvas>
+      <div class="card-content">
+        <div class="chart-container">
+          <canvas baseChart
+            [datasets]="chartDatasets"
+            [labels]="chartLabels"
+            [options]="chartOptions"
+            chartType="bar">
+          </canvas>
+        </div>
       </div>
     </div>
   </div>
@@ -65,36 +71,38 @@
   <!-- 月份摘要區域 -->
   <div class="summary-section">
     <div class="summary-card">
-      <div class="summary-header">
+      <div class="card-header">
         <mat-icon>assessment</mat-icon>
-        <h4>{{ selectedYear }} 年 {{ selectedMonth }} 月 財務摘要</h4>
+        <span>{{ selectedYear }} 年 {{ selectedMonth }} 月 財務摘要</span>
       </div>
-      <div class="summary-grid">
-        <div class="summary-item income">
-          <div class="summary-icon">
-            <mat-icon>trending_up</mat-icon>
+      <div class="card-content">
+        <div class="summary-grid">
+          <div class="summary-item income">
+            <div class="summary-icon">
+              <mat-icon>trending_up</mat-icon>
+            </div>
+            <div class="summary-content">
+              <span class="summary-label">總收入</span>
+              <span class="summary-value">{{ singleMonthIncome | number }} 元</span>
+            </div>
           </div>
-          <div class="summary-content">
-            <span class="summary-label">總收入</span>
-            <span class="summary-value">{{ singleMonthIncome | number }} 元</span>
+          <div class="summary-item expense">
+            <div class="summary-icon">
+              <mat-icon>trending_down</mat-icon>
+            </div>
+            <div class="summary-content">
+              <span class="summary-label">總支出</span>
+              <span class="summary-value">{{ singleMonthOutlay | number }} 元</span>
+            </div>
           </div>
-        </div>
-        <div class="summary-item expense">
-          <div class="summary-icon">
-            <mat-icon>trending_down</mat-icon>
-          </div>
-          <div class="summary-content">
-            <span class="summary-label">總支出</span>
-            <span class="summary-value">{{ singleMonthOutlay | number }} 元</span>
-          </div>
-        </div>
-        <div class="summary-item net" [ngClass]="singleMonthNet >= 0 ? 'positive' : 'negative'">
-          <div class="summary-icon">
-            <mat-icon>{{ singleMonthNet >= 0 ? 'add_circle' : 'remove_circle' }}</mat-icon>
-          </div>
-          <div class="summary-content">
-            <span class="summary-label">總收支</span>
-            <span class="summary-value">{{ singleMonthNet | number }} 元</span>
+          <div class="summary-item net" [ngClass]="singleMonthNet >= 0 ? 'positive' : 'negative'">
+            <div class="summary-icon">
+              <mat-icon>{{ singleMonthNet >= 0 ? 'add_circle' : 'remove_circle' }}</mat-icon>
+            </div>
+            <div class="summary-content">
+              <span class="summary-label">總收支</span>
+              <span class="summary-value">{{ singleMonthNet | number }} 元</span>
+            </div>
           </div>
         </div>
       </div>

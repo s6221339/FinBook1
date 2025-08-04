@@ -1,119 +1,132 @@
 <div class="modify-payment-page">
-  <div class="filter-card">
-    <div class="mat-card-header">
-      <div class="mat-card-title">
+  <div class="content-container">
+    <div class="filter-card">
+      <div class="mat-card-header">
         <span class="material-icons">edit</span>
-        編輯帳款
+        <h3>編輯帳款</h3>
       </div>
-    </div>
-    <div class="mat-card-content">
-      <form (ngSubmit)="saveAndGoBack()" autocomplete="off">
-        <!-- 支出類型 -->
-        <div class="custom-form-group">
-          <label for="type">
-            <span class="material-icons">category</span>
-            支出類型
-          </label>
-          <select id="type" class="custom-select" [(ngModel)]="selectedType" name="type" (change)="updateItemOptions()" [disabled]="!canEditAll">
-            @for (type of distinctTypes; track $index) {
-              <option [value]="type">{{ type }}</option>
-            }
-          </select>
-        </div>
-        <!-- 項目 -->
-        <div class="custom-form-group">
-          <label for="item">
-            <span class="material-icons">list</span>
-            項目
-          </label>
-          <select id="item" class="custom-select" [(ngModel)]="selectedItem" name="item">
-            @for (item of filteredItems; track $index) {
-              <option [value]="item">{{ item }}</option>
-            }
-          </select>
-        </div>
-        <!-- 備註說明 -->
-        <div class="custom-form-group">
-          <label for="description">
-            <span class="material-icons">edit_note</span>
-            備註說明
-          </label>
-          <textarea id="description" class="custom-select" [(ngModel)]="description" name="description" [readonly]="!canEditAll" rows="2" maxlength="200" placeholder="可填寫補充說明"></textarea>
-          <div class="char-count">{{ description.length || 0 }}/200</div>
-        </div>
-        <!-- 金額 -->
-        <div class="custom-form-group">
-          <label for="amount">
-            <span class="material-icons">attach_money</span>
-            支出金額
-          </label>
-          <div class="amount-input-wrapper">
-            <span class="currency-symbol">NT$</span>
-            <input
-              id="amount"
-              type="number"
-              class="form-input full-width"
-              [(ngModel)]="amount"
-              name="amount"
-              [readonly]="!canEditAll"
-              min="1"
-              placeholder="請輸入金額"
-            />
+      <div class="mat-card-content">
+        <form (ngSubmit)="saveAndGoBack()" autocomplete="off">
+                            <!-- 支出類型 -->
+          <div class="form-group">
+            <label for="type">
+              <span class="material-icons">category</span>
+              支出類型
+            </label>
+            <div class="select-wrapper">
+              <select id="type" [(ngModel)]="selectedType" name="type" (change)="updateItemOptions()" [disabled]="!canEditAll">
+                @for (type of distinctTypes; track $index) {
+                  <option [value]="type">{{ type }}</option>
+                }
+              </select>
+              <span class="material-icons select-arrow">expand_more</span>
+            </div>
           </div>
-        </div>
-        <!-- 循環週期（同排） -->
-        @if (showRecurringFields) {
-          @if(canEditRecurring) {
-            <div class="custom-form-group">
-              <label>
-              <span class="material-icons">calendar_today</span>
-                循環週期
-              </label>
-              <div class="recurring-row">
-                <div class="recurring-input">
-                  <input class="custom-select" type="number" [(ngModel)]="recurringYear" name="recurringYear" [readonly]="!canEditRecurring" min="0" step="1" placeholder="年" />
-                  <span class="recurring-label">年</span>
-                </div>
-                <div class="recurring-input">
-                  <input class="custom-select" type="number" [(ngModel)]="recurringMonth" name="recurringMonth" [readonly]="!canEditRecurring" min="0" step="1" placeholder="月" />
-                  <span class="recurring-label">月</span>
-                </div>
-                <div class="recurring-input">
-                  <input class="custom-select" type="number" [(ngModel)]="recurringDay" name="recurringDay" [readonly]="!canEditRecurring" min="0" step="1" placeholder="日" />
-                  <span class="recurring-label">日</span>
+          <!-- 項目 -->
+          <div class="form-group">
+            <label for="item">
+              <span class="material-icons">list</span>
+              項目
+            </label>
+            <div class="select-wrapper">
+              <select id="item" [(ngModel)]="selectedItem" name="item">
+                @for (item of filteredItems; track $index) {
+                  <option [value]="item">{{ item }}</option>
+                }
+              </select>
+              <span class="material-icons select-arrow">expand_more</span>
+            </div>
+          </div>
+          <!-- 備註說明 -->
+          <div class="form-group">
+            <label for="description">
+              <span class="material-icons">edit_note</span>
+              備註說明
+            </label>
+            <div class="input-wrapper">
+              <textarea id="description" [(ngModel)]="description" name="description" [readonly]="!canEditAll" rows="2" maxlength="200" placeholder="可填寫補充說明"></textarea>
+            </div>
+            <div class="char-count">{{ description.length || 0 }}/200</div>
+          </div>
+          <!-- 金額 -->
+          <div class="form-group">
+            <label for="amount">
+              <span class="material-icons">attach_money</span>
+              支出金額
+            </label>
+            <div class="input-wrapper">
+              <input
+                id="amount"
+                type="number"
+                [(ngModel)]="amount"
+                name="amount"
+                [readonly]="!canEditAll"
+                min="1"
+                placeholder="請輸入金額"
+              />
+            </div>
+          </div>
+          <!-- 循環週期（同排） -->
+                      @if (showRecurringFields) {
+              @if(canEditRecurring) {
+                <div class="form-group">
+                  <label>
+                  <span class="material-icons">calendar_today</span>
+                    循環週期
+                  </label>
+                <div class="recurring-row">
+                  <div class="recurring-input">
+                    <div class="input-wrapper">
+                      <input type="number" [(ngModel)]="recurringYear" name="recurringYear" [readonly]="!canEditRecurring" min="0" step="1" placeholder="年" />
+                    </div>
+                    <span class="recurring-label">年</span>
+                  </div>
+                  <div class="recurring-input">
+                    <div class="input-wrapper">
+                      <input type="number" [(ngModel)]="recurringMonth" name="recurringMonth" [readonly]="!canEditRecurring" min="0" step="1" placeholder="月" />
+                    </div>
+                    <span class="recurring-label">月</span>
+                  </div>
+                  <div class="recurring-input">
+                    <div class="input-wrapper">
+                      <input type="number" [(ngModel)]="recurringDay" name="recurringDay" [readonly]="!canEditRecurring" min="0" step="1" placeholder="日" />
+                    </div>
+                    <span class="recurring-label">日</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            }
           }
-        }
-        <!-- 記帳日期 -->
-        <div class="custom-form-group">
-          <label for="recordDate">
-            <span class="material-icons">date_range</span>
-            記帳日期
-          </label>
-          <input
-            id="recordDate"
-            class="custom-select"
-            type="date"
-            [(ngModel)]="recordDateStr"
-            (ngModelChange)="onRecordDateChange($event)"
-            name="recordDate"
-            [disabled]="!canEditAll"
-            [min]="datePickerMin"
-            [max]="datePickerMax"
-          />
-        </div>
-        <!-- 按鈕區 -->
-        <div class="form-actions">
-          <button type="button" class="custom-btn custom-btn-accent" (click)="goBackModifyPayment()">
-            <span class="material-icons">cancel</span> 取消編輯
-          </button>
-          <button type="submit" class="custom-btn custom-btn-warn">
-            <span class="material-icons">save</span> 儲存變更
-          </button>
-        </div>
-      </form>
+          <!-- 記帳日期 -->
+          <div class="form-group">
+            <label for="recordDate">
+              <span class="material-icons">date_range</span>
+              記帳日期
+            </label>
+            <div class="input-wrapper">
+              <input
+                id="recordDate"
+                type="date"
+                [(ngModel)]="recordDateStr"
+                (ngModelChange)="onRecordDateChange($event)"
+                name="recordDate"
+                [disabled]="!canEditAll"
+                [min]="datePickerMin"
+                [max]="datePickerMax"
+              />
+            </div>
+          </div>
+          <!-- 按鈕區 -->
+          <div class="form-actions">
+            <button type="button" class="custom-btn custom-btn-accent" (click)="goBackModifyPayment()">
+              <span class="material-icons">cancel</span> 取消編輯
+            </button>
+            <button type="submit" class="custom-btn custom-btn-warn">
+              <span class="material-icons">save</span> 儲存變更
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

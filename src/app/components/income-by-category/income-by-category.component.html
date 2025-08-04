@@ -1,72 +1,162 @@
-<div>
+<div class="income-by-category-page">
   <!-- 頁面說明區域 -->
   <div class="info-section">
     <div class="info-card">
-      <mat-icon>info</mat-icon>
-      <div class="info-content">
-        <h4>數據說明</h4>
-        <p>顯示「<strong>所有帳戶</strong>」的收入細項分布與比例分析</p>
+      <div class="card-header">
+        <mat-icon>info</mat-icon>
+        <span>數據說明</span>
+      </div>
+      <div class="card-content">
+        <p>顯示「<strong>各個分類</strong>」當月的收入比例與分析</p>
       </div>
     </div>
   </div>
-  <!-- 年月篩選器 -->
-  <div class="filter-bar">
-    <label>年份：</label>
-    <select [(ngModel)]="selectedYear" (change)="onYearChange()">
-      @for(y of years; track $index) {
-        <option [value]="y">{{ y }} 年</option>
-      }
-    </select>
 
-    <label>月份：</label>
-    <select [(ngModel)]="selectedMonth" (change)="onMonthChange()">
-      @for(m of months; track $index) {
-        <option [value]="m">{{ m }} 月</option>
-      }
-    </select>
+  <!-- 篩選器區域 -->
+  <div class="filter-section">
+    <div class="filter-card">
+      <div class="card-header">
+        <mat-icon>filter_list</mat-icon>
+        <span>篩選條件</span>
+      </div>
+      <div class="card-content">
+        <div class="filter-controls">
+          <div class="filter-group">
+            <label class="filter-label">
+              <mat-icon>calendar_today</mat-icon>
+              年份
+            </label>
+            <select class="filter-select" [(ngModel)]="selectedYear" (change)="onYearChange()">
+              @for(y of years; track $index) {
+                <option [value]="y">{{ y }} 年</option>
+              }
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">
+              <mat-icon>event</mat-icon>
+              月份
+            </label>
+            <select class="filter-select" [(ngModel)]="selectedMonth" (change)="onMonthChange()">
+              @for(m of months; track $index) {
+                <option [value]="m">{{ m }} 月</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <!-- 圖表區域 -->
   <div class="chart-section">
-    @if(pieChartData.length > 0){
-      <canvas baseChart
-      [data]="pieChartDataSet"
-      [type]="'pie'"
-      [options]="pieChartOptions">
-    </canvas>
-    }
-    @else {
-      <p class="no-data-text">📭 本月尚無支出資料</p>
-    }
+    <div class="chart-card">
+      <div class="card-header">
+        <mat-icon>pie_chart</mat-icon>
+        <span>{{ selectedYear }} 年 {{ selectedMonth }} 月 收入分類分布</span>
+      </div>
+      <div class="card-content">
+        <div class="chart-container">
+          @if(pieChartData.length > 0) {
+            <canvas baseChart
+              [data]="pieChartDataSet"
+              [type]="'pie'"
+              [options]="pieChartOptions">
+            </canvas>
+          } @else {
+            <div class="no-data-container">
+              <mat-icon class="no-data-icon">inbox</mat-icon>
+              <p class="no-data-text">本月尚無收入資料</p>
+              <p class="no-data-desc">請選擇其他月份或開始記錄收入</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="summary">
-    <p>💰 本月總收入：{{ totalExpense | number:'1.0-0' }} 元</p>
-    <p>📅 每日平均收入：約 {{ getAveragePerDay() | number:'1.0-0' }} 元</p>
+  <!-- 統計摘要區域 -->
+  <div class="summary-section">
+    <div class="summary-card">
+      <div class="card-header">
+        <mat-icon>assessment</mat-icon>
+        <span>{{ selectedYear }} 年 {{ selectedMonth }} 月 收入摘要</span>
+      </div>
+      <div class="card-content">
+        <div class="summary-grid">
+          <div class="summary-item total">
+            <div class="summary-icon">
+              <mat-icon>account_balance_wallet</mat-icon>
+            </div>
+            <div class="summary-content">
+              <span class="summary-label">本月總收入</span>
+              <span class="summary-value">{{ totalExpense | number:'1.0-0' }} 元</span>
+            </div>
+          </div>
+          <div class="summary-item average">
+            <div class="summary-icon">
+              <mat-icon>calendar_today</mat-icon>
+            </div>
+            <div class="summary-content">
+              <span class="summary-label">每日平均收入</span>
+              <span class="summary-value">{{ getAveragePerDay() | number:'1.0-0' }} 元</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <!-- 詳細表格區域 -->
   @if(filteredPaymentInfo.length > 0) {
-    <table class="summary-table">
-      <thead>
-        <tr>
-          <th>類別</th>
-          <th>金額</th>
-          <th>比例</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(p of filteredPaymentInfo; track $index) {
-          <tr>
-            <td>{{ p.type }}</td>
-            <td [ngStyle]="{ color: p.color, 'font-weight': 'bold' }">
-              {{ p.totalAmount | number:'1.0-0' }}
-            </td>
-            <td [ngStyle]="{ color: p.color, 'font-weight': 'bold' }">
-              {{ ((p.totalAmount / totalExpense) * 100) | number:'1.1-1' }}％
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
+    <div class="table-section">
+      <div class="table-card">
+        <div class="card-header">
+          <mat-icon>table_chart</mat-icon>
+          <span>分類詳細分析</span>
+        </div>
+        <div class="card-content table-content">
+          <table mat-table [dataSource]="dataSource" matSort #sort="matSort" class="payment-table">
+              <!-- 分類欄位 -->
+              <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef>分類</th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="category-cell">
+                    <div class="category-indicator" [style.background-color]="element.color"></div>
+                    <span>{{ element.type }}</span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- 金額欄位 -->
+              <ng-container matColumnDef="totalAmount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>金額</th>
+                <td mat-cell *matCellDef="let element" [style.color]="element.color">
+                  {{ element.totalAmount | number:'1.0-0' }} 元
+                </td>
+              </ng-container>
+
+              <!-- 比例欄位 -->
+              <ng-container matColumnDef="percentage">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>比例</th>
+                <td mat-cell *matCellDef="let element" [style.color]="element.color">
+                  {{ ((element.totalAmount / totalExpense) * 100) | number:'1.1-1' }}％
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['category', 'totalAmount', 'percentage']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['category', 'totalAmount', 'percentage'];"></tr>
+            </table>
+            <!-- 分頁器 -->
+            <app-custom-paginator
+              [totalItems]="totalFilteredItems"
+              [currentPage]="currentPage"
+              [pageSize]="itemsPerPage"
+              (pageChange)="onPageChange($event)"
+              (pageSizeChange)="onPageSizeChange($event)">
+            </app-custom-paginator>
+        </div>
+      </div>
+    </div>
   }
 </div>
-<div style="margin-bottom: 20px;"></div>

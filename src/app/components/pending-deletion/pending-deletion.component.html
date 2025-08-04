@@ -1,14 +1,12 @@
-<div class="modify-payment-page">
+<div class="pending-deletion-page">
   <div class="content-container">
     <div class="filter-container" style="justify-content: center;">
-      <mat-card class="filter-card">
-        <mat-card-header>
-          <mat-card-title>
-            <mat-icon>account_balance_wallet</mat-icon>
-            帳戶操作
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+      <div class="filter-card">
+        <div class="card-header">
+          <span class="material-icons">account_balance_wallet</span>
+          <span>帳戶操作</span>
+        </div>
+                 <div class="card-content table-content">
           <div class="custom-form-group">
             <label for="account">選擇帳戶</label>
             <select id="account" [(ngModel)]="selectedBalanceId" (change)="onBalanceChange()" class="custom-select">
@@ -16,7 +14,7 @@
                 <option [value]="b.balanceId">{{ b.name }} (ID: {{ b.balanceId }})</option>
               }
             </select>
-            <div class="custom-hint">目前選擇: {{ selectedBalanceName() }} (ID: {{ selectedBalanceId }})</div>
+                        <div class="custom-hint">目前選擇: {{ selectedBalanceName() }} (ID: {{ selectedBalanceId }})</div>
           </div>
           <div class="action-buttons-row" style="margin-bottom: 0;">
             <button class="custom-btn custom-btn-accent" (click)="toggleSelectAll()">
@@ -26,17 +24,18 @@
               <mat-icon>restore</mat-icon>復原
             </button>
           </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
+        </div>
+      </div>
 
     <div class="transactions-card" #tableContainer>
       <div class="card-header">
         <span class="material-icons">list_alt</span>
         <h3>最近刪除款項清單</h3>
-        <span class="transaction-count pill-green">共 {{ totalFilteredItems }} 筆</span>
+        <div class="action-buttons">
+          <span class="transaction-count pill-green">共 {{ totalFilteredItems }} 筆</span>
+        </div>
       </div>
-      <div class="card-content">
+               <div class="card-content table-content">
         <div class="table-container">
           <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 payment-table transactions-table">
             <!-- 多選 Checkbox 欄 -->
@@ -93,7 +92,7 @@
               <td class="mat-cell" colspan="10" style="text-align: center; color: #999;">
                 <div class="empty-state">
                   <mat-icon>search_off</mat-icon>
-                  <h3>目前沒有符合的款項</h3>
+                  <h3>目前沒有待刪除的款項</h3>
                 </div>
               </td>
             </tr>

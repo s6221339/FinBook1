@@ -1,6 +1,6 @@
 import { AuthService } from './../../@services/auth.service';
 import { ApiService } from './../../@services/api.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ChartOptions, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Chart, PieController, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -9,15 +9,19 @@ Chart.register(PieController, ArcElement, Tooltip, Legend);
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatSortModule, MatSort } from '@angular/material/sort';
+import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 
 @Component({
   selector: 'app-expense-by-account',
-  imports: [BaseChartDirective, FormsModule, CommonModule],
+  imports: [BaseChartDirective, FormsModule, CommonModule, MatIconModule, MatTableModule, MatSortModule, CustomPaginatorComponent],
   templateUrl: './expense-by-account.component.html',
   styleUrl: './expense-by-account.component.scss',
   standalone: true,
 })
-export class ExpenseByAccountComponent implements OnInit {
+export class ExpenseByAccountComponent implements OnInit, AfterViewInit {
 
   constructor(
     private apiService: ApiService,
@@ -29,9 +33,17 @@ export class ExpenseByAccountComponent implements OnInit {
   years: number[] = [];
   months: number[] = [];
 
+  @ViewChild(MatSort) sort!: MatSort;
+
   rawStatisticsList: Statistics[] = [];
-  filteredBalances: { name: string; outlay: number }[] = [];
+  filteredBalances: { name: string; outlay: number; color: string }[] = [];
+  dataSource = new MatTableDataSource<{ name: string; outlay: number; color: string }>();
   totalExpense: number = 0;
+
+  // 分頁控制
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalFilteredItems: number = 0;
 
   pieChartLabels: string[] = [];
   pieChartData: number[] = [];
@@ -42,7 +54,20 @@ export class ExpenseByAccountComponent implements OnInit {
       backgroundColor: []
     }]
   };
-  pieChartColors: string[] = ['#F44336', '#2196F3', '#4CAF50', '#FF9800', '#9C27B0','#00BCD4', '#795548', '#FFEB3B', '#00E676', '#FF4081', '#3F51B5', '#607D8B'];
+  pieChartColors: string[] = [
+    "#E74C3C", // 鮮紅色
+    "#F39C12", // 橙色
+    "#27AE60", // 綠色
+    "#8E44AD", // 紫色
+    "#E67E22", // 深橙色
+    "#2ECC71", // 亮綠色
+    "#9B59B6", // 淺紫色
+    "#F1C40F", // 黃色
+    "#E91E63", // 粉紅色
+    "#FF5722", // 深橙紅色
+    "#4CAF50", // 標準綠色
+    "#673AB7", // 深紫色
+  ];
 
   pieChartType: ChartType = 'pie';
   pieChartOptions: ChartOptions<'pie'> = {
@@ -122,10 +147,22 @@ export class ExpenseByAccountComponent implements OnInit {
     const balances = (monthData.incomeAndOutlayInfoVOList || [])
       .filter(a => a.familyInfo == null);
 
-    this.filteredBalances = balances.map(a => ({
+    // 為每個項目添加顏色
+    this.filteredBalances = balances.map((a, index) => ({
       name: a.balanceInfo.name,
-      outlay: a.outlay
+      outlay: a.outlay,
+      color: this.pieChartColors[index % this.pieChartColors.length]
     }));
+
+    // 更新 dataSource
+    this.dataSource.data = this.filteredBalances;
+    this.totalFilteredItems = this.filteredBalances.length;
+
+    // 確保排序功能在資料更新後仍然有效
+    this.setupSort();
+
+    // 如果有排序設定，重新應用排序
+    this.applySort();
 
     this.totalExpense = this.filteredBalances.reduce((sum, a) => sum + a.outlay, 0);
 
@@ -152,4 +189,53 @@ export class ExpenseByAccountComponent implements OnInit {
     return this.totalExpense / 30;
   }
 
+  ngAfterViewInit(): void {
+    // 使用延遲確保表格完全渲染
+    setTimeout(() => {
+      this.setupSort();
+    }, 100);
+  }
+
+  private setupSort(): void {
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+      this.sort.sortChange.subscribe(() => {
+        this.currentPage = 1;
+        // 手動排序資料
+        this.applySort();
+      });
+    } else {
+      // 如果還是沒有，再試一次
+      setTimeout(() => {
+        this.setupSort();
+      }, 100);
+    }
+  }
+
+  private applySort(): void {
+    if (this.sort && this.sort.active) {
+      // 手動排序
+      const sortedData = [...this.dataSource.data].sort((a, b) => {
+        if (this.sort.active === 'outlay') {
+          return this.sort.direction === 'asc' ? a.outlay - b.outlay : b.outlay - a.outlay;
+        } else if (this.sort.active === 'percentage') {
+          const aPercent = (a.outlay / this.totalExpense) * 100;
+          const bPercent = (b.outlay / this.totalExpense) * 100;
+          return this.sort.direction === 'asc' ? aPercent - bPercent : bPercent - aPercent;
+        }
+        return 0;
+      });
+
+      this.dataSource.data = sortedData;
+    }
+  }
+
+  onPageChange(newPage: number): void {
+    this.currentPage = newPage;
+  }
+
+  onPageSizeChange(newPageSize: number): void {
+    this.itemsPerPage = newPageSize;
+    this.currentPage = 1;
+  }
 }

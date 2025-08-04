@@ -117,7 +117,7 @@ export class ForgetPasswordsComponent {
         if(res.data.code == 200) {
           Swal.fire({
             icon: 'success',
-            title: '✅ 驗證成功',
+            title: '驗證成功',
             text: '請重新設定新密碼',
             confirmButtonText: '確定'
           }).then(() => {

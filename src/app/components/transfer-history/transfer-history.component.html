@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <mat-card class="transactions-card" #tableContainer>
+    <div class="transactions-card" #tableContainer>
       <div class="card-header">
         <mat-icon>list_alt</mat-icon>
         <h3>轉帳記錄</h3>
@@ -110,7 +110,7 @@
                     <h3>請先在上方選擇一個帳戶來查看交易紀錄。</h3>
                   }
                   @if (currentBalanceId !== null && !startDate && !endDate) {
-                    <h3>目前選擇的帳戶沒有任何交易紀錄。</h3>
+                    <h3>目前選擇的帳戶沒有任何交易紀錄</h3>
                   }
                   @if (currentBalanceId !== null && (startDate || endDate)) {
                     <h3>在選定的日期區間內沒有找到交易紀錄。</h3>
@@ -128,7 +128,7 @@
           (pageSizeChange)="onPageSizeChange($event)">
         </app-custom-paginator>
       </div>
-    </mat-card>
+    </div>
 
     <!-- <div class="summary-card">
       <div class="card-header">

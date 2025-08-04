@@ -2,28 +2,28 @@
 .create-item-page {
   min-height: 100vh;
   background: var(--elevation-0);
-  padding-top: 35px;
+  padding-top: 8px;
   color: var(--text-primary);
 }
 
 // 內容主容器
 .content-container {
-  max-width: 800px;
+  max-width: 450px;
   margin: 0 auto;
-  padding: 0 2rem 4rem;
+  padding: 0 1.2rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.2rem;
 }
 
 // 卡片樣式
 .form-card, .list-card, .empty-card {
   background: var(--elevation-1);
-  border-radius: 18px;
+  border-radius: 12px;
   box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
-  margin-bottom: 2rem;
+  margin-bottom: 1.2rem;
   color: var(--text-primary);
-  font-size: 1.08rem;
+  font-size: 0.9rem;
   padding: 0;
 }
 
@@ -31,22 +31,22 @@
 .card-header {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 1rem 2.2rem;
+  gap: 0.5rem;
+  padding: 0.6rem 1.5rem;
   background: var(--primary);
   border-bottom: 2px solid var(--primary);
   color: #fff;
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   .material-icons {
     color: #fff;
-    font-size: 2rem;
+    font-size: 1.4rem;
     cursor: default;
   }
   h3 {
     margin: 0;
     flex: 1;
-    font-size: 1.5rem;
+    font-size: 18px;
     font-weight: 700;
     color: #fff;
     cursor: default;
@@ -54,11 +54,11 @@
   .item-count {
     background: var(--table-total-bg);
     color: #fff;
-    padding: 0.4rem 1.1rem;
-    border-radius: 20px;
-    font-size: 1rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
     font-weight: 600;
-    margin-left: 1rem;
+    margin-left: 0.6rem;
     display: inline-block;
     cursor: default !important;
   }
@@ -66,23 +66,25 @@
 
 // 卡片內容
 .card-content {
-  padding: 2rem;
+  padding: 1.2rem;
   background: var(--elevation-1);
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 // 表單群組
 .form-group {
-  margin-bottom: 2rem;
+  margin-bottom: 1.2rem;
   label {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 1.18rem;
+    gap: 0.3rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
     color: var(--text-primary);
     .material-icons {
-      font-size: 1.6rem;
+      font-size: 1.2rem;
       color: var(--primary);
     }
     cursor: default !important;
@@ -95,15 +97,15 @@
   input {
     width: 100%;
     box-sizing: border-box;
-    padding: 0.7rem 1.2rem;
-    border-radius: 8px;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
     border: 2px solid var(--primary);
     background: var(--input-bg);
     color: var(--input-text);
     outline: none;
     transition: border 0.2s, box-shadow 0.2s;
     box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
-    font-size: 1.08rem;
+    font-size: 0.9rem;
     &::placeholder { color: #9ca3af; }
   }
 }
@@ -113,22 +115,22 @@
   position: relative;
   select {
     width: 100%;
-    padding: 0.7rem 1.2rem;
-    border-radius: 8px;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
     border: 2px solid var(--primary);
     background: var(--input-bg);
     color: var(--input-text);
     outline: none;
     transition: border 0.2s, box-shadow 0.2s;
     box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
-    font-size: 1.08rem;
+    font-size: 0.9rem;
     appearance: none;
-    padding-right: 2.5rem;
+    padding-right: 2rem;
     cursor: pointer;
   }
   .select-arrow {
     position: absolute;
-    right: 1rem;
+    right: 0.6rem;
     top: 50%;
     transform: translateY(-50%);
     color: #6b7280;
@@ -148,10 +150,10 @@
 // 按鈕群組
 .button-group {
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
   justify-content: space-between;
-  font-size: 1.08rem;
+  font-size: 0.9rem;
 }
 
 // 按鈕樣式
@@ -159,84 +161,80 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem 2rem;
-  border-radius: 8px;
+  gap: 0.3rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem !important;
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
   flex: 1;
   .material-icons {
-    font-size: 1.2rem;
+    font-size: 1rem;
     display: inline-flex;
     align-items: center;
     vertical-align: middle;
   }
 }
 .btn-primary {
-  background: var(--primary);
+  background: var(--btn-login);
   color: #fff;
-  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.15);
+  border: 2px solid var(--primary);
 }
 .btn-primary:hover, .btn-primary:active {
-  background: var(--primary);
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
-  transform: translateY(-2px) scale(1.03);
+  background: #1746a2;
   color: #fff;
 }
 .btn-secondary {
-  background: var(--btn-secondary-bg);
-  color: var(--btn-secondary-text);
-  border: 2px solid var(--btn-secondary-border);
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  transition: background 0.2s, color 0.2s;
 }
 .btn-secondary:hover {
-  background: var(--btn-secondary-hover-bg);
-  border-color: var(--btn-secondary-hover-border);
-  color: var(--btn-secondary-hover-text);
+  background: var(--primary);
+  color: #fff;
 }
 
 .btn-cancel {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem 2rem;
-  border-radius: 8px;
+  gap: 0.3rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem !important;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 2px solid var(--btn-cancel-border);
-  background: var(--btn-cancel-bg);
-  color: var(--btn-cancel-text);
+  border: 2px solid var(--primary);
+  background: transparent;
+  color: var(--primary);
   flex: 1;
   .material-icons {
-    font-size: 1.2rem;
+    font-size: 1rem;
     display: inline-flex;
     align-items: center;
     vertical-align: middle;
   }
 }
 .btn-cancel:hover, .btn-cancel:active {
-  background: var(--btn-cancel-hover-bg);
-  border-color: var(--btn-cancel-hover-border);
-  color: var(--btn-cancel-hover-text);
+  background: var(--primary);
+  color: #fff;
 }
 
 // 分類列表區域
 .categories-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.6rem;
 }
 .category-section {
   border: 1.5px solid var(--category-section-border, #e2e8f0);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   background: var(--elevation-1);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -249,7 +247,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.5rem;
+  padding: 0.6rem 1rem;
   cursor: pointer;
   &:hover {
     filter: brightness(0.95);
@@ -257,30 +255,30 @@
   .category-info {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.6rem;
     .category-icon {
       color: var(--category-header-text);
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       text-shadow: var(--category-header-shadow, none);
     }
     .category-name {
       font-weight: 700;
       color: var(--category-header-text);
-      font-size: 1.15rem;
+      font-size: 1rem;
       text-shadow: var(--category-header-shadow, none);
     }
     .item-badge {
       background: var(--category-header-badge-bg);
       color: var(--category-header-badge-text);
-      padding: 0.3rem 0.7rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
       font-weight: 600;
     }
   }
   .toggle-icon {
     color: #6b7280;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     transition: transform 0.2s;
     &.collapsed {
       transform: rotate(180deg);
@@ -291,26 +289,27 @@
 // 細項網格
 .items-grid {
   background: var(--items-grid-bg);
-  border-radius: 12px;
-  padding: 1.5rem;
+  border-radius: 8px;
+  padding: 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.6rem;
 }
 .item-chip {
   background: var(--item-chip-bg);
   color: var(--item-chip-text);
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.5rem;
   border: 1.5px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
+  border-radius: 4px;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.85rem;
   transition: all 0.2s;
+  cursor: default;
   .material-icons {
     color: var(--item-chip-text);
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   &:hover {
     background: #e3e6f3;
@@ -322,19 +321,19 @@
 // 空狀態
 .empty-state, .empty-content {
   text-align: center;
-  padding: 2rem;
+  padding: 1.2rem;
   color: #6b7280;
-  .material-icons { font-size: 3rem !important; color: #d1d5db !important; margin-bottom: 1rem; }
-  h3 { color: #374151; margin-bottom: 0.5rem; cursor: default !important; }
-  p { margin-bottom: 1.5rem; cursor: default !important; }
+  .material-icons { font-size: 2rem !important; color: #d1d5db !important; margin-bottom: 0.6rem; }
+  h3 { color: #374151; margin-bottom: 0.3rem; cursor: default !important; }
+  p { margin-bottom: 1rem; cursor: default !important; }
 }
 
 // 響應式設計加強
 @media (max-width: 768px) {
-  .content-container { padding: 0 0.5rem 2rem; }
-  .card-header { padding: 0.75rem 1rem; font-size: 1.1rem; }
-  .card-content { padding: 1rem; }
-  .items-grid { padding: 1rem; }
-  .btn-primary, .btn-secondary { padding: 0.7rem 1rem; font-size: 0.95rem; }
-  .form-group label { font-size: 1rem; }
+  .content-container { padding: 0 0.5rem 1.2rem; }
+  .card-header { padding: 0.5rem 0.6rem; font-size: 0.95rem; }
+  .card-content { padding: 0.6rem; }
+  .items-grid { padding: 0.6rem; }
+  .btn-primary, .btn-secondary { padding: 0.5rem 0.6rem; font-size: 0.8rem; }
+  .form-group label { font-size: 0.9rem; }
 }

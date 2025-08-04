@@ -1,59 +1,281 @@
-.form-container {
-  max-width: 500px;
-  margin: 40px auto;
-  padding: 30px 40px;
-  background-color: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  font-family: "Segoe UI", sans-serif;
+/* create-or-edit-family-payment 頁面 - 統一新風格，支援暗黑模式 */
 
-  h2 {
-    text-align: center;
-    font-size: 1.6rem;
-    color: #333;
-    margin-bottom: 25px;
+.create-edit-family-payment-page {
+  min-height: 100vh;
+  padding-top: 8px;
+  background: var(--elevation-0);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.content-container {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 0 1.2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.form-card {
+  background: var(--elevation-1);
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  border: none;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+/* 卡片標題區塊 */
+.mat-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--primary);
+  border-bottom: 2px solid var(--primary);
+  color: #fff;
+
+  .material-icons {
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
+
+  h3 {
+    margin: 0;
+    flex: 1;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    cursor: default;
+  }
+}
+
+/* 卡片內容區塊 */
+.mat-card-content {
+  padding: 1.2rem;
+  color: var(--text-primary);
+}
+
+/* 表單群組 */
+.form-group {
+  margin-bottom: 1.2rem;
+  position: relative;
 
   label {
-    display: block;
-    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    color: #444;
-    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    color: var(--text-primary);
+    cursor: default !important;
+
+    .material-icons {
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
   }
 
-  input,
-  select {
-    width: 100%;
-    padding: 10px 12px;
-    margin-top: 6px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+  /* 字數統計定位 */
+  .char-count {
+    position: absolute;
+    bottom: 12px;
+    right: 18px;
     font-size: 1rem;
-    transition: all 0.2s ease-in-out;
+    color: var(--input-hint);
+    pointer-events: none;
+  }
+}
+
+/* 輸入框包裝器 */
+.input-wrapper {
+  position: relative;
+
+  input, textarea {
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
 
     &:focus {
-      outline: none;
-      border-color: #3f51b5;
-      box-shadow: 0 0 4px rgba(63, 81, 181, 0.3);
+      border-color: var(--input-focus);
+      box-shadow: 0 0 12px 2px #ff80ab33;
+    }
+
+    &::placeholder {
+      color: #9ca3af;
     }
   }
 
-  button {
-    margin-top: 30px;
-    width: 100%;
-    padding: 12px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.25s ease-in-out;
+  textarea {
+    resize: none;
+    // line-height: 1.5;
+    // padding-bottom: 1.5rem;
+  }
 
-    &:hover {
-      background-color: #43a047;
+  /* 日期輸入框樣式 */
+  .date-input {
+    &::-webkit-calendar-picker-indicator {
+      display: none;
     }
+
+    &::-webkit-inner-spin-button {
+      display: none;
+    }
+
+    &::-webkit-clear-button {
+      display: none;
+    }
+  }
+}
+
+/* 下拉選單包裝器 */
+.select-wrapper {
+  position: relative;
+
+  select {
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    padding-right: 2.5rem;
+    border: 2px solid var(--primary);
+    border-radius: 6px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    appearance: none;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+
+    &:focus {
+      border-color: var(--input-focus);
+      box-shadow: 0 0 12px 2px #ff80ab33;
+    }
+  }
+
+  .select-arrow {
+    position: absolute;
+    right: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+    font-size: 1.2rem;
+  }
+}
+
+
+
+/* 表單按鈕區 */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+  padding-left: 16px;
+}
+
+/* 自訂按鈕樣式 */
+.custom-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 90px;
+    padding: 0.7rem 2rem;
+    border-radius: 24px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: 2px solid transparent;
+    background: var(--elevation-1);
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
+    cursor: pointer;
+    margin-right: 1rem;
+    outline: none;
+    position: relative;
+    -webkit-user-select: none;
+    user-select: none;
+
+  .material-icons {
+    margin-right: 0.6rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* 主要操作按鈕（藍色） */
+.custom-btn-accent {
+  color: var(--edit-text);
+  border-color: var(--edit);
+
+  &:hover, &:active {
+    background: var(--edit-hover-bg);
+    color: var(--edit);
+    border-color: var(--edit);
+  }
+}
+
+/* 危險操作按鈕（紅色） */
+.custom-btn-warn {
+  color: var(--warn-text);
+  border-color: var(--warn);
+
+  &:hover, &:active {
+    background: var(--warn-hover-bg);
+    color: var(--warn);
+    border-color: var(--warn);
+  }
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+  .create-edit-family-payment-page {
+    padding-top: 20px;
+  }
+
+  .content-container {
+    padding: 0 1rem 1.5rem;
+  }
+
+  .mat-card-content {
+    padding: 1rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .custom-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-container {
+    padding: 0 0.8rem 1.5rem;
+  }
+
+  .mat-card-header {
+    padding: 1rem;
+  }
+
+  .mat-card-content {
+    padding: 1rem;
   }
 }

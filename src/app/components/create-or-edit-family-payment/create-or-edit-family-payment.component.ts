@@ -73,8 +73,23 @@ export class CreateOrEditFamilyPaymentComponent implements OnInit{
             }
             this.itemMap[type].push(item);
           });
+          // 初始化選中的類型
+          if (this.typeList.length > 0) {
+            this.selectedType = this.typeList[0];
+          }
         }
       });
+  }
+
+  updateItemOptions(): void {
+    // 當分類改變時，重置項目選擇
+    if (this.selectedType && this.itemMap[this.selectedType]) {
+      this.selectedItem = this.itemMap[this.selectedType][0] || '';
+    }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/familyLedger']);
   }
 
   loadPaymentInfo(): void {

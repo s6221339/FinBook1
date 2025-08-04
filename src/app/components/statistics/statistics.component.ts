@@ -18,6 +18,9 @@ export class StatisticsComponent implements OnInit{
   ){}
 
   ngOnInit() {
+    // 初始化時設定當前路由
+    this.currentRoute = this.router.url;
+
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {

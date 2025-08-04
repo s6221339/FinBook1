@@ -1,67 +1,164 @@
-<div class="family-ledger">
-  <h2>家庭小帳本</h2>
+<div class="family-ledger-page">
+  <div class="content-container">
+    <div class="filter-container">
+      <!-- 家庭帳戶選擇卡片 -->
+      <div class="filter-card">
+        <div class="card-header">
+          <mat-icon>account_balance_wallet</mat-icon>
+          <span>家庭帳戶選擇</span>
+        </div>
+        <div class="card-content">
+          <div class="custom-form-group">
+            <label for="family-account">選擇家庭帳戶</label>
+            <select id="family-account" [(ngModel)]="selectedBalanceId" (change)="onFilterChange()" class="custom-select">
+              @for(b of familyBalances; track $index) {
+                <option [value]="b.balanceId">{{ b.name }}</option>
+              }
+            </select>
+            <div class="custom-hint">目前選擇: {{ getSelectedFamilyName() || '尚未選擇' }}</div>
+          </div>
+        </div>
+      </div>
 
-  <!-- 家庭下拉式選單 -->
-  <label>選擇家庭帳戶：
-    <select [(ngModel)]="selectedBalanceId" (change)="onFilterChange()">
-      @for(b of familyBalances; track $index) {
-        <option [value]="b.balanceId">{{ b.name }}</option>
-      }
-    </select>
-  </label>
+      <!-- 日期篩選卡片 -->
+      <div class="filter-card">
+        <div class="card-header">
+          <mat-icon>date_range</mat-icon>
+          <span>日期篩選</span>
+        </div>
+        <div class="card-content">
+          <div class="custom-form-group">
+            <label for="year">選擇年份</label>
+            <select id="year" [(ngModel)]="selectedYear" (change)="onFilterChange()" class="custom-select">
+              @for(year of availableYears; track $index) {
+                <option [value]="year">{{ year }}</option>
+              }
+            </select>
+          </div>
+          <div class="custom-form-group">
+            <label for="month">選擇月份</label>
+            <select id="month" [(ngModel)]="selectedMonth" (change)="onFilterChange()" class="custom-select">
+              @for(m of availableMonths; track $index) {
+                <option [value]="m">{{ m }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <!-- 年份選單 -->
-  <label>年份：
-    <select [(ngModel)]="selectedYear" (change)="onFilterChange()">
-      @for(year of availableYears; track $index) {
-        <option [value]="year">{{ year }}</option>
-      }
-    </select>
-  </label>
+    <!-- 表格卡片 -->
+    <div class="transactions-card">
+      <div class="card-header">
+        <span class="material-icons">list_alt</span>
+        <h3>家庭帳款列表</h3>
+        <div class="action-buttons">
+          <button class="custom-btn custom-btn-accent" (click)="onCreate()">
+            <mat-icon style="margin-right: 0.5em;">add</mat-icon>新增
+          </button>
+          <button class="custom-btn custom-btn-accent" [ngClass]="{'custom-disabled': selection.size === 0}" (click)="selection.size > 0 && onEdit()">
+            <mat-icon style="margin-right: 0.5em;">edit</mat-icon>編輯
+          </button>
+          <button class="custom-btn custom-btn-warn" [ngClass]="{'custom-disabled': selection.size === 0}" (click)="selection.size > 0 && onDelete()">
+            <mat-icon style="margin-right: 0.5em;">delete</mat-icon>刪除
+          </button>
+        </div>
+        <span class="transaction-count pill-green">共 {{ filteredPayments.length }} 筆</span>
+      </div>
+      <div class="card-content">
+        @if(filteredPayments.length > 0) {
+          <div class="table-container">
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 payment-table transactions-table">
+              <!-- 多選 Checkbox 欄 -->
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.size > 0 && isAllSelected()"
+                                [indeterminate]="selection.size > 0 && !isAllSelected()">
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="toggleSelection(row)"
+                                [checked]="selection.has(row.paymentId)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
 
-  <!-- 月份選單 -->
-  <label>月份：
-    <select [(ngModel)]="selectedMonth" (change)="onFilterChange()">
-      @for(m of availableMonths; track $index) {
-        <option [value]="m">{{ m }}</option>
-      }
-    </select>
-  </label>
+              <!-- 分類 -->
+              <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef>分類</th>
+                <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+              </ng-container>
 
-  <div class="action-buttons">
-    <button (click)="onCreate()">新增</button>
-    <button (click)="onEdit()">編輯</button>
-    <button (click)="onDelete()">刪除</button>
-  </div>
+              <!-- 項目 -->
+              <ng-container matColumnDef="item">
+                <th mat-header-cell *matHeaderCellDef>項目</th>
+                <td mat-cell *matCellDef="let element">{{ element.item }}</td>
+              </ng-container>
 
-  <!-- 帳款表格 -->
-  @if(filteredPayments.length > 0) {
-    <table>
-      <thead>
-        <tr>
-          <th>✔</th>
-          <th>分類</th>
-          <th>項目</th>
-          <th>帳款描述</th>
-          <th>金額</th>
-          <th>記帳日期</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(p of filteredPayments; track $index) {
-          <tr>
-            <td><input type="checkbox" [value]="p.paymentId" [(ngModel)]="checkedMap[p.paymentId]" (change)="onCheckboxChange()"/></td>
-            <td>{{ p.type }}</td>
-            <td>{{ p.item }}</td>
-            <td>{{ p.description }}</td>
-            <td>{{ p.amount }}</td>
-            <td>{{ p.recordDate | date: 'yyyy-MM-dd' }}</td>
-          </tr>
+              <!-- 帳款描述 -->
+              <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef>帳款描述</th>
+                <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+              </ng-container>
+
+              <!-- 金額 -->
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>金額</th>
+                <td mat-cell *matCellDef="let element"
+                    [ngClass]="{
+                      'amount-income': element.type === '收入',
+                      'amount-expense': element.type !== '收入'
+                    }">
+                  NT$ {{ element.amount | number:'1.0-0' }}
+                </td>
+              </ng-container>
+
+              <!-- 記帳日期 -->
+              <ng-container matColumnDef="recordDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>記帳日期</th>
+                <td mat-cell *matCellDef="let element">{{ element.recordDate | date: 'yyyy-MM-dd' }}</td>
+              </ng-container>
+
+              <!-- 表頭與表身 -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                  [ngClass]="{
+                    'income-row': row.type === '收入',
+                    'expense-row': row.type !== '收入'
+                  }">
+              </tr>
+
+              <!-- 無資料顯示 -->
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="6" style="text-align: center; color: #999;">
+                  <div class="empty-state">
+                    <mat-icon>search_off</mat-icon>
+                    <h3>此家庭帳戶此月份無任何紀錄</h3>
+                    <p>請嘗試選擇其他月份或調整篩選條件</p>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- 自訂分頁器 -->
+          <app-custom-paginator
+            [totalItems]="totalFilteredItems"
+            [currentPage]="currentPage"
+            [pageSize]="itemsPerPage"
+            (pageChange)="onPageChange($event)"
+            (pageSizeChange)="onPageSizeChange($event)">
+          </app-custom-paginator>
+        } @else {
+          <div class="empty-state-main">
+            <mat-icon>search_off</mat-icon>
+            <h3>此家庭帳戶此月份無任何紀錄</h3>
+            <p>請嘗試選擇其他月份或調整篩選條件</p>
+          </div>
         }
-      </tbody>
-    </table>
-  }
-  @else {
-    <p>此家庭帳戶此月份無任何紀錄</p>
-  }
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,57 +1,67 @@
 <div class="statistics-page">
-  <!-- 導航選項卡 -->
-  <div class="nav-tabs-container">
-    <div class="nav-tabs">
-      <a
-        class="nav-tab"
-        [routerLink]="['/statistics/incomeExpenseTrendChart']"
-        routerLinkActive="active"
-        (click)="goIncomeExpenseTrendChart()"
-      >
-        <mat-icon>trending_up</mat-icon>
-        <span>收支趨勢圖</span>
-      </a>
-      <a
-        class="nav-tab"
-        [routerLink]="['/statistics/expenseByCategory']"
-        routerLinkActive="active"
-        (click)="goExpenseByCategory()"
-      >
-        <mat-icon>pie_chart</mat-icon>
-        <span>支出類別比</span>
-      </a>
-      <a
-        class="nav-tab"
-        [routerLink]="['/statistics/expenseByAccount']"
-        routerLinkActive="active"
-        (click)="goExpenseByAccount()"
-      >
-        <mat-icon>account_balance</mat-icon>
-        <span>支出帳戶比</span>
-      </a>
-      <a
-        class="nav-tab"
-        [routerLink]="['/statistics/incomeByCategory']"
-        routerLinkActive="active"
-        (click)="goIncomeByCategory()"
-      >
-        <mat-icon>donut_small</mat-icon>
-        <span>收入類別比</span>
-      </a>
-      <a
-        class="nav-tab"
-        [routerLink]="['/statistics/incomeByAccount']"
-        routerLinkActive="active"
-        (click)="goIncomeByAccount()"
-      >
-        <mat-icon>account_balance_wallet</mat-icon>
-        <span>收入帳戶比</span>
-      </a>
-    </div>
-  </div>
+  <div class="content-container">
+    <div class="statistics-selector-card">
+      <div class="card-content">
+        <div class="statistics-buttons">
+          <button
+            class="statistics-btn"
+            [class.active]="isActiveRoute('/statistics/incomeExpenseTrendChart')"
+            (click)="goIncomeExpenseTrendChart()"
+          >
+            <span class="btn-icon material-icons">trending_up</span>
+            <span class="btn-text">收支趨勢圖</span>
+            <span class="btn-desc">收入支出趨勢分析</span>
+          </button>
 
-  <!-- 內容區域 -->
-  <div class="content-area">
-    <router-outlet></router-outlet>
+          <button
+            class="statistics-btn"
+            [class.active]="isActiveRoute('/statistics/expenseByCategory')"
+            (click)="goExpenseByCategory()"
+          >
+            <span class="btn-icon material-icons">remove_circle</span>
+            <span class="btn-text">支出類別比</span>
+            <span class="btn-desc">按分類統計支出</span>
+          </button>
+
+          <button
+            class="statistics-btn"
+            [class.active]="isActiveRoute('/statistics/expenseByAccount')"
+            (click)="goExpenseByAccount()"
+          >
+            <span class="btn-icon material-icons">remove_circle</span>
+            <span class="btn-text">支出帳戶比</span>
+            <span class="btn-desc">按帳戶統計支出</span>
+          </button>
+
+          <button
+            class="statistics-btn"
+            [class.active]="isActiveRoute('/statistics/incomeByCategory')"
+            (click)="goIncomeByCategory()"
+          >
+            <span class="btn-icon material-icons">add_circle</span>
+            <span class="btn-text">收入類別比</span>
+            <span class="btn-desc">按分類統計收入</span>
+          </button>
+
+          <button
+            class="statistics-btn"
+            [class.active]="isActiveRoute('/statistics/incomeByAccount')"
+            (click)="goIncomeByAccount()"
+          >
+            <span class="btn-icon material-icons">add_circle</span>
+            <span class="btn-text">收入帳戶比</span>
+            <span class="btn-desc">按帳戶統計收入</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 分隔線 -->
+    <hr class="separator-line">
+
+    <!-- 子路由內容 -->
+    <div class="chart-container">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

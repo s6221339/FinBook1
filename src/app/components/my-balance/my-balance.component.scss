@@ -1,75 +1,94 @@
 .my-balance-page {
-  padding-top: 35px;
-  background: var(--elevation-0);
-  min-height: 100vh;
-  font-size: 16px;
-  color: var(--text-primary);
-  padding-bottom: 3rem;
-}
-
-.main-card {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   max-width: 900px;
   margin: 0 auto;
-  background: var(--elevation-1);
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
-  overflow: hidden;
 }
 
+// 藍色標頭樣式
 .card-header {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  padding: 1rem 1.5rem;
+  gap: 0.5rem;
+  padding: 0.8rem 1.2rem;
   background: var(--primary);
   color: #fff;
+  height: 35px;
+  min-height: 35px;
+  max-height: 35px;
 
   mat-icon {
-    font-size: 1.7rem;
-    width: 1.7rem;
-    height: 1.7rem;
-    padding-top: 4px;
+    width: 1.2rem;
+    height: 1.2rem;
+    padding-top: 2px;
   }
 
   h3 {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
     margin: 0;
     flex: 1;
-    cursor: default;
+    line-height: 1;
+    min-height: 2rem;
+    display: flex;
+    align-items: center;
   }
 
-  .account-count {
-    background: var(--table-total-bg);
+  span {
     color: #fff;
-    padding: 0.4rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
     cursor: default;
+    font-size: 18px;
+    font-weight: 700;
   }
 }
 
 .card-content {
-  padding: 1.5rem;
+  background: var(--elevation-1);
+  padding: 1rem 1.2rem;
   color: var(--text-primary);
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+
+  p {
+    cursor: default;
+    color: var(--text-primary);
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    font-weight: 500;
+  }
 }
 
-.page-description {
-  font-size: 1.5rem;
-  color: var(--text-secondary);
-  margin: 0 0 2rem 0;
-  line-height: 1.5;
-  text-align: center;
-  cursor: default;
+// 通用卡片樣式
+.management-card,
+.list-card {
+  background: var(--elevation-1);
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  overflow: hidden;
+}
+
+// 帳戶管理卡片特殊樣式
+.management-card {
+  .card-content {
+    padding: 1.5rem;
+  }
 }
 
 // 操作按鈕區域
 .action-buttons {
   display: flex;
   gap: 1rem;
-  padding-bottom: 1.5rem;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .action-btn {
@@ -78,7 +97,7 @@
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -88,15 +107,20 @@
     font-size: 1.2rem;
     width: 1.2rem;
     height: 1.2rem;
-    padding-top: 4px;
+    padding-top: 3px;
   }
 
   &.create {
-    background: var(--table-total-bg);
-    color: #fff;
+    background: var(--income);
+    color: white;
 
     &:hover {
-      background:var(--btn-create-family);
+      background: #059669;
+    }
+
+    &:disabled {
+      background: var(--text-secondary);
+      cursor: not-allowed;
     }
 
     &.large {
@@ -106,223 +130,218 @@
   }
 
   &.delete {
-    background: var(--btn-delete);
-    color: #fff;
+    background: var(--expense);
+    color: white;
 
-    &:hover:not(:disabled) {
-      background: var(--btn-delete-hover);
+    &:hover {
+      background: #dc2626;
     }
 
     &:disabled {
-      background: var(--btn-delete-hover);
+      background: var(--text-secondary);
       cursor: not-allowed;
-      opacity: 0.6;
     }
   }
 }
 
-// 表格容器
-.table-container {
-  margin-top: 1rem;
+// 帳戶數量標籤
+.account-count {
+  margin-left: auto;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.pill-green {
+  margin-left: 1rem !important;
+  width: 120px !important;
+  min-width: unset !important;
+  max-width: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.2 !important;
+  height: 2.2rem !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  padding: 0.4rem 1.1rem !important;
+  border-radius: 20px !important;
+  background: var(--table-total-bg) !important;
+  color: #fff !important;
+  box-sizing: border-box !important;
+}
+
+// 表格內容區域
+.table-content {
+  padding: 0; // 移除 card-content 的 padding
 }
 
 // 表格樣式
 .balance-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 1.1rem;
-
-  th {
-    background-color: var(--table-header-bg);
-    color: var(--table-header-text);
-    font-size: 1.15rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-align: center;
-    padding: 1rem 1.5rem;
-    border-bottom: 2px solid var(--primary);
-    cursor: default;
-  }
-
-  td {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--secondary-bg);
-    color: var(--text-primary);
-    vertical-align: middle;
-    text-align: center;
-    cursor: default;
-    border-right: 1px solid var(--table-border);
-  }
-
-  td:last-child {
-    border-right: none;
-  }
-
-  tr:nth-child(odd) {
-    background: var(--table-row-odd-bg);
-  }
-
-  tr:nth-child(even) {
-    background: var(--table-row-even-bg);
-  }
-
-  tbody tr:hover {
-    background: var(--table-hover-bg) !important;
-    color: var(--table-hover-text);
-  }
+  font-size: 0.85rem;
 }
 
+.balance-table th, .balance-table td {
+  border: 1px solid #ccc;
+  padding: 0.6rem;
+  text-align: center;
+  cursor: default;
+}
+
+.balance-table td {
+  font-size: 1rem !important;
+}
+
+// 表格標頭樣式
+.balance-table th {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-shadow: 0 1px 4px rgba(66, 86, 165, 0.08);
+  border-bottom: 1.4px solid var(--primary);
+  white-space: normal;
+  word-break: break-all;
+  padding: 6px 8px;
+  border-right: none !important;
+}
+
+// 交替行背景顏色
+.balance-table tr:nth-child(odd) {
+  background-color: var(--table-row-odd-bg);
+}
+
+.balance-table tr:nth-child(even) {
+  background-color: var(--table-row-even-bg);
+}
+
+.balance-table tr:hover {
+  background-color: var(--table-hover-bg) !important;
+  color: var(--table-hover-text);
+}
+
+// 帳戶ID樣式
 .balance-id-cell {
   display: flex;
-  align-items: center;
   justify-content: center;
-
-  .id-badge {
-    background: var(--primary);
-    color: #fff;
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    font-size: 1rem;
-    font-weight: 600;
-    min-width: 2rem;
-    text-align: center;
-  }
+  align-items: center;
 }
 
+.id-badge {
+  background: var(--primary);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: default;
+}
+
+// 帳戶名稱樣式
 .balance-name-cell {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
   justify-content: center;
+  gap: 0.5rem;
+}
 
-  .account-icon {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    background: var(--income);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+.account-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--income);
+  border-radius: 50%;
+  color: white;
 
-    mat-icon {
-      color: #fff;
-      font-size: 1.2rem;
-      width: 1.2rem;
-      height: 1.2rem;
-    }
-  }
-
-  .account-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-primary);
+  mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
   }
 }
 
-.create-date {
-  font-size: 1.1rem;
-  color: var(var(--text-primary));
+.account-name {
   font-weight: 500;
+  color: var(--text-primary);
 }
 
-// 空狀態
-.empty-state {
+// 創建日期樣式
+.create-date {
+  color: var(--text-primary);
+}
+
+// 空狀態樣式
+.empty-state,
+.empty-state-main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 3rem 2rem;
+  gap: 1rem;
+  padding: 2rem;
   text-align: center;
+  color: var(--text-secondary);
 
   mat-icon {
-    font-size: 4rem;
-    width: 4rem;
-    height: 4rem;
-    color: #fff;
-    background: var(--primary);
-    border-radius: 50%;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 16px rgba(66, 86, 165, 0.2);
+    font-size: 3rem !important;
+    width: 3rem;
+    height: 3rem;
+    color: var(--text-secondary);
+    opacity: 0.5;
   }
 
-  h4 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin: 0 0 0.5rem 0;
+  h3, h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: default;
   }
 
   p {
-    font-size: 1.1rem;
+    margin: 0;
+    font-size: 0.9rem;
     color: var(--text-secondary);
-    margin: 0 0 1.5rem 0;
-    line-height: 1.5;
+    cursor: default;
   }
 }
 
 // 響應式設計
-@media (max-width: 1200px) {
-  .main-card {
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .my-balance-page {
-    padding-top: 20px;
-  }
-
-  .card-header {
-    padding: 1rem;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-
-    h3 {
-      font-size: 1.3rem;
-    }
-  }
-
-  .card-content {
     padding: 1rem;
   }
 
   .action-buttons {
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .action-buttons {
     flex-direction: column;
-    gap: 0.75rem;
+    align-items: center;
   }
 
-  .balance-table {
-    font-size: 1rem;
-
-    th, td {
-      padding: 0.75rem 0.5rem;
-    }
-
-    th {
-      font-size: 1rem;
-    }
-  }
-
-  .balance-name-cell {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-
-    .account-icon {
-      width: 2rem;
-      height: 2rem;
-    }
+  .action-btn {
+    width: 100%;
+    max-width: 200px;
   }
 }
 
 @media (max-width: 480px) {
-  .balance-table {
-    th:nth-child(1),
-    td:nth-child(1) {
-      display: none; // 隱藏ID欄位在極小螢幕
+  .my-balance-page {
+    padding: 0.5rem;
+    gap: 1rem;
+  }
+
+  .management-card,
+  .list-card {
+    .card-content {
+      padding: 0.8rem 1rem;
     }
   }
 }

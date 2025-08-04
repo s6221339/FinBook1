@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosResponse } from 'axios';
-import { PaymentTypeCreateRequest } from '../models/request/PaymentTypeCreateRequest';
+import { PaymentTypeCreateRequest } from '../models/request/paymentTypeCreateRequest';
 import { BasicResponse } from '../models/response/basicResponse';
 import { GetPaymentTypeByAccountResponse } from '../models/response/getPaymentTypeByAccountResponse';
 import { PaymentCreateRequest } from '../models/request/paymentCreateRequest';

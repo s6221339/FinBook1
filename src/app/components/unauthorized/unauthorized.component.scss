@@ -6,6 +6,9 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  padding-top: 0;
 
   // 添加背景裝飾
   &::before {
@@ -27,6 +30,7 @@
   max-width: 500px;
   position: relative;
   z-index: 1;
+  transform: translateY(-30px);
 }
 
 // 錯誤卡片樣式
@@ -37,6 +41,7 @@
   overflow: hidden;
   border: 1px solid var(--secondary-bg);
   animation: slideInUp 0.6s ease-out;
+  margin: 1.6rem auto;
 }
 
 .unauthorized-card.glass-card-theme {
@@ -68,7 +73,7 @@
 }
 
 .error-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--expense);
   margin: 0 0 1rem 0;
@@ -76,7 +81,7 @@
 }
 
 .error-message {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: var(--text-secondary);
   margin: 0 0 1rem 0;
@@ -84,7 +89,7 @@
 }
 
 .error-description {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--text-secondary);
   line-height: 1.6;
   margin: 0;
@@ -104,10 +109,10 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 1rem 2rem;
+  padding: 0.9rem 1.8rem;
   border: none;
   border-radius: 12px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -115,9 +120,9 @@
   justify-content: center;
 
   mat-icon {
-    font-size: 1.2rem;
-    width: 1.2rem;
-    height: 1.2rem;
+    font-size: 1.1rem;
+    width: 1.1rem;
+    height: 1.1rem;
   }
 
   &.primary {
@@ -157,12 +162,12 @@
   justify-content: center;
   gap: 0.5rem;
   color: var(--text-secondary);
-  font-size: 1rem;
+  font-size: 0.9rem;
 
   mat-icon {
-    font-size: 1.1rem;
-    width: 1.1rem;
-    height: 1.1rem;
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
     color: var(--primary);
   }
 
@@ -217,17 +222,17 @@
   }
 
   .card-content {
-    padding: 2rem 1.5rem;
+    padding: 1.8rem 1.4rem;
   }
 
   .error-title {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .error-icon {
-    font-size: 4rem;
-    width: 4rem;
-    height: 4rem;
+    font-size: 3.6rem;
+    width: 3.6rem;
+    height: 3.6rem;
   }
 
   .action-section {
@@ -243,25 +248,25 @@
 
 @media (max-width: 480px) {
   .card-content {
-    padding: 1.5rem 1rem;
+    padding: 1.4rem 0.9rem;
   }
 
   .error-title {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
 
   .error-message {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .error-description {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .error-icon {
-    font-size: 3.5rem;
-    width: 3.5rem;
-    height: 3.5rem;
+    font-size: 3.2rem;
+    width: 3.2rem;
+    height: 3.2rem;
   }
 }
 

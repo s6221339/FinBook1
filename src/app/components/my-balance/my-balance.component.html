@@ -1,22 +1,12 @@
 <div class="my-balance-page">
-  <!-- 主卡片 -->
-  <div class="main-card">
+  <!-- 帳戶管理卡片 -->
+  <div class="management-card">
     <div class="card-header">
       <mat-icon>account_balance_wallet</mat-icon>
-      <h3>我的帳戶</h3>
-      @if(balanceList.length > 0) {
-        <span class="account-count">共 {{ balanceList.length }} 個帳戶</span>
-      }
+      <span>帳戶管理</span>
     </div>
-
     <div class="card-content">
-      <p class="page-description">
-        @if(balanceList.length > 0) {
-          管理您的所有帳戶，可以創建新帳戶或刪除不需要的帳戶
-        } @else {
-          您還沒有任何帳戶，請先創建一個帳戶開始使用
-        }
-      </p>
+      <p>管理您的所有帳戶，可以創建新帳戶或刪除不需要的帳戶</p>
 
       <!-- 操作按鈕區域 -->
       <div class="action-buttons">
@@ -33,11 +23,22 @@
           刪除帳戶
         </button>
       </div>
+    </div>
+  </div>
 
-      <!-- 帳戶列表或空狀態 -->
+  <!-- 帳戶列表卡片 -->
+  <div class="list-card">
+    <div class="card-header">
+      <mat-icon>list</mat-icon>
+      <h3>帳戶列表</h3>
       @if(balanceList.length > 0) {
-        <div class="table-container">
-          <table mat-table [dataSource]="dataSource" class="balance-table">
+        <span class="account-count pill-green">共 {{ balanceList.length }} 筆</span>
+      }
+    </div>
+
+    <div class="card-content table-content">
+      @if(balanceList.length > 0) {
+        <table mat-table [dataSource]="dataSource" class="balance-table">
             <!-- 帳戶ID -->
             <ng-container matColumnDef="balanceId">
               <th mat-header-cell *matHeaderCellDef>帳戶 ID</th>
@@ -97,17 +98,11 @@
             (pageChange)="onPageChange($event)"
             (pageSizeChange)="onPageSizeChange($event)">
           </app-custom-paginator>
-        </div>
       } @else {
-        <!-- 空狀態 -->
-        <div class="empty-state">
+        <div class="empty-state-main">
           <mat-icon>account_balance_wallet</mat-icon>
-          <h4>尚未建立任何帳戶</h4>
+          <h3>尚未建立任何帳戶</h3>
           <p>點擊上方「創建帳戶」按鈕來建立您的第一個帳戶</p>
-          <!-- <button class="action-btn create large" (click)="onCreateBalance()">
-            <mat-icon>add</mat-icon>
-            立即創建帳戶
-          </button> -->
         </div>
       }
     </div>

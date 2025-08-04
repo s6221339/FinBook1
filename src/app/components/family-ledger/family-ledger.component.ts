@@ -154,7 +154,8 @@ export class FamilyLedgerComponent implements OnInit, AfterViewInit {
 
   // 取得選中的家庭帳戶名稱
   getSelectedFamilyName(): string {
-    const selectedBalance = this.familyBalances.find(b => b.balanceId === this.selectedBalanceId);
+    const selectedBalance = this.familyBalances.find(b => Number(b.balanceId) === Number(this.selectedBalanceId));
+    console.log('目前選擇 balanceId:', this.selectedBalanceId, '對應名稱:', selectedBalance?.name);
     return selectedBalance?.name || '';
   }
 

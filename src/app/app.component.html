@@ -43,12 +43,33 @@
         固定收支
       </button>
 
-      <!-- 統計報表連結 -->
-
-      <button routerLink="/statistics" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" (click)="goStatistics()">
-        <span class="material-icons">pie_chart</span>
-        統計報表
-      </button>
+      <!-- 統計下拉選單 -->
+      <div class="user-menu statistics-menu">
+        <div class="user-menu-trigger statistics-menu-trigger">
+          <button
+            class="nav-link"
+            [class.active]="isStatisticsMenuActive()"
+            type="button"
+          >
+            <span class="material-icons">pie_chart</span>
+            統計
+            <span class="material-icons arrow">expand_more</span>
+          </button>
+          <div class="dropdown-menu">
+            <div class="dropdown-bridge"></div>
+            <div class="dropdown-content">
+              <a class="menu-item" routerLink="/statistics" (click)="goStatistics()">
+                <span class="material-icons">bar_chart</span>
+                統計報表
+              </a>
+              <a class="menu-item" routerLink="/AIReportAnalysis" (click)="goAIReportAnalysis()">
+                <span class="material-icons">psychology</span>
+                AI分析
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- 家庭管理下拉選單 -->
         <div class="user-menu family-menu">
@@ -103,8 +124,8 @@
         <span class="slider"></span>
       </label>
       <span class="material-icons theme-icon">dark_mode</span>
-      <div class="user-menu">
-        <div class="user-menu-trigger">
+      <div class="user-menu login-menu">
+        <div class="user-menu-trigger login-menu-trigger">
           @if (!isLoggedIn) {
             <button class="login-button action-button" (click)="login(); goLogin()">
               <span class="material-icons">person</span>
@@ -123,10 +144,10 @@
                   會員中心
                 </a>
                 <a routerLink="/profile" class="menu-item" (click)="goMyBalance()">
-                  <span class="material-icons">account_box</span>
+                  <span class="material-icons">payments</span>
                   我的帳戶
                 </a>
-                <a routerLink="/transferRecord" class="menu-item">
+                <a routerLink="/transferRecord" class="menu-item" (click)="goTransferRecord()">
                   <span class="material-icons">swap_horiz</span>
                   額度紀錄
                 </a>
@@ -134,7 +155,7 @@
                   <span class="material-icons">delete_sweep</span>
                   最近刪除
                 </a>
-                <a class="menu-item" (click)="logout()" >
+                <a class="menu-item" (click)="logout(); closeDropdownMenus()" >
                   <span class="material-icons">logout</span>
                   登出
                 </a>
@@ -166,9 +187,13 @@
         <span class="material-icons">add_circle</span>
         記帳
       </a>
-      <a routerLink="/reports" class="mobile-nav-link" (click)="toggleMenu()">
+      <a routerLink="/statistics" class="mobile-nav-link" (click)="toggleMenu()">
         <span class="material-icons">pie_chart</span>
         統計報表
+      </a>
+      <a routerLink="/AIReportAnalysis" class="mobile-nav-link" (click)="toggleMenu()">
+        <span class="material-icons">psychology</span>
+        AI分析
       </a>
       <a routerLink="/recurring" class="mobile-nav-link" (click)="toggleMenu()">
         <span class="material-icons">sync</span>

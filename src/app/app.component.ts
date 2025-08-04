@@ -75,16 +75,19 @@ export class AppComponent implements OnInit {
   //  前往帳本畫面
   goLedger(){
     this.router.navigate(['/ledger']);
+    this.closeDropdownMenus();
   }
 
   //  前往記帳畫面
   goBookKeeping(){
     this.router.navigate(['/bookKeeping/expenses']);
+    this.closeDropdownMenus();
   }
 
   //  前往修改帳款畫面
   goModifyPayment(){
     this.router.navigate(['/modifyPayment']);
+    this.closeDropdownMenus();
   }
 
   //  前往會員頁面
@@ -115,36 +118,50 @@ export class AppComponent implements OnInit {
 
   goCreateFamily(){
     this.router.navigate(['/createFamily']);
+    this.closeDropdownMenus();
   }
 
   goMyBalance(){
     this.router.navigate(['/myBalance']);
+    this.closeDropdownMenus();
   }
 
   goMyFamily(){
     this.router.navigate(['/myFamily']);
+    this.closeDropdownMenus();
   }
 
   goPendingDeletion(){
     this.router.navigate(['/pendingDeletion']);
+    this.closeDropdownMenus();
   }
 
   goUnacceptedFamilyInvitation(){
     this.router.navigate(['/unacceptedFamilyInvitation']);
+    this.closeDropdownMenus();
   }
 
   goTransfers(){
     this.router.navigate(['/transfersRevised']);
+    this.closeDropdownMenus();
   }
 
   goFixedIncomeExpenseForm(){
     this.router.navigate(['/fixedIncomeExpenseForm']);
+    this.closeDropdownMenus();
   }
   goStatistics(){
     this.router.navigate(['/statistics']);
+    this.closeDropdownMenus();
   }
   goMemberCenter(){
     this.router.navigate(['/memberCenter']);
+    this.closeDropdownMenus();
+  }
+
+  goTransferRecord(){
+    this.router.navigate(['/transferRecord']);
+    this.closeDropdownMenus();
   }
   // 判斷家庭管理選單是否應該 active
   isFamilyMenuActive() {
@@ -158,10 +175,35 @@ export class AppComponent implements OnInit {
 
   goFamilyLedger(){
     this.router.navigate(['/familyLedger']);
+    this.closeDropdownMenus();
   }
 
   goTransferTargetSelection(): void {
     this.router.navigate(['/transferTargetSelection']);
+    this.closeDropdownMenus();
+  }
+
+  goAIReportAnalysis(): void {
+    this.router.navigate(['/AIReportAnalysis']);
+    this.closeDropdownMenus();
+  }
+
+  // 判斷統計選單是否應該 active
+  isStatisticsMenuActive() {
+    return this.router.url.startsWith('/statistics')
+        || this.router.url.startsWith('/AIReportAnalysis');
+  }
+
+  // 關閉所有下拉選單
+  closeDropdownMenus(): void {
+    // 使用更簡單的方法：移除所有內聯樣式
+    const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+    dropdownMenus.forEach(menu => {
+      if (menu instanceof HTMLElement) {
+        // 清除所有可能影響顯示的內聯樣式
+        menu.removeAttribute('style');
+      }
+    });
   }
 
 }

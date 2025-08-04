@@ -392,9 +392,25 @@ button.nav-link .material-icons {
   transform: translateY(0);
 }
 
+/* 統計選單 hover 展開 */
+.user-menu.statistics-menu .user-menu-trigger:hover .dropdown-menu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* 登入選單 hover 展開 */
+.user-menu.login-menu .user-menu-trigger:hover .dropdown-menu {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
 /* 會員登入 hover 展開（如需） */
-.user-menu:not(.family-menu) .user-menu-trigger:hover .dropdown-menu,
-.user-menu:not(.family-menu) .user-menu-trigger:focus-within .dropdown-menu {
+.user-menu:not(.family-menu):not(.statistics-menu):not(.login-menu) .user-menu-trigger:hover .dropdown-menu,
+.user-menu:not(.family-menu):not(.statistics-menu):not(.login-menu) .user-menu-trigger:focus-within .dropdown-menu {
   display: block;
   opacity: 1;
   visibility: visible;
@@ -905,7 +921,9 @@ button.nav-link .material-icons {
   color: var(--primary);
 }
 
-.family-menu {
+.family-menu,
+.statistics-menu,
+.login-menu {
   position: relative;
   display: flex;
   align-items: center;
@@ -917,6 +935,18 @@ button.nav-link .material-icons {
 .login-button .material-icons,
 .user-button .material-icons {
   font-size: 22px;
+}
+
+/* 下拉選單箭頭樣式 */
+.nav-link .arrow {
+  font-size: 18px;
+  color: var(--primary);
+  transition: transform 0.2s ease;
+}
+
+/* 下拉選單 hover 時箭頭旋轉 */
+.user-menu:hover .nav-link .arrow {
+  transform: rotate(180deg);
 }
 
 

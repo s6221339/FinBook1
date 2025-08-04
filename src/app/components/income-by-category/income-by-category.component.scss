@@ -1,71 +1,458 @@
-.filter-bar {
+.income-by-category-page {
+  padding: 1.5rem;
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+// 藍色標頭樣式
+.card-header {
+  display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
+  gap: 0.5rem;
+  padding: 0.8rem 1.2rem;
+  background: var(--primary);
+  color: #fff;
+  height: 35px;
+  min-height: 35px;
+  max-height: 35px;
 
-  label {
-    font-weight: bold;
+  mat-icon {
+    width: 1.2rem;
+    height: 1.2rem;
   }
 
-  select {
-    padding: 4px 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+  span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    cursor: default;
+    margin: 0;
+    flex: 1;
+    line-height: 1;
+    min-height: 2rem;
+    display: flex;
+    align-items: center;
   }
 }
 
-.chart-section {
-  width: 100%;
-  max-width: 480px;
-  margin: 0 auto 1.5rem;
-}
-
-.summary {
-  text-align: center;
-  margin-bottom: 1rem;
+.card-content {
+  background: var(--elevation-1);
+  padding: 1rem 1.2rem;
+  color: var(--text-primary);
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
 
   p {
-    font-size: 1.1rem;
-    margin: 4px 0;
+    cursor: default;
+    color: var(--text-primary);
+    font-weight: 500;
+
+    strong {
+      color: var(--primary);
+      font-weight: 600;
+    }
   }
 }
 
-.summary-table {
-  width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-  border-collapse: collapse;
-  text-align: center;
-  border-radius: 12px;
+// 通用卡片樣式
+.info-card,
+.filter-card,
+.chart-card,
+.summary-card,
+.table-card {
+  background: var(--elevation-1);
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
   overflow: hidden;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
 
-  thead {
-    background-color: #2c2c2c;
-    color: #ffffff;
-    font-weight: bold;
+// 圖表卡片的特殊樣式
+.chart-card .card-content {
+  padding: 0;
+}
+
+// 資訊說明區域
+// 使用通用的 card-content 樣式
+
+// 篩選器區域
+.filter-section {
+  .filter-controls {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  tbody {
-    background-color: #3a3a3a;
-    color: #ffffff;
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 120px;
+    flex: 1;
   }
 
-  th, td {
-    padding: 10px;
-    border: 1px solid #555;
-    font-weight: bold;
+  .filter-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-primary);
+
+    mat-icon {
+      font-size: 1.3rem;
+      width: 1.3rem;
+      height: 1.3rem;
+      color: var(--primary);
+      padding-top: 1px;
+    }
   }
 
-  tr:hover {
-    background-color: #505050;
+  .filter-select {
+    padding: 0.75rem;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(66, 86, 165, 0.1);
+    }
+
+    option {
+      background: var(--elevation-1);
+      color: var(--text-primary);
+    }
   }
 }
 
-.no-data-text {
+// 圖表區域
+.chart-section {
+  .chart-container {
+    height: 350px;
+    position: relative;
+    background: var(--input-bg);
+    border-radius: 8px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .no-data-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--text-secondary);
+
+    .no-data-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+      cursor: default;
+    }
+
+    .no-data-desc {
+      font-size: 0.9rem;
+      margin: 0;
+      cursor: default;
+    }
+  }
+}
+
+// 無資料圖標樣式
+.no-data-icon {
+  font-size: 3rem !important;
+  width: 3rem;
+  height: 3rem;
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+// 摘要區域
+.summary-section {
+  .summary-grid {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .summary-item {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+
+    &.total {
+      border-color: var(--income);
+      background: rgba(16, 185, 129, 0.1);
+
+      .summary-icon {
+        background: var(--income);
+        color: white;
+      }
+
+      .summary-value {
+        color: var(--income);
+      }
+    }
+
+    &.average {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.1);
+
+      .summary-icon {
+        background: var(--primary);
+        color: white;
+      }
+
+      .summary-value {
+        color: var(--primary);
+      }
+    }
+
+    .summary-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      mat-icon {
+        font-size: 1.5rem !important;
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+      }
+    }
+
+    .summary-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      flex: 1;
+
+      .summary-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        cursor: default;
+      }
+
+      .summary-value {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        cursor: default;
+      }
+    }
+  }
+}
+
+// 表格區域
+.table-content {
+  padding: 0; // 移除 card-content 的 padding
+}
+
+// Angular Material Table styles (matching expense-by-category)
+.payment-table {
+  width: 95%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.payment-table th, .payment-table td {
+  border: 1px solid #ccc;
+  padding: 0.6rem;
   text-align: center;
-  font-size: 1.2rem;
-  color: #888;
-  margin: 2rem 0;
+  cursor: default;
+}
+
+.payment-table td {
+  font-size: 0.95rem !important;
+  font-weight: 600;
+}
+
+// 分類欄位的內容置中
+.payment-table .category-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+// 交替行背景顏色
+.payment-table tr:nth-child(odd) {
+  background-color: var(--input-bg);
+}
+
+.payment-table tr:nth-child(even) {
+  background-color: var(--elevation-1);
+}
+
+.payment-table tr:hover {
+  background-color: var(--secondary-bg);
+}
+
+// 表格內容樣式
+.payment-table {
+  .category-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: default;
+
+    .category-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+  }
+
+  .amount-cell,
+  .percentage-cell {
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: default;
+  }
+}
+
+.payment-table th {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-shadow: 0 1px 4px rgba(66, 86, 165, 0.08);
+  border-bottom: 1.4px solid var(--primary);
+  white-space: normal;
+  word-break: break-all;
+  padding: 6px 8px;
+  border-right: none !important;
+}
+
+// Material Table style overrides (consistent with expense-by-category page)
+::ng-deep .payment-table th.mat-header-cell,
+::ng-deep .payment-table th[mat-header-cell] {
+  text-align: center !important;
+  vertical-align: middle !important;
+  padding: 0 !important;
+  position: relative;
+}
+
+::ng-deep .payment-table .mat-sort-header-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep .payment-table .mat-sort-header-content {
+  min-width: unset !important;
+  gap: 2px !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+::ng-deep .payment-table .mat-sort-header-arrow {
+  color: var(--table-header-text);
+  opacity: 1 !important;
+  transition: color 0.2s;
+  display: inline-block !important;
+}
+
+::ng-deep .payment-table .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--table-sort) !important;
+  text-shadow: 0 0 8px var(--table-sort), 0 0 2px var(--table-header-text);
+}
+
+::ng-deep .payment-table .mat-sort-header-indicator {
+  opacity: 1 !important;
+  color: var(--primary) !important;
+}
+
+// 響應式設計
+@media (max-width: 1024px) {
+  .income-by-category-page {
+    padding: 1rem;
+  }
+
+  .filter-controls {
+    gap: 1rem;
+  }
+
+  .chart-container {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-controls {
+    flex-direction: column;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .summary-grid {
+    flex-direction: column;
+  }
+
+  .chart-container {
+    height: 250px;
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .income-by-category-page {
+    padding: 0.5rem;
+    gap: 1rem;
+  }
+
+  .info-card,
+  .filter-card,
+  .chart-card,
+  .summary-card,
+  .table-card {
+    .card-content {
+      padding: 0.8rem 1rem;
+    }
+  }
+
+  .chart-container {
+    height: 200px;
+  }
+
+
 }

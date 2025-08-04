@@ -1,7 +1,7 @@
 import { AuthService } from './../../@services/auth.service';
 import { ApiService } from './../../@services/api.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MonthlyStatistics } from '../../models/monthlyStatistics';
 import { BaseChartDirective } from 'ng2-charts';
@@ -9,17 +9,22 @@ import { Chart, PieController, ArcElement, Tooltip, Legend } from 'chart.js';
 Chart.register(PieController, ArcElement, Tooltip, Legend);
 import { ChartOptions, ChartType } from 'chart.js';
 import { MatIconModule } from "@angular/material/icon"
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatSortModule, MatSort } from '@angular/material/sort';
+import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 
 @Component({
   selector: 'app-expense-by-category',
   imports: [
-    FormsModule, BaseChartDirective, CommonModule, MatIconModule
+    FormsModule, BaseChartDirective, CommonModule, MatIconModule, MatTableModule, MatSortModule, CustomPaginatorComponent
   ],
   templateUrl: './expense-by-category.component.html',
   styleUrl: './expense-by-category.component.scss',
   standalone: true
 })
-export class ExpenseByCategoryComponent implements OnInit{
+export class ExpenseByCategoryComponent implements OnInit, AfterViewInit{
+
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private apiService: ApiService,
@@ -32,7 +37,13 @@ export class ExpenseByCategoryComponent implements OnInit{
   months: number[] = [];
 
   rawStatisticsList: MonthlyStatistics[] = [];
-  filteredPaymentInfo: { type: string, totalAmount: number }[] = [];
+  filteredPaymentInfo: { type: string, totalAmount: number, color: string }[] = [];
+  dataSource = new MatTableDataSource<{ type: string, totalAmount: number, color: string }>();
+
+  // 分頁控制
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalFilteredItems: number = 0;
 
   pieChartLabels: string[] = [];
   pieChartData: number[] = [];
@@ -140,7 +151,24 @@ export class ExpenseByCategoryComponent implements OnInit{
 
   filterByMonth(): void {
     const data = this.rawStatisticsList.find(stat => stat.month == this.selectedMonth);
-    this.filteredPaymentInfo = (data?.paymentInfo || []).filter(p => p.type != '收入');
+    const rawPaymentInfo = (data?.paymentInfo || []).filter(p => p.type != '收入');
+
+    //  為每個項目添加顏色
+    this.filteredPaymentInfo = rawPaymentInfo.map((p, index) => ({
+      type: p.type,
+      totalAmount: p.totalAmount,
+      color: this.pieChartColors[index % this.pieChartColors.length]
+    }));
+
+        //  更新 dataSource
+    this.dataSource.data = this.filteredPaymentInfo;
+    this.totalFilteredItems = this.filteredPaymentInfo.length;
+
+    // 確保排序功能在資料更新後仍然有效
+    this.setupSort();
+
+    // 如果有排序設定，重新應用排序
+    this.applySort();
 
     //  援筆圖資料與顏色
     this.pieChartLabels = this.filteredPaymentInfo.map(p => p.type);
@@ -170,6 +198,56 @@ export class ExpenseByCategoryComponent implements OnInit{
 
   getAveragePerDay(): number {
     return this.totalExpense / 30;
+  }
+
+  ngAfterViewInit(): void {
+    // 使用延遲確保表格完全渲染
+    setTimeout(() => {
+      this.setupSort();
+    }, 100);
+  }
+
+  private setupSort(): void {
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+      this.sort.sortChange.subscribe(() => {
+        this.currentPage = 1;
+        // 手動排序資料
+        this.applySort();
+      });
+    } else {
+      // 如果還是沒有，再試一次
+      setTimeout(() => {
+        this.setupSort();
+      }, 100);
+    }
+  }
+
+  private applySort(): void {
+    if (this.sort && this.sort.active) {
+      // 手動排序
+      const sortedData = [...this.dataSource.data].sort((a, b) => {
+        if (this.sort.active === 'amount') {
+          return this.sort.direction === 'asc' ? a.totalAmount - b.totalAmount : b.totalAmount - a.totalAmount;
+        } else if (this.sort.active === 'percentage') {
+          const aPercent = (a.totalAmount / this.totalExpense) * 100;
+          const bPercent = (b.totalAmount / this.totalExpense) * 100;
+          return this.sort.direction === 'asc' ? aPercent - bPercent : bPercent - aPercent;
+        }
+        return 0;
+      });
+
+      this.dataSource.data = sortedData;
+    }
+  }
+
+  onPageChange(newPage: number): void {
+    this.currentPage = newPage;
+  }
+
+  onPageSizeChange(newPageSize: number): void {
+    this.itemsPerPage = newPageSize;
+    this.currentPage = 1;
   }
 
 }

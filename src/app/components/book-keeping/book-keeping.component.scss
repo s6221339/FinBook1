@@ -1,7 +1,7 @@
 .book-keeping-page {
   min-height: 100vh;
   background: var(--elevation-0);
-  padding-top: 35px;
+  padding-top: 10px;
   color: var(--text-primary);
 }
 
@@ -9,8 +9,8 @@
 .page-header {
   background: white;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  padding: 2rem 0;
-  margin-bottom: 2rem;
+  padding: 1.5rem 0;
+  margin-bottom: 1.5rem;
 
   .header-content {
     max-width: 1200px;
@@ -20,9 +20,9 @@
   }
 
   .page-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     background: linear-gradient(45deg, #3b82f6, #ec4899);
     background-clip: text;
     -webkit-background-clip: text;
@@ -31,7 +31,7 @@
 
   .page-subtitle {
     color: #64748b;
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin: 0;
   }
 }
@@ -40,7 +40,7 @@
 .content-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem 5rem;
+  padding: 0 2rem 4rem;
   display: flex;
   flex-direction: column;
 }
@@ -49,44 +49,44 @@
 .form-header {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
-  margin-bottom: 2.2rem;
-  padding-bottom: 1.2rem;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+  padding-bottom: 1rem;
   border-bottom: none;
   background: none;
 }
 .form-header .header-icon {
-  width: 70px;
-  height: 70px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: var(--expense);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 24px rgba(231,111,81,0.18);
+  box-shadow: 0 4px 16px rgba(231,111,81,0.18);
 }
 .form-header .header-icon .material-icons {
   color: #fff;
-  font-size: 2.6rem;
+  font-size: 2rem;
 }
 .form-header .header-text h2 {
-  font-size: 2.1rem;
+  font-size: 1.7rem;
   font-weight: 800;
   color: var(--expense);
-  margin: 0 0 0.3rem 0;
+  margin: 0 0 0.2rem 0;
   letter-spacing: 1px;
 }
 .form-header .header-text p {
   color: #64748b;
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 // 主題色分隔線加粗
 .form-container hr, .expenses-form hr, .income-form hr, .fixed-expenses-form hr, .fixed-income-form hr {
   border: none;
-  border-top: 3px solid var(--expense);
-  margin: 1.5rem 0 2.2rem 0;
+  border-top: 2px solid var(--expense);
+  margin: 1.2rem 0 1.8rem 0;
   border-radius: 2px;
 }
 
@@ -102,17 +102,17 @@
 // 主題色氛圍延伸到icon、分隔線、主要按鈕
 .section-header .material-icons {
   color: var(--expense);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 .btn-primary {
   background: var(--expense);
   color: #fff;
-  box-shadow: 0 4px 15px rgba(231,111,81,0.18);
+  box-shadow: 0 3px 12px rgba(231,111,81,0.18);
   border: none;
   &:hover:not(:disabled) {
     background: #e76f51cc;
     color: #fff;
-    box-shadow: 0 8px 25px rgba(231,111,81,0.22);
+    box-shadow: 0 6px 20px rgba(231,111,81,0.22);
   }
 }
 
@@ -121,8 +121,8 @@
   background: none;
   box-shadow: none;
   border: none;
-  border-radius: 28px;
-  margin-bottom: 2.5rem;
+  border-radius: 22px;
+  margin-bottom: 2rem;
   padding: 0;
   overflow: visible;
 }
@@ -130,26 +130,26 @@
 .card-header {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 1.2rem 2.2rem;
+  gap: 0.6rem;
+  padding: 1rem 1.8rem;
   background: var(--primary);
-  border-top-left-radius: 28px;
-  border-top-right-radius: 28px;
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
   color: #fff;
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 700;
 }
 
 .card-header .material-icons {
   color: #fff;
-  font-size: 2rem;
+  font-size: 1.6rem;
   cursor: default;
 }
 
 .card-header h3 {
   margin: 0;
   flex: 1;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #fff;
   cursor: default;
@@ -163,7 +163,7 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  padding: 2.2rem 1.5rem 1rem 1.5rem;
+  padding: 1.8rem 1.2rem 0.8rem 1.2rem;
   transition: background 0.4s, color 0.4s;
 }
 
@@ -172,7 +172,7 @@
   display: flex;
   justify-content: center;
   align-items: stretch;
-  gap: 2rem;
+  gap: 1.5rem;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -180,9 +180,9 @@
 }
 
 .type-btn {
-  width: 220px;
-  min-width: 180px;
-  max-width: 240px;
+  width: 180px;
+  min-width: 150px;
+  max-width: 200px;
   flex: 0 0 auto;
 }
 
@@ -191,43 +191,43 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1.5rem 1rem;
+  gap: 0.4rem;
+  padding: 1.2rem 0.8rem;
   border: 2px solid transparent;
-  border-radius: 18px;
+  border-radius: 14px;
   background: var(--secondary-bg);
   color: var(--primary);
   cursor: pointer;
   transition: all 0.3s, background 0.4s, color 0.4s, border-color 0.4s;
   text-align: center;
-  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
 
   .btn-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
     color: #fff;
     background: currentColor;
     border-radius: 50%;
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.10);
+    box-shadow: 0 2px 6px rgba(44, 62, 80, 0.10);
     transition: background 0.3s, color 0.3s, opacity 0.3s;
   }
 
   .btn-text {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
     color: currentColor;
     opacity: 0.95;
     transition: color 0.3s, opacity 0.3s;
   }
 
   .btn-desc {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--form-desc);
     line-height: 1.3;
   }
@@ -239,15 +239,15 @@
   backdrop-filter: blur(var(--glass-blur));
   border: 1.5px solid var(--expense);
   border-radius: var(--card-radius);
-  box-shadow: 0 8px 32px rgba(248, 113, 113, 0.2);
+  box-shadow: 0 6px 24px rgba(248, 113, 113, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--expense);
   background: rgba(231,111,81,0.10);
   border-color: rgba(231,111,81,0.18);
   .btn-icon { background: var(--expense); }
   &:hover, &.active {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(248, 113, 113, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(248, 113, 113, 0.3);
     background: var(--expense);
     color: #fff;
     border-color: var(--expense);
@@ -260,15 +260,15 @@
   backdrop-filter: blur(var(--glass-blur));
   border: 1.5px solid var(--income);
   border-radius: var(--card-radius);
-  box-shadow: 0 8px 32px rgba(52, 211, 153, 0.2);
+  box-shadow: 0 6px 24px rgba(52, 211, 153, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--income);
   background: rgba(42,157,143,0.10);
   border-color: rgba(42,157,143,0.18);
   .btn-icon { background: var(--income); }
   &:hover, &.active {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(52, 211, 153, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(52, 211, 153, 0.3);
     background: var(--income);
     color: #fff;
     border-color: var(--income);
@@ -281,15 +281,15 @@
   backdrop-filter: blur(var(--glass-blur));
   border: 1.5px solid var(--fixed-expense);
   border-radius: var(--card-radius);
-  box-shadow: 0 8px 32px rgba(251, 191, 36, 0.2);
+  box-shadow: 0 6px 24px rgba(251, 191, 36, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--fixed-expense);
   background: rgba(244,162,97,0.10);
   border-color: rgba(244,162,97,0.18);
   .btn-icon { background: var(--fixed-expense); }
   &:hover, &.active {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(251, 191, 36, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(251, 191, 36, 0.3);
     background: var(--fixed-expense);
     color: #fff;
     border-color: var(--fixed-expense);
@@ -302,15 +302,15 @@
   backdrop-filter: blur(var(--glass-blur));
   border: 1.5px solid var(--fixed-income);
   border-radius: var(--card-radius);
-  box-shadow: 0 8px 32px rgba(167, 139, 250, 0.2);
+  box-shadow: 0 6px 24px rgba(167, 139, 250, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--fixed-income);
   background: rgba(131,103,199,0.10);
   border-color: rgba(131,103,199,0.18);
   .btn-icon { background: var(--fixed-income); }
   &:hover, &.active {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(167, 139, 250, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(167, 139, 250, 0.3);
     background: var(--fixed-income);
     color: #fff;
     border-color: var(--fixed-income);
@@ -323,15 +323,15 @@
   backdrop-filter: blur(var(--glass-blur));
   border: 1.5px solid var(--transfer);
   border-radius: var(--card-radius);
-  box-shadow: 0 8px 32px rgba(56, 189, 248, 0.2);
+  box-shadow: 0 6px 24px rgba(56, 189, 248, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--transfer);
   background: rgba(0,180,216,0.10);
   border-color: rgba(0,180,216,0.18);
   .btn-icon { background: var(--transfer); }
   &:hover, &.active {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(56, 189, 248, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(56, 189, 248, 0.3);
     background: var(--transfer);
     color: #fff;
     border-color: var(--transfer);
@@ -346,7 +346,7 @@
   box-shadow: none;
   border: none;
   border-radius: 0;
-  margin: 0 auto 2.5rem auto;
+  margin: 0 auto 0.5rem auto;
   padding: 0;
   max-width: 1100px;
   display: flex;
@@ -373,18 +373,18 @@
 @media (max-width: 1200px) {
   .type-buttons {
     flex-wrap: wrap;
-    gap: 1.2rem;
+    gap: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .type-buttons {
     grid-template-columns: 1fr;
-    gap: 0.7rem;
+    gap: 0.6rem;
   }
   .type-selector-card.no-header {
-    padding-top: 0.7rem;
-    padding-bottom: 0.7rem;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
   }
 }
 

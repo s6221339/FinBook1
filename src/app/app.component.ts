@@ -50,12 +50,12 @@ export class AppComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen
   }
 
-  // 模擬登入功能（之後會連接後端API）
+  // 登入功能
   login() {
     this.router.navigate(['/login']);
   }
 
-  // 模擬登出功能（之後會連接後端API）
+  // 登出功能
   logout() {
     this.authService.logout().subscribe(success => {
       if(success) {

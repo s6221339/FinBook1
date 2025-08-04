@@ -53,28 +53,65 @@ export class ResetPasswordComponent implements OnInit{
   }
 
   submit(): void {
-    //  驗證格式
-    if(!this.newPassword || !this.confirmPassword) {
-      Swal.fire('⚠️ 欄位未填', '請輸入新密碼與確認密碼', 'warning');
+    // 前端驗證 - 檢查必填欄位
+    if (!this.newPassword.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請輸入新密碼',
+        text: '請在新密碼欄位輸入您的新密碼',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
-    if(/\s/.test(this.newPassword)) {
-      Swal.fire('格式錯誤', '密碼不得包含空白字元', 'warning');
+    if (!this.confirmPassword.trim()) {
+      Swal.fire({
+        icon: 'warning',
+        title: '請確認新密碼',
+        text: '請在確認新密碼欄位再次輸入您的新密碼',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
-    if(/[^a-zA-Z0-9]/.test(this.newPassword)) {
-      Swal.fire('格式錯誤', '密碼不得包含特殊符號', 'warning');
+    // 驗證密碼格式
+    if (/\s/.test(this.newPassword)) {
+      Swal.fire({
+        icon: 'warning',
+        title: '密碼格式錯誤',
+        text: '密碼不得包含空白字元',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
-    if(this.newPassword.length < 8 || this.newPassword.length > 16) {
-      Swal.fire('❌ 密碼長度錯誤', '密碼長度須為 8～16 字元', 'warning');
+    if (/[^a-zA-Z0-9]/.test(this.newPassword)) {
+      Swal.fire({
+        icon: 'warning',
+        title: '密碼格式錯誤',
+        text: '密碼不得包含特殊符號',
+        confirmButtonText: '確定'
+      });
       return;
     }
-    if(this.newPassword !== this.confirmPassword) {
-      Swal.fire('❌密碼不一致', '兩次輸入的密碼不一致', 'warning');
+
+    if (this.newPassword.length < 8 || this.newPassword.length > 16) {
+      Swal.fire({
+        icon: 'warning',
+        title: '密碼長度錯誤',
+        text: '密碼長度須為 8～16 字元',
+        confirmButtonText: '確定'
+      });
+      return;
+    }
+
+    if (this.newPassword !== this.confirmPassword) {
+      Swal.fire({
+        icon: 'error',
+        title: '密碼不一致',
+        text: '兩次輸入的密碼不一致，請重新輸入',
+        confirmButtonText: '確定'
+      });
       return;
     }
 
@@ -85,12 +122,21 @@ export class ResetPasswordComponent implements OnInit{
 
     this.apiService.updatePasswordByEmail(payload)
       .then(() => {
-        Swal.fire('✅ 成功', '密碼已重設，請重新登入', 'success')
-          .then(() => this.router.navigate(['/login']));
+        Swal.fire({
+          icon: 'success',
+          title: '密碼重設成功',
+          text: '您的密碼已成功重設，請重新登入',
+          confirmButtonText: '確定'
+        }).then(() => this.router.navigate(['/login']));
       })
       .catch(err => {
         console.error('密碼重設失敗', err);
-        Swal.fire('❌失敗', err?.response?.data?.message || '密碼更新失敗請稍後再試', 'error');
+        Swal.fire({
+          icon: 'error',
+          title: '❌ 密碼重設失敗',
+          text: err?.response?.data?.message || '密碼更新失敗，請稍後再試',
+          confirmButtonText: '確定'
+        });
       })
   }
 

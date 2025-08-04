@@ -1,137 +1,192 @@
 .statistics-page {
   min-height: 100vh;
-  padding: 2rem;
+  background: var(--elevation-0);
+  padding-top: 10px;
+  color: var(--text-primary);
+}
+
+// 內容容器
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+// 統計選擇器卡片
+.statistics-selector-card {
+  background: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 22px;
+  padding: 0;
+  overflow: visible;
+}
+
+.card-content {
+  background: none;
+  color: var(--text-primary);
+}
+
+// 統計按鈕群組
+.statistics-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1rem;
+  width: 100%;
   max-width: 1000px;
   margin: 0 auto;
+  flex-wrap: nowrap;
 }
 
-// 導航選項卡
-.nav-tabs-container {
-  margin-bottom: 1.5rem;
-  background: var(--input-bg);
-  border-radius: 18px;
-  padding: 1rem;
-  box-shadow: 0 2px 12px rgba(66, 86, 165, 0.1);
-  border: 1px solid var(--secondary-bg);
-}
-
-.nav-tabs {
+// 統計按鈕樣式
+.statistics-btn {
+  width: 190px;
+  min-width: 190px;
+  max-width: 190px;
+  height: 155px;
+  flex: 0 0 auto;
   display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  padding: 0.5rem;
-
-  &::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: var(--input-bg);
-    border-radius: 2px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: 2px;
-  }
-}
-
-.nav-tab {
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1rem 1.5rem;
-  border: none;
-  border-radius: 12px;
-  background: transparent;
-  color: var(--text-secondary);
-  font-size: 1.3rem;
-  font-weight: 500;
+  gap: 0.4rem;
+  padding: 1.2rem 0.8rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  min-width: fit-content;
-  text-decoration: none; // 讓 <a> 沒有底線
-  outline: none;         // 讓 <a> 沒有預設外框
+  transition: all 0.3s, background 0.4s, color 0.4s, border-color 0.4s;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
 
-  mat-icon {
-    font-size: 1.2rem;
-    width: 1.2rem;
-    height: 1.2rem;
-    transition: all 0.3s ease;
+  .btn-icon {
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+    color: #fff;
+    background: currentColor;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(44, 62, 80, 0.10);
+    transition: background 0.3s, color 0.3s, opacity 0.3s;
   }
 
-  &:hover {
-    background: var(--input-bg);
-    color: var(--primary);
-    transform: translateY(-2px);
+  .btn-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    color: currentColor;
+    opacity: 0.95;
+    transition: color 0.3s, opacity 0.3s;
+  }
 
-    mat-icon {
-      transform: scale(1.1);
+  .btn-desc {
+    font-size: 0.9rem;
+    color: var(--form-desc);
+    line-height: 1.3;
+  }
+}
+
+// 統一主色系樣式
+.statistics-btn {
+  // 預設狀態：淺灰背景 + 深灰文字
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1.5px solid var(--border-color);
+  color: var(--text-secondary);
+
+  .btn-icon {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  // 懸停狀態：稍微深一點的背景
+  &:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(66, 86, 165, 0.3);
+
+    .btn-icon {
+      background: #fff;
+      color: var(--primary);
+    }
+
+    .btn-text, .btn-desc {
+      color: #fff;
     }
   }
 
+  // 選中狀態：主色背景 + 白色文字
   &.active {
     background: var(--primary);
     color: #fff;
-    box-shadow: 0 4px 12px rgba(66, 86, 165, 0.3);
+    border-color: var(--primary);
+    box-shadow: 0 10px 32px rgba(66, 86, 165, 0.3);
 
-    mat-icon {
+    .btn-icon {
+      background: #fff;
+      color: var(--primary);
+    }
+
+    .btn-text, .btn-desc {
       color: #fff;
     }
   }
 }
 
-// 內容區域
-.content-area {
-  border-radius: 18px;
-  overflow: hidden;
+// 分隔線
+.separator-line {
+  border: none;
+  border-top: 1px solid var(--primary);
+  margin: 0.8rem 0 1.8rem 0;
+  border-radius: 2px;
+  width: 80%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 // 響應式設計
 @media (max-width: 1024px) {
-  .statistics-page {
-    padding: 1rem;
+  .statistics-buttons {
+    gap: 0.8rem;
   }
 
-  .header-content {
-    padding: 1.5rem;
-  }
-
-  .header-info {
-    mat-icon {
-      font-size: 2.5rem;
-      width: 2.5rem;
-      height: 2.5rem;
-    }
-
-    .header-text h1 {
-      font-size: 1.8rem;
-    }
+  .statistics-btn {
+    width: 160px;
+    min-width: 140px;
+    max-width: 180px;
   }
 }
 
 @media (max-width: 768px) {
-  .nav-tabs {
-    justify-content: flex-start;
+  .statistics-buttons {
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  .nav-tab {
-    padding: 0.8rem 1rem;
-    font-size: 0.9rem;
-
-    span {
-      display: none;
-    }
-
-    mat-icon {
-      margin: 0;
-    }
+  .statistics-btn {
+    width: 140px;
+    min-width: 120px;
+    max-width: 160px;
   }
+}
 
-  .header-info {
-    flex-direction: column;
-    text-align: center;
+@media (max-width: 480px) {
+  .statistics-buttons {
     gap: 0.5rem;
+  }
+
+  .statistics-btn {
+    width: 120px;
+    min-width: 100px;
+    max-width: 140px;
   }
 }

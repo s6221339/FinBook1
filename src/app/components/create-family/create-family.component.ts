@@ -108,7 +108,7 @@ export class CreateFamilyComponent implements OnInit{
         this.invitedMenbers = this.invitedMenbers.filter(m => !this.selectedAccounts.has(m.account));
         this.selectedAccounts.clear();
         this.isAllSelected = false;
-        Swal.fire('✅ 已取消', '選定的邀請成員已移除', 'success');
+        Swal.fire('已取消', '選定的邀請成員已移除', 'success');
       }
     });
   }

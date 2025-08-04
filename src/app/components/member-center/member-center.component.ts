@@ -24,6 +24,7 @@ export class MemberCenterComponent implements OnInit,OnDestroy{
 
   currentUrl: string = '';
   currentUser: UserVO | null = null;
+  isSidebarCollapsed: boolean = false;
   private userSub?: Subscription;
 
   ngOnInit(): void {
@@ -43,6 +44,10 @@ export class MemberCenterComponent implements OnInit,OnDestroy{
 
   ngOnDestroy(): void {
     this.userSub?.unsubscribe();
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
   }
 
 }

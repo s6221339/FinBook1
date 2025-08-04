@@ -1,76 +1,635 @@
-.family-ledger {
-  padding: 24px;
-  max-width: 960px;
+/* family-ledger 上方卡片、表格、分頁器 - 統一新風格，支援暗黑模式 */
+
+.family-ledger-page {
+  min-height: 100vh;
+  padding-top: 8px;
+  background: var(--elevation-0);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.content-container {
+  max-width: 1000px;
   margin: 0 auto;
-  font-family: "Segoe UI", sans-serif;
+  padding: 0 1.2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
 
-  h2 {
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.2rem;
+  margin: 0 auto 1.5rem auto;
+  max-width: 1000px;
+}
+
+.filter-card {
+  width: 320px;
+  min-width: 280px;
+  max-width: 320px;
+  flex: none;
+  background: var(--elevation-1);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    background: var(--primary);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    color: #fff;
+
+    mat-icon {
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: default;
+    }
+
+    span {
+      color: #fff;
+      cursor: default;
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+
+  .card-content {
+    padding: 1rem;
+    background: var(--elevation-1);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+}
+
+.custom-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+.custom-form-group label {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.custom-select {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  border: 2px solid var(--primary);
+  background: var(--elevation-1);
+  color: var(--text-primary);
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  position: relative;
+  padding-right: 2.5rem;
+}
+
+.custom-select:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 12px 2px #ff80ab33 !important;
+}
+
+.custom-hint {
+  color: var(--choose-account-bg);
+  font-weight: 600;
+  background: var(--calendar-background);
+  border-radius: 12px;
+  padding: 0.2rem 0.8rem;
+  display: inline-block;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+}
+
+// 表格卡片樣式
+.transactions-card {
+  background: var(--elevation-1);
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(66, 86, 165, 0.18);
+  border: none;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+/* 卡片標題區塊，含 icon 與標題文字 */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.2rem;
+  background: var(--primary);
+  border-bottom: 2px solid var(--primary);
+  color: #fff;
+  height: 35px;
+  min-height: 35px;
+  max-height: 35px;
+
+  .material-icons {
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h3 {
+    margin: 0;
+    flex: 1;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    cursor: default;
+  }
+}
+
+/* 帳款總數 pill 樣式，顯示於卡片標題右側 */
+.pill-green {
+  background: var(--table-total-bg);
+  color: #fff;
+  padding: 0.4rem 1.1rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 1rem;
+  display: inline-block;
+  cursor: default;
+  min-width: 80px;
+  text-align: center;
+}
+
+.card-content {
+  padding: 0;
+  color: var(--text-primary);
+}
+
+.table-content {
+  padding: 0;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* 自訂 disabled 狀態樣式 */
+.custom-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+
+/* 自訂按鈕樣式，仿 Material 風格 */
+.custom-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  padding: 0.6rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 2px solid transparent;
+  background: var(--elevation-1);
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+  margin-right: 0.8rem;
+  outline: none;
+  position: relative;
+  user-select: none;
+}
+.custom-btn:last-child { margin-right: 0; }
+
+/* 主要操作按鈕（藍色） */
+.custom-btn-accent {
+  color: var(--edit-text);
+  border-color: var(--edit);
+  mat-icon {
+    color: var(--edit) !important;
+    transition: color 0.2s;
+  }
+  &:hover, &:active {
+    background: var(--edit-hover-bg);
+    color: var(--edit);
+    border-color: var(--edit);
+  }
+}
+
+/* 危險操作按鈕（紅色） */
+.custom-btn-warn {
+  color: var(--warn-text);
+  border-color: var(--warn);
+  mat-icon {
+    color: var(--warn) !important;
+    transition: color 0.2s;
+  }
+  &:hover, &:active {
+    background: var(--warn-hover-bg);
+    color: var(--warn);
+    border-color: var(--warn);
+  }
+}
+
+.custom-disabled,
+.custom-disabled:hover,
+.custom-disabled:active {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 卡片標題中的操作按鈕容器 */
+.card-header .action-buttons {
+  margin-left: 0 !important;
+  width: auto !important;
+  flex: 0 0 auto !important;
+}
+
+/* 卡片標題中的共幾筆標籤 */
+.card-header .action-buttons .pill-green {
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
+  width: auto !important;
+  min-width: unset !important;
+  max-width: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.2 !important;
+  height: 2.2rem !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  padding: 0.4rem 1.1rem !important;
+  border-radius: 20px !important;
+  background: var(--table-total-bg) !important;
+  color: #fff !important;
+  box-sizing: border-box !important;
+}
+
+/* 表格樣式 */
+.payment-table th, .payment-table td,
+.transactions-table th, .transactions-table td {
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: #b0b8d1;
+  padding: 6px;
+  text-align: center;
+  border-bottom: 1px solid var(--secondary-bg);
+  border-right: 1.5px solid var(--table-border);
+}
+
+.payment-table th, .transactions-table th {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-shadow: 0 1px 4px rgba(66, 86, 165, 0.08);
+  border-bottom: 1.4px solid var(--primary);
+  white-space: normal;
+  word-break: break-all;
+  padding: 6px 8px;
+  border-right: none !important;
+}
+
+.payment-table th:last-child,
+.payment-table td:last-child,
+.transactions-table th:last-child,
+.transactions-table td:last-child {
+  border-right: none;
+}
+
+.payment-table td, .transactions-table td {
+  background: none;
+  white-space: normal;
+  font-size: 1rem;
+  line-height: 1.6;
+  border-bottom: 1px solid var(--secondary-bg);
+  cursor: default !important;
+  color: var(--table-text-primary);
+}
+
+.transactions-table tr:nth-child(odd),
+.payment-table tr:nth-child(odd) {
+  background: var(--table-row-odd-bg);
+}
+
+.transactions-table tr:nth-child(even),
+.payment-table tr:nth-child(even) {
+  background: var(--table-row-even-bg);
+}
+
+.transactions-table tr:hover,
+.payment-table tr:hover {
+  background: var(--table-hover-bg);
+}
+
+.transactions-table .no-data-row,
+.payment-table .no-data-row {
+  background: var(--elevation-0);
+  td {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+}
+
+/* 表格欄位 cursor 樣式 */
+.payment-table th,
+.transactions-table th {
+  cursor: default;
+}
+
+/* 表格欄位 cursor 樣式 */
+.payment-table th.mat-sort-header,
+.transactions-table th.mat-sort-header {
+  cursor: pointer;
+}
+
+/* 排序表頭置中和箭頭樣式 */
+::ng-deep .transactions-table th[mat-header-cell],
+::ng-deep .payment-table th.mat-header-cell,
+::ng-deep .payment-table th[mat-header-cell] {
+  text-align: center !important;
+  vertical-align: middle !important;
+  padding: 0 !important;
+  position: relative;
+}
+
+::ng-deep .transactions-table .mat-sort-header-container,
+::ng-deep .payment-table .mat-sort-header-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100%;
+  height: 100%;
+}
+
+::ng-deep .transactions-table .mat-sort-header-content,
+::ng-deep .payment-table .mat-sort-header-content {
+  min-width: unset !important;
+  gap: 2px !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+::ng-deep .transactions-table .mat-sort-header-arrow,
+::ng-deep .payment-table .mat-sort-header-arrow {
+  color: var(--table-header-text);
+  opacity: 1 !important;
+  transition: color 0.2s;
+  display: inline-block !important;
+}
+
+::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow,
+::ng-deep .payment-table .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--table-sort) !important;
+  text-shadow: 0 0 8px var(--table-sort), 0 0 2px var(--table-header-text);
+}
+
+::ng-deep .transactions-table .mat-sort-header-indicator,
+::ng-deep .payment-table .mat-sort-header-indicator {
+  opacity: 1 !important;
+  color: var(--primary) !important;
+}
+
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-arrow,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-arrow {
+  color: #fff !important;
+}
+
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-sorted .mat-sort-header-arrow,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-sorted .mat-sort-header-arrow {
+  color: var(--table-sort) !important;
+  text-shadow: 0 0 8px var(--table-sort), 0 0 2px #fff;
+}
+
+.dark-mode ::ng-deep .transactions-table .mat-sort-header-indicator,
+.dark-mode ::ng-deep .payment-table .mat-sort-header-indicator {
+  color: var(--table-sort) !important;
+}
+
+/* 收入/支出行樣式 */
+.payment-table tr.income-row td,
+.transactions-table tr.income-row td {
+  background: var(--table-income-row-bg) !important;
+}
+
+.payment-table tr.expense-row td,
+.transactions-table tr.expense-row td {
+  background: var(--table-expense-row-bg) !important;
+}
+
+
+
+// Angular Material 表格樣式覆蓋
+.transactions-table {
+  width: 100%;
+  background: var(--elevation-1);
+
+  // 表頭樣式
+  .mat-mdc-header-cell {
+    background-color: var(--table-header-bg) !important;
+    color: var(--table-header-text) !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    border-bottom: 1.4px solid var(--primary) !important;
+    padding: 6px 8px !important;
     text-align: center;
-    margin-bottom: 20px;
-    color: #2c3e50;
+    white-space: normal;
+    word-break: break-all;
+    cursor: default;
   }
 
-  label {
-    display: inline-block;
-    margin: 10px 20px 10px 0;
-    font-weight: bold;
+  // 表格內容樣式
+  .mat-mdc-cell {
+    border-bottom: 1px solid var(--secondary-bg) !important;
+    color: var(--text-primary) !important;
+    font-size: 1rem !important;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.6;
+  }
 
-    select {
-      margin-left: 8px;
-      padding: 4px 8px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+  // 表格行樣式
+  .mat-mdc-row {
+    &:nth-child(odd) {
+      background: var(--table-row-odd-bg) !important;
     }
-  }
 
-  .action-buttons {
-    margin: 20px 0;
+    &:nth-child(even) {
+      background: var(--table-row-even-bg) !important;
+    }
 
-    button {
-      margin-right: 12px;
-      padding: 6px 16px;
-      border: none;
-      border-radius: 6px;
-      background-color: #3498db;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s;
-
-      &:hover {
-        background-color: #2980b9;
-      }
+    &:hover {
+      background: var(--table-hover-bg) !important;
     }
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    font-size: 14px;
+  // 收入/支出行樣式
+  .mat-mdc-row.income-row .mat-mdc-cell {
+    background: var(--table-income-row-bg) !important;
+  }
 
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center
-    }
+  .mat-mdc-row.expense-row .mat-mdc-cell {
+    background: var(--table-expense-row-bg) !important;
+  }
 
-    th {
-      background-color: #f4f6f8;
-      color: #2c3e50;
-    }
+  // 金額樣式
+  .amount-income {
+    color: var(--transfer-in) !important;
+    font-weight: 700 !important;
+  }
 
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-    tr:hover {
-      background-color: #eef6ff;
-    }
+  .amount-expense {
+    color: var(--transfer-out) !important;
+    font-weight: 700 !important;
+  }
+
+  // 金額欄靠右對齊
+  .mat-mdc-cell.mat-column-amount {
+    text-align: right !important;
+    padding-right: 6px !important;
+    padding-left: 0 !important;
+    font-weight: 700 !important;
+  }
+
+  .mat-mdc-header-cell.mat-column-amount {
+    text-align: right !important;
+    padding-right: 6px !important;
+    padding-left: 0 !important;
+  }
+
+  // 防止 hover 時文字顏色改變
+  .mat-mdc-row:hover .mat-mdc-cell {
+    color: var(--text-primary) !important;
+  }
+
+  .mat-mdc-row:hover .mat-mdc-cell.amount-income {
+    color: var(--transfer-in) !important;
+  }
+
+  .mat-mdc-row:hover .mat-mdc-cell.amount-expense {
+    color: var(--transfer-out) !important;
+  }
+}
+
+
+
+// 空狀態樣式
+.empty-state,
+.empty-state-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 0 2.5rem 0;
+  color: var(--text-primary);
+  background: var(--elevation-0);
+  border-radius: 12px;
+  min-height: 140px;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+
+  mat-icon {
+    font-size: 2rem !important;
+    color: #fff;
+    background: var(--primary);
+    border-radius: 50%;
+    padding: 0.5rem;
+    margin-bottom: 0.6rem;
+    box-shadow: 0 2px 8px rgba(66, 165, 245, 0.18);
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  h3 {
+    margin: 0.6rem 0 0.3rem 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-align: center;
   }
 
   p {
+    margin: 0.3rem 0 0 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
     text-align: center;
-    margin-top: 16px;
-    color: #888;
+  }
+}
+
+// 響應式設計
+@media (max-width: 1200px) {
+  .filter-container {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+
+  .transactions-card {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .family-ledger-page {
+    padding-top: 20px;
+  }
+
+  .filter-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .filter-card {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .card-header {
+    padding: 1rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .custom-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-container {
+    padding: 0 0.8rem 1.5rem;
+  }
+
+  .filter-container {
+    gap: 1rem;
+  }
+
+  .filter-card {
+    min-width: 250px;
   }
 }

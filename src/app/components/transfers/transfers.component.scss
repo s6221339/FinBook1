@@ -1,14 +1,14 @@
 /* 轉帳表單容器的整體樣式 */
 .form-container {
-  border-radius: 24px;
+  border-radius: 20px;
   margin: 0 auto;
-  padding: 2rem;
-  max-width: 800px;
+  padding: 1.5rem;
+  max-width: 500px;
   color: var(--text-primary);
   &:hover {
     box-shadow:
-      0 8px 32px color-mix(in srgb, var(--theme-main) 12%, #000 12%),
-      0 0 24px 4px color-mix(in srgb, var(--theme-main) 12%, transparent 88%);
+      0 6px 24px color-mix(in srgb, var(--theme-main) 12%, #000 12%),
+      0 0 18px 3px color-mix(in srgb, var(--theme-main) 12%, transparent 88%);
   }
 }
 
@@ -16,26 +16,26 @@
 .form-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
   border-bottom: 2px solid var(--theme-main);
 
   /* 頭部圖示容器樣式 */
   .header-icon {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: var(--theme-main);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.25);
+    box-shadow: 0 3px 12px rgba(56, 189, 248, 0.25);
 
     /* Material Icon 的樣式 */
     .material-icons {
       color: white;
-      font-size: 2rem;
+      font-size: 1.6rem;
     }
   }
 
@@ -43,46 +43,54 @@
   .header-text {
     /* 標題 h2 的樣式 */
     h2 {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--theme-main);
-      margin: 0 0 0.25rem 0;
+      margin: 0 0 0.2rem 0;
     }
 
     /* 副標題 p 的樣式 */
     p {
       color: var(--input-hint);
       margin: 0;
-      font-size: 20px;
+      font-size: 1rem;
     }
   }
 }
 
 /* 表單每個主要區塊的樣式 */
 .form-section {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 
   /* 區塊標題樣式 */
   .section-header {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
 
     /* 區塊標題圖示的樣式 */
     .material-icons {
       color: var(--theme-main);
-      font-size: 1.6rem;
-      padding-top: 2px;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      height: 28px;
+      position: relative;
+      padding-top: 1px;
       cursor: default;
     }
 
     /* 區塊標題 h3 的樣式 */
     h3 {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       font-weight: 600;
       color: var(--theme-main);
       margin: 0;
+      line-height: 28px;
+      display: flex;
+      align-items: center;
+      height: 28px;
       cursor: default;
     }
   }
@@ -90,7 +98,7 @@
 
 /* 表單群組樣式 (用於包含輸入框和相關內容) */
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 
 /* 讓元素佔滿父容器的寬度 */
@@ -103,7 +111,7 @@
 .form-select,
 .form-textarea {
   width: 100%;
-  padding: 1rem;
+  padding: 0.8rem;
   border: 2px solid var(--primary);
   border-radius: 8px;
   background: var(--input-bg);
@@ -111,7 +119,7 @@
   font-size: 1rem;
   outline: none;
   transition: border 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+  box-shadow: 0 2px 6px rgba(44, 62, 80, 0.08);
 
   &:hover {
     border-color: var(--input-hover);
@@ -129,7 +137,7 @@
 
 .form-textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 60px;
   font-family: inherit;
 }
 
@@ -139,7 +147,7 @@
   background-position: right 0.5rem center;
   background-repeat: no-repeat;
   background-size: 1.5em 1.5em;
-  padding-right: 2.5rem;
+  padding-right: 2.2rem;
   appearance: none;
 }
 
@@ -152,26 +160,26 @@
 
 .currency-symbol {
   position: absolute;
-  left: 1.2rem;
+  left: 1rem;
   top: 50%;
   transform: translateY(-50%);
   color: var(--input-placeholder);
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1rem;
   pointer-events: none;
   z-index: 2;
 }
 
 .form-input[type='number'] {
-  padding-left: 3.5rem;
+  padding-left: 3rem;
   color: var(--input-text);
-  padding-top: 1.2rem;
+  padding-top: 1rem;
   width: 100%;
 }
 
 /* 轉入帳戶輸入框特殊樣式 */
 .form-input.account-input {
-  padding-left: 1.2rem;
+  padding-left: 1rem;
 }
 
 /* 隱藏數字輸入框的增減箭頭 */
@@ -190,8 +198,8 @@
 /* 提示文字 */
 .input-hint {
   color: var(--input-hint);
-  font-size: 1rem;
-  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
   margin-bottom: 0.2rem;
   letter-spacing: 0.5px;
 }
@@ -200,16 +208,16 @@
 .char-count {
   text-align: right;
   color: var(--input-hint);
-  font-size: 1rem;
-  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
 }
 
 /* 表單操作按鈕區塊樣式 */
 .form-actions {
   display: flex;
-  gap: 1rem;
-  margin-top: 3rem;
-  padding-top: 2rem;
+  gap: 0.8rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
   border-top: 1px solid var(--theme-main);
 }
 
@@ -219,11 +227,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem 2rem;
+  gap: 0.4rem;
+  padding: 0.8rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
@@ -232,8 +240,8 @@
 
   /* 按鈕內 Material Icon 的樣式 */
   .material-icons {
-    font-size: 1.2rem;
-    padding-top: 2px;
+    font-size: 1rem;
+    padding-top: 1px;
   }
 }
 
@@ -242,13 +250,13 @@
   background: var(--theme-main);
   color: #fff;
   border: none;
-  box-shadow: 0 4px 15px color-mix(in srgb, var(--theme-main) 30%, #000 10%);
+  box-shadow: 0 3px 12px color-mix(in srgb, var(--theme-main) 30%, #000 10%);
   transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
 
   &:hover:not(:disabled), &.active {
     background: var(--theme-main);
-    box-shadow: 0 8px 25px color-mix(in srgb, var(--theme-main) 40%, #000 20%);
-    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--theme-main) 40%, #000 20%);
+    transform: translateY(-2px) scale(1.02);
   }
 
   &:disabled {
@@ -283,18 +291,18 @@
 
   /* 表單頭部圖示和標題的樣式調整 */
   .form-header {
-    padding: 1.2rem 1.2rem 1rem 1.2rem;
+    padding: 1rem 1rem 0.8rem 1rem;
     .header-icon {
-      width: 50px;
-      height: 50px;
+      width: 42px;
+      height: 42px;
 
       .material-icons {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
       }
     }
 
     .header-text h2 {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
     }
   }
 
@@ -306,7 +314,7 @@
 
 /* 建議列表的樣式 */
 .suggestions {
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
   border: 1px solid var(--input-border);
   border-radius: 8px;
   background: var(--input-bg);
@@ -315,7 +323,7 @@
 
 /* 建議列表項目的樣式 */
 .suggestion-item {
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 0.8rem;
   cursor: pointer;
   transition: background 0.2s;
   border-bottom: 1px solid var(--input-border);
@@ -362,15 +370,15 @@ hr {
 }
 
 .section-header h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .type-form-divider {
   position: relative;
   width: 100% !important;
-  max-width: 800px !important;
+  max-width: 700px !important;
   height: 0.5px !important;
-  margin: 0 auto 1.5rem auto !important;
+  margin: 0.2rem auto 1rem auto !important;
   border-radius: 1px !important;
   background:
     linear-gradient(
@@ -434,16 +442,16 @@ hr {
 .transfer-theme {
   min-height: 100vh;
   background: var(--input-bg);
-  padding-top: 35px;
+  padding-top: 8px;
   color: var(--text-primary);
   padding-bottom: 5rem;
 }
 
 .add-item-btn {
   .material-icons {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: var(--input-icon);
     transition: color 0.2s;
-    padding-top: 2px;
+    padding-top: 1px;
   }
 }

@@ -27,18 +27,18 @@
   --transfer-in:  #176c2a;
 
   /* 字體大小 */
-  --font-size-h1: 2rem;      
-  --font-size-h2: 1.5rem;    
-  --font-size-h3: 1.2rem;    
-  --font-size-body: 1rem;    
-  --font-size-caption: 0.85rem; 
+  --font-size-h1: 2rem;
+  --font-size-h2: 1.5rem;
+  --font-size-h3: 1.2rem;
+  --font-size-body: 1rem;
+  --font-size-caption: 0.85rem;
 
-  --space-xs: 6px;   
-  --space-sm: 8px;   
-  --space-md: 12px;  
+  --space-xs: 6px;
+  --space-sm: 8px;
+  --space-md: 12px;
   --space-lg-2: 16px;
-  --space-lg: 18px;  
-  --space-xl: 24px;  
+  --space-lg: 18px;
+  --space-xl: 24px;
 
   /* 玻璃感卡片相關變數 */
   --card-radius: 8px;                    /* 卡片圓角 */
@@ -58,6 +58,14 @@
   --table-row-odd-bg:   #f4f7fd;     /* 單數行 */
   --table-row-even-bg:   #e3e6f3; /* 雙數行*/
 
+  /* 表格收入/支出行背景顏色 */
+  --table-income-row-bg: #aef6ae;     /* 收入行背景 */
+  --table-expense-row-bg: #ffeaea;    /* 支出行背景 */
+
+  /* 表格文字顏色 */
+  --table-text-primary: #263159;      /* 表格主要文字顏色 */
+  --table-text-secondary: #374151;    /* 表格次要文字顏色 */
+
   /* 表格表頭底色（藍紫科技感） */
   --table-header-bg: #e3f0ff;
   --table-header-text: #1976d2;
@@ -73,10 +81,10 @@
   --mdc-checkbox-selected-hover-icon-color: #ffd600;
 
   /* 分頁器專用顏色 */
-  --paginator-bg: #f5f5f8; /* 日間分頁器背景，表頭色加白 */
+  --paginator-bg: #e3f0ff; /* 日間分頁器背景，表頭色加白 */
   --paginator-border: #e3e6f3; /* 分頁器上邊界線 */
-  --paginator-label: #263159; /* 分頁器label主色 */
-  --paginator-icon: #263159; /* 分頁器icon顏色 */
+  --paginator-label: #2563EB; /* 分頁器label主色 */
+  --paginator-icon: #2563EB; /* 分頁器icon顏色 */
   --paginator-hover: rgba(37, 99, 235, 0.12); /* 分頁器hover */
 
   --calendar-clear-btn: #2563eb;
@@ -232,8 +240,16 @@
   --table-hover-bg: #4256a5; /* hover 明顯 */
 
   /* 表格單雙數行底色（暗黑模式） */
-  --table-row-odd-bg:  #313a5c;   /* 單數行，深色 */
-  --table-row-even-bg: #232a36;  /* 雙數行，更深 */
+  --table-row-odd-bg:  #313a5c;   /* 單數行 */
+  --table-row-even-bg: #232a36;  /* 雙數行*/
+
+  /* 表格收入/支出行背景顏色（暗黑模式） */
+  --table-income-row-bg: #396739;     /* 收入行背景 */
+  --table-expense-row-bg: #712020;    /* 支出行背景 */
+
+  /* 表格文字顏色（暗黑模式） */
+  --table-text-primary: #f6faff;      /* 表格主要文字顏色 */
+  --table-text-secondary: #e0e0e0;    /* 表格次要文字顏色 */
 
   /* 表格表頭底色（暗黑模式） */
   --table-header-bg: #3a4a7c; /* 表頭更亮一階 */
@@ -364,7 +380,7 @@
 
   // 登入
   --btn-login-register:var(--primary-bg);
-  --btn-login:var(--elevation-0);
+  --btn-login:#324cb2;
 
   //會員中心
   --member-br:var(--elevation-0);

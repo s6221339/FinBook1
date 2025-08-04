@@ -1,44 +1,114 @@
-<div class="form-container">
-  <h2>@if(isEditMode){ 編輯家庭帳款 } @else { 新增家庭帳款 }</h2>
+<div class="create-edit-family-payment-page">
+  <div class="content-container">
+    <div class="form-card">
+      <div class="mat-card-header">
+        <span class="material-icons">@if(isEditMode){ edit } @else { add }</span>
+        <h3>@if(isEditMode){ 編輯家庭帳款 } @else { 新增家庭帳款 }</h3>
+      </div>
+      <div class="mat-card-content">
+        <form (ngSubmit)="onSubmit()" autocomplete="off">
+          <!-- 分類 -->
+          <div class="form-group">
+            <label for="type">
+              <span class="material-icons">category</span>
+              分類
+            </label>
+            <div class="select-wrapper">
+              <select id="type" [(ngModel)]="selectedType" name="type" (change)="updateItemOptions()">
+                @for(t of typeList; track $index) {
+                  <option [value]="t">{{ t }}</option>
+                }
+              </select>
+              <span class="material-icons select-arrow">expand_more</span>
+            </div>
+          </div>
 
-  <!-- 分類 -->
-  <label>分類：</label>
-  <select [(ngModel)]="selectedType">
-    @for(t of typeList; track $index) {
-      <option [value]="t">{{ t }}</option>
-    }
-  </select>
+          <!-- 項目 -->
+          <div class="form-group">
+            <label for="item">
+              <span class="material-icons">list</span>
+              項目
+            </label>
+            <div class="select-wrapper">
+              <select id="item" [(ngModel)]="selectedItem" name="item">
+                @for(i of itemMap[selectedType]; track $index) {
+                  <option [value]="i">{{ i }}</option>
+                }
+              </select>
+              <span class="material-icons select-arrow">expand_more</span>
+            </div>
+          </div>
 
-  <!-- 項目 -->
-  <label>項目：</label>
-  <select [(ngModel)]="selectedItem">
-    @for(i of itemMap[selectedType]; track $index) {
-      <option [value]="i">{{ i }}</option>
-    }
-  </select>
+          <!-- 帳款描述 -->
+          <div class="form-group">
+            <label for="description">
+              <span class="material-icons">edit_note</span>
+              帳款描述
+            </label>
+            <div class="input-wrapper">
+              <textarea
+                id="description"
+                [(ngModel)]="description"
+                name="description"
+                rows="2"
+                maxlength="200"
+                placeholder="請輸入描述">
+              </textarea>
+            </div>
+            <div class="char-count">{{ description.length || 0 }}/200</div>
+          </div>
 
-  <!-- 描述 -->
-  <label>帳款描述：</label>
-  <input type="text" [(ngModel)]="description" placeholder="請輸入描述"/>
+          <!-- 金額 -->
+          <div class="form-group">
+            <label for="amount">
+              <span class="material-icons">attach_money</span>
+              金額
+            </label>
+            <div class="input-wrapper">
+              <input
+                id="amount"
+                type="number"
+                [(ngModel)]="amount"
+                name="amount"
+                min="1"
+                step="1"
+                placeholder="請輸入金額"
+              />
+            </div>
+          </div>
 
-  <!-- 金額 -->
-  <label>金額：</label>
-  <input
-    type="number"
-    [(ngModel)]="amount"
-    placeholder="請輸入金額"
-    min="1"
-    step="1"
-  />
+          <!-- 記帳日期（僅編輯時顯示） -->
+          @if(isEditMode) {
+            <div class="form-group">
+              <label for="recordDate">
+                <span class="material-icons">date_range</span>
+                記帳日期
+              </label>
+              <div class="input-wrapper">
+                <input
+                  id="recordDate"
+                  type="date"
+                  [(ngModel)]="recordDate"
+                  name="recordDate"
+                  [max]="recordDate"
+                  class="date-input"
+                />
+              </div>
+            </div>
+          }
 
-  <!-- 記帳日期（僅編輯時顯示） -->
-  @if(isEditMode) {
-    <label>記帳日期：</label>
-    <input type="date" [(ngModel)]="recordDate" [max]="recordDate"/>
-  }
-
-  <!-- 送出按鈕 -->
-  <button (click)="onSubmit()">
-    @if(isEditMode) { 儲存修改 } @else { 儲存新增 }
-  </button>
+          <!-- 按鈕區 -->
+          <div class="form-actions">
+            <button type="button" class="custom-btn custom-btn-accent" (click)="goBack()">
+              <span class="material-icons">cancel</span> @if(isEditMode){ 取消編輯 } @else { 取消新增 }
+            </button>
+            <button type="submit" class="custom-btn custom-btn-warn">
+              <span class="material-icons">save</span>
+              @if(isEditMode){ 儲存修改 } @else { 儲存新增 }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

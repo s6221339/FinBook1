@@ -1,8 +1,11 @@
 <div class="member-center-layout">
   <div class="sidebar-provider">
     <!-- 側邊欄 -->
-    <aside class="sidebar">
+    <aside class="sidebar" [class.collapsed]="isSidebarCollapsed">
       <div class="sidebar-header">
+        <button class="collapse-btn" (click)="toggleSidebar()">
+          <mat-icon>{{ isSidebarCollapsed ? 'menu' : 'menu_open' }}</mat-icon>
+        </button>
         <div class="user-profile">
           <img
             [src]="currentUser?.avatar || '/defaultavatar.jpg'"
@@ -10,7 +13,7 @@
             class="user-avatar"
             onerror="this.onerror=null;this.src='/defaultavatar.jpg';"
           />
-          <div class="user-info">
+          <div class="user-info" [class.hidden]="isSidebarCollapsed">
             <h4 class="user-name">{{ currentUser?.name || '用戶' }}</h4>
             <p class="user-email" [matTooltip]="currentUser?.account">{{ currentUser?.account }}</p>
           </div>

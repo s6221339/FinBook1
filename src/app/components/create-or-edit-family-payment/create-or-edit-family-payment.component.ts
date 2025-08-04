@@ -1,3 +1,4 @@
+import { EditFamilyPaymentService } from './../../@services/edit-family-payment.service';
 import { AuthService } from './../../@services/auth.service';
 import { ApiService } from './../../@services/api.service';
 import { Component, OnInit } from '@angular/core';
@@ -23,7 +24,8 @@ export class CreateOrEditFamilyPaymentComponent implements OnInit{
     private router: Router,
     private apiService: ApiService,
     private authService: AuthService,
-    private dataPipe: DatePipe
+    private dataPipe: DatePipe,
+    private editFamilyPaymentService: EditFamilyPaymentService
   ) {}
 
   isEditMode: boolean = false;
@@ -46,21 +48,40 @@ export class CreateOrEditFamilyPaymentComponent implements OnInit{
     const balanceId = this.route.snapshot.paramMap.get('balanceId');
     const paymentId = this.route.snapshot.paramMap.get('paymentId');
 
-    if(paymentId) {
-      this.isEditMode = true;
-      this.paymentId = parseInt(paymentId, 10);
-      this.loadPaymentInfo();
-    }
-    else if(balanceId) {
-      this.isEditMode = false;
-      this.balanceId = parseInt(balanceId, 10);
-      const today = new Date();
-      this.recordDate = this.dataPipe.transform(today, 'yyyy-MM-dd')!;
-    }
+    this.initTypeItemList()
+      .then(() => {
+        if(paymentId) {
+          this.isEditMode = true;
+          this.paymentId = parseInt(paymentId, 10);
+
+          const cached = this.editFamilyPaymentService.getPayment();
+          if(cached && cached.paymentId == this.paymentId) {
+            this.initTypeItemList(cached.type, cached.item).then(() => {
+              this.fillFormWith(cached);
+            });
+          }
+          else {
+            this.loadPaymentInfo().then((p: any) => {
+              if (p) {
+                this.initTypeItemList(p.type, p.item).then(() => {
+                this.fillFormWith(p);
+                });
+              }
+            });
+          }
+        }
+        else if(balanceId) {
+          this.isEditMode = false;
+          this.balanceId = parseInt(balanceId, 10);
+          const today = new Date();
+          this.recordDate = this.dataPipe.transform(today, 'yyyy-MM-dd')!;
+          this.initTypeItemList();
+        }
+      });
   }
 
-  initTypeItemList(): void {
-    this.apiService.getTypeByAccount('')
+  initTypeItemList(initialType?: string, initialItem?: string): Promise<void> {
+    return this.apiService.getTypeByAccount('')
       .then(res => {
         if(res.data.code == 200) {
           const list = res.data.paymentTypeList;
@@ -73,10 +94,14 @@ export class CreateOrEditFamilyPaymentComponent implements OnInit{
             }
             this.itemMap[type].push(item);
           });
-          // 初始化選中的類型
-          if (this.typeList.length > 0) {
-            this.selectedType = this.typeList[0];
-          }
+          // 👉 初始化 selectedType 與 selectedItem
+            if (initialType && this.itemMap[initialType]) {
+              this.selectedType = initialType;
+              this.selectedItem = initialItem || this.itemMap[initialType][0];
+            } else if (this.typeList.length > 0) {
+              this.selectedType = this.typeList[0];
+              this.selectedItem = this.itemMap[this.selectedType][0];
+            }
         }
       });
   }
@@ -92,33 +117,29 @@ export class CreateOrEditFamilyPaymentComponent implements OnInit{
     this.router.navigate(['/familyLedger']);
   }
 
-  loadPaymentInfo(): void {
+  loadPaymentInfo(): Promise<PaymentInfos | null> {
     const account = this.authService.getCurrentUser()?.account;
-    if(!account) return;
+    if (!account) return Promise.resolve(null);
 
     const payload = {
       account,
       year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1
+      month: 0
     };
 
-    this.apiService.getMonthlyPaymentByFamiltBalance(payload)
+    return this.apiService.getMonthlyPaymentByFamiltBalance(payload)
       .then(res => {
         if(res.data.code == 200) {
           const list = res.data.balanceWithPaymentList.flatMap((b: any) => b.paymentInfoList);
           const found: PaymentInfos | undefined = list.find((p: PaymentInfos) => p.paymentId == this.paymentId);
-          if(found) {
-            this.selectedType = found.type;
-            this.selectedItem = found.item;
-            this.description = found.description;
-            this.amount = found.amount;
-            this.recordDate = found.recordDate;
-          }
+          if(found) return found;
           else {
             Swal.fire('找不到資料', '指定的帳款不存在', 'error');
             this.router.navigate(['/familyLedger']);
+            return null;
           }
         }
+        return null;
       });
   }
 
@@ -172,6 +193,15 @@ export class CreateOrEditFamilyPaymentComponent implements OnInit{
           }
         });
     }
+  }
+
+  //  提取填入表單的方法
+  fillFormWith(p: PaymentInfos): void {
+    this.selectedType = p.type;
+    this.selectedItem = p.item;
+    this.description = p.description;
+    this.amount = p.amount;
+    this.recordDate = p.recordDate;
   }
 
 }

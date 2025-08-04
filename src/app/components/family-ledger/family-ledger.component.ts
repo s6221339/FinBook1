@@ -1,3 +1,4 @@
+import { EditFamilyPaymentService } from './../../@services/edit-family-payment.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './../../@services/auth.service';
 import { ApiService } from './../../@services/api.service';
@@ -37,7 +38,8 @@ export class FamilyLedgerComponent implements OnInit, AfterViewInit {
   constructor(
     private apiService: ApiService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private editFamilyPaymentService: EditFamilyPaymentService
   ) {}
 
   familyBalances: Balance[] = [];
@@ -61,6 +63,7 @@ export class FamilyLedgerComponent implements OnInit, AfterViewInit {
   currentPage = 1;
   itemsPerPage = 5;
   totalFilteredItems = 0;
+  pagedPayments: PaymentInfos[] = [];
 
   ngOnInit(): void {
     this.initYearMonthDropdowns();
@@ -145,6 +148,7 @@ export class FamilyLedgerComponent implements OnInit, AfterViewInit {
     this.dataSource.data = this.filteredPayments;
     this.totalFilteredItems = this.filteredPayments.length;
     this.currentPage = 1;
+    this.updatePagedPayments();
   }
 
   // 任何選單變動時重新查詢
@@ -198,14 +202,18 @@ export class FamilyLedgerComponent implements OnInit, AfterViewInit {
   onEdit(): void {
     const selectedIds = Array.from(this.selection.keys());
 
-    if(selectedIds.length == 0) {
+    if(selectedIds.length == 1) {
+      const payment = this.filteredPayments.find(p => p.paymentId == selectedIds[0]);
+      if(payment) {
+        this.editFamilyPaymentService.setPayment(payment);
+        this.router.navigate(['/createOrEditFamily/edit', payment.paymentId]);
+      }
+    }
+    else if(selectedIds.length == 0) {
       Swal.fire('請先勾選要編輯的帳款', '', 'warning');
     }
-    else if(selectedIds.length > 1) {
-      Swal.fire('一次只能編輯一筆帳款', '', 'warning');
-    }
     else {
-      this.router.navigate(['/createOrEditFamily/edit', selectedIds[0]]);
+      Swal.fire('一次只能編輯一筆帳款', '', 'warning');
     }
   }
 
@@ -251,10 +259,20 @@ export class FamilyLedgerComponent implements OnInit, AfterViewInit {
   // 分頁相關方法
   onPageChange(page: number): void {
     this.currentPage = page;
+    this.updatePagedPayments();
   }
 
   onPageSizeChange(pageSize: number): void {
     this.itemsPerPage = pageSize;
     this.currentPage = 1;
+    this.updatePagedPayments();
   }
+
+  updatePagedPayments(): void {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.pagedPayments = this.filteredPayments.slice(start, end);
+    this.dataSource.data = this.pagedPayments;
+  }
+
 }

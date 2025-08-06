@@ -1,20 +1,38 @@
 import { AuthService } from './../../@services/auth.service';
 import { ApiService } from './../../@services/api.service';
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BalanceInfo } from '../../models/balanceInfo';
 import { TransferRecord } from '../../models/transferRecord';
 import { MemberData } from '../../models/memberData';
-import { NgClass } from '@angular/common';
+import { NgClass, CommonModule } from '@angular/common';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { CustomPaginatorComponent } from '../custom-paginator/custom-paginator.component';
 
 @Component({
   selector: 'app-transfer-record',
-  imports: [FormsModule, NgClass],
-  templateUrl: './transfer-record.component.html',
   standalone: true,
-  styleUrl: './transfer-record.component.scss'
+  templateUrl: './transfer-record.component.html',
+  styleUrl: './transfer-record.component.scss',
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgClass,
+    MatTableModule,
+    MatSortModule,
+    MatIconModule,
+    MatCardModule,
+    CustomPaginatorComponent
+  ]
 })
-export class TransferRecordComponent implements OnInit{
+export class TransferRecordComponent implements OnInit {
+  displayedColumns: string[] = ['rowIndex', 'createDate', 'fromBalanceId', 'toBalanceId', 'amount', 'description'];
+  dataSource = new MatTableDataSource<TransferRecord>([]);
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private authService: AuthService,
@@ -43,7 +61,6 @@ export class TransferRecordComponent implements OnInit{
     this.apiService.getBalanceByAccount(account)
       .then(res => {
         this.balanceList = res.data.balanceList || [];
-
         if(this.balanceList.length > 0) {
           this.selectedBalanceId = this.balanceList[0].balanceId;
           this.onBalanceChange();
@@ -53,12 +70,15 @@ export class TransferRecordComponent implements OnInit{
 
   onBalanceChange(): void {
     if(!this.selectedBalanceId) return;
-
     this.apiService.getAllTransfersByBalanceId(this.selectedBalanceId)
       .then(res => {
         this.transferRecords = res.data.transfersList || [];
         this.loadNamesForAllRecords(this.transferRecords);
         this.applyFilters();
+        this.dataSource.data = this.filteredRecords;
+        if (this.sort) {
+          this.dataSource.sort = this.sort;
+        }
       });
   }
 
@@ -79,39 +99,22 @@ export class TransferRecordComponent implements OnInit{
   applyFilters() {
     const start = this.startDate ? new Date(this.startDate) : null;
     const end = this.endDate ? new Date(this.endDate) : null;
-
     this.filteredRecords = this.transferRecords.filter(record => {
       const recordDate = new Date(record.createDate);
       return(!start || recordDate >= start) && (!end || recordDate <= end);
     });
-
-    this.sortRecords();
-  }
-
-  sortRecords() {
-    this.filteredRecords.sort((a, b) => {
-      const aValue = this.sortKey == 'amount' ? a.amount : new Date(a.createDate).getTime();
-      const bValue = this.sortKey == 'amount' ? b.amount : new Date(b.createDate).getTime();
-
-      return this.sortDirection == 'asc' ? aValue - bValue : bValue - aValue;
-    });
-  }
-
-  toggleSort(key: 'amount' | 'createDate') {
-    if(this.sortKey == key) {
-      this.sortDirection = this.sortDirection == 'asc' ? 'desc' : 'asc';
+    this.dataSource.data = this.filteredRecords;
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
     }
-    else {
-      this.sortKey = key;
-      this.sortDirection = 'asc';
-    }
-
-    this.sortRecords();
   }
 
+  // 移除自訂排序，改用 Material Table 內建排序
+
+  // 分頁資料來源改用 dataSource
   get pagedRecords(): TransferRecord[] {
     const startIndex = (this.currentPage - 1) * this.pageSize;
-    return this.filteredRecords.slice(startIndex, startIndex + this.pageSize);
+    return this.dataSource.data.slice(startIndex, startIndex + this.pageSize);
   }
 
   getDisplayName(account: string): string {
@@ -136,4 +139,25 @@ export class TransferRecordComponent implements OnInit{
     return Math.ceil(this.filteredRecords.length / this.pageSize);
   }
 
+  // 讓 template 可用 totalRecords
+  get totalRecords(): number {
+    return this.filteredRecords.length;
+  }
+
+  // 分頁事件處理
+  onPageChange(page: number) {
+    this.currentPage = page;
+  }
+
+  onPageSizeChange(size: number) {
+    this.pageSize = size;
+    this.currentPage = 1;
+  }
+
+  // 取得帳戶名稱（顯示名字與ID）
+  getDisplayNameById(balanceId: number | null): string {
+    if (!balanceId) return '';
+    const found = this.balanceList.find((b: BalanceInfo) => b.balanceId === balanceId);
+    return found ? `${found.name} (ID: ${found.balanceId})` : '';
+  }
 }

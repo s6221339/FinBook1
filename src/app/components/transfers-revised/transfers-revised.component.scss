@@ -1,29 +1,156 @@
-.transfer-form {
+/* 卡片主體 */
+.transfer-theme {
+  min-height: 100vh;
+  background: var(--input-bg);
+  padding-top: 8px;
+  color: var(--text-primary);
+  padding-bottom: 5rem;
+}
+.form-container {
+  border-radius: 20px;
+  margin: 0 auto;
+  padding: 1.5rem;
   max-width: 500px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+  box-shadow: 0 4px 24px rgba(56, 189, 248, 0.18);
 }
 
-.form-title {
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 600;
+/* 標題區 */
+.form-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
   margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid var(--theme-main);
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--theme-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 12px rgba(56, 189, 248, 0.25);
+    .material-icons {
+      color: white;
+      font-size: 1.6rem;
+    }
+  }
+  .header-text {
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--theme-main);
+      margin: 0 0 0.2rem 0;
+    }
+    p {
+      color: var(--input-hint);
+      margin: 0;
+      font-size: 1rem;
+    }
+  }
+}
+
+/* 分區 */
+.form-section {
+  margin-bottom: 2rem;
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+    .material-icons {
+      color: var(--theme-main);
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      height: 28px;
+      position: relative;
+      padding-top: 1px;
+      cursor: default;
+    }
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--theme-main);
+      margin: 0;
+      line-height: 28px;
+      display: flex;
+      align-items: center;
+      height: 28px;
+      cursor: default;
+    }
+  }
+}
+
+hr {
+  border-top: 1px solid var(--theme-main);
 }
 
 .full-width {
   width: 100%;
-  margin-bottom: 1rem;
 }
 
+/* 按鈕區 */
+.form-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--theme-main);
+  .btn-primary, .btn-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    flex: 1;
+    .material-icons {
+      font-size: 1rem;
+      padding-top: 1px;
+    }
+  }
+  .btn-primary {
+    background: var(--theme-main);
+    color: #fff;
+    box-shadow: 0 3px 12px color-mix(in srgb, var(--theme-main) 30%, #000 10%);
+    &:hover:not(:disabled), &.active {
+      background: var(--theme-main);
+      box-shadow: 0 6px 20px color-mix(in srgb, var(--theme-main) 40%, #000 20%);
+      transform: translateY(-2px) scale(1.02);
+    }
+    &:disabled {
+      background: #e5e7eb;
+      color: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+  .btn-secondary {
+    background: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+    border: 2px solid var(--btn-secondary-border);
+    &:hover {
+      background: var(--btn-secondary-hover-bg);
+      border-color: var(--btn-secondary-hover-border);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+/* 轉入成員選單頭像 */
 .member-option {
   display: flex;
   align-items: center;
   gap: 8px;
-
   .avatar {
     width: 24px;
     height: 24px;
@@ -32,12 +159,24 @@
   }
 }
 
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-
-  button {
-    flex: 1;
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1rem;
+  }
+  .form-header {
+    padding: 1rem 1rem 0.8rem 1rem;
+    .header-icon {
+      width: 42px;
+      height: 42px;
+      .material-icons {
+        font-size: 1.3rem;
+      }
+    }
+    .header-text h2 {
+      font-size: 1.3rem;
+    }
+  }
+  .form-actions {
+    flex-direction: column;
   }
 }

@@ -9,20 +9,20 @@ export interface CreateTransferRequest {
   /**
    * 來源帳戶 balanceId 須為當前登入會員所擁有
    */
-  fromBalance: number;
+  fromBalance: number | null;
 
   /**
    * 接收者帳號，需與使用者同個家庭
    */
-  toAccount: string;
+  toAccount: string | null;
 
   /**
    * 轉帳金額，單位為元
    */
-  amount: number;
+  amount: number | null;
 
   /**
    * 備註說明，可選填
    */
-  description: string | null;
+  description: string;
 }

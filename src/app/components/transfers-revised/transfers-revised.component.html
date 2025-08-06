@@ -1,54 +1,94 @@
-<div class="transfer-form">
-  <h2 class="form-title">額度轉移</h2>
+<div class="transfer-theme">
+  <div class="form-container glass-card-theme">
+    <!-- 表單標題區 -->
+    <div class="form-header">
+      <div class="header-icon">
+        <span class="material-icons">swap_horiz</span>
+      </div>
+      <div class="header-text">
+        <h2>額度轉移</h2>
+        <p>記錄家庭間的額度轉移</p>
+      </div>
+    </div>
 
-  <!-- 轉出帳戶 -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>轉出帳戶</mat-label>
-    <mat-select [(ngModel)]="transferData.fromBalance">
-      @for(balance of balanceList; track $index) {
-        <mat-option [value]="balance.balanceId">
-          {{ balance.name }}
-        </mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+    <div class="form-content">
+      <!-- 轉出帳戶 -->
+      <div class="form-section">
+        <div class="section-header">
+          <span class="material-icons">account_balance_wallet</span>
+          <h3>轉出帳戶</h3>
+        </div>
+        <div class="form-group">
+          <select class="form-select full-width" [(ngModel)]="transferData.fromBalance" required>
+            <option [ngValue]="null" disabled selected>請選擇轉出帳戶</option>
+            @for(balance of balanceList; track $index) {
+              <option [ngValue]="balance.balanceId">{{ balance.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+      <hr>
 
-  <!-- 轉入帳號 -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>轉入對象</mat-label>
-    <mat-select [(ngModel)]="transferData.toAccount">
-      @if(familyMemberList.length > 0) {
-        @for(member of familyMemberList; track $index) {
-          <mat-option [value]="member.account">
-            <div class="member-option">
-              <img [src]="member.avatar || defaultAvatar" class="avatar" />
-              <span>{{ member.name }}</span>
-            </div>
-          </mat-option>
-        }
-      }
-      @else {
-        <mat-option disabled>目前沒有可選擇的成員</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+      <!-- 轉入帳戶 -->
+      <div class="form-section">
+        <div class="section-header">
+          <span class="material-icons">account_balance</span>
+          <h3>轉入對象</h3>
+        </div>
+        <div class="form-group">
+          <select class="form-select full-width" [(ngModel)]="transferData.toAccount" required>
+            <option [ngValue]="null" disabled selected>請選擇轉入帳戶</option>
+            @if(familyMemberList.length > 0) {
+              @for(member of familyMemberList; track $index) {
+                <option [ngValue]="member.account">
+                  <span class="member-option">
+                    <img [src]="member.avatar || defaultAvatar" class="avatar" />
+                    {{ member.name }}
+                  </span>
+                </option>
+              }
+            } @else {
+              <option disabled>目前沒有可選擇的成員</option>
+            }
+          </select>
+        </div>
+      </div>
+      <hr>
 
-  <!-- 金額 -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>轉帳金額</mat-label>
-    <input matInput type="number" [(ngModel)]="transferData.amount" min="1" step="1" />
-  </mat-form-field>
+      <!-- 金額 -->
+      <div class="form-section">
+        <div class="section-header">
+          <span class="material-icons">attach_money</span>
+          <h3>轉帳金額</h3>
+        </div>
+        <div class="form-group">
+          <input type="number" class="form-input full-width" [(ngModel)]="transferData.amount" min="1" step="1" placeholder="請輸入轉帳金額" required />
+        </div>
+      </div>
+      <hr>
 
-  <!-- 備註 -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>備註（可選）</mat-label>
-    <input matInput type="text" [(ngModel)]="transferData.description" />
-  </mat-form-field>
+      <!-- 備註 -->
+      <div class="form-section">
+        <div class="section-header">
+          <span class="material-icons">note</span>
+          <h3>備註說明</h3>
+        </div>
+        <div class="form-group">
+          <textarea class="form-textarea full-width" placeholder="記錄轉帳原因或其他說明" [(ngModel)]="transferData.description" rows="3" maxlength="200"></textarea>
+        </div>
+      </div>
 
-  <!-- 按鈕 -->
-  <div class="button-group">
-    <button mat-button color="warn" (click)="cancel()">取消</button>
-    <button mat-raised-button color="primary" (click)="submitTransfer()">確認轉移</button>
+      <!-- 操作按鈕 -->
+      <div class="form-actions">
+        <button class="btn-secondary" (click)="cancel()">
+          <span class="material-icons">close</span>
+          取消
+        </button>
+        <button class="btn-primary" (click)="submitTransfer()">
+          <span class="material-icons">save</span>
+          確認轉移
+        </button>
+      </div>
+    </div>
   </div>
-
 </div>

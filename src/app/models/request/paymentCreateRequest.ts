@@ -1,6 +1,8 @@
 /**
  * 新增帳款請求資料結構
+ *
  * 需登入：需附帶 Cookie 或驗證資訊
+ *
  * 對應 API: POST /finbook/payment/create
  */
 export interface PaymentCreateRequest {

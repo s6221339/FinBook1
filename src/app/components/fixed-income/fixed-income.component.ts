@@ -100,7 +100,8 @@ export class FixedIncomeComponent implements OnInit, AfterViewInit {
         //  每次返回頁面都重新抓分類資料
         this.apiService.getPaymentByAccount(this.currentAccount)
         .then(res => {
-          const list: PaymentType[] = res.data.paymentTypeList || [];
+          const allPayments = res.data.balanceWithPaymentList.flatMap(b => b.paymentInfoList);
+          const list: PaymentType[] = allPayments.map(p => ({ type: p.type, item: p.item }));
           this.categories = list;
           this.distinctTypes = [...new Set(list.filter(c => c.type == '收入').map(c => c.type))];
 

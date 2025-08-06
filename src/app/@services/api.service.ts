@@ -12,6 +12,8 @@ import { getNameByAccountResponse } from '../models/response/getNameByAccountRes
 import { GetAllTransfersResponse } from '../models/response/getAllTransfersResponse';
 import { GetAIAnalysisRequest } from '../models/request/getAIAnalysisRequest';
 import { GetAIAnalysisResponse } from '../models/response/getAIAnalysisResponse';
+import { PaymentUpdateRequest } from '../models/request/paymentUpdateRequest';
+import { GetPaymentInfoByAccountResponse } from '../models/response/getPaymentInfoByAccountResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -71,23 +73,41 @@ export class ApiService {
     });
   }
 
-  //  編輯記帳款項
-  updatePayment(data: any){
+  /**
+   * 編輯帳款資料
+   *
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param data 帳款更新資料（包含 paymentId 與其餘欄位）
+   * @returns Axios 回傳 Promise<AxiosResponse<BasicResponse>> 基本回傳結果
+   */
+  updatePayment(data: PaymentUpdateRequest): Promise<AxiosResponse<BasicResponse>> {
     return axios.post('http://localhost:8080/finbook/payment/update', data, {
       withCredentials: true
     });
   }
 
-  //  刪除記帳款項
-  deletePayment(paymentId: number){
+  /**
+   * 刪除帳款資料（實際上為填入刪除日期，並非真正刪除資料）
+   *
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param paymentId 欲刪除的帳款 ID
+   * @returns Axios 回傳 Promise<AxiosResponse<BasicResponse>> 基本回傳結果
+   */
+  deletePayment(paymentId: number): Promise<AxiosResponse<BasicResponse>> {
     return axios.post('http://localhost:8080/finbook/payment/delete', null, {
       params: { paymentId },
       withCredentials: true
     });
   }
 
-  //  透過帳號得到所有帳款資料
-  getPaymentByAccount(account: string){
+  /**
+   * 根據帳號取得所有帳戶下的帳款資料
+   *
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param account 使用者帳號
+   * @returns Axios 回傳 Promise<AxiosResponse<GetPaymentInfoByAccountResponse>> 包含帳戶與帳款資料回傳資料
+   */
+  getPaymentByAccount(account: string): Promise<AxiosResponse<GetPaymentInfoByAccountResponse>> {
     return axios.post('http://localhost:8080/finbook/payment/getInfoByAccount', null, {
       params: { account },
       withCredentials: true

@@ -1,6 +1,8 @@
 /**
  * 創立帳款類型請求資料
+ *
  * 需登入：需附帶 Cookie 或驗證資訊
+ *
  * 對應 API: POST /finbook/paymentType/create
  */
 export interface PaymentTypeCreateRequest {

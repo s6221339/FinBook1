@@ -3,10 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { GetAIAnalysisRequest } from '../../models/request/getAIAnalysisRequest';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-aireport-analysis',
-  imports: [FormsModule],
+  imports: [FormsModule, MatIconModule],
   templateUrl: './aireport-analysis.component.html',
   styleUrl: './aireport-analysis.component.scss',
   standalone: true

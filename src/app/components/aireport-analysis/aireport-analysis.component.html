@@ -1,31 +1,73 @@
-<div class="ai-report-container">
-  <h2>AI 分析報告</h2>
-
-  <!-- 年月下拉選單 -->
-  <div class="selectors">
-    <label for="year">年份：</label>
-    <select id="year" [(ngModel)]="selectedYear" (change)="onDateChange()">
-      @for(year of yearList; track $index) {
-        <option [value]="year">{{ year }}</option>
-      }
-    </select>
-
-    <label for="month">月份：</label>
-    <select id="month" [(ngModel)]="selectedMonth" (change)="onDateChange()">
-      @for(month of monthList; track $index) {
-        <option [value]="month">{{ month }}</option>
-      }
-    </select>
+<div class="trend-chart-page">
+  <!-- 說明區域 -->
+  <div class="info-section">
+    <div class="info-card">
+      <div class="card-header">
+        <mat-icon>psychology</mat-icon>
+        <span>AI 分析說明</span>
+      </div>
+      <div class="card-content">
+        <p>AI 智慧分析將根據您的收支數據，提供「<strong>財務洞察與建議</strong>」，幫助您更好地管理個人財務狀況</p>
+      </div>
+    </div>
   </div>
 
-  <!-- 顯示分析結果 -->
-  @if (reportText) {
-    <div class="report">
-      <p>{{ reportText }}</p>
+  <!-- 篩選器區域 -->
+  <div class="filter-section">
+    <div class="filter-card">
+      <div class="card-header">
+        <mat-icon>filter_list</mat-icon>
+        <span>選擇分析期間</span>
+      </div>
+      <div class="card-content">
+        <div class="filter-controls">
+          <div class="filter-group">
+            <label class="filter-label">
+              <mat-icon>calendar_today</mat-icon>
+              年份
+            </label>
+            <select class="filter-select" [(ngModel)]="selectedYear" (change)="onDateChange()">
+              @for(year of yearList; track $index) {
+                <option [value]="year">{{ year }} 年</option>
+              }
+            </select>
+          </div>
+          <div class="filter-group">
+            <label class="filter-label">
+              <mat-icon>event</mat-icon>
+              月份
+            </label>
+            <select class="filter-select" [(ngModel)]="selectedMonth" (change)="onDateChange()">
+              @for(month of monthList; track $index) {
+                <option [value]="month">{{ month }} 月</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
     </div>
-  }
-  @else {
-    <p class="no-data">本月無資料可生成報告</p>
-  }
+  </div>
 
+  <!-- 分析結果區域 -->
+  <div class="chart-section">
+    <div class="chart-card">
+      <div class="card-header">
+        <mat-icon>insights</mat-icon>
+        <span>AI 分析報告</span>
+      </div>
+      <div class="card-content">
+        @if (reportText) {
+          <div class="report-content">
+            <p>{{ reportText }}</p>
+          </div>
+        } @else {
+          <div class="empty-state">
+            <mat-icon>psychology_alt</mat-icon>
+            <h3>本月無資料可生成報告</h3>
+            <p>請嘗試選擇其他月份</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
 </div>

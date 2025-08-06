@@ -39,9 +39,9 @@ export class TransfersRevisedComponent implements OnInit {
   defaultAvatar: string = '/defaultavatar.jpg';
 
   transferData: CreateTransferRequest = {
-    fromBalance: 0,
-    toAccount: '',
-    amount: 0,
+    fromBalance: null,
+    toAccount: null,
+    amount: null,
     description: ''
   };
 
@@ -83,8 +83,10 @@ export class TransfersRevisedComponent implements OnInit {
     if (
       !this.transferData.fromBalance ||
       !this.transferData.toAccount ||
+      this.transferData.amount === null ||
       !Number.isInteger(this.transferData.amount) ||
-      this.transferData.amount <= 0) {
+      this.transferData.amount <= 0
+    ) {
       Swal.fire('資料不完整', '請填寫所有欄位並輸入正確金額（整數且大於 0）', 'warning');
       return;
     }
@@ -94,9 +96,9 @@ export class TransfersRevisedComponent implements OnInit {
         if(res.data.code == 200) {
           Swal.fire('轉帳成功', '額度已成功轉移', 'success');
           this.transferData = {
-            fromBalance: 0,
-            toAccount: '',
-            amount: 0,
+            fromBalance: null,
+            toAccount: null,
+            amount: null,
             description: ''
           };
         }

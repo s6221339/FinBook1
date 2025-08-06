@@ -1,73 +1,91 @@
-<h2 class="title">選擇帳戶轉移</h2>
+<div class="page-container">
+  <div class="invitations-card">
+    <div class="card-header">
+      <mat-icon>swap_horiz</mat-icon>
+      <h3>待確認轉帳</h3>
+      <div class="action-buttons">
+        <span class="invitation-count pill-orange">{{ totalRecords }} 筆待確認</span>
+      </div>
+    </div>
 
-@if(transferDisplayDate.length == 0) {
-  <p class="no-data-message">目前無未確認額度轉移資料</p>
-}
-@else{
-  <!-- 表格 -->
-  <table class="transfer-table">
-    <thead>
-      <tr>
-        <th>轉帳者</th>
-        <th>額度</th>
-        <th>描述</th>
-        <th>轉移日期</th>
-        <th>選擇帳戶</th>
-        <th>操作</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for(item of transferDisplayDate; track $index) {
-        <tr>
-          <!-- 轉帳者：大頭貼與姓名 -->
-          <td class="sender-info">
-            <img [src]="item.fromAvatar" alt="avatar" class="avatar" />
-            <span>{{ item.fromName }}</span>
-          </td>
+    <div class="card-content">
+      @if (dataSource.data.length === 0) {
+        <div class="empty-state">
+          <mat-icon>check_circle_outline</mat-icon>
+          <h3>目前沒有待處理的轉帳</h3>
+        </div>
+      } @else {
+        <div class="table-container">
+          <table mat-table [dataSource]="pagedData" class="invitations-table">
 
-          <!-- 額度 -->
-          <td class="amount">{{ item.transfer.amount }}</td>
+            <!-- From Name Column -->
+            <ng-container matColumnDef="fromName">
+              <th mat-header-cell *matHeaderCellDef> 轉帳者 </th>
+              <td mat-cell *matCellDef="let element"> {{element.fromName}} </td>
+            </ng-container>
 
-          <!-- 描述：若為空顯示「無」 -->
-          <td class="description">
-            @if(item.transfer.description) {
-              {{ item.transfer.description }}
-            }
-            @else {
-              （無）
-            }
-          </td>
+            <!-- Amount Column -->
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef> 額度 </th>
+              <td mat-cell *matCellDef="let element"> NT$ {{element.amount | number}} </td>
+            </ng-container>
 
-          <!-- 建立日期 -->
-          <td class="date">{{ item.transfer.createDate }}</td>
+            <!-- Description Column -->
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef> 描述 </th>
+              <td mat-cell *matCellDef="let element"> {{element.description || '（無）'}} </td>
+            </ng-container>
 
-          <!-- 帳戶下拉式選單 -->
-          <td>
-            <select [(ngModel)]="item.selectedBalanceId">
-              @for(b of balanceList; track $index) {
-                <option [value]="b.balanceId">
-                  @if(b.name) {
-                    {{ b.name }}
+            <!-- Create Date Column -->
+            <ng-container matColumnDef="createDate">
+              <th mat-header-cell *matHeaderCellDef> 轉移日期 </th>
+              <td mat-cell *matCellDef="let element"> {{element.createDate | date:'yyyy/MM/dd'}} </td>
+            </ng-container>
+
+            <!-- Select Account Column -->
+            <ng-container matColumnDef="selectAccount">
+              <th mat-header-cell *matHeaderCellDef> 選擇帳戶 </th>
+              <td mat-cell *matCellDef="let element">
+                <select [(ngModel)]="element.selectedBalanceId" class="custom-select">
+                  @for (b of balanceList; track b.balanceId) {
+                    <option [value]="b.balanceId">
+                      {{ b.name || ('帳戶 ID：' + b.balanceId) }}
+                    </option>
                   }
-                  @else {
-                    帳戶 ID：{{ b.balanceId }}
-                  }
-                </option>
-              }
-            </select>
-          </td>
+                </select>
+              </td>
+            </ng-container>
 
-          <!-- 操作按鈕 -->
-          <td class="actions">
-            <button class="accept-btn" (click)="accept(item.transfer.transfersId, item.selectedBalanceId)">
-              接受
-            </button>
-            <button class="reject-btn" (click)="reject(item.transfer.transfersId)">
-              拒絕
-            </button>
-          </td>
-        </tr>
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> 操作 </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="button-group">
+                  <button (click)="accept(element)" class="accept-btn" aria-label="Accept invitation">
+                    <mat-icon>check</mat-icon>
+                    <span>接受</span>
+                  </button>
+                  <button (click)="reject(element.transfersId)" class="reject-btn" aria-label="Reject invitation">
+                    <mat-icon>close</mat-icon>
+                    <span>拒絕</span>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+
+        <app-custom-paginator
+          [totalItems]="totalRecords"
+          [currentPage]="currentPage"
+          [pageSize]="pageSize"
+          (pageChange)="onPageChange($event)"
+          (pageSizeChange)="onPageSizeChange($event)">
+        </app-custom-paginator>
       }
-    </tbody>
-  </table>
-}
+    </div>
+  </div>
+</div>

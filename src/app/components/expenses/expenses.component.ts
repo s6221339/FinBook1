@@ -146,7 +146,6 @@ export class ExpensesComponent implements OnInit, AfterViewInit {
     this.categoriesFiltedItems = this.categories
       .filter(c => c.type === this.selectedType)
       .map(c => c.item);
-      this.selectedItem = this.categoriesFiltedItems[0];  //  預設
   }
 
   //  輔助函數，把 Date 轉 YYYY-MM-DD

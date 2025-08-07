@@ -1,3 +1,5 @@
+import { GetBudgetByAccountResponse } from './../models/response/getBudgetByAccountResponse';
+import { GetBudgetByAccountRequest } from './../models/request/getBudgetByAccountRequest';
 import { Injectable } from '@angular/core';
 import axios, { AxiosResponse } from 'axios';
 import { BasicResponse } from '../models/response/basicResponse';
@@ -114,8 +116,14 @@ export class ApiService {
     });
   }
 
-  //  透過帳號取得特定月份預算
-  getBudgetByAccount(data: any){
+  /**
+   * 根據帳號與年月取得對應帳戶的預算統計資料
+   *
+   * 需登入：系統需附帶 cookie，否則將回傳 401
+   * @param data data 請求資料，包含帳戶 account、年份 year、月份 month
+   * @returns Axios 回傳 Promise<AxiosResponse<GetBudgetByAccountResponse>> 包含該帳號名下所有的帳戶的預算統計資訊
+   */
+  getBudgetByAccount(data: GetBudgetByAccountRequest): Promise<AxiosResponse<GetBudgetByAccountResponse>> {
     return axios.post('http://localhost:8080/finbook/balance/getBudgetByAccount', data, {
       withCredentials: true
     });

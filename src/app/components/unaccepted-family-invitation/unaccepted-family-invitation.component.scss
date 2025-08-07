@@ -90,11 +90,28 @@
   margin-bottom: 0;
 }
 
-// 表格樣式保持不變...
+// 表格樣式
 .invitation-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
+  table-layout: fixed;
+
+  // 欄寬設定
+  th[mat-header-cell]:first-child,
+  td[mat-cell]:first-child {
+    width: 120px;  // 家庭名稱欄寬維持現狀
+  }
+
+  th[mat-header-cell]:nth-child(2),
+  td[mat-cell]:nth-child(2) {
+    width: 140px;  // 邀請狀態欄寬配合操作欄
+  }
+
+  th[mat-header-cell]:last-child,
+  td[mat-cell]:last-child {
+    width: 140px;  // 操作欄寬縮小
+  }
 
   th {
     background-color: var(--table-header-bg);
@@ -116,14 +133,17 @@
 
   td {
     border-bottom: 1px solid var(--secondary-bg) !important;
+    border-right: 1.5px solid var(--table-border);
     color: var(--text-primary) !important;
     font-size: 0.95rem !important;
     text-align: center;
     white-space: normal;
     line-height: 1.6;
+    padding: 6px;
 
     &:last-child {
       text-align: center;
+      border-right: none;
     }
   }
 
@@ -179,7 +199,7 @@
     color: var(--primary);
     font-size: 0.95rem;
     font-weight: 600;
-    cursor: pointer;
+    cursor: default;
     text-align: left;
     padding: 0;
     text-decoration: none;
@@ -219,9 +239,8 @@
     align-items: center;
     gap: 0.3rem;
     padding: 0.3rem 0.6rem;
-    background: transparent;
+    background: var(--input-bg);
     border: 1.5px solid var(--primary);
-    color: var(--primary);
     border-radius: 6px;
     font-size: 0.8rem;
     font-weight: 500;
@@ -229,34 +248,32 @@
     transition: all 0.2s;
 
     mat-icon {
-      font-size: 0.8rem;
-      width: 1rem;
+      font-size: 1.1rem;
+      width: 1.1rem;
       height: 1.1rem;
     }
 
     &:hover {
-      background: var(--primary);
       color: #fff;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(66, 86, 165, 0.3);
+      transform: translateY(-2px);
     }
 
-    &.accept-btn {
-      border-color: var(--btn-success);
-      color: var(--btn-success);
+    &.accept {
+      border-color: var(--primary);
+      color: var(--edit-text);
 
       &:hover {
-        background: var(--btn-success);
+        background: var(--primary);
         color: #fff;
       }
     }
 
-    &.reject-btn {
-      border-color: var(--btn-delete);
-      color: var(--btn-delete);
+    &.reject {
+      border-color: var(--primary);
+      color: var(--warn-text);
 
       &:hover {
-        background: var(--btn-delete);
+        background: var(--primary);
         color: #fff;
       }
     }

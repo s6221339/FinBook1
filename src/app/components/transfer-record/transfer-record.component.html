@@ -107,16 +107,15 @@
                 }">
             </tr>
             <!-- 無資料顯示 -->
-            @if (pagedRecords.length === 0) {
-              <tr class="mat-row no-data-row">
-                <td class="mat-cell" colspan="6" style="text-align: center; color: #999;">
-                  <div class="empty-state">
-                    <span class="material-icons">search_off</span>
-                    <h3>目前無額度轉移紀錄</h3>
-                  </div>
-                </td>
-              </tr>
-            }
+            <tr class="mat-row no-data-row" *matNoDataRow>
+              <td class="mat-cell" colspan="6">
+                <div class="empty-state">
+                  <mat-icon>search_off</mat-icon>
+                  <h3>目前無額度轉移紀錄</h3>
+                  <p>請嘗試選擇其他日期區間</p>
+                </div>
+              </td>
+            </tr>
           </table>
         </div>
         <app-custom-paginator

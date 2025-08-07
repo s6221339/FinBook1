@@ -1,8 +1,6 @@
 /**
  * 建立額度轉移請求資料
- *
  * 需登入：需附帶 Cookie 或驗證資訊
- *
  * 對應 API：POST /finbook/transfers/create
  */
 export interface CreateTransferRequest {
@@ -24,5 +22,5 @@ export interface CreateTransferRequest {
   /**
    * 備註說明，可選填
    */
-  description: string;
+  description: string | null;
 }
